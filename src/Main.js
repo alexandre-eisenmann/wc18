@@ -65,7 +65,6 @@ class Main extends Component {
               <Tab label="HOME" containerElement={<NavLink exact to="/" />} />
               <Tab label="LOGIN" containerElement={<NavLink to="/login" />} />
               <Tab label="MY BIDS" containerElement={<NavLink to="/bids" />} />
-
               <Tab label="LEADERBOARD" containerElement={<NavLink to="/leaderboard" />} />
             </Tabs>
             </div>

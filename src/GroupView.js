@@ -37,17 +37,33 @@ export default class GroupView extends Component {
 
     this.teams = data.teams.reduce((acc, elem) => {
       acc[elem.id] = elem
+
       return acc
     }, {})
 
+    
     this.matches = data.groups[this.props.group].matches
+    this.emptyMatches = this.matches.reduce((acc, elem) => {
+        acc[elem.name] = {a: null, h: null}
+        return acc
+    },{})
     this.flags = require.context("./flags/4x3/", false, /.*\.svg$/);
     
-    this.state = {gameId: this.props.gameId}
+    this.state = Object.assign({}, {gameId: this.props.gameId}, this.props.bids[this.props.gameId])
+    console.log('state', this.state)
 
   
   }
 
+
+  componentWillReceiveProps(props) {
+    console.log("matches", this.emptyMatches)
+    const upcoming = Object.assign({}, {gameId:props.gameId}, this.emptyMatches, props.bids[props.gameId])
+    this.setState(upcoming)
+    console.log('upcoming', upcoming)
+
+
+  }
 
   flagSvg(iso2code) {
     return <div style={{width:"40px",height: "30px", background:`url(${this.flags(`./${iso2code}.svg`)}) no-repeat top left`,backgroundSize: "contain"}}></div>
@@ -64,23 +80,6 @@ export default class GroupView extends Component {
     firebase.database().ref(`wc18/${this.props.userId}/${this.props.gameId}/${matchId}/${team}`).set(value)
   }
 
-
-  componentDidMount() {
-        
-
-        this.matches.map(row => {
-          const ref = firebase.database().ref(`wc18/${this.props.userId}/${this.props.gameId}/${row.name}`)
-
-          ref.on('value', snap => {
-              this.setState({[row.name]: snap.val()})
-          })
-
-          // ref.once('value').then(snap => {
-          //     if (snap.val())
-          //       this.setState({[row.name]: snap.val()})
-          //   })
-        })
-  }
 
   readMatchFromState(match, team) {
     if (this.state[match]) {
