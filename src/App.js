@@ -19,6 +19,8 @@ class App extends Component {
   onNewGame() {
     const newRef = firebase.database().ref('wc18/' + this.state.user.uid).push()
     newRef.set({name: "Unknown"})
+    this.setState({currentBid: newRef.key})
+    
   }
 
   onChangeGame(event,bid) {
