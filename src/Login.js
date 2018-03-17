@@ -38,6 +38,7 @@ export default class Login extends Component {
   render() {
     return (
       <div>
+        <div>{this.props.location.state && this.props.location.state.referrer}</div>
         <button onClick={this.login.bind(this)}>Login</button>
         <button onClick={this.logout.bind(this)}>Logout</button>
         <div>{this.state.logged} {this.state.user && this.state.user.uid}</div> 

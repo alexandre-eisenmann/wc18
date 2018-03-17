@@ -122,7 +122,10 @@ export default class Bid extends Component {
       
       
       <div >
-      {this.state.logged == false && <Redirect to="/login"/>}
+      {this.state.logged == false && <Redirect to={{
+        pathname: '/login',
+        state: { referrer: this.props.location.pathname }
+      }}/>}
       {this.state.logged == null &&  <div style={{textAlign: "center", marginTop: "10%", width:"100%"}}><CircularProgress size={60} thickness={7} /></div>}
       {this.state.logged && this.state.user && <div>
         <Dialog
@@ -134,9 +137,9 @@ export default class Bid extends Component {
           Make sure this bid is the one you intent do delete.
         </Dialog>
 
-        <div style={{display: "flex", flexWrap: "wrap", minHeight: "40px", position: "relative", paddingLeft: "20px", paddingRight: "20px", paddingTop: "5px",paddingBottom: "5px", backgroundColor: "rgb(232, 232, 232)"}}>
+        <div style={{display: "flex", flexWrap: "wrap", minHeight: "40px", position: "relative", paddingLeft: "20px", paddingRight: "20px", paddingTop: "5px",paddingBottom: "5px", backgroundColor: "#E0E0E0"}}>
             {Object.keys(this.state.bids).map((bid) => {
-            return <Chip style={{margin: "4px"}} key={bid} 
+            return <Chip style={{backgroundColor: "#F5F5F5", margin: "4px"}} key={bid} 
             onClick={(event) => this.onChangeGame(event,bid)}
             onRequestDelete={(event) => this.onRequestDelete(event,bid)}
             >
