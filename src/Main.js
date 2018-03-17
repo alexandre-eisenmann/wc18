@@ -5,7 +5,7 @@ import {
   BrowserRouter,
   Redirect
 } from "react-router-dom"
-import App from './App'
+import Bid from './Bid'
 import Home from './Home'
 import Login from './Login'
 import Leaderboard from './Leaderboard'
@@ -70,11 +70,9 @@ class Main extends Component {
             </div>
 
             <div className="content">
-              {this.state.logged && <div>{this.state.user.displayName}</div>}
             <Route exact path="/" component={Home}/>
             <Route path="/login" component={Login}/>
-            <Route path="/bid/:id" component={App}/>
-            <Route path="/bids" component={App}/>
+            <Route path="/bids" component={Bid}/>
             <Route path="/leaderboard" component={Leaderboard}/>
 
             </div>
