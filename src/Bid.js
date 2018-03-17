@@ -14,6 +14,7 @@ import TextField from 'material-ui/TextField';
 import Chip from 'material-ui/Chip';
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
+import CircularProgress from 'material-ui/CircularProgress';
 
 const chipStyles = {
   chip: {
@@ -83,7 +84,6 @@ export default class Bid extends Component {
           snapshot.forEach(function(childSnapshot) {
             var childKey = childSnapshot.key
             var childData = childSnapshot.val()
-            console.log(childKey, childData)
 
             bids[childKey] = childData
             
@@ -123,7 +123,7 @@ export default class Bid extends Component {
       
       <div >
       {this.state.logged == false && <Redirect to="/login"/>}
-      {this.state.logged == null && <div>loading...</div>}
+      {this.state.logged == null &&  <div style={{textAlign: "center", marginTop: "10%", width:"100%"}}><CircularProgress size={60} thickness={7} /></div>}
       {this.state.logged && this.state.user && <div>
         <Dialog
           title={`Delete ${this.state.bids[this.state.deleteBid] ? this.state.bids[this.state.deleteBid]["name"] : ""}?`}
@@ -134,7 +134,7 @@ export default class Bid extends Component {
           Make sure this bid is the one you intent do delete.
         </Dialog>
 
-        <div style={{display: "flex", flexWrap: "wrap", position: "relative", paddingLeft: "20px", paddingRight: "20px", paddingTop: "5px",paddingBottom: "5px", backgroundColor: "rgb(232, 232, 232)"}}>
+        <div style={{display: "flex", flexWrap: "wrap", minHeight: "40px", position: "relative", paddingLeft: "20px", paddingRight: "20px", paddingTop: "5px",paddingBottom: "5px", backgroundColor: "rgb(232, 232, 232)"}}>
             {Object.keys(this.state.bids).map((bid) => {
             return <Chip style={{margin: "4px"}} key={bid} 
             onClick={(event) => this.onChangeGame(event,bid)}
