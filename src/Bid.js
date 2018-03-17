@@ -11,15 +11,25 @@ import ContentAdd from 'material-ui/svg-icons/content/add'
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import TextField from 'material-ui/TextField';
+import Chip from 'material-ui/Chip';
+import Dialog from 'material-ui/Dialog';
+import RaisedButton from 'material-ui/RaisedButton';
 
-
-
+const chipStyles = {
+  chip: {
+    margin: 4,
+  },
+  wrapper: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+};
 
 export default class Bid extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {logged: null, user: null, bids:[], currentBid: null}
+    this.state = {logged: null, user: null, bids:[], currentBid: null, showDeleteDialog: false}
   }
 
 
@@ -45,6 +55,20 @@ export default class Bid extends Component {
   onMobileChange(event, value) {
     firebase.database().ref(`wc18/${this.state.user.uid}/${this.state.currentBid}/mobile`).set(value)
   }
+  
+  onRequestDelete() {
+    this.setState({showDeleteDialog: true})
+  }
+
+  handleClose() {
+    this.setState({showDeleteDialog: false})
+  }
+
+  handleDelete() {
+
+    this.setState({showDeleteDialog: false})
+  }
+
 
   componentDidMount() {
     const self = this
@@ -79,6 +103,19 @@ export default class Bid extends Component {
   
   render() {
 
+    const actions = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onClick={this.handleClose.bind(this)}
+      />,
+      <FlatButton
+        label="Delete"
+        primary={true}
+        onClick={this.handleDelete.bind(this)}
+      />,
+    ];
+
     return (
       
       
@@ -86,21 +123,23 @@ export default class Bid extends Component {
       {this.state.logged == false && <Redirect to="/login"/>}
       {this.state.logged == null && <div>loading...</div>}
       {this.state.logged && this.state.user && <div>
-      
-        <div style={{position: "relative", paddingLeft: "20px", paddingRight: "20px", paddingTop: "5px",paddingBottom: "5px", backgroundColor: "rgb(232, 232, 232)"}}>
+        <Dialog
+          title="Dialog With Actions"
+          actions={actions}
+          modal={true}
+          open={this.state.showDeleteDialog}
+        >
+          Only actions can close this dialog.
+        </Dialog>
+
+        <div style={{display: "flex", flexWrap: "wrap", position: "relative", paddingLeft: "20px", paddingRight: "20px", paddingTop: "5px",paddingBottom: "5px", backgroundColor: "rgb(232, 232, 232)"}}>
             {Object.keys(this.state.bids).map((bid) => {
-            return <FlatButton style={{borderRadius: "16px",
-              border: "1px solid #ccc", 
-              
-              height: "30px", margin: "2px",lineHeight: "0px"
-              }}
-              labelStyle={{
-              fontSize: "10px",
-              textTransform: "unset",
-              fontFamily: "Lato", 
-              fontWeight: "bold",
-              color: "#bbb"
-            }} key={bid} label={`${this.state.bids[bid]['name']}`} onClick={(event) => this.onChangeGame(event,bid)}/>  
+            return <Chip style={{margin: "4px"}} key={bid} 
+            onClick={(event) => this.onChangeGame(event,bid)}
+            onRequestDelete={this.onRequestDelete.bind(this)}
+            >
+            {`${this.state.bids[bid]['name']}`}
+            </Chip>
             })}
             <FloatingActionButton secondary={true} style={{position: "absolute", 
                 bottom:  "-18px", right: "25px"}}mini={true} onClick={this.onNewGame.bind(this)}>
