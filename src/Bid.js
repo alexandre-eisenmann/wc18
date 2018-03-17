@@ -29,7 +29,7 @@ export default class Bid extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {logged: null, user: null, bids:[], currentBid: null, showDeleteDialog: false}
+    this.state = {logged: null, user: null, bids:[], currentBid: null, deleteBid: null}
   }
 
 
@@ -56,17 +56,19 @@ export default class Bid extends Component {
     firebase.database().ref(`wc18/${this.state.user.uid}/${this.state.currentBid}/mobile`).set(value)
   }
   
-  onRequestDelete() {
-    this.setState({showDeleteDialog: true})
+  onRequestDelete(event, bid) {
+    this.setState({deleteBid: bid})
   }
 
   handleClose() {
-    this.setState({showDeleteDialog: false})
+    this.setState({deleteBid: null})
   }
 
   handleDelete() {
-
-    this.setState({showDeleteDialog: false})
+    firebase.database().ref(`wc18/${this.state.user.uid}/${this.state.deleteBid}`).remove()
+    if (this.state.deleteBid == this.state.currentBid)
+      this.setState({currentBid: null})
+    this.setState({deleteBid: null})
   }
 
 
@@ -124,19 +126,19 @@ export default class Bid extends Component {
       {this.state.logged == null && <div>loading...</div>}
       {this.state.logged && this.state.user && <div>
         <Dialog
-          title="Dialog With Actions"
+          title={`Delete ${this.state.bids[this.state.deleteBid] ? this.state.bids[this.state.deleteBid]["name"] : ""}?`}
           actions={actions}
           modal={true}
-          open={this.state.showDeleteDialog}
+          open={this.state.deleteBid}
         >
-          Only actions can close this dialog.
+          Make sure this bid is the one you intent do delete.
         </Dialog>
 
         <div style={{display: "flex", flexWrap: "wrap", position: "relative", paddingLeft: "20px", paddingRight: "20px", paddingTop: "5px",paddingBottom: "5px", backgroundColor: "rgb(232, 232, 232)"}}>
             {Object.keys(this.state.bids).map((bid) => {
             return <Chip style={{margin: "4px"}} key={bid} 
             onClick={(event) => this.onChangeGame(event,bid)}
-            onRequestDelete={this.onRequestDelete.bind(this)}
+            onRequestDelete={(event) => this.onRequestDelete(event,bid)}
             >
             {`${this.state.bids[bid]['name']}`}
             </Chip>
