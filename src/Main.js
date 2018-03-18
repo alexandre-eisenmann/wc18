@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {
   Route,
-  NavLink,
+  Link,
   BrowserRouter,
   Redirect
 } from "react-router-dom"
@@ -62,18 +62,19 @@ class Main extends Component {
             </AppBar>
 
             <Tabs >
-              <Tab label="HOME" containerElement={<NavLink exact to="/" />} />
-              <Tab label="LOGIN" containerElement={<NavLink to="/login" />} />
-              <Tab label="MY BIDS" containerElement={<NavLink to="/bids" />} />
-              <Tab label="LEADERBOARD" containerElement={<NavLink to="/leaderboard" />} />
+              <Tab label="HOME" containerElement={<Link to="/" />} />
+              <Tab label="LOGIN" containerElement={<Link to="/login" />} />
+              <Tab label="MY BIDS" containerElement={<Link to="/bids" />} />
+              <Tab label="LEADERBOARD" containerElement={<Link to="/leaderboard" />} />
             </Tabs>
             </div>
 
             <div className="content">
-            <Route exact path="/" component={Home}/>
-            <Route path="/login" component={Login}/>
-            <Route path="/bids" component={Bid}/>
-            <Route path="/leaderboard" component={Leaderboard}/>
+              <Route exact path="/" component={Home}/>
+              <Route path="/login" component={Login}/>
+              <Route path="/login/*" component={Login}/>
+              <Route path="/bids" component={Bid}/>
+              <Route path="/leaderboard" component={Leaderboard}/>
 
             </div>
 

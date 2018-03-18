@@ -122,17 +122,14 @@ export default class Bid extends Component {
       
       
       <div >
-      {this.state.logged == false && <Redirect to={{
-        pathname: '/login',
-        state: { referrer: this.props.location.pathname }
-      }}/>}
+      {this.state.logged == false && <Redirect to='/login?fw=bids' />}
       {this.state.logged == null &&  <div style={{textAlign: "center", marginTop: "10%", width:"100%"}}><CircularProgress size={60} thickness={7} /></div>}
       {this.state.logged && this.state.user && <div>
         <Dialog
           title={`Delete ${this.state.bids[this.state.deleteBid] ? this.state.bids[this.state.deleteBid]["name"] : ""}?`}
           actions={actions}
           modal={true}
-          open={this.state.deleteBid}
+          open={this.state.deleteBid != null}
         >
           Make sure this bid is the one you intent do delete.
         </Dialog>
