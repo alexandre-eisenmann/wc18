@@ -150,15 +150,17 @@ export default class Bid extends Component {
         </div>
         
       { this.state.currentBid && 
-        <div style={{marginLeft: "20px", marginTop: "20px"}}>
-          <div>
-            <TextField style={{marginRight: "10px"}} hintText="Name" value={this.state.bids[this.state.currentBid]["name"] || ''} onChange={this.onNameChange.bind(this)}/>
-            <TextField style={{marginRight: "10px"}} hintText="Email" value={this.state.bids[this.state.currentBid]["email"] || ''} onChange={this.onEmailChange.bind(this)}/>
-            <TextField style={{marginRight: "10px"}} hintText="Mobile Number" value={this.state.bids[this.state.currentBid]["mobile"] || ''} onChange={this.onMobileChange.bind(this)}/>
+        <div style={{marginLeft: "5px", marginTop: "20px"}}>
+          <div style={{marginBottom: "20px"}}>
+            <TextField style={{fontSize: "12px", display: "block", marginRight: "10px"}} hintText="Name" value={this.state.bids[this.state.currentBid]["name"] || ''} onChange={this.onNameChange.bind(this)}/>
+            <TextField style={{fontSize: "12px", display: "block", marginRight: "10px"}} hintText="Email" value={this.state.bids[this.state.currentBid]["email"] || ''} onChange={this.onEmailChange.bind(this)}/>
+            <TextField style={{fontSize: "12px", display: "block", marginRight: "10px"}} hintText="Mobile Number" value={this.state.bids[this.state.currentBid]["mobile"] || ''} onChange={this.onMobileChange.bind(this)}/>
           </div>
+          <div>
           {['a','b','c','d','e','f','g','h'].map(group => (
             <GroupView userId={this.state.user.uid} bids={this.state.bids} gameId={this.state.currentBid} key={group} group={group}/>
           ))}
+          </div>
         </div>}
       </div>}
 
