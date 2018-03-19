@@ -2,6 +2,8 @@ import React, { Component } from "react"
 import {Redirect} from "react-router-dom"
 import queryString from 'query-string'
 import CircularProgress from 'material-ui/CircularProgress';
+import FlatButton from 'material-ui/FlatButton'
+import Dialog from 'material-ui/Dialog';
 
 import * as firebase from 'firebase'
 
@@ -11,7 +13,7 @@ export default class Login extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {logged: null, user: null, goTo: null}
+    this.state = {logged: null, user: null, goTo: null, open:true}
     this.queryStringParams = queryString.parse(this.props.location.search)
 
   }
@@ -45,13 +47,43 @@ export default class Login extends Component {
   }
 
 
+  handleCancel() {
+    this.setState({open: false})
+  }
+
   render() {
+
     return (
       <div>
         {this.state.logged && this.state.goTo && <Redirect to={this.state.goTo} />}
         {this.state.logged == null &&  <div style={{textAlign: "center", marginTop: "10%", width:"100%"}}><CircularProgress size={60} thickness={7} /></div>}
-        <button onClick={this.login.bind(this)}>Login</button>
-        <button onClick={this.logout.bind(this)}>Logout</button>
+        {!this.state.open && <Redirect to="/" /> }
+        {this.state.logged == false && <Dialog contentStyle={{width: "350px"}}
+          title="Login"
+          modal={false}
+          open={this.state.open}
+        >
+            <div>
+            <div style={{float: "left"}}><button style={{cursor: "pointer",  width: "202px", border: "none", height: "46px", background: "url(login_facebook.png)"}} onClick={this.login.bind(this)}></button></div>
+            
+            <div style={{float: "right"}}><FlatButton
+              label="Cancel"
+              primary={true}
+              onClick={this.handleCancel.bind(this)}
+            />
+            </div>
+            
+            </div>
+          
+        </Dialog>}
+        
+        <div style={{float: "right"}}><FlatButton
+              label="Logout"
+              primary={true}
+              onClick={this.logout.bind(this)}
+            /></div>
+
+
       </div>
     );
   }
