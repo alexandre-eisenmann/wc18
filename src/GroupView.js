@@ -16,7 +16,7 @@ import TextField from 'material-ui/TextField';
 
 const style = {
   height: 780,
-  width: 280,
+  width: 290,
   marginRight: "20px",
   marginBottom: "20px",
   display: 'inline-block',
@@ -87,7 +87,7 @@ export default class GroupView extends Component {
 
       <Paper style={style} zDepth={1} >
       <div style={{float: "left", marginRight: "20px" }}>
-        <div style={{marginLeft: "20px", marginBottom: "10px", marginTop: "20px", textAlign: "left"}}>
+        <div style={{marginLeft: "20px", marginBottom: "30px", marginTop: "20px", textAlign: "left"}}>
           Group {this.props.group.toUpperCase()}
         </div>
         <div>
@@ -97,30 +97,31 @@ export default class GroupView extends Component {
             return (
               <div style={{clear: "both", marginLeft: "20px",height: "120px", marginBottom: "0px", width: "400px", textAlign: "center",position: "relative" }}>
 
-                  <div style={{ float: "left", marginLeft: "1px"}}>
-                      <div style={{position: "absolute", top: "22px", float: "left", }}>{this.flagSvg(homeTeam.iso2)}</div>
-                      <div style={{float: "left",fontSize: "12px", width: "80px", marginTop:"6px", textAlign: "left"}} >{homeTeam.name}</div>
-                      <div style={{position: "absolute",top: "22px",left: "88px"}}>
-                        <input
-                          type="text" 
-                          className='inputNumber'
-                          onClick={(event) => event.target.setSelectionRange(0, event.target.value.length)} 
-                          pattern="[0-9]" 
-                          value={this.readMatchFromState(row.name,'h')}
-                          onChange={this.handleUserChange.bind(this)}
-                          name={`${row.name}-h`} 
-                          maxLength="1" 
-                          size="1"/>
-                      </div>
+                  <div style={{ float: "left", width: "90px"}}>
+                     <div style={{textAlign: "left", fontSize: "14px", marginBottom: "2px"}}>{homeTeam.name}</div>
+                     <div>{this.flagSvg(homeTeam.iso2)}</div>
                   </div>
 
-                  <div style={{ position: "absolute", top: "28px", left: "118px" }}>
+
+
+                  <span style={{float: "left", marginTop: "10px"}}>
+                    <input
+                      type="text" 
+                      className='inputNumber'
+                      onClick={(event) => event.target.setSelectionRange(0, event.target.value.length)} 
+                      pattern="[0-9]" 
+                      value={this.readMatchFromState(row.name,'h')}
+                      onChange={this.handleUserChange.bind(this)}
+                      name={`${row.name}-h`} 
+                      maxLength="1" 
+                      size="1"/>
+                  </span>
+
+                  <span style={{float: "left", marginTop: "16px", marginLeft:  "4px", marginRight: "4px" }}>
                     x
-                  </div>
+                  </span>
                 
-
-                  <div style={{float: "left",}}>
-                    <div style={{position: "absolute",top: "22px",left: "130px"}}>
+                  <span style={{float: "left", marginTop: "10px"}}>
                           <input 
                             type="text" 
                             className='inputNumber'
@@ -131,9 +132,11 @@ export default class GroupView extends Component {
                             name={`${row.name}-a`} 
                             maxLength="1" 
                             size="1" />
-                    </div>
-                      <div  style={{float: "left",fontSize: "12px", width: "80px", marginTop: "6px", textAlign: "left",marginLeft: "82px" }}>{awayTeam.name}</div>
-                      <div style={{float: "left", position: "absolute", top: "22px", left: "162px"}} >{this.flagSvg(awayTeam.iso2)}</div>
+                    </span>
+
+                  <div style={{float: "left", marginLeft: "10px", width: "100px"}}>
+                    <div  style={{textAlign: "left",fontSize: "14px" , marginBottom: "2px" }}>{awayTeam.name}</div>
+                    <div style={{}} >{this.flagSvg(awayTeam.iso2)}</div>
                   </div>
 
 
