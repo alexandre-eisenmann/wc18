@@ -15,21 +15,12 @@ import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 
 const style = {
-  height: 300,
-  width: 380,
-  margin: "20px",
-  marginLeft: "20px", 
+  height: 780,
+  width: 280,
+  marginRight: "20px",
+  marginBottom: "20px",
   display: 'inline-block',
 };
-
-const numberInput = {
-  fontSize: "16px",
-  textAlign: "center",
-  border: "none",
-  borderBottom: "2px solid #ccc"
-}
-
-
 
 export default class GroupView extends Component {
 
@@ -67,7 +58,7 @@ export default class GroupView extends Component {
   }
 
   flagSvg(iso2code) {
-    return <div style={{width:"40px",height: "30px", background:`url(${this.flags(`./${iso2code}.svg`)}) no-repeat top left`,backgroundSize: "contain"}}></div>
+    return <div style={{width:"480px",height: "60px", background:`url(${this.flags(`./${iso2code}.svg`)}) no-repeat top left`,backgroundSize: "contain"}}></div>
 
   }
 
@@ -96,7 +87,7 @@ export default class GroupView extends Component {
 
       <Paper style={style} zDepth={1} >
       <div style={{float: "left", marginRight: "20px" }}>
-        <div style={{marginLeft: "20px", marginBottom: "10px", marginTop: "20px"}}>
+        <div style={{marginLeft: "20px", marginBottom: "10px", marginTop: "20px", textAlign: "left"}}>
           Group {this.props.group.toUpperCase()}
         </div>
         <div>
@@ -104,27 +95,45 @@ export default class GroupView extends Component {
             const homeTeam = this.teams[row.home_team]
             const awayTeam = this.teams[row.away_team]
             return (
-              <div style={{clear: "both", height: "40px", marginBottom: "0px", width: "400px", textAlign: "center" }}>
+              <div style={{clear: "both", marginLeft: "20px",height: "120px", marginBottom: "0px", width: "400px", textAlign: "center",position: "relative" }}>
 
-                  <div style={{ float: "left", marginLeft: "20px"}}>
-                      <div style={{float: "left", }}>{this.flagSvg(homeTeam.iso2)}</div>
-                      <div style={{float: "left",fontSize: "12px", width: "80px", marginTop:"6px", textAlign: "left", marginLeft: "8px" }} >{homeTeam.name}</div>
-                      <div style={{float: "left", marginRight: "8px"}}>
-                        <input  value={this.readMatchFromState(row.name,'h')} onChange={this.handleUserChange.bind(this)} style={numberInput} type="text" name={`${row.name}-h`} maxLength="1" size="1"/>
+                  <div style={{ float: "left", marginLeft: "1px"}}>
+                      <div style={{position: "absolute", top: "22px", float: "left", }}>{this.flagSvg(homeTeam.iso2)}</div>
+                      <div style={{float: "left",fontSize: "12px", width: "80px", marginTop:"6px", textAlign: "left"}} >{homeTeam.name}</div>
+                      <div style={{position: "absolute",top: "22px",left: "88px"}}>
+                        <input
+                          type="text" 
+                          className='inputNumber'
+                          onClick={(event) => event.target.setSelectionRange(0, event.target.value.length)} 
+                          pattern="[0-9]" 
+                          value={this.readMatchFromState(row.name,'h')}
+                          onChange={this.handleUserChange.bind(this)}
+                          name={`${row.name}-h`} 
+                          maxLength="1" 
+                          size="1"/>
                       </div>
                   </div>
 
-                  <div style={{ float: "left", marginRight: "10px"}}>
+                  <div style={{ position: "absolute", top: "28px", left: "118px" }}>
                     x
                   </div>
                 
 
                   <div style={{float: "left",}}>
-                    <div style={{float: "left", marginRight: "10px"}}>
-                          <input value={this.readMatchFromState(row.name,'a')} onChange={this.handleUserChange.bind(this)} style={numberInput} type="text" name={`${row.name}-a`} maxLength="1" size="1"/>
+                    <div style={{position: "absolute",top: "22px",left: "130px"}}>
+                          <input 
+                            type="text" 
+                            className='inputNumber'
+                            onClick={(event) => event.target.setSelectionRange(0, event.target.value.length)} 
+                            pattern="[0-9]" 
+                            value={this.readMatchFromState(row.name,'a')} 
+                            onChange={this.handleUserChange.bind(this)} 
+                            name={`${row.name}-a`} 
+                            maxLength="1" 
+                            size="1" />
                     </div>
-                      <div  style={{float: "left",fontSize: "12px", width: "80px", marginTop: "6px", textAlign: "left",marginLeft: "20px" }}>{awayTeam.name}</div>
-                      <div style={{float: "left"}} >{this.flagSvg(awayTeam.iso2)}</div>
+                      <div  style={{float: "left",fontSize: "12px", width: "80px", marginTop: "6px", textAlign: "left",marginLeft: "82px" }}>{awayTeam.name}</div>
+                      <div style={{float: "left", position: "absolute", top: "22px", left: "162px"}} >{this.flagSvg(awayTeam.iso2)}</div>
                   </div>
 
 

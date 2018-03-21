@@ -121,9 +121,9 @@ export default class Bid extends Component {
     return (
       
       
-      <div >
+      <div style={{backgroundColor: "#eeeeee"}}>
       {this.state.logged == false && <Redirect to='/login?fw=bids' />}
-      {this.state.logged == null &&  <div style={{textAlign: "center", marginTop: "10%", width:"100%"}}><CircularProgress size={60} thickness={7} /></div>}
+      {this.state.logged == null &&  <div style={{backgroundColor: "white", textAlign: "center", marginTop: "10%", width:"100%"}}><CircularProgress size={60} thickness={7} /></div>}
       {this.state.logged && this.state.user && <div>
         <Dialog
           title={`Delete ${this.state.bids[this.state.deleteBid] ? this.state.bids[this.state.deleteBid]["name"] : ""}?`}
@@ -150,13 +150,13 @@ export default class Bid extends Component {
         </div>
         
       { this.state.currentBid && 
-        <div style={{marginLeft: "5px", marginTop: "20px"}}>
+        <div style={{marginLeft: "2px", marginTop: "20px"}}>
           <div style={{marginBottom: "20px"}}>
             <TextField style={{fontSize: "12px", display: "block", marginRight: "10px"}} hintText="Name" value={this.state.bids[this.state.currentBid]["name"] || ''} onChange={this.onNameChange.bind(this)}/>
             <TextField style={{fontSize: "12px", display: "block", marginRight: "10px"}} hintText="Email" value={this.state.bids[this.state.currentBid]["email"] || ''} onChange={this.onEmailChange.bind(this)}/>
             <TextField style={{fontSize: "12px", display: "block", marginRight: "10px"}} hintText="Mobile Number" value={this.state.bids[this.state.currentBid]["mobile"] || ''} onChange={this.onMobileChange.bind(this)}/>
           </div>
-          <div>
+          <div style={{textAlign: "center"}} >
           {['a','b','c','d','e','f','g','h'].map(group => (
             <GroupView userId={this.state.user.uid} bids={this.state.bids} gameId={this.state.currentBid} key={group} group={group}/>
           ))}

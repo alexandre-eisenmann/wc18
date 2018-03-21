@@ -3,3 +3,16 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+
+.inputNumber:focus {
+  outline: none
+
+}
+
+.inputNumber {
+  font-size: 24px;
+  text-align: center;
+  border: none;
+  border-bottom: 1px solid #ccc;
+}
