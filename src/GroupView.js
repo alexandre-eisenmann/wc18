@@ -15,8 +15,6 @@ import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 
 const style = {
-  height: 780,
-  width: 290,
   marginRight: "20px",
   marginBottom: "20px",
   display: 'inline-block',
@@ -58,7 +56,7 @@ export default class GroupView extends Component {
   }
 
   flagSvg(iso2code) {
-    return <div style={{width:"480px",height: "60px", background:`url(${this.flags(`./${iso2code}.svg`)}) no-repeat top left`,backgroundSize: "contain"}}></div>
+    return <div style={{width:"80px",height: "60px", background:`url(${this.flags(`./${iso2code}.svg`)}) no-repeat top left`,backgroundSize: "contain"}}></div>
 
   }
 
@@ -95,16 +93,16 @@ export default class GroupView extends Component {
             const homeTeam = this.teams[row.home_team]
             const awayTeam = this.teams[row.away_team]
             return (
-              <div style={{clear: "both", marginLeft: "20px",height: "120px", marginBottom: "0px", width: "400px", textAlign: "center",position: "relative" }}>
+              <div style={{clear: "both", marginLeft: "20px",height: "120px", marginBottom: "0px", textAlign: "center",position: "relative" }}>
 
-                  <div style={{ float: "left", width: "90px"}}>
+                  <div style={{ float: "left"}}>
                      <div style={{textAlign: "left", fontSize: "14px", marginBottom: "2px"}}>{homeTeam.name}</div>
                      <div>{this.flagSvg(homeTeam.iso2)}</div>
                   </div>
 
 
 
-                  <span style={{float: "left", marginTop: "10px"}}>
+                  <span style={{float: "left", marginLeft: "10px", marginTop: "10px"}}>
                     <input
                       type="text" 
                       className='inputNumber'
@@ -134,7 +132,7 @@ export default class GroupView extends Component {
                             size="1" />
                     </span>
 
-                  <div style={{float: "left", marginLeft: "10px", width: "100px"}}>
+                  <div style={{float: "left", marginLeft: "10px"}}>
                     <div  style={{textAlign: "left",fontSize: "14px" , marginBottom: "2px" }}>{awayTeam.name}</div>
                     <div style={{}} >{this.flagSvg(awayTeam.iso2)}</div>
                   </div>
