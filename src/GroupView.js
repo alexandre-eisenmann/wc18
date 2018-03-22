@@ -8,11 +8,12 @@ import {
   TableRowColumn,
 } from 'material-ui/Table';
 
-import Paper from 'material-ui/Paper';
+import Paper from 'material-ui/Paper'
 import data from './data.json'
 import * as firebase from 'firebase'
-import FlatButton from 'material-ui/FlatButton';
-import TextField from 'material-ui/TextField';
+import FlatButton from 'material-ui/FlatButton'
+import TextField from 'material-ui/TextField'
+import NumberRing from './NumberRing'
 
 const style = {
   marginRight: "20px",
@@ -40,24 +41,25 @@ export default class GroupView extends Component {
     this.flags = require.context("./flags/4x3/", false, /.*\.svg$/);
     
     this.state = Object.assign({}, {gameId: this.props.gameId}, this.props.bids[this.props.gameId])
-    console.log('state', this.state)
 
   
   }
 
 
   componentWillReceiveProps(props) {
-    console.log("matches", this.emptyMatches)
     const upcoming = Object.assign({}, {gameId:props.gameId}, this.emptyMatches, props.bids[props.gameId])
     this.setState(upcoming)
-    console.log('upcoming', upcoming)
-
-
   }
 
   flagSvg(iso2code) {
     return <div style={{width:"80px",height: "60px", background:`url(${this.flags(`./${iso2code}.svg`)}) no-repeat top left`,backgroundSize: "contain"}}></div>
 
+  }
+
+
+  updateResult(match,team,value) {
+    if (isNaN(value)) value = null
+    firebase.database().ref(`wc18/${this.props.userId}/${this.props.gameId}/${match}/${team}`).set(value)
   }
 
 
@@ -93,7 +95,7 @@ export default class GroupView extends Component {
             const homeTeam = this.teams[row.home_team]
             const awayTeam = this.teams[row.away_team]
             return (
-              <div style={{clear: "both", marginLeft: "20px",height: "120px", marginBottom: "0px", textAlign: "center",position: "relative" }}>
+              <div key={i} style={{clear: "both", marginLeft: "20px",height: "120px", marginBottom: "0px", textAlign: "center",position: "relative" }}>
 
                   <div style={{ float: "left"}}>
                      <div style={{textAlign: "left", fontSize: "14px", marginBottom: "2px"}}>{homeTeam.name}</div>
@@ -101,8 +103,13 @@ export default class GroupView extends Component {
                   </div>
 
 
-
-                  <span style={{float: "left", marginLeft: "10px", marginTop: "10px"}}>
+                  <span style={{float: "left", marginLeft: "10px", marginTop: "10px", postion: "relative"}}>
+                  {/* <span style={{float: "left", width: "60px", marginLeft: "0px", marginTop: "10px", postion: "relative"}}> */}
+                    {/* <NumberRing value={this.readMatchFromState(row.name,'h')} 
+                     match={row.name}
+                     team={'h'}
+                     onChange={this.updateResult.bind(this)}
+                    /> */}
                     <input
                       type="text" 
                       className='inputNumber'
@@ -118,18 +125,26 @@ export default class GroupView extends Component {
                   <span style={{float: "left", marginTop: "16px", marginLeft:  "4px", marginRight: "4px" }}>
                     x
                   </span>
-                
+
                   <span style={{float: "left", marginTop: "10px"}}>
-                          <input 
-                            type="text" 
-                            className='inputNumber'
-                            value={this.readMatchFromState(row.name,'a')} 
-                            onChange={this.handleUserChange.bind(this)} 
-                            name={`${row.name}-a`} 
-                            maxLength="1" 
-                            pattern="[0-9]"
-                            size="1"
-                           />
+                
+                    {/* <span style={{float: "left", marginTop: "10px", width: "60px"}}> */}
+                      {/* <NumberRing value={this.readMatchFromState(row.name,'a')} 
+                        match={row.name}
+                        team={'a'}
+                        onChange={this.updateResult.bind(this)}
+                        /> */}
+
+                    <input 
+                      type="text" 
+                      className='inputNumber'
+                      value={this.readMatchFromState(row.name,'a')} 
+                      onChange={this.handleUserChange.bind(this)} 
+                      name={`${row.name}-a`} 
+                      maxLength="1" 
+                      pattern="[0-9]"
+                      size="1"
+                      />
                     </span>
 
                   <div style={{float: "left", marginLeft: "10px"}}>

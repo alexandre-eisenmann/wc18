@@ -1,10 +1,16 @@
 import React, { Component } from "react";
 import {NavLink} from "react-router-dom";
+import NumberRing from "./NumberRing"
 
 class Home extends Component {
   render() {
     return (
+
+
       <div className="home">
+        <div style={{postion: "absolute",top: "50px",left: "50px", width: "200px", height: "200px"}} >
+          <NumberRing  value={7} match={3} team="h" onChange={(a,b,c) => {console.log(a,b,c)}}/>
+        </div>
         <h2 style={{paddingTop: "50px", paddingBottom: "20px"}}>Hello</h2>
         <div style={{width: "50%", margin: "auto", marginBottom: "50px"}}>
           <p style={{textAlign: "center"}}>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga</p>
