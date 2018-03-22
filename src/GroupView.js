@@ -106,13 +106,13 @@ export default class GroupView extends Component {
                     <input
                       type="text" 
                       className='inputNumber'
-                      onClick={(event) => event.target.setSelectionRange(0, event.target.value.length)} 
-                      pattern="[0-9]" 
                       value={this.readMatchFromState(row.name,'h')}
                       onChange={this.handleUserChange.bind(this)}
                       name={`${row.name}-h`} 
                       maxLength="1" 
-                      size="1"/>
+                      pattern="[0-9]"
+                      size="1"
+                      />
                   </span>
 
                   <span style={{float: "left", marginTop: "16px", marginLeft:  "4px", marginRight: "4px" }}>
@@ -123,13 +123,13 @@ export default class GroupView extends Component {
                           <input 
                             type="text" 
                             className='inputNumber'
-                            onClick={(event) => event.target.setSelectionRange(0, event.target.value.length)} 
-                            pattern="[0-9]" 
                             value={this.readMatchFromState(row.name,'a')} 
                             onChange={this.handleUserChange.bind(this)} 
                             name={`${row.name}-a`} 
                             maxLength="1" 
-                            size="1" />
+                            pattern="[0-9]"
+                            size="1"
+                           />
                     </span>
 
                   <div style={{float: "left", marginLeft: "10px"}}>
