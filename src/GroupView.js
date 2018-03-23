@@ -15,11 +15,6 @@ import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField'
 import NumberRing from './NumberRing'
 
-const style = {
-  marginRight: "20px",
-  marginBottom: "20px",
-  display: 'inline-block',
-};
 
 export default class GroupView extends Component {
 
@@ -40,15 +35,16 @@ export default class GroupView extends Component {
     },{})
     this.flags = require.context("./flags/4x3/", false, /.*\.svg$/);
     
-    this.state = Object.assign({}, {gameId: this.props.gameId}, this.props.bids[this.props.gameId])
+    this.state = Object.assign({}, {gameId: this.props.gameId, complete: false}, this.props.bids[this.props.gameId])
+    
 
   
   }
 
-
   componentWillReceiveProps(props) {
     const upcoming = Object.assign({}, {gameId:props.gameId}, this.emptyMatches, props.bids[props.gameId])
     this.setState(upcoming)
+    
   }
 
   flagSvg(iso2code) {
@@ -85,8 +81,8 @@ export default class GroupView extends Component {
   render() {
     return (
 
-      <Paper style={style} zDepth={1} >
-      <div style={{float: "left", marginRight: "20px" }}>
+      <Paper style={{ marginRight: "20px", marginBottom: "20px", display: 'inline-block'}} zDepth={1} >
+      <div style={{float: "left", paddingRight: "20px", border: this.props.complete ? "2px solid transparent" : "2px solid red"  }}>
         <div style={{marginLeft: "20px", marginBottom: "30px", marginTop: "20px", textAlign: "left"}}>
           Group {this.props.group.toUpperCase()}
         </div>
@@ -104,12 +100,6 @@ export default class GroupView extends Component {
 
 
                   <span style={{float: "left", marginLeft: "10px", marginTop: "10px", postion: "relative"}}>
-                  {/* <span style={{float: "left", width: "60px", marginLeft: "0px", marginTop: "10px", postion: "relative"}}> */}
-                    {/* <NumberRing value={this.readMatchFromState(row.name,'h')} 
-                     match={row.name}
-                     team={'h'}
-                     onChange={this.updateResult.bind(this)}
-                    /> */}
                     <input
                       type="text" 
                       className='inputNumber'
@@ -128,13 +118,6 @@ export default class GroupView extends Component {
 
                   <span style={{float: "left", marginTop: "10px"}}>
                 
-                    {/* <span style={{float: "left", marginTop: "10px", width: "60px"}}> */}
-                      {/* <NumberRing value={this.readMatchFromState(row.name,'a')} 
-                        match={row.name}
-                        team={'a'}
-                        onChange={this.updateResult.bind(this)}
-                        /> */}
-
                     <input 
                       type="text" 
                       className='inputNumber'

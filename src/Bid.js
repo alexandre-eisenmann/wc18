@@ -15,6 +15,11 @@ import Chip from 'material-ui/Chip';
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
 import CircularProgress from 'material-ui/CircularProgress';
+import data from './data.json'
+import FontIcon from 'material-ui/FontIcon';
+import Avatar from 'material-ui/Avatar';
+import {green700} from 'material-ui/styles/colors';
+
 
 const chipStyles = {
   chip: {
@@ -30,7 +35,18 @@ export default class Bid extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {logged: null, user: null, bids:[], currentBid: null, deleteBid: null}
+    this.state = {logged: null, user: null, bids:[], currentBid: null, deleteBid: null, status: null}
+
+  }
+
+  isComplete() {
+    for(let i=0; i < this.matches.length ; i++) {
+        const row = this.matches[i]  
+        if (this.readMatchFromState(row.name, 'h') === '' || this.readMatchFromState(row.name, 'a') === '') {
+          return false
+        }
+    }
+    return true
   }
 
 
@@ -72,6 +88,32 @@ export default class Bid extends Component {
     this.setState({deleteBid: null})
   }
 
+  calculateStatus(bids) {
+    const global_status = {}
+    Object.keys(bids).map((bid) => {
+      const status={
+        name: bids[bid].name ? true : false,
+        email: bids[bid].email ? true : false
+      }
+      
+      Object.keys(data.groups).map(group => {
+          const matches = data.groups[group]["matches"]
+            let complete = true
+            for(let i=0; i< matches.length ; i++) {
+                const result = bids[bid][matches[i].name]
+                if (!(result && (result['h'] || result['h'] == 0) && (result['a'] || result['a'] == 0))) {
+                  complete = false
+                  break
+                }
+            }
+          status[group] = complete
+      })
+      global_status[bid] = status
+  
+    })
+    return global_status
+    
+  }
 
   componentDidMount() {
     const self = this
@@ -87,8 +129,10 @@ export default class Bid extends Component {
 
             bids[childKey] = childData
             
+            
           });
-          self.setState({bids:bids})
+          
+          self.setState({bids:bids, status: self.calculateStatus(bids)})
         })
     
       } else {
@@ -100,10 +144,21 @@ export default class Bid extends Component {
 
   }
 
-
+  isComplete(bid) {
+    return bid && Object.values(this.state.status[bid]).filter((L) => !L).length == 0 
+  }
 
   
   render() {
+
+    let status = "Incompleto"
+    let complete = false
+    if (this.isComplete(this.state.currentBid)) {
+      status = "Completo"
+      complete = true
+    }
+
+
 
     const actions = [
       <FlatButton
@@ -140,6 +195,10 @@ export default class Bid extends Component {
             onClick={(event) => this.onChangeGame(event,bid)}
             onRequestDelete={(event) => this.onRequestDelete(event,bid)}
             >
+           {this.isComplete(bid) ?
+             <Avatar color={green700} fontSize={"10px"} backgroundColor={"#F5F5F5"} icon={<FontIcon className="material-icons">check_circle</FontIcon>} /> : 
+             <Avatar color={"#666"} backgroundColor={"#F5F5F5"} icon={<FontIcon className="material-icons">mode_edit</FontIcon>} />
+             }
             {`${this.state.bids[bid]['name']}`}
             </Chip>
             })}
@@ -151,14 +210,15 @@ export default class Bid extends Component {
         
       { this.state.currentBid && 
         <div style={{marginLeft: "2px", marginTop: "20px"}}>
-          <div style={{marginBottom: "20px"}}>
-            <TextField style={{fontSize: "12px", display: "block", marginRight: "10px"}} hintText="Name" value={this.state.bids[this.state.currentBid]["name"] || ''} onChange={this.onNameChange.bind(this)}/>
-            <TextField style={{fontSize: "12px", display: "block", marginRight: "10px"}} hintText="Email" value={this.state.bids[this.state.currentBid]["email"] || ''} onChange={this.onEmailChange.bind(this)}/>
+          <div style={{marginBottom: "20px", marginLeft: "20px", fontSize: "12px", color: complete ? "#ccc" : "red", fontWeight: "bold"}}>{`Jogo ${status}`}</div>
+          <div style={{width: "256px", margin: "auto",marginBottom: "20px"}}>
+            <TextField errorText={this.state.bids[this.state.currentBid]["name"] ? "" : "Campo obrigatório"} style={{fontSize: "12px", display: "block", marginRight: "10px"}} hintText="Name" value={this.state.bids[this.state.currentBid]["name"] || ''} onChange={this.onNameChange.bind(this)}/>
+            <TextField errorText={this.state.bids[this.state.currentBid]["email"] ? "" : "Campo obrigatório"} style={{fontSize: "12px", display: "block", marginRight: "10px"}} hintText="Email" value={this.state.bids[this.state.currentBid]["email"] || ''} onChange={this.onEmailChange.bind(this)}/>
             <TextField style={{fontSize: "12px", display: "block", marginRight: "10px"}} hintText="Mobile Number" value={this.state.bids[this.state.currentBid]["mobile"] || ''} onChange={this.onMobileChange.bind(this)}/>
           </div>
           <div style={{textAlign: "center"}} >
           {['a','b','c','d','e','f','g','h'].map(group => (
-            <GroupView userId={this.state.user.uid} bids={this.state.bids} gameId={this.state.currentBid} key={group} group={group}/>
+            <GroupView complete={this.state.status ? this.state.status[this.state.currentBid][group] : false} userId={this.state.user.uid} bids={this.state.bids} gameId={this.state.currentBid} key={group} group={group}/>
           ))}
           </div>
         </div>}
