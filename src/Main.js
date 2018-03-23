@@ -17,6 +17,7 @@ import AppBar from 'material-ui/AppBar';
 import Avatar from 'material-ui/Avatar';
 import FlatButton from 'material-ui/FlatButton';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
+import {green700, blue600,cyan500} from 'material-ui/styles/colors';
 
 
 
@@ -55,17 +56,17 @@ class Main extends Component {
 
           <div>
             <div className="header">
-            <AppBar style={{boxShadow: "none"}}
+            <AppBar style={{boxShadow: "none", backgroundColor: blue600}}
                 title={"Worldcup 2018"}
                 showMenuIconButton={false}
                 iconElementRight={this.state.logged && toolbar(this.state.user.photoURL)}>
             </AppBar>
 
-            <Tabs >
-              <Tab label="HOME" containerElement={<Link to="/" />} />
-              <Tab label="LOGIN" containerElement={<Link to="/login" />} />
-              <Tab label="MY BIDS" containerElement={<Link to="/bids" />} />
-              <Tab label="LEADERBOARD" containerElement={<Link to="/leaderboard" />} />
+            <Tabs style={{backgroundColor: blue600}}>
+              <Tab style={{backgroundColor: blue600}} label="HOME" containerElement={<Link to="/" />} />
+              <Tab style={{backgroundColor: blue600}} label="LOGIN" containerElement={<Link to="/login" />} />
+              <Tab style={{backgroundColor: blue600}} label="MY BIDS" containerElement={<Link to="/bids" />} />
+              <Tab style={{backgroundColor: blue600}} label="LEADERBOARD" containerElement={<Link to="/leaderboard" />} />
             </Tabs>
             </div>
 

@@ -18,7 +18,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 import data from './data.json'
 import FontIcon from 'material-ui/FontIcon';
 import Avatar from 'material-ui/Avatar';
-import {green700} from 'material-ui/styles/colors';
+import {green700, blue600, cyan500, cyan100} from 'material-ui/styles/colors';
 
 
 const chipStyles = {
@@ -188,16 +188,17 @@ export default class Bid extends Component {
         >
           Make sure this bid is the one you intent do delete.
         </Dialog>
-
-        <div style={{display: "flex", flexWrap: "wrap", minHeight: "40px", position: "relative", paddingLeft: "20px", paddingRight: "20px", paddingTop: "5px",paddingBottom: "5px", backgroundColor: "#E0E0E0"}}>
+        <div style={{backgroundColor: cyan500,padding: "5px", fontSize: "10px",  paddingTop: "10px", paddingLeft: "27px", paddingBottom: "0px", color: "rgba(255, 255, 255, 0.7)"}}>MEUS JOGOS</div>          
+        <div style={{display: "flex", flexWrap: "wrap", minHeight: "40px", position: "relative", paddingLeft: "20px", paddingRight: "20px", paddingTop: "5px",paddingBottom: "13px", backgroundColor: cyan500}}>
+            
             {Object.keys(this.state.bids).map((bid) => {
-            return <Chip style={{backgroundColor: "#F5F5F5", margin: "4px"}} key={bid} 
+            return <Chip style={{backgroundColor: cyan100, margin: "4px"}} key={bid} 
             onClick={(event) => this.onChangeGame(event,bid)}
             onRequestDelete={(event) => this.onRequestDelete(event,bid)}
             >
            {this.isComplete(bid) ?
-             <Avatar color={green700} fontSize={"10px"} backgroundColor={"#F5F5F5"} icon={<FontIcon className="material-icons">check_circle</FontIcon>} /> : 
-             <Avatar color={"#666"} backgroundColor={"#F5F5F5"} icon={<FontIcon className="material-icons">mode_edit</FontIcon>} />
+             <Avatar color={green700} fontSize={"10px"} backgroundColor={"transparent"} icon={<FontIcon className="material-icons">check_circle</FontIcon>} /> : 
+             <Avatar color={"#666"} backgroundColor={"transparent"} icon={<FontIcon className="material-icons">mode_edit</FontIcon>} />
              }
             {`${this.state.bids[bid]['name']}`}
             </Chip>
