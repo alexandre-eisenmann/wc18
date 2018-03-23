@@ -81,7 +81,7 @@ export default class GroupView extends Component {
   render() {
     return (
 
-      <Paper style={{ marginRight: "20px", marginBottom: "20px", display: 'inline-block'}} zDepth={1} >
+      <Paper style={{ marginLeft: "10px", marginRight: "10px", marginBottom: "20px", display: 'inline-block'}} zDepth={1} >
       <div style={{float: "left", paddingRight: "20px", border: this.props.complete ? "2px solid transparent" : "2px solid red"  }}>
         <div style={{marginLeft: "20px", marginBottom: "30px", marginTop: "20px", textAlign: "left"}}>
           Group {this.props.group.toUpperCase()}

@@ -11,6 +11,7 @@ body {
 }
 
 .inputNumber {
+  -webkit-appearance: none;
   font-size: 20px;
   width: 30px;
   text-align: center;
