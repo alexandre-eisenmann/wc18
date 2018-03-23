@@ -103,6 +103,7 @@ export default class GroupView extends Component {
                     <input
                       type="text" 
                       className='inputNumber'
+                      style={{marginRight: "2px"}}
                       value={this.readMatchFromState(row.name,'h')}
                       onChange={this.handleUserChange.bind(this)}
                       name={`${row.name}-h`} 
@@ -112,7 +113,7 @@ export default class GroupView extends Component {
                       />
                   </span>
 
-                  <span style={{float: "left", marginTop: "16px", marginLeft:  "4px", marginRight: "4px" }}>
+                  <span style={{float: "left", marginTop: "26px", marginLeft:  "4px", marginRight: "4px", fontSize: "12px"}}>
                     x
                   </span>
 
@@ -121,6 +122,7 @@ export default class GroupView extends Component {
                     <input 
                       type="text" 
                       className='inputNumber'
+                      style={{marginLeft: "2px"}}
                       value={this.readMatchFromState(row.name,'a')} 
                       onChange={this.handleUserChange.bind(this)} 
                       name={`${row.name}-a`} 

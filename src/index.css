@@ -12,11 +12,11 @@ body {
 
 .inputNumber {
   font-size: 20px;
-  border-bottom: 2px solid #ccc;
   width: 30px;
   text-align: center;
   padding-bottom: 0px;
-  border-radius: 30px;
-  border: 2px solid #ccc;
   height: 30px;  
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px #999;
 }
