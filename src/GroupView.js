@@ -110,6 +110,7 @@ export default class GroupView extends Component {
                       maxLength="1" 
                       pattern="[0-9]"
                       size="1"
+                      disabled={this.props.viewMode}
                       />
                   </span>
 
@@ -129,6 +130,7 @@ export default class GroupView extends Component {
                       maxLength="1" 
                       pattern="[0-9]"
                       size="1"
+                      disabled={this.props.viewMode}
                       />
                     </span>
 

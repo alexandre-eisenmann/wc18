@@ -9,6 +9,7 @@ import Bid from './Bid'
 import Home from './Home'
 import Login from './Login'
 import Leaderboard from './Leaderboard'
+import Payment from './Payment'
 import * as firebase from 'firebase'
 import {Tabs, Tab} from 'material-ui/Tabs';
 import Slider from 'material-ui/Slider';
@@ -75,7 +76,9 @@ class Main extends Component {
               <Route path="/login" component={Login}/>
               <Route path="/login/*" component={Login}/>
               <Route path="/bids" component={Bid}/>
+              <Route path="/payment" component={Payment}/>
               <Route path="/leaderboard" component={Leaderboard}/>
+
 
             </div>
 
