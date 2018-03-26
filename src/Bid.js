@@ -18,7 +18,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 import data from './data.json'
 import FontIcon from 'material-ui/FontIcon';
 import Avatar from 'material-ui/Avatar';
-import {green700, blue600, cyan500, cyan100,pink500} from 'material-ui/styles/colors';
+import {green700, blue600, cyan500, cyan100, cyan200, cyan300, pink500,pink100} from 'material-ui/styles/colors';
 import IconButton from 'material-ui/IconButton';
 
 
@@ -211,7 +211,7 @@ export default class Bid extends Component {
                const params = {onClick: (event) => this.onChangeGame(event,bid)}
                if (canEdit(bid)) params['onRequestDelete'] = (event) => this.onRequestDelete(event,bid)
 
-              return <Chip {...params} style={{border: this.state.currentBid == bid ? `1px solid ${"white"}` : "1px solid transparent", backgroundColor: cyan100, margin: "4px"}} key={bid} >
+              return <Chip {...params} style={{backgroundColor: this.state.currentBid == bid ? cyan200 : cyan100, margin: "4px" }} key={bid} >
                 {avatar(bid)}
                 {`${this.state.bids[bid]['name']}`}
               </Chip>
