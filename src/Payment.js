@@ -41,25 +41,85 @@ export default class Payment extends Component {
   }
 
   isReady(bid) {
-    if (!bid.name) return false
-    if (!bid.email) return false
-    if (bid.transactionId) return false
-    let complete = true
-    Object.keys(data.groups).map(group => {
-        const matches = data.groups[group]["matches"]
-        for(let i=0; i< matches.length ; i++) {
-            const result = bid[matches[i].name]
-            if (!(result && (result['h'] || result['h'] == 0) && (result['a'] || result['a'] == 0))) {
-              complete = false
-              break
-            }
-        }
-    })
-    return complete
+    return bid.status && bid.status == "readytopay"
+    // if (!bid.name) return false
+    // if (!bid.email) return false
+    // if (bid.transactionId) return false
+    // let complete = true
+    // Object.keys(data.groups).map(group => {
+    //     const matches = data.groups[group]["matches"]
+    //     for(let i=0; i< matches.length ; i++) {
+    //         const result = bid[matches[i].name]
+    //         if (!(result && (result['h'] || result['h'] == 0) && (result['a'] || result['a'] == 0))) {
+    //           complete = false
+    //           break
+    //         }
+    //     }
+    // })
+    // return complete
   }
 
 
 
+
+  showPaypalButton() {
+      const self = this
+      window.paypal.Button.render({
+
+        env: 'sandbox', // Or 'sandbox'
+
+        client: {
+            sandbox:    'AWz28dUNaYipwd1ced45MtW3333jBNxPxaxck9txl8oiYaad_Vh9e-bxYY5fvrViPK6gMAGCwH_ziFNt',
+            production: 'xxxxxxxxx'
+        },
+
+        commit: true, // Show a 'Pay Now' button
+
+        payment: function(data, actions) {
+            console.log('data+actions init',data,actions)
+            return actions.payment.create({
+                payment: {
+                    transactions: [
+                        {
+                            amount: { total: self.item_list.reduce((acc,item) => acc + item.price ,0) , currency: 'BRL' },
+                            item_list: {
+                              items: self.item_list
+                            }
+                        }
+                    ]
+                }
+            });
+        },
+
+        onAuthorize: function(data, actions) {
+          console.log('data+actions', data, actions)
+            
+            self.setState({paymentStatus: "authorized", showButton: false})
+
+            return actions.payment.execute().then(function(payment) {
+                self.setState({paymentStatus: "sent"})
+                console.log('payment',payment)
+                
+                payment.transactions.map((transaction) => {
+                  const transactionId = transaction.related_resources[0].sale.id
+                  const status = transaction.related_resources[0].sale.state
+                  self.setState({paymentStatus: status, transactionId: transactionId})
+                  transaction.item_list.items.map((item) => {
+
+                    console.log('pago', transactionId, item.sku)
+                    firebase.database().ref(`wc18/${self.state.user.uid}/${item.sku}/transactionId`).set(transactionId)
+                    firebase.database().ref(`wc18/${self.state.user.uid}/${item.sku}/status`).set("payed")
+                  })
+                })
+                document.getElementById("paypal-button").remove()
+                // The payment is complete!
+                // You can now show a confirmation message to the customer
+            });
+        }
+
+    }, '#paypal-button');
+
+  }
 
 
   componentDidMount() {
@@ -91,6 +151,10 @@ export default class Payment extends Component {
           });
           
           self.setState({bids:bids})
+          if (self.item_list.length > 0) {
+            self.showPaypalButton()            
+          }
+
         })
     
       } else {
@@ -98,60 +162,8 @@ export default class Payment extends Component {
       }
     });
 
-    const paypal = window.paypal
-    paypal.Button.render({
+ 
 
-      env: 'sandbox', // Or 'sandbox'
-
-      client: {
-          sandbox:    'AWz28dUNaYipwd1ced45MtW3333jBNxPxaxck9txl8oiYaad_Vh9e-bxYY5fvrViPK6gMAGCwH_ziFNt',
-          production: 'xxxxxxxxx'
-      },
-
-      commit: true, // Show a 'Pay Now' button
-
-      payment: function(data, actions) {
-          console.log('data+actions init',data,actions)
-          return actions.payment.create({
-              payment: {
-                  transactions: [
-                      {
-                          amount: { total: self.item_list.reduce((acc,item) => acc + item.price ,0) , currency: 'BRL' },
-                          item_list: {
-                            items: self.item_list
-                          }
-                      }
-                  ]
-              }
-          });
-      },
-
-      onAuthorize: function(data, actions) {
-         console.log('data+actions', data, actions)
-          
-          self.setState({paymentStatus: "authorized", showButton: false})
-
-          return actions.payment.execute().then(function(payment) {
-              self.setState({paymentStatus: "sent"})
-              console.log('payment',payment)
-              
-              payment.transactions.map((transaction) => {
-                const transactionId = transaction.related_resources[0].sale.id
-                const status = transaction.related_resources[0].sale.state
-                self.setState({paymentStatus: status, transactionId: transactionId})
-                transaction.item_list.items.map((item) => {
-
-                  console.log('pago', transactionId, item.sku)
-                  firebase.database().ref(`wc18/${self.state.user.uid}/${item.sku}/transactionId`).set(transactionId)
-                })
-              })
-              document.getElementById("paypal-button").remove()
-              // The payment is complete!
-              // You can now show a confirmation message to the customer
-          });
-      }
-
-  }, '#paypal-button');
 
 
   }
@@ -163,32 +175,33 @@ export default class Payment extends Component {
       
       
       <div style={{padding: "50px", backgroundColor: "#eeeeee"}}>
+        {this.state.logged == false && <Redirect to='/login?fw=payment' />}
 
-        <div>
-          <span>{this.state.transactionId}</span>
-          <span>{this.state.paymentStatus}</span>
+        <div style={{marginBottom: "20px"}}>
+          {this.state.transactionId && <div style={{marginBottom: "10px"}}><span style={{color:  "#555", display: "inline-block",width: "150px"}}>Transaction ID</span><span>{this.state.transactionId}</span></div>}
+          {this.state.paymentStatus && <div><span style={{color:  "#555", display: "inline-block", width: "150px"}}>Status</span><span> {this.state.paymentStatus}</span></div>}
         </div>
         <div style={{marginBottom: "20px"}}>
           <Paper zDepth={1} > 
           <Table>
             <TableHeader   style={{borderBottom: "none"}} adjustForCheckbox={false} displaySelectAll={false}>
               <TableRow>
-                <TableHeaderColumn>Código</TableHeaderColumn>
                 <TableHeaderColumn>Nome</TableHeaderColumn>
+                <TableHeaderColumn>Código</TableHeaderColumn>
                 <TableHeaderColumn style={{textAlign: "right"}}>Valor</TableHeaderColumn>
               </TableRow>
             </TableHeader>
             <TableBody displayRowCheckbox={false}>
               {this.item_list.map((bid) => {
                 return <TableRow key={bid.sku}>
-                    <TableRowColumn>{bid.sku}</TableRowColumn>
                     <TableRowColumn>{bid.name}</TableRowColumn>
-                    <TableRowColumn style={{textAlign: "right"}}>{`R$ ${bid.price}`}</TableRowColumn>
+                    <TableRowColumn>{bid.sku}</TableRowColumn>
+                    <TableRowColumn style={{textAlign: "right"}}>{bid.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</TableRowColumn>
                   </TableRow>
                 })}
               <TableRow  style={{marginBottom: "20px"}}>
                 <TableRowColumn colSpan="3" style={{textAlign: 'right',marginBottom: "40px", fontSize: "20px"}}>
-                  {`Total R$ ${this.item_list.reduce((acc,item) => acc + item.price ,0) }`}
+                  {`Total ${this.item_list.reduce((acc,item) => acc + item.price ,0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }`}
                 </TableRowColumn>
               </TableRow>
                 

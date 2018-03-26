@@ -13,7 +13,8 @@ import data from './data.json'
 import * as firebase from 'firebase'
 import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField'
-import NumberRing from './NumberRing'
+import {green700, blue600, cyan500, cyan100,pink500} from 'material-ui/styles/colors';
+
 
 
 export default class GroupView extends Component {
@@ -82,7 +83,7 @@ export default class GroupView extends Component {
     return (
 
       <Paper style={{ marginLeft: "10px", marginRight: "10px", marginBottom: "20px", display: 'inline-block'}} zDepth={1} >
-      <div style={{float: "left", paddingRight: "20px", border: this.props.complete ? "2px solid transparent" : "2px solid red"  }}>
+      <div style={{float: "left", paddingRight: "20px", border: this.props.complete ? "2px solid transparent" : `2px solid ${pink500}`  }}>
         <div style={{marginLeft: "20px", marginBottom: "30px", marginTop: "20px", textAlign: "left"}}>
           Group {this.props.group.toUpperCase()}
         </div>

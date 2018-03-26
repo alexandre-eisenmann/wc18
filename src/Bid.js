@@ -19,6 +19,7 @@ import data from './data.json'
 import FontIcon from 'material-ui/FontIcon';
 import Avatar from 'material-ui/Avatar';
 import {green700, blue600, cyan500, cyan100,pink500} from 'material-ui/styles/colors';
+import IconButton from 'material-ui/IconButton';
 
 
 const chipStyles = {
@@ -131,6 +132,13 @@ export default class Bid extends Component {
 
   }
 
+  handleAddToCard() {
+    if (this.state.currentBid) {
+      firebase.database().ref(`wc18/${this.state.user.uid}/${this.state.currentBid}/status`).set("readytopay")
+    }
+  }
+
+
   isComplete(bid) {
     return bid && Object.values(this.state.status[bid]).filter((L) => !L).length == 0 
   }
@@ -140,25 +148,34 @@ export default class Bid extends Component {
 
     let status = "Incompleto"
     let complete = false
-    if (this.isComplete(this.state.currentBid)) {
-      status = "Completo"
-      complete = true
+    let edit = true
+
+    if (this.state.currentBid) {
+      if (this.state.bids[this.state.currentBid].status == "readytopay") {
+          status = "Pronto pra pagamento"
+          edit = false
+      } else if  (this.state.bids[this.state.currentBid].status == "payed") {
+         status = "Pago"
+         edit = false
+      } else if (this.isComplete(this.state.currentBid)) {
+        status = "Completo" 
+        complete = true
+      }
+
     }
 
+    const avatar = (bid) => {
+      if (this.state.bids[bid].status == "readytopay")
+        return <Avatar color={green700} fontSize={"10px"} backgroundColor={"transparent"} icon={<FontIcon className="material-icons">done</FontIcon>} />
+      else if  (this.state.bids[bid].status == "payed")
+        return <Avatar color={green700} fontSize={"10px"} backgroundColor={"transparent"} icon={<FontIcon className="material-icons">done_all</FontIcon>} />
+      else if (this.isComplete(bid)) 
+        return null
+      else 
+        return <Avatar color={"#666"} backgroundColor={"transparent"} icon={<FontIcon className="material-icons">mode_edit</FontIcon>} />
+    }
 
-
-    const actions = [
-      <FlatButton
-        label="Cancel"
-        primary={true}
-        onClick={this.handleClose.bind(this)}
-      />,
-      <FlatButton
-        label="Delete"
-        primary={true}
-        onClick={this.handleDelete.bind(this)}
-      />,
-    ];
+    const canEdit = (bid) => !this.state.bids[bid].status
 
     return (
       
@@ -168,51 +185,69 @@ export default class Bid extends Component {
       {this.state.logged == null &&  <div style={{backgroundColor: "white", textAlign: "center", marginTop: "10%", width:"100%"}}><CircularProgress size={60} thickness={7} /></div>}
       {this.state.logged && this.state.user && <div>
         <Dialog
-          title={`Delete ${this.state.bids[this.state.deleteBid] ? this.state.bids[this.state.deleteBid]["name"] : ""}?`}
-          actions={actions}
+          title={`Apagar ${this.state.bids[this.state.deleteBid] ? this.state.bids[this.state.deleteBid]["name"] : ""}?`}
+          actions={[
+            <FlatButton
+              label="Cancelar"
+              primary={true}
+              onClick={this.handleClose.bind(this)}
+            />,
+            <FlatButton
+              label="Apague"
+              primary={true}
+              onClick={this.handleDelete.bind(this)}
+            />,
+          ]}
           modal={true}
           open={this.state.deleteBid != null}
         >
-          Make sure this bid is the one you intent do delete.
+          Confira se é este o jogo que você deseja apagar
         </Dialog>
         <div style={{backgroundColor: cyan500,padding: "5px", fontSize: "10px",  paddingTop: "10px", paddingLeft: "27px", paddingBottom: "0px", color: "rgba(255, 255, 255, 0.7)"}}>MEUS JOGOS</div>          
-        
-        <div style={{display: "flex", flexWrap: "wrap", minHeight: "40px", position: "relative", paddingLeft: "20px", paddingRight: "20px", paddingTop: "5px",paddingBottom: "13px", backgroundColor: cyan500}}>
-            
+        <div style={{display: "flex", flexWrap: "wrap", minHeight: "40px", position: "relative", paddingLeft: "20px", paddingRight: "60px", paddingTop: "5px",paddingBottom: "13px", backgroundColor: cyan500}}>
+            {this.state.bids.length == 0 &&  <div style={{ textAlign: "center", width:"100%"}}><CircularProgress color={pink500} size={30} thickness={4} /></div>}
+
             {Object.keys(this.state.bids).map((bid) => {
-            return <Chip style={{border: this.state.currentBid == bid ? `1px solid ${pink500}` : "none", backgroundColor: cyan100, margin: "4px"}} key={bid} 
-            onClick={(event) => this.onChangeGame(event,bid)}
-            onRequestDelete={(event) => this.onRequestDelete(event,bid)}
-            >
-           {this.isComplete(bid) ?
-             this.state.bids[bid].transactionId && <Avatar color={green700} fontSize={"10px"} backgroundColor={"transparent"} icon={<FontIcon className="material-icons">check_circle</FontIcon>} /> : 
-             <Avatar color={"#666"} backgroundColor={"transparent"} icon={<FontIcon className="material-icons">mode_edit</FontIcon>} />
-             }
-            {`${this.state.bids[bid]['name']}`}
-            </Chip>
+               const params = {onClick: (event) => this.onChangeGame(event,bid)}
+               if (canEdit(bid)) params['onRequestDelete'] = (event) => this.onRequestDelete(event,bid)
+
+              return <Chip {...params} style={{border: this.state.currentBid == bid ? `1px solid ${"white"}` : "1px solid transparent", backgroundColor: cyan100, margin: "4px"}} key={bid} >
+                {avatar(bid)}
+                {`${this.state.bids[bid]['name']}`}
+              </Chip>
             })}
             <FloatingActionButton secondary={true} style={{position: "absolute", 
-                bottom:  "-18px", right: "25px"}}mini={true} onClick={this.onNewGame.bind(this)}>
+                top:  "0px", right: "25px"}} mini={true} onClick={this.onNewGame.bind(this)}>
               <ContentAdd />
             </FloatingActionButton>
         </div>
         
       { this.state.currentBid && 
+        <div>
+          <Toolbar>
+            <ToolbarGroup firstChild={true}>
+              <ToolbarTitle style={{color: "#333", fontStyle: "italic", marginLeft: "20px", fontSize: "12px"}} text={status} />
+            </ToolbarGroup>
+            <ToolbarGroup >
+              <RaisedButton label="Salvar" disabled={!edit} />
+              <IconButton tooltip="Marcar para pagamento" disabled={!complete} onClick={this.handleAddToCard.bind(this)}>
+                  <FontIcon className="material-icons">add_shopping_cart</FontIcon>
+              </IconButton>
+            </ToolbarGroup>
+          </Toolbar>
         <div style={{marginLeft: "2px", marginTop: "20px"}}>
 
-          <div style={{marginBottom: "20px", marginLeft: "20px", fontSize: "12px", color: complete ? "#ccc" : "red", fontWeight: "bold"}}>{`Jogo ${status}`}</div>
-          
-          
           <div style={{width: "256px", margin: "auto",marginBottom: "20px"}}>
-            <TextField disabled={this.state.bids[this.state.currentBid].transactionId != null} errorText={this.state.bids[this.state.currentBid]["name"] ? "" : "Campo obrigatório"} style={{fontSize: "12px", display: "block", marginRight: "10px"}} hintText="Name" value={this.state.bids[this.state.currentBid]["name"] || ''} onChange={this.onNameChange.bind(this)}/>
-            <TextField disabled={this.state.bids[this.state.currentBid].transactionId != null} errorText={this.state.bids[this.state.currentBid]["email"] ? "" : "Campo obrigatório"} style={{fontSize: "12px", display: "block", marginRight: "10px"}} hintText="Email" value={this.state.bids[this.state.currentBid]["email"] || ''} onChange={this.onEmailChange.bind(this)}/>
-            <TextField disabled={this.state.bids[this.state.currentBid].transactionId != null} style={{fontSize: "12px", display: "block", marginRight: "10px"}} hintText="Mobile Number" value={this.state.bids[this.state.currentBid]["mobile"] || ''} onChange={this.onMobileChange.bind(this)}/>
+            <TextField disabled={!edit} errorText={this.state.bids[this.state.currentBid]["name"] ? "" : "Campo obrigatório"} style={{fontSize: "20px", display: "block", marginRight: "10px"}} hintText="Name" value={this.state.bids[this.state.currentBid]["name"] || ''} onChange={this.onNameChange.bind(this)}/>
+            <TextField disabled={!edit} errorText={this.state.bids[this.state.currentBid]["email"] ? "" : "Campo obrigatório"} style={{fontSize: "12px", display: "block", marginRight: "10px"}} hintText="Email" value={this.state.bids[this.state.currentBid]["email"] || ''} onChange={this.onEmailChange.bind(this)}/>
+            <TextField disabled={!edit} style={{fontSize: "12px", display: "block", marginRight: "10px"}} hintText="Mobile Number" value={this.state.bids[this.state.currentBid]["mobile"] || ''} onChange={this.onMobileChange.bind(this)}/>
           </div>
           <div style={{textAlign: "center"}} >
           {['a','b','c','d','e','f','g','h'].map(group => (
-            <GroupView viewMode={this.state.bids[this.state.currentBid].transactionId != null}  complete={this.state.status ? this.state.status[this.state.currentBid][group] : false} userId={this.state.user.uid} bids={this.state.bids} gameId={this.state.currentBid} key={group} group={group}/>
+            <GroupView viewMode={!edit}  complete={this.state.status ? this.state.status[this.state.currentBid][group] : false} userId={this.state.user.uid} bids={this.state.bids} gameId={this.state.currentBid} key={group} group={group}/>
           ))}
           </div>
+        </div>
         </div>}
       </div>}
 

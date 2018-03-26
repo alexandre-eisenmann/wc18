@@ -3,6 +3,7 @@ import {
   Route,
   Link,
   BrowserRouter,
+  NavLink,
   Redirect
 } from "react-router-dom"
 import Bid from './Bid'
@@ -43,11 +44,27 @@ class Main extends Component {
     });
     }
 
+
+  logout() {
+    firebase.auth().signOut()
+  }
+  
+
   render() {
 
 
-    const toolbar = (url) => <div>
-        <Avatar size={30} src={url} />
+      const toolbar = (url) => <div>
+        <div style={{position: "relative"}} > 
+          <FlatButton
+                label="Logout"
+                onClick={this.logout.bind(this)}
+                labelStyle={{fontSize: "10px", color: "#ccc"}}
+                style ={{position: "absolute", top: "0px", left: "-80px"}}
+              />
+
+
+          <Avatar size={30} src={url} /> 
+        </div>
       </div>
 
 
@@ -58,16 +75,15 @@ class Main extends Component {
           <div>
             <div className="header">
             <AppBar style={{boxShadow: "none", backgroundColor: blue600}}
-                title={"Worldcup 2018"}
+                title={"Copa do Mundo 2018"}
                 showMenuIconButton={false}
                 iconElementRight={this.state.logged && toolbar(this.state.user.photoURL)}>
             </AppBar>
 
             <Tabs style={{backgroundColor: blue600}}>
-              <Tab style={{backgroundColor: blue600}} label="HOME" containerElement={<Link to="/" />} />
-              <Tab style={{backgroundColor: blue600}} label="LOGIN" containerElement={<Link to="/login" />} />
-              <Tab style={{backgroundColor: blue600}} label="MY BIDS" containerElement={<Link to="/bids" />} />
-              <Tab style={{backgroundColor: blue600}} label="LEADERBOARD" containerElement={<Link to="/leaderboard" />} />
+              <Tab style={{backgroundColor: blue600}} label="HOME" containerElement={<NavLink to="/" />} />
+              <Tab style={{backgroundColor: blue600}} label="MEUS JOGOS" containerElement={<NavLink to="/bids" />} />
+              <Tab style={{backgroundColor: blue600}} label="PAGAMENTO" containerElement={<NavLink to="/payment" />} />
             </Tabs>
             </div>
 
