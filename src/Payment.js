@@ -36,7 +36,7 @@ export default class Payment extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {showButton: true, paymentStatus: null,transactionId: null,logged: null, user: null, bids:[], currentBid: null, status: null, item_list: []}
+    this.state = {noGames: null,showButton: true, paymentStatus: null,transactionId: null,logged: null, user: null, bids:[], currentBid: null, status: null, item_list: []}
   }
 
   isReady(bid) {
@@ -60,7 +60,6 @@ export default class Payment extends Component {
         commit: true, // Show a 'Pay Now' button
 
         payment: function(data, actions) {
-            console.log('data+actions init',data,actions)
             return actions.payment.create({
                 payment: {
                     transactions: [
@@ -76,13 +75,11 @@ export default class Payment extends Component {
         },
 
         onAuthorize: function(data, actions) {
-          console.log('data+actions', data, actions)
             
             self.setState({paymentStatus: "authorized", showButton: false})
 
             return actions.payment.execute().then(function(payment) {
                 self.setState({paymentStatus: "sent"})
-                console.log('payment',payment)
                 
                 payment.transactions.map((transaction) => {
                   const transactionId = transaction.related_resources[0].sale.id
@@ -90,7 +87,6 @@ export default class Payment extends Component {
                   self.setState({paymentStatus: status, transactionId: transactionId})
                   transaction.item_list.items.map((item) => {
 
-                    console.log('pago', transactionId, item.sku)
                     firebase.database().ref(`wc18/${self.state.user.uid}/${item.sku}/transactionId`).set(transactionId)
                     firebase.database().ref(`wc18/${self.state.user.uid}/${item.sku}/status`).set("payed")
                   })
@@ -145,6 +141,7 @@ export default class Payment extends Component {
           if (self.state.item_list.length > 0) {
             document.getElementById("paypal-button").style.visibility="visible"
           } else {
+            self.setState({noGames: true})
             document.getElementById("paypal-button").style.visibility="hidden"
           }
 
@@ -170,13 +167,22 @@ export default class Payment extends Component {
       
       
       <div style={{padding: "50px", backgroundColor: "#eeeeee"}}>
+      
         {this.state.logged == null &&  <div style={{textAlign: "center", width:"100%"}}><CircularProgress size={60} thickness={7} /></div>}
         {this.state.logged == false && <Redirect to='/login?fw=payment' />}
 
-        <div style={{marginBottom: "20px"}}>
+
+        {this.state.noGames && this.state.paymentStatus && <div style={{marginBottom: "20px"}}>
+           <div style={{marginBottom: "10px", fontSize: "30px", color: "#555" }}>Operação Concluída</div>
           {this.state.transactionId && <div style={{marginBottom: "10px"}}><span style={{color:  "#555", display: "inline-block",width: "150px"}}>Transaction ID</span><span>{this.state.transactionId}</span></div>}
-          {this.state.paymentStatus && <div><span style={{color:  "#555", display: "inline-block", width: "150px"}}>Status</span><span> {this.state.paymentStatus}</span></div>}
-        </div>
+          <div><span style={{color:  "#555", marginBottom: "20px", display: "inline-block", width: "150px"}}>Status</span><span> {this.state.paymentStatus}</span></div>
+          <RaisedButton label="Voltar" href="/bids" />
+        </div>}
+        {this.state.noGames && !this.state.paymentStatus && this.state.item_list.length == 0 && <div>
+          <div style={{color:  "#555", marginBottom: "20px", fontSize: "20px"}}> Não há jogos a pagar. Verifique se você completou e adicionou seu jogo no carrinho de compras</div>
+          <RaisedButton label="Voltar" href="/bids" />
+        </div>}
+
         {this.state.item_list.length > 0 && <div style={{marginBottom: "20px"}}>
         
       
