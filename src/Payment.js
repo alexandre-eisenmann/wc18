@@ -170,6 +170,7 @@ export default class Payment extends Component {
       
       
       <div style={{padding: "50px", backgroundColor: "#eeeeee"}}>
+        {this.state.item_list.length == 0  &&  <div style={{textAlign: "center", width:"100%"}}><CircularProgress size={60} thickness={7} /></div>}
         {this.state.logged == false && <Redirect to='/login?fw=payment' />}
 
         <div style={{marginBottom: "20px"}}>
@@ -177,12 +178,13 @@ export default class Payment extends Component {
           {this.state.paymentStatus && <div><span style={{color:  "#555", display: "inline-block", width: "150px"}}>Status</span><span> {this.state.paymentStatus}</span></div>}
         </div>
         {this.state.item_list.length > 0 && <div style={{marginBottom: "20px"}}>
+        
+      
           <Paper zDepth={1} > 
           <Table>
             <TableHeader   style={{borderBottom: "none"}} adjustForCheckbox={false} displaySelectAll={false}>
               <TableRow>
                 <TableHeaderColumn>Nome</TableHeaderColumn>
-                <TableHeaderColumn>Código</TableHeaderColumn>
                 <TableHeaderColumn style={{textAlign: "right"}}>Valor</TableHeaderColumn>
               </TableRow>
             </TableHeader>
@@ -190,12 +192,11 @@ export default class Payment extends Component {
               {this.state.item_list.map((bid) => {
                 return <TableRow key={bid.sku}>
                     <TableRowColumn>{bid.name}</TableRowColumn>
-                    <TableRowColumn>{bid.sku}</TableRowColumn>
                     <TableRowColumn style={{textAlign: "right"}}>{bid.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</TableRowColumn>
                   </TableRow>
                 })}
               <TableRow  style={{marginBottom: "20px"}}>
-                <TableRowColumn colSpan="3" style={{textAlign: 'right',marginBottom: "40px", fontSize: "20px"}}>
+                <TableRowColumn colSpan="2" style={{textAlign: 'right',marginBottom: "40px", fontSize: "20px"}}>
                   {`Total ${this.state.item_list.reduce((acc,item) => acc + item.price ,0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }`}
                 </TableRowColumn>
               </TableRow>
