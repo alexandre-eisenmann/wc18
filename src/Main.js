@@ -81,9 +81,8 @@ class Main extends Component {
             </AppBar>
 
             <Tabs style={{backgroundColor: blue600}}>
-              <Tab style={{backgroundColor: blue600}} label="HOME" containerElement={<NavLink to="/" />} />
-              <Tab style={{backgroundColor: blue600}} label="MEUS JOGOS" containerElement={<NavLink to="/bids" />} />
-              <Tab style={{backgroundColor: blue600}} label="PAGAMENTO" containerElement={<NavLink to="/payment" />} />
+              <Tab style={{backgroundColor: blue600}} label="HOME" containerElement={<Link to="/" />} />
+              <Tab style={{backgroundColor: blue600}} label="MEUS JOGOS" containerElement={<Link to="/bids" />} />
             </Tabs>
             </div>
 

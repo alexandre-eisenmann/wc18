@@ -4,7 +4,7 @@ import './App.css';
 import GroupView from './GroupView.js'
 import Header from './Header.js'
 import * as firebase from 'firebase'
-import {Redirect} from "react-router-dom"
+import {Link, Redirect} from "react-router-dom"
 import FlatButton from 'material-ui/FlatButton'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
@@ -18,7 +18,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 import data from './data.json'
 import FontIcon from 'material-ui/FontIcon';
 import Avatar from 'material-ui/Avatar';
-import {green700, blue600, cyan500, cyan100, cyan200, cyan300, pink500,pink100} from 'material-ui/styles/colors';
+import {green700, blue600, cyan500,cyan600,cyan100, cyan200, cyan300, pink500,pink100} from 'material-ui/styles/colors';
 import IconButton from 'material-ui/IconButton';
 
 
@@ -105,13 +105,21 @@ export default class Bid extends Component {
     
   }
 
+  componentWillUnmount() {
+
+    if (this.ref) {
+      this.ref.off('value')
+    }
+    this.unsubscribe()
+  }
+
   componentDidMount() {
     const self = this
-    firebase.auth().onAuthStateChanged(function(user) {
+    this.unsubscribe = firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         self.setState({logged: true, user: user})
-        const ref = firebase.database().ref(`wc18/${user.uid}`)
-        ref.on('value', snapshot => {
+        self.ref = firebase.database().ref(`wc18/${user.uid}`)
+        self.ref.on('value', snapshot => {
           const bids  = {}
           snapshot.forEach(function(childSnapshot) {
             var childKey = childSnapshot.key
@@ -135,6 +143,11 @@ export default class Bid extends Component {
   handleAddToCard() {
     if (this.state.currentBid) {
       firebase.database().ref(`wc18/${this.state.user.uid}/${this.state.currentBid}/status`).set("readytopay")
+    }
+  }
+  handleRemoveFromCard() {
+    if (this.state.currentBid) {
+      firebase.database().ref(`wc18/${this.state.user.uid}/${this.state.currentBid}/status`).remove()
     }
   }
 
@@ -177,6 +190,9 @@ export default class Bid extends Component {
 
     const canEdit = (bid) => !this.state.bids[bid].status
 
+    let anyReadyToPay = false
+    let anyPayed = false
+
     return (
       
       
@@ -203,25 +219,81 @@ export default class Bid extends Component {
         >
           Confira se é este o jogo que você deseja apagar
         </Dialog>
-        <div style={{backgroundColor: cyan500,padding: "5px", fontSize: "10px",  paddingTop: "10px", paddingLeft: "27px", paddingBottom: "0px", color: "rgba(255, 255, 255, 0.7)"}}>MEUS JOGOS</div>          
+        <div>
+        <div style={{backgroundColor: cyan500,padding: "5px", fontSize: "10px",  paddingTop: "10px", paddingLeft: "27px", paddingBottom: "0px", color: "rgba(255, 255, 255, 0.7)"}}>
+        RASCUNHO
+        </div>          
         <div style={{display: "flex", flexWrap: "wrap", minHeight: "40px", position: "relative", paddingLeft: "20px", paddingRight: "60px", paddingTop: "5px",paddingBottom: "13px", backgroundColor: cyan500}}>
             {this.state.bids.length == 0 &&  <div style={{ textAlign: "center", width:"100%"}}><CircularProgress color={pink500} size={30} thickness={4} /></div>}
 
             {Object.keys(this.state.bids).map((bid) => {
-               const params = {onClick: (event) => this.onChangeGame(event,bid)}
-               if (canEdit(bid)) params['onRequestDelete'] = (event) => this.onRequestDelete(event,bid)
+               if (!this.state.bids[bid].status ) {
+                const params = {onClick: (event) => this.onChangeGame(event,bid)}
+                if (canEdit(bid)) params['onRequestDelete'] = (event) => this.onRequestDelete(event,bid)
+                
+               return <Chip {...params} style={{backgroundColor: this.state.currentBid == bid ? cyan200 : cyan100, margin: "4px" }} key={bid} >
+                 {avatar(bid)}
+                 {`${this.state.bids[bid]['name']}`}
+               </Chip>
+               } else if (this.state.bids[bid].status == "readytopay") {
+                anyReadyToPay = true
+               } else if (this.state.bids[bid].status == "payed") {
+                anyPayed = true
+               }
 
-              return <Chip {...params} style={{backgroundColor: this.state.currentBid == bid ? cyan200 : cyan100, margin: "4px" }} key={bid} >
-                {avatar(bid)}
-                {`${this.state.bids[bid]['name']}`}
-              </Chip>
             })}
             <FloatingActionButton secondary={true} style={{position: "absolute", 
                 top:  "0px", right: "25px"}} mini={true} onClick={this.onNewGame.bind(this)}>
               <ContentAdd />
             </FloatingActionButton>
         </div>
-        
+        </div>
+
+        {anyReadyToPay && <div>
+        <div style={{backgroundColor: cyan300,padding: "5px", fontSize: "10px",  paddingTop: "10px", paddingLeft: "27px", paddingBottom: "0px", color: "rgba(255, 255, 255, 0.7)"}}>
+        PRATELEIRA
+        </div>          
+        <div style={{display: "flex", flexWrap: "wrap", minHeight: "40px", position: "relative", paddingLeft: "20px", paddingRight: "60px", paddingTop: "5px",paddingBottom: "13px", backgroundColor: cyan300}}>
+            {Object.keys(this.state.bids).map((bid) => {
+               if (this.state.bids[bid].status == "readytopay") {
+                
+                const params = {onClick: (event) => this.onChangeGame(event,bid)}
+                if (canEdit(bid)) params['onRequestDelete'] = (event) => this.onRequestDelete(event,bid)
+ 
+               return <Chip {...params} style={{backgroundColor: this.state.currentBid == bid ? cyan200 : cyan100, margin: "4px" }} key={bid} >
+                 {avatar(bid)}
+                 {`${this.state.bids[bid]['name']}`}
+               </Chip>
+               }
+            })}
+            <FloatingActionButton href="/payment" disabled={!anyReadyToPay} secondary={true} style={{position: "absolute", 
+                top:  "0px", right: "25px"}} mini={true} >
+              <FontIcon className="material-icons">payment</FontIcon>
+            </FloatingActionButton>
+        </div>
+        </div>}
+
+
+        {anyPayed && <div>
+        <div style={{backgroundColor: cyan600,padding: "5px", fontSize: "10px",  paddingTop: "10px", paddingLeft: "27px", paddingBottom: "0px", color: "rgba(255, 255, 255, 0.7)"}}>
+          PAGOS</div>          
+        <div style={{display: "flex", flexWrap: "wrap", minHeight: "40px", position: "relative", paddingLeft: "20px", paddingRight: "60px", paddingTop: "5px",paddingBottom: "13px", backgroundColor: cyan600}}>
+
+            {Object.keys(this.state.bids).map((bid) => {
+               if (this.state.bids[bid].status == "payed") {
+                const params = {onClick: (event) => this.onChangeGame(event,bid)}
+                if (canEdit(bid)) params['onRequestDelete'] = (event) => this.onRequestDelete(event,bid)
+ 
+               return <Chip {...params} style={{backgroundColor: this.state.currentBid == bid ? cyan200 : cyan100, margin: "4px" }} key={bid} >
+                 {avatar(bid)}
+                 {`${this.state.bids[bid]['name']}`}
+               </Chip>
+               }
+            })}
+        </div>
+        </div>}
+
+
       { this.state.currentBid && 
         <div>
           <Toolbar>
@@ -230,8 +302,11 @@ export default class Bid extends Component {
             </ToolbarGroup>
             <ToolbarGroup >
               <RaisedButton label="Salvar" disabled={!edit} />
-              <IconButton tooltip="Marcar para pagamento" disabled={!complete} onClick={this.handleAddToCard.bind(this)}>
+              <IconButton tooltip="Adicionar à prateleira" disabled={!complete} onClick={this.handleAddToCard.bind(this)}>
                   <FontIcon className="material-icons">add_shopping_cart</FontIcon>
+              </IconButton>
+              <IconButton tooltip="Remover da prateleira" disabled={this.state.bids[this.state.currentBid].status != 'readytopay'} onClick={this.handleRemoveFromCard.bind(this)}>
+                  <FontIcon className="material-icons">remove_shopping_cart</FontIcon>
               </IconButton>
             </ToolbarGroup>
           </Toolbar>

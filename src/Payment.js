@@ -36,27 +36,11 @@ export default class Payment extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {showButton: true, paymentStatus: null,transactionId: null,logged: null, user: null, bids:[], currentBid: null, status: null}
-    this.item_list = []
+    this.state = {showButton: true, paymentStatus: null,transactionId: null,logged: null, user: null, bids:[], currentBid: null, status: null, item_list: []}
   }
 
   isReady(bid) {
     return bid.status && bid.status == "readytopay"
-    // if (!bid.name) return false
-    // if (!bid.email) return false
-    // if (bid.transactionId) return false
-    // let complete = true
-    // Object.keys(data.groups).map(group => {
-    //     const matches = data.groups[group]["matches"]
-    //     for(let i=0; i< matches.length ; i++) {
-    //         const result = bid[matches[i].name]
-    //         if (!(result && (result['h'] || result['h'] == 0) && (result['a'] || result['a'] == 0))) {
-    //           complete = false
-    //           break
-    //         }
-    //     }
-    // })
-    // return complete
   }
 
 
@@ -81,9 +65,9 @@ export default class Payment extends Component {
                 payment: {
                     transactions: [
                         {
-                            amount: { total: self.item_list.reduce((acc,item) => acc + item.price ,0) , currency: 'BRL' },
+                            amount: { total: self.state.item_list.reduce((acc,item) => acc + item.price ,0) , currency: 'BRL' },
                             item_list: {
-                              items: self.item_list
+                              items: self.state.item_list
                             }
                         }
                     ]
@@ -121,23 +105,30 @@ export default class Payment extends Component {
 
   }
 
+  componentWillUnmount() {
+
+    if (this.ref) {
+      this.ref.off('value')
+    }
+    this.unsubscribe()
+  }
 
   componentDidMount() {
+    document.getElementById("paypal-button").style.visibility="hidden"
     const self = this
-    this.item_list = []
-    firebase.auth().onAuthStateChanged(function(user) {
+    this.unsubscribe = firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         self.setState({logged: true, user: user})
-        const ref = firebase.database().ref(`wc18/${user.uid}`)
-        ref.once('value', snapshot => {
-          const bids  = {}
+        self.ref = firebase.database().ref(`wc18/${user.uid}`)
+        self.ref.on('value', snapshot => {
+          const bids  = {}, list=[]
           snapshot.forEach(function(childSnapshot) {
             const childKey = childSnapshot.key
             const childData = childSnapshot.val()
 
             if (self.isReady(childData)) {
               bids[childKey] = childData 
-              self.item_list.push({
+              list.push({
                 sku : childKey,
                 name: childData.name,
                 description: `${user.uid}/${childKey}`,
@@ -150,9 +141,11 @@ export default class Payment extends Component {
             
           });
           
-          self.setState({bids:bids})
-          if (self.item_list.length > 0) {
-            self.showPaypalButton()            
+          self.setState({bids:bids, item_list:list})
+          if (self.state.item_list.length > 0) {
+            document.getElementById("paypal-button").style.visibility="visible"
+          } else {
+            document.getElementById("paypal-button").style.visibility="hidden"
           }
 
         })
@@ -160,6 +153,8 @@ export default class Payment extends Component {
       } else {
         self.setState({logged: false, user: null})
       }
+
+      self.showPaypalButton()            
     });
 
  
@@ -181,7 +176,7 @@ export default class Payment extends Component {
           {this.state.transactionId && <div style={{marginBottom: "10px"}}><span style={{color:  "#555", display: "inline-block",width: "150px"}}>Transaction ID</span><span>{this.state.transactionId}</span></div>}
           {this.state.paymentStatus && <div><span style={{color:  "#555", display: "inline-block", width: "150px"}}>Status</span><span> {this.state.paymentStatus}</span></div>}
         </div>
-        <div style={{marginBottom: "20px"}}>
+        {this.state.item_list.length > 0 && <div style={{marginBottom: "20px"}}>
           <Paper zDepth={1} > 
           <Table>
             <TableHeader   style={{borderBottom: "none"}} adjustForCheckbox={false} displaySelectAll={false}>
@@ -192,7 +187,7 @@ export default class Payment extends Component {
               </TableRow>
             </TableHeader>
             <TableBody displayRowCheckbox={false}>
-              {this.item_list.map((bid) => {
+              {this.state.item_list.map((bid) => {
                 return <TableRow key={bid.sku}>
                     <TableRowColumn>{bid.name}</TableRowColumn>
                     <TableRowColumn>{bid.sku}</TableRowColumn>
@@ -201,14 +196,14 @@ export default class Payment extends Component {
                 })}
               <TableRow  style={{marginBottom: "20px"}}>
                 <TableRowColumn colSpan="3" style={{textAlign: 'right',marginBottom: "40px", fontSize: "20px"}}>
-                  {`Total ${this.item_list.reduce((acc,item) => acc + item.price ,0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }`}
+                  {`Total ${this.state.item_list.reduce((acc,item) => acc + item.price ,0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }`}
                 </TableRowColumn>
               </TableRow>
                 
             </TableBody>
           </Table>
           </Paper>
-        </div>
+        </div>}
         <div style={{float: "right"}} id="paypal-button"></div>
       </div>
     );
