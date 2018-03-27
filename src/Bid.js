@@ -298,14 +298,14 @@ export default class Bid extends Component {
         <div>
           <Toolbar>
             <ToolbarGroup firstChild={true}>
-              <ToolbarTitle style={{color: "#333", fontStyle: "italic", marginLeft: "20px", fontSize: "12px"}} text={status} />
+              <ToolbarTitle style={{color: "#333", width: "200px",fontStyle: "italic", marginLeft: "20px", fontSize: "12px"}} text={status} />
             </ToolbarGroup>
             <ToolbarGroup >
               <RaisedButton label="Salvar" disabled={!edit} />
-              <IconButton tooltip="Adicionar à prateleira" disabled={!complete} onClick={this.handleAddToCard.bind(this)}>
+              <IconButton disabled={!complete} onClick={this.handleAddToCard.bind(this)}>
                   <FontIcon className="material-icons">add_shopping_cart</FontIcon>
               </IconButton>
-              <IconButton tooltip="Remover da prateleira" disabled={this.state.bids[this.state.currentBid].status != 'readytopay'} onClick={this.handleRemoveFromCard.bind(this)}>
+              <IconButton  disabled={this.state.bids[this.state.currentBid].status != 'readytopay'} onClick={this.handleRemoveFromCard.bind(this)}>
                   <FontIcon className="material-icons">remove_shopping_cart</FontIcon>
               </IconButton>
             </ToolbarGroup>
