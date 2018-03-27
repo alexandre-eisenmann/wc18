@@ -49,6 +49,7 @@ export default class Bid extends Component {
 
   onChangeGame(event,bid) {
     this.setState({currentBid: bid})
+    document.getElementById("gameSection").scrollIntoView({block: 'start',  behavior: 'smooth'})
   }
 
   onNameChange(event, value) {
@@ -231,7 +232,7 @@ export default class Bid extends Component {
                 const params = {onClick: (event) => this.onChangeGame(event,bid)}
                 if (canEdit(bid)) params['onRequestDelete'] = (event) => this.onRequestDelete(event,bid)
                 
-               return <Chip {...params} style={{backgroundColor: this.state.currentBid == bid ? cyan200 : cyan100, margin: "4px" }} key={bid} >
+               return <Chip href="#gameSection" {...params} style={{backgroundColor: this.state.currentBid == bid ? cyan200 : cyan100, margin: "4px" }} key={bid} >
                  {avatar(bid)}
                  {`${this.state.bids[bid]['name']}`}
                </Chip>
@@ -293,7 +294,7 @@ export default class Bid extends Component {
         </div>
         </div>}
 
-
+      <div id="gameSection">
       { this.state.currentBid && 
         <div>
           <Toolbar>
@@ -324,6 +325,9 @@ export default class Bid extends Component {
           </div>
         </div>
         </div>}
+        </div>
+
+
       </div>}
 
       </div>
