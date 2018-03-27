@@ -170,7 +170,7 @@ export default class Payment extends Component {
       
       
       <div style={{padding: "50px", backgroundColor: "#eeeeee"}}>
-        {this.state.item_list.length == 0  &&  <div style={{textAlign: "center", width:"100%"}}><CircularProgress size={60} thickness={7} /></div>}
+        {this.state.logged == null &&  <div style={{textAlign: "center", width:"100%"}}><CircularProgress size={60} thickness={7} /></div>}
         {this.state.logged == false && <Redirect to='/login?fw=payment' />}
 
         <div style={{marginBottom: "20px"}}>
