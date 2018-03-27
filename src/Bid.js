@@ -165,7 +165,7 @@ export default class Bid extends Component {
 
     if (this.state.currentBid) {
       if (this.state.bids[this.state.currentBid].status == "readytopay") {
-          status = "Pronto pra pagamento"
+          status = "Prateleira"
           edit = false
       } else if  (this.state.bids[this.state.currentBid].status == "payed") {
          status = "Pago"
@@ -298,7 +298,7 @@ export default class Bid extends Component {
         <div>
           <Toolbar>
             <ToolbarGroup firstChild={true}>
-              <ToolbarTitle style={{color: "#333", width: "200px",fontStyle: "italic", marginLeft: "20px", fontSize: "12px"}} text={status} />
+              <ToolbarTitle style={{color: "#333", width: "100px",fontStyle: "italic", marginLeft: "20px", fontSize: "12px"}} text={status} />
             </ToolbarGroup>
             <ToolbarGroup >
               <RaisedButton label="Salvar" disabled={!edit} />
