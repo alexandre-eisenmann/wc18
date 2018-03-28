@@ -32,6 +32,21 @@ const chipStyles = {
   },
 };
 
+const style ={
+  backgroundImage: "url(background2.svg)",
+  backgroundRepeatY: "repeat",
+  backgroundPositionX:  "50%",
+  backgroundPositionY:  "0",
+  // height: "1000px",
+  // width: "100%",
+  // zIndex: -10,
+  // position: "absolute",
+  // top: "0px",
+  // left: "0px"
+
+}
+
+
 export default class Bid extends Component {
 
   constructor(props) {
@@ -166,7 +181,7 @@ export default class Bid extends Component {
 
     if (this.state.currentBid) {
       if (this.state.bids[this.state.currentBid].status == "readytopay") {
-          status = "Prateleira"
+          status = "Aguardando Pagamento"
           edit = false
       } else if  (this.state.bids[this.state.currentBid].status == "payed") {
          status = "Pago"
@@ -197,7 +212,7 @@ export default class Bid extends Component {
     return (
       
       
-      <div style={{backgroundColor: "#eeeeee"}}>
+      <div style={style}>
       {this.state.logged == false && <Redirect to='/login?fw=bids' />}
       {this.state.logged == null &&  <div style={{backgroundColor: "white", textAlign: "center", marginTop: "10%", width:"100%"}}><CircularProgress size={60} thickness={7} /></div>}
       {this.state.logged && this.state.user && <div>
@@ -252,7 +267,7 @@ export default class Bid extends Component {
 
         {anyReadyToPay && <div>
         <div style={{backgroundColor: cyan300,padding: "5px", fontSize: "10px",  paddingTop: "10px", paddingLeft: "27px", paddingBottom: "0px", color: "rgba(255, 255, 255, 0.7)"}}>
-        PRATELEIRA
+        AGUARDANDO PAGAMENTO
         </div>          
         <div style={{display: "flex", flexWrap: "wrap", minHeight: "40px", position: "relative", paddingLeft: "20px", paddingRight: "60px", paddingTop: "5px",paddingBottom: "13px", backgroundColor: cyan300}}>
             {Object.keys(this.state.bids).map((bid) => {

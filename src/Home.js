@@ -2,12 +2,20 @@ import React, { Component } from "react";
 import {NavLink} from "react-router-dom";
 import NumberRing from "./NumberRing"
 
+
+const style ={
+  backgroundImage: "url(background.svg)",
+  backgroundRepeatY: "repeat",
+  backgroundPositionX:  "50%",
+  backgroundPositionY:  "0"
+}
+
 class Home extends Component {
   render() {
     return (
 
 
-      <div className="home">
+      <div style={style}>
         <div style={{postion: "absolute",top: "50px",left: "50px", width: "200px", height: "200px"}} >
           <NumberRing  value={7} match={3} team="h" onChange={(a,b,c) => {console.log(a,b,c)}}/>
         </div>
