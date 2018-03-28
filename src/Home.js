@@ -4,10 +4,7 @@ import NumberRing from "./NumberRing"
 
 
 const style ={
-  backgroundImage: "url(background.svg)",
-  backgroundRepeatY: "repeat",
-  backgroundPositionX:  "50%",
-  backgroundPositionY:  "0"
+  backgroundImage: "url(background3.svg)",
 }
 
 class Home extends Component {

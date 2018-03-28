@@ -33,16 +33,8 @@ const chipStyles = {
 };
 
 const style ={
-  backgroundImage: "url(background2.svg)",
-  backgroundRepeatY: "repeat",
-  backgroundPositionX:  "50%",
-  backgroundPositionY:  "0",
-  // height: "1000px",
-  // width: "100%",
-  // zIndex: -10,
-  // position: "absolute",
-  // top: "0px",
-  // left: "0px"
+  backgroundImage: "url(background3.svg)",
+  backgroundColor: "rgb(226,118,26)"
 
 }
 
