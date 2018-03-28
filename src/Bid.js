@@ -33,8 +33,10 @@ const chipStyles = {
 };
 
 const style ={
-  backgroundImage: "url(background3.svg)",
-  backgroundColor: "rgb(226,118,26)"
+  backgroundImage: "url(background_gs.svg)",
+  backgroundColor: "rgb(200,200,200)",
+  backgroundOpacity: "0.5",
+  backgroundPositionX: "0%"
 
 }
 
@@ -304,7 +306,7 @@ export default class Bid extends Component {
       <div id="gameSection">
       { this.state.currentBid && 
         <div>
-          <Toolbar>
+          <Toolbar style={{backgroundColor: "rgba(255,255,255,0.5)"}}>
             <ToolbarGroup firstChild={true}>
               <ToolbarTitle style={{color: "#333", width: "100px",fontStyle: "italic", marginLeft: "20px", fontSize: "12px"}} text={status} />
             </ToolbarGroup>

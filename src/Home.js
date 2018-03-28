@@ -1,58 +1,70 @@
 import React, { Component } from "react";
 import {NavLink} from "react-router-dom";
-import NumberRing from "./NumberRing"
+import Paper from 'material-ui/Paper'
+import { orange500,amberA700 } from "material-ui/styles/colors";
 
 
 const style ={
   backgroundImage: "url(background3.svg)",
+  position: "relative",
+  textAlign: "center",
+  paddingBottom: "500px"
 }
 
 class Home extends Component {
+
+  constructor(props) {
+    super(props)
+
+    this.flags = require.context("./flags/4x3/", false, /.*\.svg$/);
+
+  }
+
+
+  flagSvg(iso2code) {
+    return <div style={{width:"80px",height: "60px", background:`url(${this.flags(`./${iso2code}.svg`)}) no-repeat top left`,backgroundSize: "contain"}}></div>
+
+  }
+
   render() {
     return (
 
 
       <div style={style}>
-        <div style={{postion: "absolute",top: "50px",left: "50px", width: "200px", height: "200px"}} >
-          <NumberRing  value={7} match={3} team="h" onChange={(a,b,c) => {console.log(a,b,c)}}/>
-        </div>
-        <h2 style={{paddingTop: "50px", paddingBottom: "20px"}}>Hello</h2>
-        <div style={{width: "50%", margin: "auto", marginBottom: "50px"}}>
-          <p style={{textAlign: "center"}}>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga</p>
-        </div>
-        <div style={{ width: "100%", margin: "auto"}}>
-          <div style={{textAlign: "center"}} >
 
-            <div style={{display: "inline-block",  marginRight: "50px"}} >
-              <NavLink to="/bid" className="homelink"  >
-              <div style={{background: "url(images/radar.png)",
-                          position: "relative",
-                          backgroundSize: "contain",
-                          marginBottom:"20px",
-                          width: "150px", height: "150px"}}>
-                  <div style={{ position: "relative",top:"150px"}}>Bid</div>
-                </div>
-              </NavLink>
+
+      <Paper style={{ width: "80%",margin: "auto" ,marginTop: "100px", display: 'inline-block'}} zDepth={2} >
+            <div style={{
+              margin: "auto", 
+              color: "black",
+              fontSize: "50px",
+              fontFamily: "Playfair Display",
+              textAlign: "center",
+              marginLeft: "50px",
+              marginRight: "50px",
+            }}><p> Bolão <span style={{ fontFamily: "Lato"}}>EISENMANN</span> da Copa do Mundo 2018</p></div>
+
+            <div style={{width: "100%", paddingTop:  "20px", paddingBottom: "20px", backgroundColor: amberA700}}>
+    
+            <div style={{paddingTop: "50px", margin: "auto", textAlign: "center", display: "inline-block"}}>
+              <div style={{float: "left"}}>{this.flagSvg("br")}</div>
+              <div style={{float: "left"}}>{this.flagSvg("ar")}</div>
+              <div style={{float: "left"}}>{this.flagSvg("gr")}</div>
+              <div style={{float: "left"}}>{this.flagSvg("al")}</div>
+              <div style={{float: "left"}}>{this.flagSvg("us")}</div>
             </div>
 
-
-            <div style={{display: "inline-block", marginRight: "50px"}} >
-              <NavLink to="/leaderboard" className="homelink">
-                <div style={{background: "url(images/pipeline.png)",
-                            position: "relative",
-                            backgroundSize: "contain",
-                            marginBottom:"20px",
-                            width: "150px", height: "150px"}}>
-                  <div style={{position: "relative", top:"150px"}}>Leaderboard</div>
-                </div>
-              </NavLink>
-            </div>
+              <div style={{width: "70%", margin: "auto"}}>
+                <p style={{fontFamily: "Playfair Display",fontSize: "30px", textAlign: "center"}}>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ullamcorper sodales velit a venenatis. Aliquam hendrerit pulvinar turpis, et rutrum neque mollis at. Nullam consectetur vulputate arcu eget venenatis. Nam sed sodales velit. Morbi tortor massa, lacinia sed tellus vel, finibus interdum sapien. Proin dolor justo, hendrerit in pulvinar vel, porttitor vitae purus. Curabitur in justo sit amet lacus placerat convallis. Proin in iaculis mauris. Integer sit amet dictum metus. In nec enim feugiat, imperdiet leo eget, suscipit erat.</p>
+              </div>
+              
+              </div>
+            </Paper>
 
 
 
-          </div>
 
-        </div>
       </div>
 
 
