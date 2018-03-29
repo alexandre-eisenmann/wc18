@@ -44,7 +44,7 @@ class Home extends Component {
               marginRight: "50px",
             }}><p> Bolão <span style={{ fontFamily: "Lato"}}>EISENMANN</span> da Copa do Mundo 2018</p></div>
 
-            <div style={{width: "100%", paddingTop:  "0px", paddingBottom: "20px", backgroundColor: amberA700}}>
+            <div style={{width: "100%", paddingTop:  "0px", paddingBottom: "20px", backgroundImage: "url(background3.svg)", backgroundColor: amberA700}}>
     
             <div style={{paddingTop: "50px", margin: "auto", textAlign: "center", display: "inline-block"}}>
               <div style={{float: "left"}}>{this.flagSvg("br")}</div>
@@ -55,8 +55,29 @@ class Home extends Component {
             </div>
 
               <div style={{width: "70%", margin: "auto"}}>
-                <p style={{fontFamily: "Playfair Display",fontSize: "20px", textAlign: "center"}}>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ullamcorper sodales velit a venenatis. Aliquam hendrerit pulvinar turpis, et rutrum neque mollis at. Nullam consectetur vulputate arcu eget venenatis. Nam sed sodales velit. Morbi tortor massa, lacinia sed tellus vel, finibus interdum sapien. Proin dolor justo, hendrerit in pulvinar vel, porttitor vitae purus. Curabitur in justo sit amet lacus placerat convallis. Proin in iaculis mauris. Integer sit amet dictum metus. In nec enim feugiat, imperdiet leo eget, suscipit erat.</p>
+                <div style={{fontFamily: "Playfair Display",fontSize: "20px", textAlign: "left", marginBottom: "100px"}}>
+
+                <h3>Regulamento</h3>
+                <p>Preço R$ 20</p>
+
+                <p>O valor total líquido(*) arrecadado será dividido da seguinte forma:</p>
+                <ul>
+                <li>70% para aquele que somar mais pontos: Se houver empate entre dois competidores, eles dividirão o prêmio de 95% e o próximo premiado será o terceiro colocado. Se houver empate entre mais de dois competidores o prêmio total (100%) será dividido entre eles.</li>
+                <li>25% para o segundo colocado: Se houver empate, divide-se todo o restante do prêmio (30%).</li> 
+                <li>5% para o terceiro colocado: Se houver empate, divide-se todo o restante do prêmio (5%). </li>
+                </ul>
+
+                <p>O critério para contagem de pontos é o seguinte: Para Quem:</p>
+                <ul>
+                <li>Acertar totalmente o placar do jogo: 8 pontos.</li>
+                <li>Acertar o empate, mas errar o placar: 5 pontos.</li>
+                <li>Acertar o vencedor, acertar a diferença de gols entre o vencedor e o perdedor, mas errar o placar: 5 pontos.</li>
+                <li>Acertar o vencedor, mas errar a diferença de gols entre o vencedor e o perdedor: 3 pontos.</li>
+                </ul>
+                <p style={{fontSize: "12px"}}>(*) Valor total arrecadado menos custos de transação (Paypal) e hosting.</p>
+
+              </div>
+
               </div>
               
               </div>
