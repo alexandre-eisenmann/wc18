@@ -22,12 +22,12 @@ import {green700, blue600,cyan500} from 'material-ui/styles/colors';
 
 
 
-
 class Main extends Component {
 
     constructor(props) {
         super(props)
         this.state = {logged: null, user: null}
+        
       }
 
 
@@ -44,6 +44,9 @@ class Main extends Component {
     }
 
   render() {
+
+
+    
 
 
     const toolbar = (url) => <div>
@@ -63,7 +66,7 @@ class Main extends Component {
                 iconElementRight={this.state.logged && toolbar(this.state.user.photoURL)}>
             </AppBar>
 
-            <Tabs style={{backgroundColor: blue600}}>
+            <Tabs style={{backgroundColor: blue600}} initialSelectedIndex={["/","/bids"].indexOf(window.location.pathname)}>
               <Tab style={{backgroundColor: blue600}} label="HOME" containerElement={<Link to="/" />} />
               <Tab style={{backgroundColor: blue600}} label="MEUS JOGOS" containerElement={<Link to="/bids" />} />
             </Tabs>
