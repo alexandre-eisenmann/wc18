@@ -22,3 +22,33 @@ body {
   box-shadow: 0 0 0 2px #999;
   padding: 0px
 }
+
+.homePage {
+  width: 80%;
+  margin: auto ;
+  margin-top: 100px;
+  display: inline-block;
+}
+
+ul {
+  padding-left: 20px;
+}
+
+.regulamento {
+  width: 70%;
+  margin: auto
+}
+@media only screen and (max-width: 600px) {
+  .homePage {
+      width: 100%;
+      margin-top: 0px;  
+  }
+  .regulamento {
+    width: 85%;
+  }
+
+  .regulamento p,li{
+    font-size: 18px 
+  }
+
+}

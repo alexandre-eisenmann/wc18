@@ -33,12 +33,12 @@ class Home extends Component {
       <div style={style}>
 
 
-      <Paper style={{ width: "80%",margin: "auto" ,marginTop: "100px", display: 'inline-block'}} zDepth={2} >
+      <Paper className="homePage" zDepth={2} >
             <div style={{
               margin: "auto", 
               color: "black",
               fontSize: "30px",
-              fontFamily: "Playfair Display",
+              fontFamily: "Roboto",
               textAlign: "center",
               marginLeft: "50px",
               marginRight: "50px",
@@ -54,8 +54,8 @@ class Home extends Component {
               <div style={{float: "left"}}>{this.flagSvg("us")}</div>
             </div>
 
-              <div style={{width: "70%", margin: "auto"}}>
-                <div style={{fontFamily: "Playfair Display",fontSize: "20px", textAlign: "left", marginBottom: "100px"}}>
+              <div className="regulamento" >
+                <div style={{fontFamily: "Roboto",fontSize: "20px", textAlign: "left", marginBottom: "100px"}}>
 
                 <h3>Regulamento</h3>
                 <p>Preço R$ 20</p>
