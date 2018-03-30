@@ -24,6 +24,13 @@ body {
 }
 
 .homePage {
+
+  position: relative;
+  text-align: center;
+  padding-Bottom: 500px;
+
+}
+.hero {
   width: 80%;
   margin: auto ;
   margin-top: 100px;
@@ -40,6 +47,10 @@ ul {
 }
 @media only screen and (max-width: 600px) {
   .homePage {
+    padding-Bottom: 0px;
+  }
+  
+  .hero {
       width: 100%;
       margin-top: 0px;  
   }

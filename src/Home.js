@@ -6,9 +6,6 @@ import { orange500,amberA700 } from "material-ui/styles/colors";
 
 const style ={
   backgroundImage: "url(background3.svg)",
-  position: "relative",
-  textAlign: "center",
-  paddingBottom: "500px"
 }
 
 class Home extends Component {
@@ -30,10 +27,10 @@ class Home extends Component {
     return (
 
 
-      <div style={style}>
+      <div className="homePage" style={style}>
 
 
-      <Paper className="homePage" zDepth={2} >
+      <Paper className="hero" zDepth={2} >
             <div style={{
               margin: "auto", 
               color: "black",
