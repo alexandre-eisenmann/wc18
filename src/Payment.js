@@ -53,7 +53,8 @@ export default class Payment extends Component {
         env: 'sandbox', // Or 'sandbox'
 
         client: {
-            sandbox:    'AWz28dUNaYipwd1ced45MtW3333jBNxPxaxck9txl8oiYaad_Vh9e-bxYY5fvrViPK6gMAGCwH_ziFNt',
+          sandbox:    'AYpOLTgA-upUUrK1T6Gfcin1LOy1hwwQ3d2v7Ob1nG0yrO6JmApUVHugHDozcVV6asC5aF14nDImBFYK',
+          // sandbox:    'AWz28dUNaYipwd1ced45MtW3333jBNxPxaxck9txl8oiYaad_Vh9e-bxYY5fvrViPK6gMAGCwH_ziFNt',
             production: 'xxxxxxxxx'
         },
 
@@ -82,6 +83,7 @@ export default class Payment extends Component {
                 self.setState({paymentStatus: "sent"})
                 
                 payment.transactions.map((transaction) => {
+                  console.log('transaction', transaction)
                   const transactionId = transaction.related_resources[0].sale.id
                   const status = transaction.related_resources[0].sale.state
                   self.setState({paymentStatus: status, transactionId: transactionId})
