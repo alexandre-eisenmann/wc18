@@ -45,10 +45,11 @@ class Home extends Component {
     
             <div style={{paddingTop: "50px", margin: "auto", textAlign: "center", display: "inline-block"}}>
               <div style={{float: "left"}}>{this.flagSvg("br")}</div>
+              <div style={{float: "left"}}>{this.flagSvg("de")}</div>
               <div style={{float: "left"}}>{this.flagSvg("ar")}</div>
-              <div style={{float: "left"}}>{this.flagSvg("gr")}</div>
-              <div style={{float: "left"}}>{this.flagSvg("al")}</div>
-              <div style={{float: "left"}}>{this.flagSvg("us")}</div>
+              <div style={{float: "left"}}>{this.flagSvg("ru")}</div>
+              <div style={{float: "left"}}>{this.flagSvg("gb-eng")}</div>
+              
             </div>
 
               <div className="regulamento" >

@@ -14,6 +14,7 @@ import * as firebase from 'firebase'
 import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField'
 import {green700, blue600, cyan500, cyan100,pink500} from 'material-ui/styles/colors';
+import moment from 'moment'
 
 
 
@@ -29,7 +30,13 @@ export default class GroupView extends Component {
     }, {})
 
     
-    this.matches = data.groups[this.props.group].matches
+    this.matches = data.groups[this.props.group].matches.sort((a,b) => {
+        if (moment(a.date).isBefore(moment(b.date) )) 
+          return -1
+        else if (moment(a.date).isAfter(moment(b.date)))
+          return 1 
+        return 0
+    })
     this.emptyMatches = this.matches.reduce((acc, elem) => {
         acc[elem.name] = {a: null, h: null}
         return acc
