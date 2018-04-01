@@ -63,3 +63,76 @@ ul {
   }
 
 }
+
+
+.column {
+  display: inline-block
+  
+}
+
+.tabGame {
+  position: relative;
+  height: 50px;
+}
+
+.gameName { 
+  position: absolute;
+  top: 0px;
+  left: 0px; 
+  width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.gameEmail {
+  position: absolute;
+  left: 0px;
+  top: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 8px;
+}
+.gameUserId {
+  position: absolute;
+  left: 150px;
+  top: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 8px;
+}
+.gameTransactionId {
+  position: absolute;
+  left: 300px;
+  top: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 8px;
+}
+.gameId {
+  position: absolute;
+  left: 400px;
+  top: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 8px;
+}
+
+.results {
+  position: absolute;
+  left: 500px;
+  top: 0px;
+  font-family: Lato
+
+}
+
+.result {
+  /* width: 10px */
+}
+
+.homeResult, .awayResult, .pts {
+  width: 10px;
+  font-size: 12px
+}
+
+
+

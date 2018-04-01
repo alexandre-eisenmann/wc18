@@ -53,6 +53,7 @@ export default class Payment extends Component {
         env: 'sandbox', // Or 'sandbox'
 
         client: {
+          // sandbox: 'AXsbCnttIsDUGBie-uepZ3xp5kqmsxGAI-NnmWUN57fEoi0NZkrr7dYeoQxpORCdwcVl-8OkVxOp1Y6N',
           sandbox:    'AYpOLTgA-upUUrK1T6Gfcin1LOy1hwwQ3d2v7Ob1nG0yrO6JmApUVHugHDozcVV6asC5aF14nDImBFYK',
           // sandbox:    'AWz28dUNaYipwd1ced45MtW3333jBNxPxaxck9txl8oiYaad_Vh9e-bxYY5fvrViPK6gMAGCwH_ziFNt',
             production: 'xxxxxxxxx'

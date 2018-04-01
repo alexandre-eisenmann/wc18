@@ -69,6 +69,7 @@ class Main extends Component {
             <Tabs style={{backgroundColor: blue600}} initialSelectedIndex={["/","/bids"].indexOf(window.location.pathname)}>
               <Tab style={{backgroundColor: blue600}} label="HOME" containerElement={<Link to="/" />} />
               <Tab style={{backgroundColor: blue600}} label="MEUS JOGOS" containerElement={<Link to="/bids" />} />
+              <Tab style={{backgroundColor: blue600}} label="TABELÃO" containerElement={<Link to="/leaderboard" />} />
             </Tabs>
             </div>
 
