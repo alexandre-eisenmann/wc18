@@ -64,6 +64,9 @@ ul {
 
 }
 
+.tabContainer {
+  width: 2200px
+}
 
 .column {
   display: inline-block
