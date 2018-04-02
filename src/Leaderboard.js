@@ -1,11 +1,31 @@
 import React, { Component } from "react";
 import * as firebase from 'firebase'
+import data from './data.json'
+import moment from 'moment'
+import { StickyTable, Row, Cell } from 'react-sticky-table';
+import 'react-sticky-table/dist/react-sticky-table.css';
 
 export default class Leaderboard extends Component {
 
   constructor(props) {
     super(props)
     this.state = {games: []}
+
+    const matches = ['a','b','c','d','e','f','g','h'].map((group) => data.groups[group].matches).reduce((acc,ele) => acc.concat(ele),[])
+
+    this.state = {games: [],
+       matches: matches.sort((a,b) => {
+        if (moment(a.date).isBefore(moment(b.date) )) 
+          return -1
+        else if (moment(a.date).isAfter(moment(b.date)))
+          return 1 
+        return 0
+    })
+    }
+
+    console.log(this.state.matches)
+
+    this.teams = data.teams.reduce((acc,ele) => {acc[ele.id] = ele; return acc}, {})
 
   }
 
@@ -27,7 +47,6 @@ export default class Leaderboard extends Component {
 
 
         Object.entries(childData).map(([id,details]) => {
-
           if (details.status == "payed") {
             Object.assign(details, {gameId: id, userId: childKey})
             
@@ -40,7 +59,6 @@ export default class Leaderboard extends Component {
       });
 
       
-      console.log(games)
 
       
       this.setState({games: games.sort((a,b) => {
@@ -65,9 +83,69 @@ export default class Leaderboard extends Component {
 
 
   render() {
+
+
+    const header = []
+    header.push(<Cell>Name</Cell>)
+    this.state.matches.map((match) => {
+      header.push(<Cell ><div style={{width:"20px", height: "100px", writingMode: "vertical-rl"}}>{this.teams[match.home_team].name}</div></Cell>)
+      header.push(<Cell ><div style={{width:"20px", height: "100px", writingMode: "vertical-rl"}}>{this.teams[match.away_team].name}</div></Cell>)
+      header.push(<Cell ><div style={{width:"20px"}}></div></Cell>)
+    })
+
+    const rows=[]
+    this.state.games.map((game) => {
+      const row = []
+      row.push(<Cell>{game.name}</Cell>)
+      this.state.matches.map((match) => {
+        const idx = match.name
+        row.push(<Cell>{game[match.name].h}</Cell>)
+        row.push(<Cell>{game[match.name].a}</Cell>)
+        row.push(<Cell></Cell>)
+      })
+      rows.push(row)
+    })
+
+
     return (
       <div>
-        <div className="tabContainer">
+        {rows.length > 0 && <div style={{marginTop: '5px', width: '100%', height: '100%'}}>
+          <StickyTable>
+            <Row>
+              {header}
+            </Row>
+            {rows.map((row) => {
+              return <Row>
+                 {row}
+               </Row>
+            })}
+          </StickyTable>
+        </div>}
+      </div>
+    );
+    // return (
+      <div className="tabContainer">
+
+      <div className="tabHeader">
+            <div className="" >
+              <div className="header column gameName">Name</div>
+              <div className="header column gameEmail">Email</div>
+              <div className="header column gameUserId">UserId</div>
+              <div className="header column gameTransactionId" >TransactionId</div>
+              <div className="header column gameId" >GameId</div>
+              <div className="results">
+              {this.state.matches.map((match) => {
+                  const idx = match.name
+                  return <div className="column result" key={idx}>
+                  <div className="vertical column homeResult">{this.teams[match.home_team].name}</div>
+                  <div className="vertical column awayResult">{this.teams[match.away_team].name}</div>
+                  <div className="column pts"></div>
+                  </div>
+              })}
+              </div>
+            </div>
+        </div>
+        <div className="tabContent">
         {this.state.games.map((game) => {
             return <div className="tabGame" key={game.gameId}>
               <div className="column gameName">{game.name}</div>
@@ -76,8 +154,8 @@ export default class Leaderboard extends Component {
               <div className="column gameTransactionId" >{game.transactionId}</div>
               <div className="column gameId" >{game.gameId}</div>
               <div className="results">
-              {[...Array(47).keys()].map((result) => {
-                  const idx = result + 1
+              {this.state.matches.map((match) => {
+                  const idx = match.name
                   return <div className="column result" key={idx}>
                   <div className="column homeResult">{game[idx].h}</div>
                   <div className="column awayResult">{game[idx].a}</div>
@@ -85,12 +163,7 @@ export default class Leaderboard extends Component {
                   </div>
               })}
               </div>
-              
-
             </div>
-
-
-
         })}
         </div>
 
@@ -99,7 +172,7 @@ export default class Leaderboard extends Component {
       </div>
 
 
-    );
+    // );
   }
 }
 

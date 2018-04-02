@@ -64,9 +64,6 @@ ul {
 
 }
 
-.tabContainer {
-  width: 2200px
-}
 
 .column {
   display: inline-block
@@ -133,9 +130,30 @@ ul {
 }
 
 .homeResult, .awayResult, .pts {
-  width: 10px;
+  width: 12px;
   font-size: 12px
 }
 
 
 
+.vertical {
+  writing-mode: vertical-rl; 
+  /* text-orientation: upright; */
+  vertical-align: top;
+  height: 80px;
+}
+
+.tabHeader {
+  margin-top: 5px;
+  height: 80px;
+  position: fixed;
+  width: 2300px;
+}
+
+.tabContainer {
+  width: 2300px
+}
+
+.tabContent {
+  margin-top: 80px;
+}
