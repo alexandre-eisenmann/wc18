@@ -110,7 +110,7 @@ export default class Leaderboard extends Component {
     return (
       <div>
         {rows.length == 0 &&  <div style={{backgroundColor: "white", textAlign: "center", marginTop: "10%", width:"100%"}}><CircularProgress size={60} thickness={7} /></div>}
-        {rows.length > 0 && <div style={{marginTop: '5px', width: '100%', height: '800px'}}>
+        {rows.length > 0 && <div style={{marginTop: '5px', width: '100%', height: '900px'}}>
           <StickyTable>
             <Row>
               {header}
@@ -124,56 +124,6 @@ export default class Leaderboard extends Component {
         </div>}
       </div>
     );
-    // return (
-      <div className="tabContainer">
-
-      <div className="tabHeader">
-            <div className="" >
-              <div className="header column gameName">Name</div>
-              <div className="header column gameEmail">Email</div>
-              <div className="header column gameUserId">UserId</div>
-              <div className="header column gameTransactionId" >TransactionId</div>
-              <div className="header column gameId" >GameId</div>
-              <div className="results">
-              {this.state.matches.map((match) => {
-                  const idx = match.name
-                  return <div className="column result" key={idx}>
-                  <div className="vertical column homeResult">{this.teams[match.home_team].name}</div>
-                  <div className="vertical column awayResult">{this.teams[match.away_team].name}</div>
-                  <div className="column pts"></div>
-                  </div>
-              })}
-              </div>
-            </div>
-        </div>
-        <div className="tabContent">
-        {this.state.games.map((game) => {
-            return <div className="tabGame" key={game.gameId}>
-              <div className="column gameName">{game.name}</div>
-              <div className="column gameEmail">{game.email}</div>
-              <div className="column gameUserId">{game.userId}</div>
-              <div className="column gameTransactionId" >{game.transactionId}</div>
-              <div className="column gameId" >{game.gameId}</div>
-              <div className="results">
-              {this.state.matches.map((match) => {
-                  const idx = match.name
-                  return <div className="column result" key={idx}>
-                  <div className="column homeResult">{game[idx].h}</div>
-                  <div className="column awayResult">{game[idx].a}</div>
-                  <div className="column pts"></div>
-                  </div>
-              })}
-              </div>
-            </div>
-        })}
-        </div>
-
-
-
-      </div>
-
-
-    // );
   }
 }
 

@@ -77,11 +77,11 @@ export default class Login extends Component {
           
         </Dialog>}
         
-        <div style={{float: "right"}}><FlatButton
+        {/* <div style={{float: "right"}}><FlatButton
               label="Logout"
               primary={true}
               onClick={this.logout.bind(this)}
-            /></div>
+            /></div> */}
 
 
       </div>
