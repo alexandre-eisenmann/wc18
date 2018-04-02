@@ -24,7 +24,6 @@ export default class Leaderboard extends Component {
     })
     }
 
-    console.log(this.state.matches)
 
     this.teams = data.teams.reduce((acc,ele) => {acc[ele.id] = ele; return acc}, {})
 
@@ -87,22 +86,22 @@ export default class Leaderboard extends Component {
 
 
     const header = []
-    header.push(<Cell>Nome</Cell>)
-    this.state.matches.map((match) => {
-      header.push(<Cell ><div style={{width:"20px", height: "100px", writingMode: "vertical-rl"}}>{this.teams[match.home_team].name}</div></Cell>)
-      header.push(<Cell ><div style={{width:"20px", height: "100px", writingMode: "vertical-rl"}}>{this.teams[match.away_team].name}</div></Cell>)
-      header.push(<Cell ><div style={{width:"20px"}}></div></Cell>)
+    header.push(<Cell key={"nome"}>Nome</Cell>)
+    this.state.matches.map((match,i) => {
+      header.push(<Cell key={`ha${i}`}><div style={{width:"20px", height: "100px", writingMode: "vertical-rl"}}>{this.teams[match.home_team].name}</div></Cell>)
+      header.push(<Cell key={`hb${i}`}><div style={{width:"20px", height: "100px", writingMode: "vertical-rl"}}>{this.teams[match.away_team].name}</div></Cell>)
+      header.push(<Cell key={`hc${i}`}><div style={{width:"20px"}}></div></Cell>)
     })
 
     const rows=[]
-    this.state.games.map((game) => {
+    this.state.games.map((game,i) => {
       const row = []
-      row.push(<Cell><div >{game.name}</div></Cell>)
-      this.state.matches.map((match) => {
+      row.push(<Cell key={`g${i}`} ><div >{game.name}</div></Cell>)
+      this.state.matches.map((match,j) => {
         const idx = match.name
-        row.push(<Cell style={{fontFamily: "Lato"}}>{game[match.name].h}</Cell>)
-        row.push(<Cell style={{fontFamily: "Lato"}}>{game[match.name].a}</Cell>)
-        row.push(<Cell></Cell>)
+        row.push(<Cell key={`ra${i}-${j}`} style={{fontFamily: "Lato"}}>{game[match.name].h}</Cell>)
+        row.push(<Cell key={`rb${i}-${j}`} style={{fontFamily: "Lato"}}>{game[match.name].a}</Cell>)
+        row.push(<Cell key={`rc${i}-${j}`}></Cell>)
       })
       rows.push(row)
     })
@@ -116,8 +115,8 @@ export default class Leaderboard extends Component {
             <Row>
               {header}
             </Row>
-            {rows.map((row) => {
-              return <Row style={{height: "30px"}}>
+            {rows.map((row, i) => {
+              return <Row key={`row${i}`} style={{height: "30px"}}>
                  {row}
                </Row>
             })}
