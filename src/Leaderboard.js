@@ -3,6 +3,7 @@ import * as firebase from 'firebase'
 import data from './data.json'
 import moment from 'moment'
 import { StickyTable, Row, Cell } from 'react-sticky-table';
+import CircularProgress from 'material-ui/CircularProgress';
 import 'react-sticky-table/dist/react-sticky-table.css';
 
 export default class Leaderboard extends Component {
@@ -86,7 +87,7 @@ export default class Leaderboard extends Component {
 
 
     const header = []
-    header.push(<Cell>Name</Cell>)
+    header.push(<Cell>Nome</Cell>)
     this.state.matches.map((match) => {
       header.push(<Cell ><div style={{width:"20px", height: "100px", writingMode: "vertical-rl"}}>{this.teams[match.home_team].name}</div></Cell>)
       header.push(<Cell ><div style={{width:"20px", height: "100px", writingMode: "vertical-rl"}}>{this.teams[match.away_team].name}</div></Cell>)
@@ -96,11 +97,11 @@ export default class Leaderboard extends Component {
     const rows=[]
     this.state.games.map((game) => {
       const row = []
-      row.push(<Cell>{game.name}</Cell>)
+      row.push(<Cell><div >{game.name}</div></Cell>)
       this.state.matches.map((match) => {
         const idx = match.name
-        row.push(<Cell>{game[match.name].h}</Cell>)
-        row.push(<Cell>{game[match.name].a}</Cell>)
+        row.push(<Cell style={{fontFamily: "Lato"}}>{game[match.name].h}</Cell>)
+        row.push(<Cell style={{fontFamily: "Lato"}}>{game[match.name].a}</Cell>)
         row.push(<Cell></Cell>)
       })
       rows.push(row)
@@ -109,13 +110,14 @@ export default class Leaderboard extends Component {
 
     return (
       <div>
-        {rows.length > 0 && <div style={{marginTop: '5px', width: '100%', height: '100%'}}>
+        {rows.length == 0 &&  <div style={{backgroundColor: "white", textAlign: "center", marginTop: "10%", width:"100%"}}><CircularProgress size={60} thickness={7} /></div>}
+        {rows.length > 0 && <div style={{marginTop: '5px', width: '100%', height: '800px'}}>
           <StickyTable>
             <Row>
               {header}
             </Row>
             {rows.map((row) => {
-              return <Row>
+              return <Row style={{height: "30px"}}>
                  {row}
                </Row>
             })}
