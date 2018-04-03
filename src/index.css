@@ -174,7 +174,7 @@ ul {
 
 
 .sticky-table-column {
-  background-image:url(public/background_gs.svg);
+  background-image:url(background_gs.svg);
   padding-left: 20px;
   border-right: 0.2px solid black;
   color: #333
