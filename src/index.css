@@ -125,9 +125,6 @@ ul {
 
 }
 
-.result {
-  /* width: 10px */
-}
 
 .homeResult, .awayResult, .pts {
   width: 12px;
@@ -156,4 +153,35 @@ ul {
 
 .tabContent {
   margin-top: 80px;
+}
+
+.sticky-table-header-wrapper { 
+  position: relative;
+  padding-left: 20px;
+  background-color: white;
+}
+
+.sticky-table-header-wrapper:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
+}
+
+
+.sticky-table-column {
+  background-image:url(public/background_gs.svg);
+  padding-left: 20px;
+  border-right: 0.2px solid black;
+  color: #333
+  
+}
+
+.sticky-table-x-wrapper {
+  background-color:#eee;
+  
 }
