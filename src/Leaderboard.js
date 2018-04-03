@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import * as firebase from 'firebase'
+
 import data from './data.json'
 import moment from 'moment'
 import { StickyTable, Row, Cell } from 'react-sticky-table';
 import CircularProgress from 'material-ui/CircularProgress';
 import 'react-sticky-table/dist/react-sticky-table.css';
+import * as firebase from 'firebase'
 
 export default class Leaderboard extends Component {
 
@@ -38,6 +39,7 @@ export default class Leaderboard extends Component {
   }
 
   componentDidMount() {
+
     const games = []
     this.ref = firebase.database().ref(`wc18`)
     this.ref.once('value', snapshot => {
@@ -83,7 +85,6 @@ export default class Leaderboard extends Component {
 
 
   render() {
-
 
     const header = []
     header.push(<Cell key={"nome"}>Nome</Cell>)
