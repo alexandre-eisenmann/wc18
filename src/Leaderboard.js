@@ -82,7 +82,7 @@ export default class Leaderboard extends Component {
         const rh = match.home_result
         const ra = match.away_result
 
-        if (rh && ra) {
+        if (rh != null && ra != null) {
 
             const h = game[match.name].h 
             const a = game[match.name].a
@@ -174,7 +174,7 @@ export default class Leaderboard extends Component {
           {this.teams[match.home_team].name.substring(0,3).toUpperCase()}
         </div>
         <div style={{ marginTop: "4px"}}>{this.flagSvg(this.teams[match.home_team].iso2)}</div>
-        <div style={{ marginTop: "4px", textAlign: "center"}}>{match.home_result ? match.home_result : "."}</div>
+        <div style={{ marginTop: "4px", textAlign: "center"}}>{match.home_result != null ? match.home_result : "."}</div>
         </div>
       </Cell>)
       header.push(<Cell key={`hb${i}`}>
@@ -183,7 +183,7 @@ export default class Leaderboard extends Component {
           {this.teams[match.away_team].name.substring(0,3).toUpperCase()}
         </div>
         <div style={{ marginTop: "4px"}}>{this.flagSvg(this.teams[match.away_team].iso2)}</div>
-        <div style={{ marginTop: "4px", textAlign: "center"}}>{match.away_result ? match.away_result : "."}</div>
+        <div style={{ marginTop: "4px", textAlign: "center"}}>{match.away_result != null ? match.away_result : "."}</div>
         </div>
       </Cell>)
       header.push(<Cell key={`hc${i}`}>
