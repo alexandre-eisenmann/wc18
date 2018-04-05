@@ -5,7 +5,7 @@ import moment from 'moment'
 import { StickyTable, Row, Cell } from 'react-sticky-table';
 import CircularProgress from 'material-ui/CircularProgress';
 import 'react-sticky-table/dist/react-sticky-table.css';
-import {green700, blue600, cyan500,cyan600,cyan100, cyan200, cyan300, pink500,pink100} from 'material-ui/styles/colors';
+import {blue500, grey300,grey400,grey200,lightGreen500, orange200,deepOrange500, orange900,yellow500,green700, orange500, blue600, cyan500,cyan600,cyan100, cyan200, cyan300, pink500,pink100} from 'material-ui/styles/colors'
 import * as firebase from 'firebase'
 import queryString from 'query-string'
 
@@ -161,7 +161,18 @@ export default class Leaderboard extends Component {
   }
 
 
-
+  renderPts = (pts) => {
+    const colors = {8: blue500, 5: grey400, 3: "white"}
+    const fontColors = {8: "white", 5: "white", 3: "black"}
+    return pts && <div style={{width: "20px",height: "20px",
+              backgroundColor: colors[pts],
+              borderRadius: "10px",
+              position: "absolute",left: "10px"}}>
+              <div style={{color: fontColors[pts], fontSize: "10px", marginTop: "3px"}}>
+                {pts}
+              </div>
+            </div>
+  }
 
   render() {
 
@@ -208,7 +219,9 @@ export default class Leaderboard extends Component {
 
         row.push(<Cell key={`ra${i}-${j}`} style={{color: "rgba(50, 50, 50, 0.9)", paddingTop: "10px", fontFamily: "Lato",textAlign: "center"}}>{game[match.name].h}</Cell>)
         row.push(<Cell key={`rb${i}-${j}`} style={{color: "rgba(50, 50, 50, 0.9)", paddingTop: "10px", fontFamily: "Lato",textAlign: "center"}}>{game[match.name].a}</Cell>)
-        row.push(<Cell key={`rc${i}-${j}`} style={{color: "rgba(50, 50, 50, 0.9)", paddingTop: "10px", fontFamily: "Lato",textAlign: "center"}}>{game[match.name].pts}</Cell>)
+        row.push(<Cell key={`rc${i}-${j}`} style={{color: "rgba(50, 50, 50, 0.9)", paddingTop: "10px", fontFamily: "Lato",textAlign: "center", position: "relative"}}>
+          {this.renderPts(game[match.name].pts)}
+          </Cell>)
       })
       rows.push(row)
     })
