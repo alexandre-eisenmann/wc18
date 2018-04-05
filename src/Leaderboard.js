@@ -163,7 +163,7 @@ export default class Leaderboard extends Component {
 
   renderPts = (pts) => {
     const colors = {8: blue500, 5: grey400, 3: "white"}
-    const fontColors = {8: "white", 5: "white", 3: "black"}
+    const fontColors = {8: "white", 5: "white", 3: "rgb(150,150,150)"}
     return pts && <div style={{width: "20px",height: "20px",
               backgroundColor: colors[pts],
               borderRadius: "10px",
