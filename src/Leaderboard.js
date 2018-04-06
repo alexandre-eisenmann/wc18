@@ -91,51 +91,42 @@ export default class Leaderboard extends Component {
 
   componentWillUnmount() {
 
-    if (this.ref) {
-      this.ref.off('value')
-    }
-    this.unsubscribe()
+    if (this.ref1) this.ref1.off('value')
+    if (this.ref2) this.ref2.off('value')
+
   }
 
   componentDidMount() {
 
     const self = this
     const matches = [...this.state.matches]
-    this.unsubscribe = firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        self.setState({logged: true, user: user})
-        self.ref = firebase.database().ref(`wc18/master/gabarito`)
-        self.ref.on('value', snapshot => {
-          const results  = {}
-          snapshot.forEach(function(childSnapshot) {
-            var childKey = childSnapshot.key
-            var childData = childSnapshot.val()
+    
+      self.ref1 = firebase.database().ref(`wc18/master/gabarito`)
+      self.ref1.on('child_removed', function(data) {
+          matches[self.matchesRef[data.key]].away_result = null
+          matches[self.matchesRef[data.key]].home_result = null
+      })
+      self.ref2 = firebase.database().ref(`wc18/master/gabarito`)
+      const res = self.ref2.on('value', snapshot => {
+        const results  = {}
+        snapshot.forEach(function(childSnapshot) {
+          var childKey = childSnapshot.key
+          var childData = childSnapshot.val()
 
-            results[childKey] = childData
-            
-            
-          });
-
-          Object.entries(results).map((match) => {
-              matches[self.matchesRef[match[0]]].away_result = match[1].a
-              matches[self.matchesRef[match[0]]].home_result = match[1].h
-          })
-
-          self.loadGames(matches)
-
-
+          results[childKey] = childData
           
+        });
+
+        Object.entries(results).map((match) => {
+            const a = match[1].a == undefined ? null : match[1].a
+            const h = match[1].h == undefined ? null : match[1].h
+            matches[self.matchesRef[match[0]]].away_result = a
+            matches[self.matchesRef[match[0]]].home_result = h
         })
-    
-      } else {
-        self.setState({logged: false, user: null})
-      }
-    });
 
 
-
-
-    
+        self.loadGames(matches)
+      })
 
   }
 
@@ -159,6 +150,7 @@ export default class Leaderboard extends Component {
         
       });
 
+      
       this.calculate(games, matches)
       const sortedGames = games.sort((a,b) => {
         const diff = b.total - a.total
