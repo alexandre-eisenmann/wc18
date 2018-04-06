@@ -74,6 +74,8 @@ export default class Leaderboard extends Component {
               game[match.name].pts = 5
             } else if (Math.sign(rh-ra) == Math.sign(h-a)) {
               game[match.name].pts = 3
+            } else {
+              game[match.name].pts = 0
             }
             total += game[match.name].pts || 0 
 
@@ -181,14 +183,17 @@ export default class Leaderboard extends Component {
   renderPts = (pts) => {
     const colors = {8: blue500, 5: grey400, 3: "white"}
     const fontColors = {8: "white", 5: "white", 3: "rgb(150,150,150)"}
-    return pts && <div style={{width: "20px",height: "20px",
-              backgroundColor: colors[pts],
-              borderRadius: "10px",
-              position: "absolute",left: "10px"}}>
-              <div style={{color: fontColors[pts], fontSize: "10px", marginTop: "3px"}}>
-                {pts}
-              </div>
-            </div>
+    if (pts != null) {
+      return  <div style={{width: "20px",height: "20px",
+      backgroundColor: colors[pts],
+      borderRadius: "10px",
+      position: "absolute",left: "10px"}}>
+      <div style={{color: fontColors[pts], fontSize: "10px", marginTop: "3px"}}>
+        {pts == 0 ? "." : pts}
+      </div>
+    </div>
+    }
+    return null
   }
 
   render() {
