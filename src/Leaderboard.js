@@ -117,11 +117,8 @@ export default class Leaderboard extends Component {
           });
 
           Object.entries(results).map((match) => {
-            if (match[1].a != null && match[1].h != null) {
               matches[self.matchesRef[match[0]]].away_result = match[1].a
               matches[self.matchesRef[match[0]]].home_result = match[1].h
-            }
-            
           })
 
           self.loadGames(matches)
