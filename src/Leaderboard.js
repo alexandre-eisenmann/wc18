@@ -7,16 +7,8 @@ import CircularProgress from 'material-ui/CircularProgress';
 import 'react-sticky-table/dist/react-sticky-table.css';
 import {blue500, grey300,grey400,grey200,lightGreen500, orange200,deepOrange500, orange900,yellow500,green700, orange500, blue600, cyan500,cyan600,cyan100, cyan200, cyan300, pink500,pink100} from 'material-ui/styles/colors'
 import * as firebase from 'firebase'
-import queryString from 'query-string'
 
 
-
-
-const style ={
-  // backgroundImage: "url(background3.svg)",
-  // backgroundOpacity: 0.1,
-
-}
 
 
 
@@ -24,7 +16,6 @@ export default class Leaderboard extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {games: []}
 
     const matches = ['a','b','c','d','e','f','g','h'].map((group) => data.groups[group].matches).reduce((acc,ele) => acc.concat(ele),[])
     const sortedMatches = matches.sort((a,b) => {
@@ -34,23 +25,15 @@ export default class Leaderboard extends Component {
         return 1 
       return 0
     })
-    this.queryString = queryString.parse(props.location.search)
-    Object.keys(this.queryString).map((matchIdx) => {
-      const result = this.queryString[matchIdx].split('x')
-      sortedMatches[matchIdx-1].home_result = parseInt(result[0],0)
-      sortedMatches[matchIdx-1].away_result = parseInt(result[1],0)
-    })
-
-
-
-
-    this.state = {games: [],
-       matches: sortedMatches
-    }
+    this.matchesRef = sortedMatches.reduce((acc, ele, i) => {acc[ele.name] = i; return acc}, {})
 
 
     this.teams = data.teams.reduce((acc,ele) => {acc[ele.id] = ele; return acc}, {})
     this.flags = require.context("./flags/4x3/", false, /.*\.svg$/);
+
+    this.state = {games: [], matches: sortedMatches}
+
+
 
   }
 
@@ -78,7 +61,6 @@ export default class Leaderboard extends Component {
 
       let total = 0
       matches.map((match) => {
-
         const rh = match.home_result
         const ra = match.away_result
 
@@ -106,18 +88,63 @@ export default class Leaderboard extends Component {
     return <div style={{ width:"32px",height: "24px", background:`url(${this.flags(`./${iso2code}.svg`)}) no-repeat top left`,backgroundSize: "contain"}}></div>
   }
 
+
   componentWillUnmount() {
 
     if (this.ref) {
       this.ref.off('value')
     }
+    this.unsubscribe()
   }
 
   componentDidMount() {
 
+    const self = this
+    const matches = [...this.state.matches]
+    this.unsubscribe = firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        self.setState({logged: true, user: user})
+        self.ref = firebase.database().ref(`wc18/master/gabarito`)
+        self.ref.on('value', snapshot => {
+          const results  = {}
+          snapshot.forEach(function(childSnapshot) {
+            var childKey = childSnapshot.key
+            var childData = childSnapshot.val()
+
+            results[childKey] = childData
+            
+            
+          });
+
+          Object.entries(results).map((match) => {
+            if (match[1].a != null && match[1].h != null) {
+              matches[self.matchesRef[match[0]]].away_result = match[1].a
+              matches[self.matchesRef[match[0]]].home_result = match[1].h
+            }
+            
+          })
+
+          self.loadGames(matches)
+
+
+          
+        })
+    
+      } else {
+        self.setState({logged: false, user: null})
+      }
+    });
+
+
+
+
+    
+
+  }
+
+  loadGames = (matches) => {
     const games = []
-    this.ref = firebase.database().ref(`wc18`)
-    this.ref.once('value', snapshot => {
+    firebase.database().ref(`wc18`).once('value', snapshot => {
       snapshot.forEach(function(childSnapshot) {
         var childKey = childSnapshot.key
         var childData = childSnapshot.val()
@@ -135,7 +162,7 @@ export default class Leaderboard extends Component {
         
       });
 
-      this.calculate(games, this.state.matches)
+      this.calculate(games, matches)
       const sortedGames = games.sort((a,b) => {
         const diff = b.total - a.total
         if (diff != 0) return diff 
@@ -153,12 +180,11 @@ export default class Leaderboard extends Component {
         }
       })
       this.calculatePosition(sortedGames)
-      this.setState({games: sortedGames})
+      this.setState({games: sortedGames, matches: matches})
       
     })
-    
-
   }
+
 
 
   renderPts = (pts) => {
@@ -228,7 +254,7 @@ export default class Leaderboard extends Component {
 
 
     return (
-      <div style={style}>
+      <div >
         {rows.length == 0 &&  <div style={{backgroundColor: "white", textAlign: "center", marginTop: "10%", width:"100%"}}><CircularProgress size={60} thickness={7} /></div>}
         {rows.length > 0 && <div style={{ width: '100%', height: '900px'}}>
           <StickyTable>

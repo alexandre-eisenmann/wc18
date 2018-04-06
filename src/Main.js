@@ -6,6 +6,7 @@ import {
   Redirect
 } from "react-router-dom"
 import Bid from './Bid'
+import Master from './Master'
 import Home from './Home'
 import Login from './Login'
 import Leaderboard from './Leaderboard'
@@ -93,6 +94,7 @@ class Main extends Component {
               <Route path="/login" component={Login}/>
               <Route path="/login/*" component={Login}/>
               <Route path="/bids" component={Bid}/>
+              <Route path="/master" component={Master}/>
               <Route path="/payment" component={Payment}/>
               <Route path="/leaderboard" component={Leaderboard}/>
 
