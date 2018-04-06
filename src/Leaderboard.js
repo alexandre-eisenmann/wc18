@@ -31,7 +31,7 @@ export default class Leaderboard extends Component {
     this.teams = data.teams.reduce((acc,ele) => {acc[ele.id] = ele; return acc}, {})
     this.flags = require.context("./flags/4x3/", false, /.*\.svg$/);
 
-    this.state = {games: [], matches: sortedMatches}
+    this.state = {games: [], matches: sortedMatches, render: false}
 
 
 
@@ -173,7 +173,7 @@ export default class Leaderboard extends Component {
         }
       })
       this.calculatePosition(sortedGames)
-      this.setState({games: sortedGames, matches: matches})
+      this.setState({games: sortedGames, matches: matches, render: true})
       
     })
   }
@@ -182,14 +182,14 @@ export default class Leaderboard extends Component {
 
   renderPts = (pts) => {
     const colors = {8: blue500, 5: grey400, 3: "white"}
-    const fontColors = {8: "white", 5: "white", 3: "rgb(150,150,150)"}
+    const fontColors = {8: "white", 5: "white", 3: "rgb(150,150,150)", 0: "#fff"}
     if (pts != null) {
       return  <div style={{width: "20px",height: "20px",
       backgroundColor: colors[pts],
       borderRadius: "10px",
       position: "absolute",left: "10px"}}>
       <div style={{color: fontColors[pts], fontSize: "10px", marginTop: "3px"}}>
-        {pts == 0 ? "." : pts}
+        {pts == 0 ? "x" : pts}
       </div>
     </div>
     }
@@ -232,9 +232,9 @@ export default class Leaderboard extends Component {
       const row = []
       row.push(<Cell style={{  paddingTop: "10px", paddingBottom: "10px", paddingRight: "10px"}} key={`g${i}`} >
         <div >
-          <span style={{ float: "left", width: "20px", textAlign: "right"}}>{game.position}</span>
-          <span style={{marginLeft: "10px",float: "left"}}>{game.name}</span>
-          <span style={{marginLeft: "2px",float: "right"}}> {game.total}</span>
+          <span style={{marginTop: "0px", fontFamily: "Lato", float: "left", width: "20px", textAlign: "right"}}>{game.position}</span>
+          <span style={{marginTop: "3px", fontSize: "12px", color:"rgba(50, 50, 50, 0.9)", fontFamily: "Roboto", marginLeft: "10px",float: "left"}}>{game.name.substring(0,30)}</span>
+          <span style={{marginTop: "0px", color: "white", fontWeight: "bold", fontFamily: "Lato", marginLeft: "2px",float: "right"}}> {game.total}</span>
         </div>
         </Cell>)
       this.state.matches.map((match,j) => {
@@ -251,8 +251,8 @@ export default class Leaderboard extends Component {
 
     return (
       <div >
-        {rows.length == 0 &&  <div style={{backgroundColor: "white", textAlign: "center", marginTop: "10%", width:"100%"}}><CircularProgress size={60} thickness={7} /></div>}
-        {rows.length > 0 && <div style={{ width: '100%', height: '900px'}}>
+        {!this.state.render && rows.length == 0 &&  <div style={{backgroundColor: "white", textAlign: "center", marginTop: "10%", width:"100%"}}><CircularProgress size={60} thickness={7} /></div>}
+        {this.state.render && rows.length > 0 && <div style={{ width: '100%', height: '900px'}}>
           <StickyTable>
             <Row >
               {header}

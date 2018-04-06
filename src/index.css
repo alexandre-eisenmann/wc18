@@ -157,7 +157,7 @@ ul {
 
 .sticky-table-header-wrapper { 
   position: relative;
-  padding-left: 20px;
+  padding-left: 25px;
   background-color: white;
 }
 
@@ -175,10 +175,10 @@ ul {
 
 .sticky-table-column {
   background-image:url(background_gs.svg);
+  background-color: #eee;
   padding-left: 20px;
-  border-right: 0.2px solid black;
-  color: #333
-  
+  border-right: 5px solid white;
+  color: #333;
 }
 
 .sticky-table-x-wrapper {

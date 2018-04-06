@@ -68,7 +68,7 @@ export default class Master extends Component {
   render() {
     return (
       <div style={style}>
-        {this.state.logged == false && <Redirect to='/login?fw=bids' />}
+        {this.state.logged == false && <Redirect to='/login?fw=master' />}
         {this.state.logged == null &&  <div style={{backgroundColor: "white", textAlign: "center", marginTop: "10%", width:"100%"}}><CircularProgress size={60} thickness={7} /></div>}
         {this.state.logged && this.state.user && <div>
           <div id="gameSection">
