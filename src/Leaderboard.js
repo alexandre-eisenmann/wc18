@@ -88,7 +88,7 @@ export default class Leaderboard extends Component {
 
   flagSvg(iso2code) {
     return <div style={{ width:"32px",height: "24px", 
-    boxShadow: "0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28)",
+    boxShadow: "0 0 2px rgba(0,0,0,.14), 0 2px 4px rgba(0,0,0,.28)",
     background:`url(${this.flags(`./${iso2code}.svg`)}) no-repeat top left`,backgroundSize: "contain"}}></div>
   }
 
