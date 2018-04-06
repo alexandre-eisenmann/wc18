@@ -56,7 +56,9 @@ export default class GroupView extends Component {
   }
 
   flagSvg(iso2code) {
-    return <div style={{width:"80px",height: "60px", background:`url(${this.flags(`./${iso2code}.svg`)}) no-repeat top left`,backgroundSize: "contain"}}></div>
+    return <div style={{width:"80px",height: "60px",
+     boxShadow: "0 0 2px rgba(0,0,0,.14), 0 2px 4px rgba(0,0,0,.28)",
+     background:`url(${this.flags(`./${iso2code}.svg`)}) no-repeat top left`,backgroundSize: "contain"}}></div>
 
   }
 
