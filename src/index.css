@@ -58,37 +58,17 @@ ul {
 }
 
 .nameSize {
-  width: 138px;
+  width: 140px;
   overflow: hidden;
 
 }
 
 .ptsColumn {
-  left: 138px;
+  left: 135px;
   position: absolute;
   width: 60px;
 }
 @media only screen and (max-width: 600px) {
-  /* .homePage {
-    padding-Bottom: 0px;
-    
-  }
-
-  .sticky-table-corner {
-    width: 130px;
-  }
-  .sticky-table-column {
-    width: 130px;
-  }
-
-  .ptsColumn {
-    left: 55px
-  }
-
-  .nameSize {
-    width: 50px;
-    overflow: hidden;
-  } */
   
   .hero {
       width: 100%;
