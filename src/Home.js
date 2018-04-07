@@ -39,7 +39,7 @@ class Home extends Component {
               textAlign: "center",
               marginLeft: "50px",
               marginRight: "50px",
-            }}><p> Bolão <span style={{ fontFamily: "Lato"}}>EISENMANN</span> da Copa do Mundo 2018</p></div>
+            }}><p> Bolão da Copa do Mundo 2018</p></div>
 
             <div style={{width: "100%", paddingTop:  "0px", paddingBottom: "20px", backgroundImage: "url(background3.svg)", backgroundColor: amberA700}}>
     
@@ -57,7 +57,6 @@ class Home extends Component {
 
                 <h3>Regulamento</h3>
                 <p>Preço R$ 20</p>
-
                 <p>O valor total líquido(*) arrecadado será dividido da seguinte forma:</p>
                 <ul>
                 <li>70% para aquele que somar mais pontos: Se houver empate entre dois competidores, eles dividirão o prêmio de 95% e o próximo premiado será o terceiro colocado. Se houver empate entre mais de dois competidores o prêmio total (100%) será dividido entre eles.</li>
@@ -74,7 +73,27 @@ class Home extends Component {
                 </ul>
                 <p style={{fontSize: "12px"}}>(*) Valor total arrecadado menos custos de transação (Paypal) e hosting.</p>
 
+
+                <h3>Rules</h3>
+                <p>The total net value (*) collected will be divided as follows:</p>
+                <ul>
+                <li>1st prize: 70% for the player  with the highest score. In case of a tie/draw between the two highest-ranked players/gamblers/competitors, they will each receive 47.5% of the total prize and the next ranked player/gambler will be considered the third prize winner. In case of a tie/draw between three or more players, the total prize (100%) will be divided equally between them.</li>
+                <li>2nd prize: 25% for the second-best player:  In case of a tie/draw, the remaining 30% is equally divided between the tied-players.</li>
+                <li>3rd prize: 5% for the third-best player: In case of a tie, the remaining 5% is equally divided between the tied-players.</li>
+                </ul>
+
+                <p>Scoring criteria:</p>
+                <ul>
+                <li>Guessing the exact match score: 8 points</li>
+                <li>Guessing  a draw/tie, but missing the exact match score: 5 points</li>
+                <li>Guessing the match winner and the goal difference between winner and loser but missing the exact score: 5 points</li>
+                <li>Guessing the match winner but missing the goal difference between winner and loser</li>
+                </ul>
+                <p style={{fontSize: "12px"}}>(*) Total amount collected minus transaction costs (Paypal) and web hosting</p>
+
               </div>
+
+
 
               </div>
               
