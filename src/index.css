@@ -45,9 +45,42 @@ ul {
   width: 70%;
   margin: auto
 }
+
+.sticky-table-column {
+  width: unset;
+}
+.nameColumn {
+  overflow: hidden;
+}
+
+.nameSize {
+  width: 170px;
+  overflow: hidden;
+
+}
+
+.ptsColumn {
+  left: 170px;
+  position: absolute;
+  width: 60px;
+}
 @media only screen and (max-width: 600px) {
   .homePage {
     padding-Bottom: 0px;
+    
+  }
+
+  .sticky-table-column {
+    width: 130px;
+  }
+
+  .ptsColumn {
+    left: 55px
+  }
+
+  .nameSize {
+    width: 50px;
+    overflow: hidden;
   }
   
   .hero {
@@ -184,3 +217,5 @@ ul {
 .sticky-table-x-wrapper {
   background-color:#eee;
 }
+
+
