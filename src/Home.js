@@ -69,15 +69,15 @@ class Home extends Component {
                 <h3>Rules</h3>
                 <p>The total net value (*) collected will be divided as follows:</p>
                 <ul>
-                <li>1st prize: 70% for the player  with the highest score. In case of a tie/draw between the two highest-ranked players/gamblers/competitors, they will each receive 47.5% of the total prize and the next ranked player/gambler will be considered the third prize winner. In case of a tie/draw between three or more players, the total prize (100%) will be divided equally between them.</li>
-                <li>2nd prize: 25% for the second-best player:  In case of a tie/draw, the remaining 30% is equally divided between the tied-players.</li>
+                <li>1st prize: 70% for the player  with the highest score. In case of a tie between the two highest-ranked players, they will each receive 47.5% of the total prize and the next ranked playermbler will be considered the third prize winner. In case of a tie between three or more players, the total prize (100%) will be divided equally between them.</li>
+                <li>2nd prize: 25% for the second-best player:  In case of a tie, the remaining 30% is equally divided between the tied-players.</li>
                 <li>3rd prize: 5% for the third-best player: In case of a tie, the remaining 5% is equally divided between the tied-players.</li>
                 </ul>
 
                 <p>Scoring criteria:</p>
                 <ul>
                 <li>Guessing the exact match score: 8 points</li>
-                <li>Guessing  a draw/tie, but missing the exact match score: 5 points</li>
+                <li>Guessing a tie, but missing the exact match score: 5 points</li>
                 <li>Guessing the match winner and the goal difference between winner and loser but missing the exact score: 5 points</li>
                 <li>Guessing the match winner but missing the goal difference between winner and loser</li>
                 </ul>

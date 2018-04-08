@@ -8,6 +8,7 @@ import 'react-sticky-table/dist/react-sticky-table.css';
 import {blue500, grey300,grey400,grey200,lightGreen500, orange200,deepOrange500, orange900,yellow500,green700, orange500, blue600, cyan500,cyan600,cyan100, cyan200, cyan300, pink500,pink100} from 'material-ui/styles/colors'
 import * as firebase from 'firebase'
 import './flags.css';
+import SearchBar from 'material-ui-search-bar'
 
 
 
@@ -188,10 +189,18 @@ export default class Leaderboard extends Component {
     return null
   }
 
+
+
+  onSearchRequest = () => {
+
+  }
   render() {
+    if (!this.state.render) 
+      return <div style={{backgroundColor: "white", textAlign: "center", marginTop: "10%", width:"100%"}}><CircularProgress size={60} thickness={7} /></div>
 
     const header = []
-    header.push(<Cell key={"nome"}></Cell>)
+    header.push(<Cell key={"nome"}>
+    </Cell>)
     this.state.matches.map((match,i) => {
       header.push(<Cell key={`ha${i}`}>
         <div style={{position: "relative", marginTop: "6px", marginBottom: "6px", marginLeft: "4px", marginRight: "4px"  }}>
@@ -219,10 +228,12 @@ export default class Leaderboard extends Component {
       </Cell>)
     })
 
+    const self = this
     const rows=[]
     this.state.games.map((game,i) => {
       const row = []
-      row.push(<Cell className="nameColumn" style={{  paddingTop: "10px", paddingBottom: "10px", paddingRight: "10px"}} key={`g${i}`} >
+      if (!self.state.search || game.name.indexOf(self.state.search) >= 0) {
+        row.push(<Cell className="nameColumn" style={{  paddingTop: "10px", paddingBottom: "10px", paddingRight: "10px"}} key={`g${i}`} >
         <div >
           <span style={{marginTop: "0px", fontFamily: "Lato", float: "left", width: "20px", textAlign: "right"}}>{game.position}</span>
           <span className="nameSize" style={{marginTop: "3px", fontSize: "12px", color:"rgba(50, 50, 50, 0.9)", fontFamily: "Roboto", marginLeft: "10px",float: "left"}}>{game.name}</span>
@@ -238,13 +249,46 @@ export default class Leaderboard extends Component {
           </Cell>)
       })
       rows.push(row)
+      }
     })
+
+    if (rows.length == 0 ) {
+      const row = []
+      row.push(<Cell className="nameColumn" style={{  paddingTop: "10px", paddingBottom: "10px", paddingRight: "10px"}} key={`g${0}`} >
+      <div >
+        <span style={{marginTop: "0px", fontFamily: "Lato", float: "left", width: "20px", textAlign: "right"}}></span>
+        <span className="nameSize" style={{marginTop: "3px", fontSize: "12px", color:"rgba(50, 50, 50, 0.9)", fontFamily: "Roboto", marginLeft: "10px",float: "left"}}></span>
+        <span className="ptsColumn" style={{ marginTop: "0px", color: "white", fontWeight: "bold", fontFamily: "Lato", marginLeft: "2px", textAlign: "right"}}></span>
+      </div>
+      </Cell>)
+    this.state.matches.map((match,j) => {
+        row.push(<Cell key={`ra${0}-${j}`} style={{color: "rgba(50, 50, 50, 0.9)", paddingTop: "10px", fontFamily: "Lato",textAlign: "center"}}></Cell>)
+        row.push(<Cell key={`rb${0}-${j}`} style={{color: "rgba(50, 50, 50, 0.9)", paddingTop: "10px", fontFamily: "Lato",textAlign: "center"}}></Cell>)
+        row.push(<Cell key={`rc${0}-${j}`} style={{color: "rgba(50, 50, 50, 0.9)", paddingTop: "10px", fontFamily: "Lato",textAlign: "center", position: "relative"}}></Cell>)
+      })
+      rows.push(row)
+    }
 
 
     return (
       <div >
-        {!this.state.render && rows.length == 0 &&  <div style={{backgroundColor: "white", textAlign: "center", marginTop: "10%", width:"100%"}}><CircularProgress size={60} thickness={7} /></div>}
-        {this.state.render && rows.length > 0 && <div style={{ width: '100%', height: '900px'}}>
+
+        {this.state.render && <div style={{ width: '100%', height: '900px'}}>
+          <SearchBar
+            onChange={(value) => this.setState({search: value})}
+            onRequestSearch={() =>{}}
+            style={{
+              margin: '0 auto',
+              position: "absolute",
+              top: "180px",
+              zIndex: "1000",
+              width: "236px",
+              boxShadow: "unset",
+              height: "20px",
+              left: "13px",
+              width: "219px"
+            }} />
+
           <StickyTable>
             <Row >
               {header}
