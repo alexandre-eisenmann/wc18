@@ -1,0 +1,44 @@
+.bids-flags {
+  width: 80px;
+  height: 60px;
+  box-shadow: 0 0 2px rgba(0,0,0,.14), 0 2px 4px rgba(0,0,0,.28);
+}
+
+.leaderboard-flags {
+  width: 32px;
+  height: 24px;
+  box-shadow: 0 0 2px rgba(0,0,0,.14), 0 2px 4px rgba(0,0,0,.28);
+}
+
+.f-ru {background: url(flags/4x3/ru.svg) no-repeat top left; background-size: contain}
+.f-sa {background: url(flags/4x3/sa.svg) no-repeat top left; background-size: contain}
+.f-eg {background: url(flags/4x3/eg.svg) no-repeat top left; background-size: contain}
+.f-uy {background: url(flags/4x3/uy.svg) no-repeat top left; background-size: contain}
+.f-ma {background: url(flags/4x3/ma.svg) no-repeat top left; background-size: contain}
+.f-ir {background: url(flags/4x3/ir.svg) no-repeat top left; background-size: contain}
+.f-pt {background: url(flags/4x3/pt.svg) no-repeat top left; background-size: contain}
+.f-es {background: url(flags/4x3/es.svg) no-repeat top left; background-size: contain}
+.f-fr {background: url(flags/4x3/fr.svg) no-repeat top left; background-size: contain}
+.f-au {background: url(flags/4x3/au.svg) no-repeat top left; background-size: contain}
+.f-ar {background: url(flags/4x3/ar.svg) no-repeat top left; background-size: contain}
+.f-is {background: url(flags/4x3/is.svg) no-repeat top left; background-size: contain}
+.f-pe {background: url(flags/4x3/pe.svg) no-repeat top left; background-size: contain}
+.f-dk {background: url(flags/4x3/dk.svg) no-repeat top left; background-size: contain}
+.f-hr {background: url(flags/4x3/hr.svg) no-repeat top left; background-size: contain}
+.f-ng {background: url(flags/4x3/ng.svg) no-repeat top left; background-size: contain}
+.f-cr {background: url(flags/4x3/cr.svg) no-repeat top left; background-size: contain}
+.f-rs {background: url(flags/4x3/rs.svg) no-repeat top left; background-size: contain}
+.f-de {background: url(flags/4x3/de.svg) no-repeat top left; background-size: contain}
+.f-mx {background: url(flags/4x3/mx.svg) no-repeat top left; background-size: contain}
+.f-br {background: url(flags/4x3/br.svg) no-repeat top left; background-size: contain}
+.f-ch {background: url(flags/4x3/ch.svg) no-repeat top left; background-size: contain}
+.f-se {background: url(flags/4x3/se.svg) no-repeat top left; background-size: contain}
+.f-kr {background: url(flags/4x3/kr.svg) no-repeat top left; background-size: contain}
+.f-be {background: url(flags/4x3/be.svg) no-repeat top left; background-size: contain}
+.f-pa {background: url(flags/4x3/pa.svg) no-repeat top left; background-size: contain}
+.f-tn {background: url(flags/4x3/tn.svg) no-repeat top left; background-size: contain}
+.f-gb-eng {background: url(flags/4x3/gb-eng.svg) no-repeat top left; background-size: contain}
+.f-co {background: url(flags/4x3/co.svg) no-repeat top left; background-size: contain}
+.f-jp {background: url(flags/4x3/jp.svg) no-repeat top left; background-size: contain}
+.f-pl {background: url(flags/4x3/pl.svg) no-repeat top left; background-size: contain}
+.f-sn {background: url(flags/4x3/sn.svg) no-repeat top left; background-size: contain}

@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import {NavLink} from "react-router-dom";
 import Paper from 'material-ui/Paper'
 import { orange500,amberA700 } from "material-ui/styles/colors";
+import './flags.css';
+
 
 
 const style ={
@@ -12,15 +14,6 @@ class Home extends Component {
 
   constructor(props) {
     super(props)
-
-    this.flags = require.context("./flags/4x3/", false, /.*\.svg$/);
-
-  }
-
-
-  flagSvg(iso2code) {
-    return <div style={{width:"60px",height: "45px", background:`url(${this.flags(`./${iso2code}.svg`)}) no-repeat top left`,backgroundSize: "contain"}}></div>
-
   }
 
   render() {
@@ -44,12 +37,11 @@ class Home extends Component {
             <div style={{width: "100%", paddingTop:  "0px", paddingBottom: "20px", backgroundImage: "url(background3.svg)", backgroundColor: amberA700}}>
     
             <div style={{paddingTop: "50px", margin: "auto", textAlign: "center", display: "inline-block"}}>
-              <div style={{float: "left"}}>{this.flagSvg("br")}</div>
-              <div style={{float: "left"}}>{this.flagSvg("de")}</div>
-              <div style={{float: "left"}}>{this.flagSvg("ar")}</div>
-              <div style={{float: "left"}}>{this.flagSvg("ru")}</div>
-              <div style={{float: "left"}}>{this.flagSvg("gb-eng")}</div>
-              
+              <div className="f-br" style={{float: "left",width:"60px",height: "45px"}}></div>
+              <div className="f-de" style={{float: "left",width:"60px",height: "45px"}}></div>
+              <div className="f-ar" style={{float: "left",width:"60px",height: "45px"}}></div>
+              <div className="f-ru" style={{float: "left",width:"60px",height: "45px"}}></div>
+              <div className="f-gb-eng" style={{float: "left",width:"60px",height: "45px"}}></div>
             </div>
 
               <div className="regulamento" >

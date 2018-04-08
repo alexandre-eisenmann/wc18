@@ -13,8 +13,9 @@ import data from './data.json'
 import * as firebase from 'firebase'
 import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField'
-import {green700, blue600, cyan500, cyan100,pink500} from 'material-ui/styles/colors';
+import {green700, blue600, cyan500, cyan100,pink500} from 'material-ui/styles/colors'
 import moment from 'moment'
+import './flags.css'
 
 
 
@@ -41,7 +42,6 @@ export default class GroupView extends Component {
         acc[elem.name] = {a: null, h: null}
         return acc
     },{})
-    this.flags = require.context("./flags/4x3/", false, /.*\.svg$/);
     
     this.state = Object.assign({}, {gameId: this.props.gameId, complete: false}, this.props.bids[this.props.gameId])
     
@@ -54,14 +54,6 @@ export default class GroupView extends Component {
     this.setState(upcoming)
     
   }
-
-  flagSvg(iso2code) {
-    return <div style={{width:"80px",height: "60px",
-     boxShadow: "0 0 2px rgba(0,0,0,.14), 0 2px 4px rgba(0,0,0,.28)",
-     background:`url(${this.flags(`./${iso2code}.svg`)}) no-repeat top left`,backgroundSize: "contain"}}></div>
-
-  }
-
 
   updateResult(match,team,value) {
     if (isNaN(value)) value = null
@@ -105,7 +97,7 @@ export default class GroupView extends Component {
 
                   <div style={{ float: "left"}}>
                      <div style={{textAlign: "left", fontSize: "14px", marginBottom: "2px"}}>{homeTeam.name}</div>
-                     <div>{this.flagSvg(homeTeam.iso2)}</div>
+                     <div><div className={`bids-flags f-${homeTeam.iso2}`}></div></div>
                   </div>
 
 
@@ -146,7 +138,8 @@ export default class GroupView extends Component {
 
                   <div style={{float: "left", marginLeft: "10px"}}>
                     <div  style={{textAlign: "left",fontSize: "14px" , marginBottom: "2px" }}>{awayTeam.name}</div>
-                    <div style={{}} >{this.flagSvg(awayTeam.iso2)}</div>
+                    <div><div className={`bids-flags f-${awayTeam.iso2}`}></div></div>
+
                   </div>
 
 
@@ -159,43 +152,6 @@ export default class GroupView extends Component {
       </div>
       </Paper>
 
-
-
-
-
-
-
-
-    //   <Paper style={style} zDepth={1} >
-    //     <Table style={{tableLayout: 'auto'}}>
-    //     <TableHeader   style={{borderBottom: "none"}} adjustForCheckbox={false} displaySelectAll={false}>
-    //       <TableRow style={{borderBottom: "none"}}>
-    //         <TableHeaderColumn colSpan="7" style={{textAlign: 'left'}}>
-    //             Group {this.props.group.toUpperCase()}
-    //         </TableHeaderColumn>
-    //       </TableRow>
-    //     </TableHeader>
-    //     <TableBody  displayRowCheckbox={false}>
-    //       {this.matches.map((row,i) => {
-    //         const homeTeam = this.teams[row.home_team]
-    //         const awayTeam = this.teams[row.away_team]
-    //         return (<TableRow style={{paddingRight: "0px"}} selectable={false} style={{borderBottom: "none"}} key={i}>
-    //           <TableRowColumn style={{paddingLeft: "0px",paddingRight: "0px"}}>{this.flagSvg(homeTeam.iso2)}</TableRowColumn>
-    //           <TableRowColumn style={{paddingLeft: "Opx",paddingRight: "0px"}}>{homeTeam.name}</TableRowColumn>
-    //           <TableRowColumn style={{paddingLeft: "Opx",paddingRight: "0px"}}>
-    //             <input value={this.readMatchFromState(row.name,'h')} onChange={this.handleUserChange.bind(this)} style={numberInput} type="text" name={`${row.name}-h`} maxLength="1" size="1"/>
-    //           </TableRowColumn>
-    //           <TableRowColumn style={{paddingRight: "0px"}}>x</TableRowColumn>
-    //           <TableRowColumn style={{paddingLeft: "Opx",paddingRight: "0px"}}>
-    //             <input value={this.readMatchFromState(row.name,'a')}  onChange={this.handleUserChange.bind(this)} style={numberInput} type="text" name={`${row.name}-a`} maxLength="1" size="1"/>
-    //           </TableRowColumn>
-    //           <TableRowColumn style={{paddingLeft: "Opx",paddingRight: "0px"}}>{awayTeam.name}</TableRowColumn>
-    //           <TableRowColumn style={{paddingLeft: "Opx",paddingRight: "0px"}}>{this.flagSvg(awayTeam.iso2)}</TableRowColumn>
-    //         </TableRow>)
-    //       })}
-    //     </TableBody>
-    //   </Table>
-    // </Paper>
       
     )  
   }

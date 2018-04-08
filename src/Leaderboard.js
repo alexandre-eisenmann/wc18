@@ -7,6 +7,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 import 'react-sticky-table/dist/react-sticky-table.css';
 import {blue500, grey300,grey400,grey200,lightGreen500, orange200,deepOrange500, orange900,yellow500,green700, orange500, blue600, cyan500,cyan600,cyan100, cyan200, cyan300, pink500,pink100} from 'material-ui/styles/colors'
 import * as firebase from 'firebase'
+import './flags.css';
 
 
 
@@ -29,8 +30,6 @@ export default class Leaderboard extends Component {
 
 
     this.teams = data.teams.reduce((acc,ele) => {acc[ele.id] = ele; return acc}, {})
-    this.flags = require.context("./flags/4x3/", false, /.*\.svg$/);
-
     this.state = {games: [], matches: sortedMatches, render: false}
 
 
@@ -83,13 +82,6 @@ export default class Leaderboard extends Component {
       })
       game["total"] = total
     })
-  }
-
-
-  flagSvg(iso2code) {
-    return <div style={{ width:"32px",height: "24px", 
-    boxShadow: "0 0 2px rgba(0,0,0,.14), 0 2px 4px rgba(0,0,0,.28)",
-    background:`url(${this.flags(`./${iso2code}.svg`)}) no-repeat top left`,backgroundSize: "contain"}}></div>
   }
 
 
@@ -206,7 +198,7 @@ export default class Leaderboard extends Component {
         <div style={{color: "black", textAlign: "center", paddingLeft: "7px", fontSize: "small", fontWeight: "bold", fontFamily: "Lato", textOrientation: "upright", writingMode: "vertical-rl"}}>
           {this.teams[match.home_team].name.substring(0,3).toUpperCase()}
         </div>
-        <div style={{ marginTop: "4px"}}>{this.flagSvg(this.teams[match.home_team].iso2)}</div>
+        <div style={{ marginTop: "4px"}}><div className={`leaderboard-flags f-${this.teams[match.home_team].iso2}`}></div></div>
         <div style={{ marginTop: "4px", textAlign: "center"}}>{match.home_result != null ? match.home_result : "."}</div>
         </div>
       </Cell>)
@@ -215,7 +207,7 @@ export default class Leaderboard extends Component {
         <div style={{color: "black",textAlign: "center", paddingLeft: "7px", fontSize: "small", fontWeight: "bold", fontFamily: "Lato",  textOrientation: "upright", writingMode: "vertical-rl"}}>
           {this.teams[match.away_team].name.substring(0,3).toUpperCase()}
         </div>
-        <div style={{ marginTop: "4px"}}>{this.flagSvg(this.teams[match.away_team].iso2)}</div>
+        <div style={{ marginTop: "4px"}}><div className={`leaderboard-flags f-${this.teams[match.away_team].iso2}`}></div></div>
         <div style={{ marginTop: "4px", textAlign: "center"}}>{match.away_result != null ? match.away_result : "."}</div>
         </div>
       </Cell>)
