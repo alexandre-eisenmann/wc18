@@ -28,10 +28,11 @@ export default class Leaderboard extends Component {
       return 0
     })
     this.matchesRef = sortedMatches.reduce((acc, ele, i) => {acc[ele.name] = i; return acc}, {})
+    this.matches = sortedMatches
 
 
     this.teams = data.teams.reduce((acc,ele) => {acc[ele.id] = ele; return acc}, {})
-    this.state = {games: [], matches: sortedMatches, render: false}
+    this.state = {games: [], matches: [], render: false}
 
 
 
@@ -96,7 +97,7 @@ export default class Leaderboard extends Component {
   componentDidMount() {
 
     const self = this
-    const matches = [...this.state.matches]
+    const matches = [...this.matches]
     
       self.ref1 = firebase.database().ref(`wc18/master/gabarito`)
       self.ref1.on('child_removed', function(data) {
@@ -121,7 +122,6 @@ export default class Leaderboard extends Component {
             matches[self.matchesRef[match[0]]].home_result = h
         })
 
-
         self.loadGames(matches)
       })
 
@@ -133,7 +133,6 @@ export default class Leaderboard extends Component {
       snapshot.forEach(function(childSnapshot) {
         var childKey = childSnapshot.key
         var childData = childSnapshot.val()
-
 
         Object.entries(childData).map(([id,details]) => {
           if (details.status == "payed") {
@@ -232,11 +231,11 @@ export default class Leaderboard extends Component {
     const rows=[]
     this.state.games.map((game,i) => {
       const row = []
-      if (!self.state.search || game.name.indexOf(self.state.search) >= 0) {
+      if (!self.state.search || game.name.toLowerCase().indexOf(self.state.search.toLowerCase()) >= 0) {
         row.push(<Cell className="nameColumn" style={{  paddingTop: "10px", paddingBottom: "10px", paddingRight: "10px"}} key={`g${i}`} >
         <div >
           <span style={{marginTop: "0px", fontFamily: "Lato", float: "left", width: "20px", textAlign: "right"}}>{game.position}</span>
-          <span className="nameSize" style={{marginTop: "3px", fontSize: "12px", color:"rgba(50, 50, 50, 0.9)", fontFamily: "Roboto", marginLeft: "10px",float: "left"}}>{game.name}</span>
+          <span className="nameSize" style={{marginTop: "3px", fontSize: "12px", color:"rgba(50, 50, 50, 0.9)", fontFamily: "Roboto", marginLeft: "10px",float: "left"}}><div style={{width: "130px", overflow: "hidden"}}> {game.name}</div></span>
           <span className="ptsColumn" style={{ marginTop: "0px", color: "white", fontWeight: "bold", fontFamily: "Lato", marginLeft: "2px", textAlign: "right"}}> {game.total}</span>
         </div>
         </Cell>)
@@ -248,7 +247,7 @@ export default class Leaderboard extends Component {
           {this.renderPts(game[match.name].pts)}
           </Cell>)
       })
-      rows.push(row)
+      rows.push(<Row key={`row${i}`} style={{height: "30px"}}>{row}</Row>)
       }
     })
 
@@ -266,7 +265,7 @@ export default class Leaderboard extends Component {
         row.push(<Cell key={`rb${0}-${j}`} style={{color: "rgba(50, 50, 50, 0.9)", paddingTop: "10px", fontFamily: "Lato",textAlign: "center"}}></Cell>)
         row.push(<Cell key={`rc${0}-${j}`} style={{color: "rgba(50, 50, 50, 0.9)", paddingTop: "10px", fontFamily: "Lato",textAlign: "center", position: "relative"}}></Cell>)
       })
-      rows.push(row)
+      rows.push(<Row key={`rowt`} style={{height: "30px"}}>{row}</Row>)
     }
 
 
@@ -293,11 +292,7 @@ export default class Leaderboard extends Component {
             <Row >
               {header}
             </Row>
-            {rows.map((row, i) => {
-              return <Row key={`row${i}`} style={{height: "30px"}}>
-                 {row}
-               </Row>
-            })}
+            {rows}
           </StickyTable>
         </div>}
       </div>
