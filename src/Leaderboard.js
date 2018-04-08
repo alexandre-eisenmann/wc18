@@ -280,7 +280,7 @@ export default class Leaderboard extends Component {
             style={{
               margin: '0 auto',
               position: "absolute",
-              top: "175px",
+              top: "172px",
               zIndex: "1000",
               width: "236px",
               boxShadow: "unset",
