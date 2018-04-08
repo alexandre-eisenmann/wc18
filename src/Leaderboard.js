@@ -280,11 +280,11 @@ export default class Leaderboard extends Component {
             style={{
               margin: '0 auto',
               position: "absolute",
-              top: "180px",
+              top: "175px",
               zIndex: "1000",
               width: "236px",
               boxShadow: "unset",
-              height: "20px",
+              height: "40px",
               left: "13px",
               width: "219px"
             }} />
