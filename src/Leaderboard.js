@@ -188,11 +188,6 @@ export default class Leaderboard extends Component {
     return null
   }
 
-
-
-  onSearchRequest = () => {
-
-  }
   render() {
     if (!this.state.render) 
       return <div style={{backgroundColor: "white", textAlign: "center", marginTop: "10%", width:"100%"}}><CircularProgress size={60} thickness={7} /></div>

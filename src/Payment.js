@@ -50,13 +50,15 @@ export default class Payment extends Component {
       const self = this
       window.paypal.Button.render({
 
-        env: 'sandbox', // Or 'sandbox'
+        env: 'production', // Or 'sandbox'
 
         client: {
-          // sandbox: 'AXsbCnttIsDUGBie-uepZ3xp5kqmsxGAI-NnmWUN57fEoi0NZkrr7dYeoQxpORCdwcVl-8OkVxOp1Y6N',
-          sandbox:    'AYpOLTgA-upUUrK1T6Gfcin1LOy1hwwQ3d2v7Ob1nG0yrO6JmApUVHugHDozcVV6asC5aF14nDImBFYK',
+
+          // sandbox: 'ARX9jyiQ2A_me5uqJ6JSWklr7UW5EqguopVFxbrp_DA9gqrS_lzvuOEUGUMC2uDqR2RBDydD8ZUptKdA',
+          // sandbox:    'AYpOLTgA-upUUrK1T6Gfcin1LOy1hwwQ3d2v7Ob1nG0yrO6JmApUVHugHDozcVV6asC5aF14nDImBFYK',
           // sandbox:    'AWz28dUNaYipwd1ced45MtW3333jBNxPxaxck9txl8oiYaad_Vh9e-bxYY5fvrViPK6gMAGCwH_ziFNt',
-            production: 'xxxxxxxxx'
+          // sandbox: 'AXsbCnttIsDUGBie-uepZ3xp5kqmsxGAI-NnmWUN57fEoi0NZkrr7dYeoQxpORCdwcVl-8OkVxOp1Y6N',
+          production: 'Ae9BvfJTdfJqymk5zhGuQ9WF-bOhnjLo3QrVMYEJABr8hVZW_N02IOcxdcqfgG-2FFCKIXy6JooGLuVp'
         },
 
         commit: true, // Show a 'Pay Now' button
