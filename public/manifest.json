@@ -1,9 +1,9 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Bolão da Copa 2018",
+  "name": "Bolão da Copa 2018",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "brazil.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     }
