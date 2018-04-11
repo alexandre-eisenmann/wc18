@@ -163,7 +163,9 @@ export default class Bid extends Component {
 
 
   isComplete(bid) {
-    return bid && Object.values(this.state.status[bid]).filter((L) => !L).length == 0 
+    const games = this.state.status[bid]
+    const vals = Object.keys(games).map((key) => games[key])
+    return bid && vals.filter((L) => !L).length == 0 
   }
 
   

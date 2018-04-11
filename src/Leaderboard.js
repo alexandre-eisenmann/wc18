@@ -115,12 +115,22 @@ export default class Leaderboard extends Component {
           
         });
 
-        Object.entries(results).map((match) => {
-            const a = match[1].a == undefined ? null : match[1].a
-            const h = match[1].h == undefined ? null : match[1].h
-            matches[self.matchesRef[match[0]]].away_result = a
-            matches[self.matchesRef[match[0]]].home_result = h
-        })
+
+        Object.keys(results).map((key) => {
+          const result = results[key]
+          const a = result.a == undefined ? null : result.a
+          const h = result.h == undefined ? null : result.h
+          matches[self.matchesRef[key]].away_result = a
+          matches[self.matchesRef[key]].home_result = h
+      })
+
+
+        // Object.entries(results).map((match) => {
+        //     const a = match[1].a == undefined ? null : match[1].a
+        //     const h = match[1].h == undefined ? null : match[1].h
+        //     matches[self.matchesRef[match[0]]].away_result = a
+        //     matches[self.matchesRef[match[0]]].home_result = h
+        // })
 
         self.loadGames(matches)
       })
@@ -134,7 +144,10 @@ export default class Leaderboard extends Component {
         var childKey = childSnapshot.key
         var childData = childSnapshot.val()
 
-        Object.entries(childData).map(([id,details]) => {
+        Object.keys(childData).map((key) => {
+          const id = key
+          const details = childData[key]
+          
           if (details.status == "payed") {
             Object.assign(details, {gameId: id, userId: childKey})
             
@@ -142,6 +155,16 @@ export default class Leaderboard extends Component {
           }
 
         })
+
+
+        // Object.entries(childData).map(([id,details]) => {
+        //   if (details.status == "payed") {
+        //     Object.assign(details, {gameId: id, userId: childKey})
+            
+        //     games.push(details)
+        //   }
+
+        // })
         
         
       });

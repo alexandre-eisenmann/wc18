@@ -10,6 +10,10 @@ body {
 
 }
 
+.header {
+  position: sticky;
+  left: 0px;
+}
 .inputNumber {
   -webkit-appearance: none;
   font-size: 20px;

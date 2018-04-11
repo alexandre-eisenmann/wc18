@@ -10,6 +10,7 @@ import Master from './Master'
 import Home from './Home'
 import Login from './Login'
 import Leaderboard from './Leaderboard'
+import Leaderboard2 from './Leaderboard2'
 import Payment from './Payment'
 import * as firebase from 'firebase'
 import {Tabs, Tab} from 'material-ui/Tabs';
@@ -97,6 +98,7 @@ class Main extends Component {
               <Route path="/master" component={Master}/>
               <Route path="/payment" component={Payment}/>
               <Route path="/leaderboard" component={Leaderboard}/>
+              <Route path="/leaderboard2" component={Leaderboard2}/>
 
 
             </div>

@@ -1,0 +1,43 @@
+.header-row {
+  height: 60px;
+  width: 880px;
+  background-color: red;
+  position: sticky;
+  position: -webkit-sticky;
+  top:0px;
+  z-index: 2;
+}
+.data-container {
+  width: 800px;
+}
+.data-area {
+  display: inline-flex;
+}
+.corner {
+  z-index: 3000;
+  width: 80px;
+  height: 60px;
+  display: inline-flex;
+  position: sticky;
+  position: -webkit-sticky;
+  left: 0px;
+  background-color:yellow;
+  
+}
+.header-column {
+  width: 80px;
+  background-color: green;
+  position: sticky;
+  position: -webkit-sticky;
+  left: 0px;
+}
+.data-body {
+  display:inline-block;
+}
+.header-column-container {
+  width: 60px
+}
+.row {
+  height: 120px;
+  overflow: hidden;
+}
