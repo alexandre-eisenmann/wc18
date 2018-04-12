@@ -3,10 +3,10 @@
 {
 position: absolute;
 width: 160px;
-height: 100px;
+height: 75px;
 padding: 15px;
 padding-top: 10px;
-background: rgba(0, 0, 0, 0.95);
+background: rgba(0, 0, 0, 0.90);
 -webkit-border-radius: 8px;
 -moz-border-radius: 8px;
 border-radius: 8px;
@@ -68,7 +68,7 @@ width: 205px;
 height: 60px;
 padding: 15px;
 padding-top: 10px;
-background: rgba(0, 0, 0, 0.95);
+background: rgba(0, 0, 0, 0.90);
 -webkit-border-radius: 8px;
 -moz-border-radius: 8px;
 border-radius: 8px;
