@@ -20,6 +20,7 @@ import FontIcon from 'material-ui/FontIcon';
 import Avatar from 'material-ui/Avatar';
 import {green700, blue600, cyan500,cyan600,cyan100, cyan200, cyan300, pink500,pink100} from 'material-ui/styles/colors';
 import IconButton from 'material-ui/IconButton';
+import './bubbles.css'
 
 
 const chipStyles = {
@@ -254,7 +255,7 @@ export default class Bid extends Component {
                }
 
             })}
-            {!this.state.currentBid && <div className="bubble">Clique aqui para criar o seu jogo. Ei, vc pode criar quantos jogos quiser! Lembre-se de mudar o nome para evitar duplicação</div>}
+            {!this.state.currentBid && <div className="newgame-bubble">Clique aqui para criar o seu jogo. Ei, vc pode criar quantos jogos quiser! Lembre-se de mudar o nome para evitar duplicação</div>}
             <FloatingActionButton secondary={true} style={{position: "absolute", 
                 top:  "0px", right: "25px"}} mini={true} onClick={this.onNewGame.bind(this)}>
               <ContentAdd />
@@ -310,6 +311,7 @@ export default class Bid extends Component {
       <div id="gameSection">
       { this.state.currentBid && 
         <div>
+          
           <Toolbar style={{backgroundColor: "rgba(255,255,255,0.5)"}}>
             <ToolbarGroup firstChild={true}>
               <ToolbarTitle style={{color: "#333", width: "100px",fontStyle: "italic", marginLeft: "20px", fontSize: "12px"}} text={status} />
@@ -325,7 +327,9 @@ export default class Bid extends Component {
             </ToolbarGroup>
           </Toolbar>
         <div style={{marginLeft: "2px", marginTop: "20px"}}>
-
+          <div className="addtocard-bubble">
+            Depois de completar todos os resultados não esqueça de adicionar o botão carrinho de compras para selecionar o jogo para pagamento.
+          </div>
           <div style={{width: "256px", margin: "auto",marginBottom: "20px"}}>
             <TextField disabled={!edit} errorText={this.state.bids[this.state.currentBid]["name"] ? "" : "Campo obrigatório"} style={{fontSize: "20px", display: "block", marginRight: "10px"}} hintText="Name" value={this.state.bids[this.state.currentBid]["name"] || ''} onChange={this.onNameChange.bind(this)}/>
             <TextField disabled={!edit} errorText={this.state.bids[this.state.currentBid]["email"] ? "" : "Campo obrigatório"} style={{fontSize: "12px", display: "block", marginRight: "10px"}} hintText="Email" value={this.state.bids[this.state.currentBid]["email"] || ''} onChange={this.onEmailChange.bind(this)}/>
