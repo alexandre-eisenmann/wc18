@@ -308,7 +308,7 @@ export default class Bid extends Component {
         </div>
         </div>}
 
-      <div id="gameSection">
+      <div style={{position: "relative"}}id="gameSection">
       { this.state.currentBid && 
         <div>
           
