@@ -3,7 +3,7 @@
 {
 position: absolute;
 width: 160px;
-height: 90px;
+height: 110px;
 padding: 15px;
 padding-top: 10px;
 background: rgba(0, 0, 0, 0.95);
@@ -31,27 +31,31 @@ animation-fill-mode: forwards, forwards;
 
 }
 
+.addtocard-bubble:after {
+  content: '';
+  position: absolute;
+  border-style: solid;
+  border-width: 0 10px 10px;
+  border-color:rgba(0, 0, 0, 0.95) transparent;
+  display: block;
+  width: 0;
+  z-index: 1;
+  top: -10px;
+  left: 90px;
+}
+
 @media only screen and (max-width: 513px) {
   .addtocard-bubble {
     top: 305px;
+  }
+
+  .addtocard-bubble:after {
+    left: 105px;
   }
 }
 
 
 
-.addtocard-bubble:after 
-{
-content: '';
-position: absolute;
-border-style: solid;
-border-width: 0 10px 10px;
-border-color:rgba(0, 0, 0, 0.95) transparent;
-display: block;
-width: 0;
-z-index: 1;
-top: -10px;
-left: 90px;
-}
 
 
 
