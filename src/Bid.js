@@ -328,7 +328,7 @@ export default class Bid extends Component {
           </Toolbar>
         <div style={{marginLeft: "2px", marginTop: "20px"}}>
           <div className="addtocard-bubble">
-            Depois de completar todos os resultados não esqueça de adicionar o botão carrinho de compras para selecionar o jogo para pagamento.
+            Depois de completar todos os resultados não esqueça de acionar o botão carrinho de compras para selecionar o jogo para pagamento.
           </div>
           <div style={{width: "256px", margin: "auto",marginBottom: "20px"}}>
             <TextField disabled={!edit} errorText={this.state.bids[this.state.currentBid]["name"] ? "" : "Campo obrigatório"} style={{fontSize: "20px", display: "block", marginRight: "10px"}} hintText="Name" value={this.state.bids[this.state.currentBid]["name"] || ''} onChange={this.onNameChange.bind(this)}/>
