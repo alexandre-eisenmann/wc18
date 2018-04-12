@@ -10,10 +10,6 @@ body {
 
 }
 
-.header {
-  position: sticky;
-  left: 0px;
-}
 .inputNumber {
   -webkit-appearance: none;
   font-size: 20px;
@@ -237,14 +233,14 @@ width: 205px;
 height: 70px;
 padding: 15px;
 padding-top: 10px;
-background: rgba(241, 39, 69, 0.95);
--webkit-border-radius: 20px;
--moz-border-radius: 20px;
-border-radius: 20px;
-color: #eee;
-font-family: Gaegu;
+background: rgba(0, 0, 0, 0.95);
+-webkit-border-radius: 8px;
+-moz-border-radius: 8px;
+border-radius: 8px;
+color: #ccc;
+font-family: Kalam;
 font-weight: bold;
-font-size: 16px;
+font-size: 12px;
 right: 2000px;
 top: 75px;
 z-index: 9000;
@@ -263,13 +259,13 @@ animation-delay: 1s;
 content: '';
 position: absolute;
 border-style: solid;
-border-width: 0 15px 15px;
-border-color:rgba(241, 39, 69, 0.95) transparent;
+border-width: 0 10px 10px;
+border-color:rgba(0, 0, 0, 0.95) transparent;
 display: block;
 width: 0;
 z-index: 1;
-top: -15px;
-left: 178px;
+top: -10px;
+left: 186px;
 }
 
 

@@ -254,11 +254,12 @@ export default class Bid extends Component {
                }
 
             })}
-            {!this.state.currentBid && <div className="bubble">Clique aqui para criar o seu jogo. Ei, vc pode criar quantos jogos quiser!</div>}
+            {!this.state.currentBid && <div className="bubble">Clique aqui para criar o seu jogo. Ei, vc pode criar quantos jogos quiser! Lembre-se de mudar o nome para evitar duplicação</div>}
             <FloatingActionButton secondary={true} style={{position: "absolute", 
                 top:  "0px", right: "25px"}} mini={true} onClick={this.onNewGame.bind(this)}>
               <ContentAdd />
             </FloatingActionButton>
+            
         </div>
         </div>
 
