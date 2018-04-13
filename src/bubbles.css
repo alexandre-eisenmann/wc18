@@ -19,12 +19,12 @@ top: 75px;
 z-index: 9000;
 opacity: 1;
 
--webkit-animation-name: slide, fade;
+-webkit-animation-name: slide, fadeOut;
 -webkit-animation-duration: 0.5s, 2s;
 -webkit-animation-delay: 2s, 15s;
 -webkit-animation-fill-mode: forwards, forwards;
 
-animation-name: slide, fade;
+animation-name: slide, fadeOut;
 animation-duration: 0.5s, 2s;
 animation-delay: 2s, 15s;
 animation-fill-mode: forwards, forwards;
@@ -36,13 +36,24 @@ animation-fill-mode: forwards, forwards;
   position: absolute;
   border-style: solid;
   border-width: 0 10px 10px;
-  border-color:rgba(0, 0, 0, 0.95) transparent;
+  border-color:rgba(0, 0, 0, 0.90) transparent;
   display: block;
   width: 0;
   z-index: 1;
   top: -10px;
   left: 90px;
 }
+
+.addtocard-bubble.remove {
+  width: 110px;
+  height: 55px;
+  top: 70px;
+} 
+
+.addtocard-bubble.remove:after {
+  left: 86px;
+
+} 
 
 @media only screen and (max-width: 513px) {
   .addtocard-bubble {
@@ -81,12 +92,12 @@ top: 75px;
 z-index: 9000;
 opacity: 1;
 
--webkit-animation-name: slide, fade;
+-webkit-animation-name: slide, fadeOut;
 -webkit-animation-duration: 0.5s, 2s;
 -webkit-animation-delay: 2s, 15s;
 -webkit-animation-fill-mode: forwards, forwards;
 
-animation-name: slide, fade;
+animation-name: slide, fadeOut;
 animation-duration: 0.5s, 2s;
 animation-delay: 2s, 15s;
 animation-fill-mode: forwards, forwards;
@@ -101,13 +112,69 @@ content: '';
 position: absolute;
 border-style: solid;
 border-width: 0 10px 10px;
-border-color:rgba(0, 0, 0, 0.95) transparent;
+border-color:rgba(0, 0, 0, 0.90) transparent;
 display: block;
 width: 0;
 z-index: 1;
 top: -10px;
 left: 186px;
 }
+
+
+
+
+.agdopagto-bubble 
+{
+position: absolute;
+width: 210px;
+height: 42px;
+padding: 15px;
+padding-top: 10px;
+background: rgba(0, 0, 0, 0.90);
+-webkit-border-radius: 8px;
+-moz-border-radius: 8px;
+border-radius: 8px;
+color: #ccc;
+font-family: Lato;
+font-size: 12px;
+right: 80px;
+top: -15px;
+z-index: 9000;
+opacity: 0;
+
+-webkit-animation-name: fadeIn, fadeOut;
+-webkit-animation-duration: 0.5s, 2s;
+-webkit-animation-delay: 2s, 15s;
+-webkit-animation-fill-mode: forwards, forwards;
+
+animation-name: fadeIn, fadeOut;
+animation-duration: 0.5s, 2s;
+animation-delay: 2s, 15s;
+animation-fill-mode: forwards, forwards;
+
+}
+
+
+
+.agdopagto-bubble:after 
+{
+content: '';
+position: absolute;
+border-style: solid;
+border-width: 10px 0px 10px 10px;
+margin-top: -10px;
+margin-right: -10px;
+border: 10px solid transparent;
+border-left-color: rgba(0, 0, 0, 0.90);
+display: block;
+width: 0;
+z-index: 1;
+top: 35px;
+left: 240px;
+
+}
+
+
 
 
 
@@ -119,14 +186,22 @@ left: 186px;
   100% { right: 5px; }
 }
 
-@-webkit-keyframes fade {
+@-webkit-keyframes fadeOut {
   100% { opacity: 0; }
 }
 
-@keyframes fade {
+@keyframes fadeOut {
   100% { opacity: 0; }
 }
 
+
+@-webkit-keyframes fadeIn {
+  100% { opacity: 1; }
+}
+
+@keyframes fadeIn {
+  100% { opacity: 1; }
+}
 
 
 

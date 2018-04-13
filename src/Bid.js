@@ -152,8 +152,13 @@ export default class Bid extends Component {
   }
 
   handleAddToCard() {
+
     if (this.state.currentBid) {
+
       firebase.database().ref(`wc18/${this.state.user.uid}/${this.state.currentBid}/status`).set("readytopay")
+      const y = document.getElementById("flowSection").getBoundingClientRect().y
+      window.scrollTo(0,y)
+  
     }
   }
   handleRemoveFromCard() {
@@ -209,7 +214,7 @@ export default class Bid extends Component {
     return (
       
       
-      <div style={style}>
+      <div id="flowSection" style={style}>
       {this.state.logged == false && <Redirect to='/login?fw=bids' />}
       {this.state.logged == null &&  <div style={{backgroundColor: "white", textAlign: "center", marginTop: "10%", width:"100%"}}><CircularProgress size={60} thickness={7} /></div>}
       {this.state.logged && this.state.user && <div>
@@ -237,8 +242,8 @@ export default class Bid extends Component {
         RASCUNHO
         </div>          
         <div style={{display: "flex", flexWrap: "wrap", minHeight: "40px", position: "relative", paddingLeft: "20px", paddingRight: "60px", paddingTop: "5px",paddingBottom: "13px", backgroundColor: cyan500}}>
+            
             {this.state.bids.length == 0 &&  <div style={{ textAlign: "center", width:"100%"}}><CircularProgress color={pink500} size={30} thickness={4} /></div>}
-
             {Object.keys(this.state.bids).map((bid) => {
                if (!this.state.bids[bid].status ) {
                 const params = {onClick: (event) => this.onChangeGame(event,bid)}
@@ -253,9 +258,9 @@ export default class Bid extends Component {
                } else if (this.state.bids[bid].status == "payed") {
                 anyPayed = true
                }
-
             })}
-            {!this.state.currentBid && <div className="newgame-bubble">Clique aqui para criar o seu jogo. Ei, vc pode criar quantos jogos quiser! Lembre-se de mudar o nome para evitar duplicação</div>}
+            {!anyReadyToPay && !this.state.currentBid && <div className="newgame-bubble">Clique aqui para criar o seu jogo. Ei, vc pode criar quantos jogos quiser! Lembre-se de mudar o nome para evitar duplicação</div>}
+            
             <FloatingActionButton secondary={true} style={{position: "absolute", 
                 top:  "0px", right: "25px"}} mini={true} onClick={this.onNewGame.bind(this)}>
               <ContentAdd />
@@ -264,11 +269,15 @@ export default class Bid extends Component {
         </div>
         </div>
 
-        {anyReadyToPay && <div>
+        {anyReadyToPay && <div id="agdoPagto">
         <div style={{backgroundColor: cyan300,padding: "5px", fontSize: "10px",  paddingTop: "10px", paddingLeft: "27px", paddingBottom: "0px", color: "rgba(255, 255, 255, 0.7)"}}>
         AGUARDANDO PAGAMENTO
         </div>          
         <div style={{display: "flex", flexWrap: "wrap", minHeight: "40px", position: "relative", paddingLeft: "20px", paddingRight: "60px", paddingTop: "5px",paddingBottom: "13px", backgroundColor: cyan300}}>
+            {<div className="agdopagto-bubble">
+                Clique aqui para prosseguir para pagamento. Você pode pagar vários jogos de uma vez em múltiplas ocasiões
+            </div>}
+
             {Object.keys(this.state.bids).map((bid) => {
                if (this.state.bids[bid].status == "readytopay") {
                 
@@ -327,9 +336,14 @@ export default class Bid extends Component {
             </ToolbarGroup>
           </Toolbar>
         <div style={{marginLeft: "2px", marginTop: "20px"}}>
-          <div className="addtocard-bubble">
+          
+          {anyReadyToPay && <div className="addtocard-bubble remove">
+            Você pode voltar seu jogo ao estágio rascunho acionando este botão aqui
+          </div>}
+          {!anyReadyToPay && <div className="addtocard-bubble">
             Depois de completar todos os resultados não esqueça de acionar o botão carrinho de compras para selecionar o jogo para pagamento.
-          </div>
+          </div>}
+
           <div style={{width: "256px", margin: "auto",marginBottom: "20px"}}>
             <TextField disabled={!edit} errorText={this.state.bids[this.state.currentBid]["name"] ? "" : "Campo obrigatório"} style={{fontSize: "20px", display: "block", marginRight: "10px"}} hintText="Name" value={this.state.bids[this.state.currentBid]["name"] || ''} onChange={this.onNameChange.bind(this)}/>
             <TextField disabled={!edit} errorText={this.state.bids[this.state.currentBid]["email"] ? "" : "Campo obrigatório"} style={{fontSize: "12px", display: "block", marginRight: "10px"}} hintText="Email" value={this.state.bids[this.state.currentBid]["email"] || ''} onChange={this.onEmailChange.bind(this)}/>
