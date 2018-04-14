@@ -27,7 +27,7 @@ opacity: 1;
 
 animation-name: slide, fadeOut;
 animation-duration: 0.5s, 2s;
-animation-delay: 2s, 15s;
+animation-delay: 2s, 1500s;
 animation-fill-mode: forwards, forwards;
 
 }
@@ -62,11 +62,27 @@ animation-fill-mode: forwards, forwards;
   }
 
   .addtocard-bubble:after {
-    left: 105px;
+    left: 90px;
   }
 
   .addtocard-bubble.remove:after {
-    left: 103px;
+    left: 86px;
+  
+  } 
+    
+}
+
+@media only screen and (max-width: 345px) {
+  .addtocard-bubble {
+    top: 75px;
+  }
+
+  .addtocard-bubble:after {
+    left: 90px;
+  }
+
+  .addtocard-bubble.remove:after {
+    left: 95px;
   
   } 
     
