@@ -135,7 +135,7 @@ left: 186px;
 {
 position: absolute;
 pointer-events: none;
-width: 210px;
+width: 70px;
 height: 42px;
 padding: 15px;
 padding-top: 10px;
@@ -146,7 +146,7 @@ border-radius: 8px;
 color: #ccc;
 font-family: Lato;
 font-size: 12px;
-right: 80px;
+right: 75px;
 top: -15px;
 z-index: 9000;
 opacity: 0;
@@ -179,7 +179,7 @@ display: block;
 width: 0;
 z-index: 1;
 top: 35px;
-left: 240px;
+left: 98px;
 
 }
 

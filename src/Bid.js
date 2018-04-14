@@ -275,7 +275,7 @@ export default class Bid extends Component {
         </div>          
         <div style={{display: "flex", flexWrap: "wrap", minHeight: "40px", position: "relative", paddingLeft: "20px", paddingRight: "60px", paddingTop: "5px",paddingBottom: "13px", backgroundColor: cyan300}}>
             {<div className="agdopagto-bubble">
-                Clique aqui para prosseguir para pagamento. Você pode pagar vários jogos de uma vez em múltiplas ocasiões
+                Não esqueça de pagar seus jogos!
             </div>}
 
             {Object.keys(this.state.bids).map((bid) => {
