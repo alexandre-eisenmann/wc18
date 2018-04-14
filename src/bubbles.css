@@ -51,7 +51,7 @@ animation-fill-mode: forwards, forwards;
 } 
 
 .addtocard-bubble.remove:after {
-  left: 86px;
+  left: 103px;
 
 } 
 
@@ -143,13 +143,13 @@ z-index: 9000;
 opacity: 0;
 
 -webkit-animation-name: fadeIn, fadeOut;
--webkit-animation-duration: 0.5s, 2s;
--webkit-animation-delay: 2s, 15s;
+-webkit-animation-duration: 0.5s, 3s;
+-webkit-animation-delay: 2s, 8s;
 -webkit-animation-fill-mode: forwards, forwards;
 
 animation-name: fadeIn, fadeOut;
-animation-duration: 0.5s, 2s;
-animation-delay: 2s, 15s;
+animation-duration: 0.5s, 3s;
+animation-delay: 2s, 8s;
 animation-fill-mode: forwards, forwards;
 
 }
@@ -187,10 +187,12 @@ left: 240px;
 }
 
 @-webkit-keyframes fadeOut {
+  0% { opacity: 1; }
   100% { opacity: 0; }
 }
 
 @keyframes fadeOut {
+  0% { opacity: 1; }
   100% { opacity: 0; }
 }
 

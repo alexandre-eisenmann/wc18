@@ -249,15 +249,15 @@ export default class Leaderboard extends Component {
     const rows=[]
     this.state.games.map((game,i) => {
       const row = []
-      if (!self.state.search || game.name.toLowerCase().indexOf(self.state.search.toLowerCase()) >= 0) {
+      if (self.state.search === undefined || !self.state.search || game.name.toLowerCase().indexOf(self.state.search.toLowerCase()) >= 0) {
         row.push(<Cell className="nameColumn" style={{  paddingTop: "10px", paddingBottom: "10px", paddingRight: "10px"}} key={`g${i}`} >
         <div >
           <span style={{marginTop: "0px", fontFamily: "Lato", float: "left", width: "20px", textAlign: "right"}}>{game.position}</span>
-          <span className="nameSize" style={{marginTop: "3px", fontSize: "12px", color:"rgba(50, 50, 50, 0.9)", fontFamily: "Roboto", marginLeft: "10px",float: "left"}}><div style={{width: "130px", overflow: "hidden"}}> {game.name}</div></span>
+          <span className="nameSize" style={{marginTop: "3px", fontSize: "10px", color:"rgba(50, 50, 50, 0.9)", fontFamily: "Lato", marginLeft: "10px",float: "left"}}><div style={{width: "130px", overflow: "hidden"}}> {game.name}</div></span>
           <span className="ptsColumn" style={{ marginTop: "0px", color: "white", fontWeight: "bold", fontFamily: "Lato", marginLeft: "2px", textAlign: "right"}}> {game.total}</span>
         </div>
         </Cell>)
-      this.state.matches.map((match,j) => {
+        this.state.matches.map((match,j) => {
 
         row.push(<Cell key={`ra${i}-${j}`} style={{color: "rgba(50, 50, 50, 0.9)", paddingTop: "10px", fontFamily: "Lato",textAlign: "center"}}>{game[match.name].h}</Cell>)
         row.push(<Cell key={`rb${i}-${j}`} style={{color: "rgba(50, 50, 50, 0.9)", paddingTop: "10px", fontFamily: "Lato",textAlign: "center"}}>{game[match.name].a}</Cell>)

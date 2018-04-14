@@ -32,7 +32,7 @@ class Home extends Component {
               textAlign: "center",
               marginLeft: "50px",
               marginRight: "50px",
-            }}><p> Bolão da Copa do Mundo 2018</p></div>
+            }}><p> Bolão da Copa do Mundo 2018 - 1<sup>a</sup> fase</p></div>
 
             <div style={{width: "100%", paddingTop:  "0px", paddingBottom: "20px", backgroundImage: "url(background3.svg)", backgroundColor: amberA700}}>
     
