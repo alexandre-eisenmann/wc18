@@ -84,7 +84,7 @@ export default class GroupView extends Component {
     return (
 
       <Paper style={{ marginLeft: "10px", marginRight: "10px", marginBottom: "20px", display: 'inline-block'}} zDepth={1} >
-      <div style={{float: "left", paddingRight: "18px", border: this.props.complete ? "2px solid transparent" : `2px solid ${pink500}`  }}>
+      <div style={{float: "left", paddingRight: "18px", border: this.props.complete ? "2px solid transparent" : `2px solid ${pink500}`  }} className="groupbox">
         <div style={{marginLeft: "20px", marginBottom: "30px", marginTop: "20px", textAlign: "left"}}>
           Group {this.props.group.toUpperCase()}
         </div>
@@ -93,7 +93,7 @@ export default class GroupView extends Component {
             const homeTeam = this.teams[row.home_team]
             const awayTeam = this.teams[row.away_team]
             return (
-              <div key={i} style={{clear: "both", marginLeft: "18px",height: "120px", marginBottom: "0px", textAlign: "center",position: "relative" }}>
+              <div key={i} style={{clear: "both", marginLeft: "18px",height: "120px", marginBottom: "0px", textAlign: "center",position: "relative" }} className="grouprow">
 
                   <div style={{ float: "left"}}>
                      <div style={{textAlign: "left", fontSize: "14px", marginBottom: "2px"}}>{homeTeam.name}</div>

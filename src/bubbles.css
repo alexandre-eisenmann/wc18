@@ -27,7 +27,7 @@ opacity: 1;
 
 animation-name: slide, fadeOut;
 animation-duration: 0.5s, 2s;
-animation-delay: 2s, 1500s;
+animation-delay: 2s, 15s;
 animation-fill-mode: forwards, forwards;
 
 }
@@ -73,16 +73,22 @@ animation-fill-mode: forwards, forwards;
 }
 
 @media only screen and (max-width: 345px) {
+  .groupbox {
+    padding-right: 10px !important;
+  }
+  .grouprow {
+    margin-left: 10px !important;
+  }
   .addtocard-bubble {
     top: 75px;
   }
 
   .addtocard-bubble:after {
-    left: 90px;
+    left: 125px;
   }
 
   .addtocard-bubble.remove:after {
-    left: 95px;
+    left: 110px;
   
   } 
     
