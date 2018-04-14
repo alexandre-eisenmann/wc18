@@ -22,12 +22,12 @@ opacity: 1;
 
 -webkit-animation-name: slide, fadeOut;
 -webkit-animation-duration: 0.5s, 2s;
--webkit-animation-delay: 2s, 1500s;
+-webkit-animation-delay: 2s, 15s;
 -webkit-animation-fill-mode: forwards, forwards;
 
 animation-name: slide, fadeOut;
 animation-duration: 0.5s, 2s;
-animation-delay: 2s, 1500s;
+animation-delay: 2s, 15s;
 animation-fill-mode: forwards, forwards;
 
 }
