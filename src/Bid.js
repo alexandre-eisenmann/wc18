@@ -317,7 +317,7 @@ export default class Bid extends Component {
         </div>
         </div>}
 
-      <div style={{position: "relative"}}id="gameSection">
+      <div style={{position: "relative"}} id="gameSection">
       { this.state.currentBid && 
         <div>
           
@@ -337,10 +337,10 @@ export default class Bid extends Component {
           </Toolbar>
         <div style={{marginLeft: "2px", marginTop: "20px"}}>
           
-          {anyReadyToPay && <div className="addtocard-bubble remove">
+          {this.state.bids[this.state.currentBid].status == 'readytopay' && <div className="addtocard-bubble remove">
             Você pode voltar seu jogo ao estágio rascunho acionando este botão aqui
           </div>}
-          {!anyReadyToPay && <div className="addtocard-bubble">
+          {!this.state.bids[this.state.currentBid].status && <div className="addtocard-bubble">
             Depois de completar todos os resultados não esqueça de acionar o botão carrinho de compras para selecionar o jogo para pagamento.
           </div>}
 
