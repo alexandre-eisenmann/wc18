@@ -323,7 +323,7 @@ export default class Bid extends Component {
           
           <Toolbar style={{backgroundColor: "rgba(255,255,255,0.5)"}}>
             <ToolbarGroup firstChild={true}>
-              <ToolbarTitle style={{color: "#333", width: "100px",fontStyle: "italic", marginLeft: "20px", fontSize: "12px"}} text={status} />
+              {/* <ToolbarTitle style={{color: "#333", width: "50px",fontStyle: "italic", marginLeft: "20px", fontSize: "12px"}} text={status} /> */}
             </ToolbarGroup>
             <ToolbarGroup >
               <RaisedButton label="Salvar" disabled={!edit} />
