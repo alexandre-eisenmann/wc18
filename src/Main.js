@@ -3,7 +3,8 @@ import {
   Route,
   Link,
   BrowserRouter,
-  Redirect
+  Redirect,
+  withRouter
 } from "react-router-dom"
 import Bid from './Bid'
 import Master from './Master'
@@ -24,6 +25,8 @@ import {green700, blue600,cyan500} from 'material-ui/styles/colors';
 
 
 
+const bgColor = blue600
+
 class Main extends Component {
 
     constructor(props) {
@@ -43,6 +46,8 @@ class Main extends Component {
         self.setState({logged: false, user: null})
         }
     });
+
+
     }
 
   logout() {	
@@ -68,26 +73,38 @@ class Main extends Component {
     if (this.state.logged) {
       params['iconElementRight'] = toolbar(this.state.user.photoURL)
     }
-
+    
 
     return (
         <MuiThemeProvider>
         <BrowserRouter>
 
           <div>
+
+            
             <div className="header">
-            <AppBar style={{boxShadow: "none", backgroundColor: blue600}}
+            <Route render={(props) => {
+              if (!(props.location.pathname == "/")) {
+                return <div>
+                <AppBar style={{boxShadow: "none", backgroundColor: bgColor}}
                 title={"Copa do Mundo 2018"}
                 showMenuIconButton={false}
                 {...params}
                 >
-            </AppBar>
+                </AppBar>
 
-            <Tabs style={{backgroundColor: blue600}} initialSelectedIndex={["/","/bids"].indexOf(window.location.pathname)}>
-              <Tab style={{backgroundColor: blue600}} label="HOME" containerElement={<Link to="/" />} />
-              <Tab style={{backgroundColor: blue600}} label="MEUS JOGOS" containerElement={<Link to="/bids" />} />
-              <Tab style={{backgroundColor: blue600}} label="TABELÃO" containerElement={<Link to="/leaderboard" />} />
-            </Tabs>
+                <Tabs style={{backgroundColor: bgColor}} initialSelectedIndex={["/","/bids"].indexOf(window.location.pathname)}>
+                <Tab style={{backgroundColor: bgColor}} label="HOME" containerElement={<Link to="/" />} />
+                <Tab style={{backgroundColor: bgColor}} label="MEUS JOGOS" containerElement={<Link to="/bids" />} />
+                <Tab style={{backgroundColor: bgColor}} label="TABELÃO" containerElement={<Link to="/leaderboard" />} />
+                </Tabs>
+                </div>
+              } else { 
+                return null
+              }
+              
+            }} />
+
             </div>
 
             <div className="content">

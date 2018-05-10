@@ -121,7 +121,7 @@ export default class Payment extends Component {
       if (user) {
         self.setState({logged: true, user: user})
         self.ref = firebase.database().ref(`wc18/${user.uid}`)
-        self.ref.on('value', snapshot => {
+        self.ref.once('value', snapshot => {
           const bids  = {}, list=[]
           snapshot.forEach(function(childSnapshot) {
             const childKey = childSnapshot.key

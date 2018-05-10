@@ -7,7 +7,7 @@ import './flags.css';
 
 
 const style ={
-  backgroundImage: "url(background3.svg)",
+  backgroundImage: "url(background.svg)",
 }
 
 class Home extends Component {
@@ -17,13 +17,63 @@ class Home extends Component {
   }
 
   render() {
+
+
+    const flags = ["f-sa","f-eg","f-uy","f-ma","f-ir","f-br","f-de","f-ar","f-ru","f-gb-eng","f-pt","f-es","f-fr","f-au","f-is","f-pe","f-dk","f-hr","f-ng","f-cr","f-rs","f-mx","f-ch","f-se","f-kr","f-be","f-pa","f-tn","f-co","f-jp","f-pl","f-sn"]
+
+    
     return (
 
 
-      <div className="homePage" style={style}>
+      <div className="homePage" >
+        <div style={{width: "100%", height: "200px", overflow: "hidden",backgroundPositionY: "-700px", backgroundImage: "url(background.svg)"}} >
+        </div>
+        <div style={{position: "absolute",
+                     display: "inline-block", 
+                     zIndex: "1",
+                     left: "30px",
+                     fontFamily: "Lato",
+                     fontWeight: "bold",
+                     top: "10px"
+                     }}>
+              <NavLink style={{textDecoration: "none",color: "rgba(220,220,220,0.8)"}} to="/bids">MEUS JOGOS</NavLink>
+              <NavLink style={{textDecoration: "none",marginLeft: "20px", color: "rgba(220,220,220,0.8)"}} to="/leaderboard">TABELAO</NavLink>
+          </div>
 
 
-      <Paper className="hero" zDepth={2} >
+        <div style={{width: "100%", height: "400px"}} >
+          <div className="stripe">
+          <div style={{marginTop: "318px", 
+                      overflow:"hidden",
+                      whiteSpace: "nowrap",
+                      marginLeft: "calc(-80vw)",
+                      display: "inline-block"}}>
+              {flags.map((clazz) => {
+                return <div className={` ${clazz} flags-strip`} ></div>
+              })}
+
+
+            </div>
+          </div>
+
+          <div style={{position: "absolute", top: "40px", color: "white", textAlign: "left", marginLeft: "30px"}}>
+            <p style={{fontSize: "40px", fontFamily: 'Roboto Condensed'}}>Bolão dos Bolões</p>
+            <p style={{fontSize: "18px", marginTop: "-10px", width: "300px", fontFamily: 'Open Sans'}}>
+            Façam seus palpites para a copa da Russia 2018! Você terá oportunidade de fazer pontos mesmo que 
+            não acerte o resultado em cheio. O ganhador será aquele com maior número de pontos entre todas 
+            as partidas da primeria fase. Veja o regulamento abaixo.
+
+            
+            </p>
+          </div>
+        </div>
+        <div style={{width: "100%", height: "500px", overflow: "hidden"}} >
+          
+        </div>
+
+
+
+      <Paper className="hero" zDepth={2} style={style} >
             <div style={{
               margin: "auto", 
               color: "black",

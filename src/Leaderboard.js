@@ -290,7 +290,7 @@ export default class Leaderboard extends Component {
     return (
       <div >
 
-        {this.state.render && <div style={{ width: '100%', height: '900px'}}>
+        {this.state.render && <div style={{ width: '100%',height: "calc(100vh - 119px)"}}>
           <SearchBar
             onChange={(value) => this.setState({search: value})}
             onRequestSearch={() =>{}}
@@ -305,7 +305,6 @@ export default class Leaderboard extends Component {
               left: "13px",
               width: "219px"
             }} />
-
           <StickyTable>
             <Row >
               {header}
