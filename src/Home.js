@@ -38,9 +38,9 @@ class Home extends Component {
           </div>
 
 
-        <div style={{width: "100%", height: "400px"}} >
+        <div style={{width: "100%", height: "350px"}} >
           <div className="stripe">
-          <div style={{marginTop: "318px", 
+          <div style={{marginTop: "284px", 
                       overflow:"hidden",
                       whiteSpace: "nowrap",
                       marginLeft: "calc(-80vw)",
