@@ -10,7 +10,7 @@ const style ={
   backgroundImage: "url(background.svg)",
 }
 
-const flags = ["f-sa","f-eg","f-uy","f-ma","f-ir","f-br","f-de","f-ar","f-ru","f-gb-eng","f-pt","f-es","f-fr","f-au","f-is","f-pe","f-dk","f-hr","f-ng","f-cr","f-rs","f-mx","f-ch","f-se","f-kr","f-be","f-pa","f-tn","f-co","f-jp","f-pl","f-sn"]
+const flags = ["f-sa","f-eg","f-uy","f-ma","f-ir","f-br","f-de","f-ar","f-ru","f-gb-eng","f-pt","f-es","f-fr","f-au","f-is","f-pe","f-dk","f-hr","f-ng","f-br","f-cr","f-rs","f-mx","f-ch","f-se","f-kr","f-be","f-pa","f-tn","f-co","f-jp","f-pl","f-sn"]
 
 class Home extends Component {
 
@@ -93,6 +93,7 @@ class Home extends Component {
 
 
                 <h3 style={{fontFamily: 'Roboto Condensed'}}>Rules</h3>
+                <p>Price R$ 20</p>
                 <p>The total net value (*) collected will be divided as follows:</p>
                 <ul>
                 <li>1st prize: 70% for the player with the highest score. In case of a tie between the two highest-ranked players, they will each receive 47.5% of the total prize and the next ranked player will be considered the third prize winner. In case of a tie between three or more players, the total prize (100%) will be divided equally between them.</li>
