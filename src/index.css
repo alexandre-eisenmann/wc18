@@ -65,8 +65,14 @@ ul {
 }
 
 .regulamento {
-  width: 70%;
-  margin: auto
+  font-family: Open Sans;
+  margin-top: 100px;
+  margin-left: 30px;
+  width: 85%;
+}
+
+.regulamento p,li{
+  font-size: 18px 
 }
 
 .sticky-table-column {
@@ -91,41 +97,7 @@ ul {
   position: absolute;
   width: 60px;
 }
-@media only screen and (max-width: 600px) {
-  /* .homePage {
-    padding-Bottom: 0px;
-    
-  }
 
-  .sticky-table-corner {
-    width: 130px;
-  }
-  .sticky-table-column {
-    width: 130px;
-  }
-
-  .ptsColumn {
-    left: 55px
-  }
-
-  .nameSize {
-    width: 50px;
-    overflow: hidden;
-  } */
-  
-  .hero {
-      width: 100%;
-      margin-top: 0px;  
-  }
-  .regulamento {
-    width: 85%;
-  }
-
-  .regulamento p,li{
-    font-size: 18px 
-  }
-
-}
 
 
 .column {

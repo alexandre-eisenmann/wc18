@@ -10,6 +10,8 @@ const style ={
   backgroundImage: "url(background.svg)",
 }
 
+const flags = ["f-sa","f-eg","f-uy","f-ma","f-ir","f-br","f-de","f-ar","f-ru","f-gb-eng","f-pt","f-es","f-fr","f-au","f-is","f-pe","f-dk","f-hr","f-ng","f-cr","f-rs","f-mx","f-ch","f-se","f-kr","f-be","f-pa","f-tn","f-co","f-jp","f-pl","f-sn"]
+
 class Home extends Component {
 
   constructor(props) {
@@ -17,11 +19,6 @@ class Home extends Component {
   }
 
   render() {
-
-
-    const flags = ["f-sa","f-eg","f-uy","f-ma","f-ir","f-br","f-de","f-ar","f-ru","f-gb-eng","f-pt","f-es","f-fr","f-au","f-is","f-pe","f-dk","f-hr","f-ng","f-cr","f-rs","f-mx","f-ch","f-se","f-kr","f-be","f-pa","f-tn","f-co","f-jp","f-pl","f-sn"]
-
-    
     return (
 
 
@@ -61,43 +58,22 @@ class Home extends Component {
             <p style={{fontSize: "18px", marginTop: "-10px", width: "300px", fontFamily: 'Open Sans'}}>
             Façam seus palpites para a copa da Russia 2018! Você terá oportunidade de fazer pontos mesmo que 
             não acerte o resultado em cheio. O ganhador será aquele com maior número de pontos entre todas 
-            as partidas da primeria fase. Veja o regulamento abaixo.
+            as partidas da primeria fase. <a style={{color: "white"}} href="#regulamento">Veja o regulamento abaixo</a>.
 
             
             </p>
           </div>
         </div>
-        <div style={{width: "100%", height: "500px", overflow: "hidden"}} >
-          
-        </div>
+        <div style={{width: "100%", overflow: "hidden"}} >
 
 
+              
+              <div id="regulamento" className="regulamento" >
+                <div style={{fontFamily: "Open Sans",fontSize: "20px", textAlign: "left", marginBottom: "100px"}}>
 
-      <Paper className="hero" zDepth={2} style={style} >
-            <div style={{
-              margin: "auto", 
-              color: "black",
-              fontSize: "30px",
-              fontFamily: "Roboto",
-              textAlign: "center",
-              marginLeft: "50px",
-              marginRight: "50px",
-            }}><p> Bolão da Copa do Mundo 2018 - 1<sup>a</sup> fase</p></div>
 
-            <div style={{width: "100%", paddingTop:  "0px", paddingBottom: "20px", backgroundImage: "url(background3.svg)", backgroundColor: amberA700}}>
-    
-            <div style={{paddingTop: "50px", margin: "auto", textAlign: "center", display: "inline-block"}}>
-              <div className="f-br" style={{float: "left",width:"60px",height: "45px"}}></div>
-              <div className="f-de" style={{float: "left",width:"60px",height: "45px"}}></div>
-              <div className="f-ar" style={{float: "left",width:"60px",height: "45px"}}></div>
-              <div className="f-ru" style={{float: "left",width:"60px",height: "45px"}}></div>
-              <div className="f-gb-eng" style={{float: "left",width:"60px",height: "45px"}}></div>
-            </div>
+                <h3 style={{fontFamily: 'Roboto Condensed'}}>Regulamento</h3>
 
-              <div className="regulamento" >
-                <div style={{fontFamily: "Roboto",fontSize: "20px", textAlign: "left", marginBottom: "100px"}}>
-
-                <h3>Regulamento</h3>
                 <p>Preço R$ 20</p>
                 <p>O valor total líquido(*) arrecadado será dividido da seguinte forma:</p>
                 <ul>
@@ -116,7 +92,7 @@ class Home extends Component {
                 <p style={{fontSize: "12px"}}>(*) Valor total arrecadado menos custos de transação (Paypal) e hosting.</p>
 
 
-                <h3>Rules</h3>
+                <h3 style={{fontFamily: 'Roboto Condensed'}}>Rules</h3>
                 <p>The total net value (*) collected will be divided as follows:</p>
                 <ul>
                 <li>1st prize: 70% for the player with the highest score. In case of a tie between the two highest-ranked players, they will each receive 47.5% of the total prize and the next ranked player will be considered the third prize winner. In case of a tie between three or more players, the total prize (100%) will be divided equally between them.</li>
@@ -137,10 +113,12 @@ class Home extends Component {
 
 
 
-              </div>
-              
-              </div>
-            </Paper>
+              </div>          
+        </div>
+
+
+
+
 
 
 
