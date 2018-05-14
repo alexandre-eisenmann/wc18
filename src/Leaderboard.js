@@ -9,6 +9,8 @@ import {blue500, grey300,grey400,grey200,lightGreen500, orange200,deepOrange500,
 import * as firebase from 'firebase'
 import './flags.css';
 import SearchBar from 'material-ui-search-bar'
+import FontIcon from 'material-ui/FontIcon';
+import IconButton from 'material-ui/IconButton';
 
 
 
@@ -32,7 +34,7 @@ export default class Leaderboard extends Component {
 
 
     this.teams = data.teams.reduce((acc,ele) => {acc[ele.id] = ele; return acc}, {})
-    this.state = {games: [], matches: [], render: false}
+    this.state = {games: [], matches: [], render: false, expanded: true}
 
 
 
@@ -124,17 +126,18 @@ export default class Leaderboard extends Component {
           matches[self.matchesRef[key]].home_result = h
       })
 
-
-        // Object.entries(results).map((match) => {
-        //     const a = match[1].a == undefined ? null : match[1].a
-        //     const h = match[1].h == undefined ? null : match[1].h
-        //     matches[self.matchesRef[match[0]]].away_result = a
-        //     matches[self.matchesRef[match[0]]].home_result = h
-        // })
-
         self.loadGames(matches)
       })
 
+  }
+
+
+  expandOrCollapse = (event) => {
+    if (this.state.expanded) 
+      document.getElementsByClassName("header")[0].style.display = "none"
+    else 
+      document.getElementsByClassName("header")[0].style.display = "block"
+    this.setState({expanded: !this.state.expanded})
   }
 
   loadGames = (matches) => {
@@ -155,17 +158,6 @@ export default class Leaderboard extends Component {
           }
 
         })
-
-
-        // Object.entries(childData).map(([id,details]) => {
-        //   if (details.status == "payed") {
-        //     Object.assign(details, {gameId: id, userId: childKey})
-            
-        //     games.push(details)
-        //   }
-
-        // })
-        
         
       });
 
@@ -216,8 +208,7 @@ export default class Leaderboard extends Component {
       return <div style={{backgroundColor: "white", textAlign: "center", marginTop: "10%", width:"100%"}}><CircularProgress size={60} thickness={7} /></div>
 
     const header = []
-    header.push(<Cell key={"nome"}>
-    </Cell>)
+    header.push(<Cell key={"nome"}></Cell>)
     this.state.matches.map((match,i) => {
       header.push(<Cell key={`ha${i}`}>
         <div style={{position: "relative", marginTop: "6px", marginBottom: "6px", marginLeft: "4px", marginRight: "4px"  }}>
@@ -290,14 +281,34 @@ export default class Leaderboard extends Component {
     return (
       <div >
 
-        {this.state.render && <div style={{ width: '100%',height: "calc(100vh - 119px)"}}>
+        {this.state.render && <div style={{ 
+          position: "relative", 
+          width: '100%',
+          height: this.state.expanded ? "calc(100vh - 119px)": "100vh"
+        }}>
+
+          <IconButton 
+            style={{
+              position: "absolute",
+              top: "0px",
+              left: "10px",
+              zIndex: "1000",
+              cursor: "pointer"
+            }}          
+            onClick={this.expandOrCollapse.bind(this)}>
+                {this.state.expanded ? 
+                <FontIcon className="material-icons">expand_less</FontIcon> :
+                <FontIcon className="material-icons">expand_more</FontIcon> }
+          </IconButton>
+
+
           <SearchBar
             onChange={(value) => this.setState({search: value})}
             onRequestSearch={() =>{}}
             style={{
               margin: '0 auto',
               position: "absolute",
-              top: "172px",
+              top: "60px",
               zIndex: "1000",
               width: "236px",
               boxShadow: "unset",

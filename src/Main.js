@@ -71,7 +71,7 @@ class Main extends Component {
     
     const params = {}
     if (this.state.logged) {
-      params['iconElementRight'] = toolbar(this.state.user.photoURL)
+      params['iconElementRight'] = toolbar(`https://graph.facebook.com/${this.state.user.providerData[0].uid}/picture`)
     }
     
 
