@@ -260,22 +260,25 @@ export default class Leaderboard extends Component {
       }
     })
 
-    if (rows.length == 0 ) {
+    // if (rows.length == 0 ) {
       const row = []
-      row.push(<Cell className="nameColumn" style={{  paddingTop: "10px", paddingBottom: "10px", paddingRight: "10px"}} key={`g${0}`} >
-      <div >
-        <span style={{marginTop: "0px", fontFamily: "Lato", float: "left", width: "20px", textAlign: "right"}}></span>
-        <span className="nameSize" style={{marginTop: "3px", fontSize: "12px", color:"rgba(50, 50, 50, 0.9)", fontFamily: "Roboto", marginLeft: "10px",float: "left"}}></span>
-        <span className="ptsColumn" style={{ marginTop: "0px", color: "white", fontWeight: "bold", fontFamily: "Lato", marginLeft: "2px", textAlign: "right"}}></span>
-      </div>
-      </Cell>)
-    this.state.matches.map((match,j) => {
-        row.push(<Cell key={`ra${0}-${j}`} style={{color: "rgba(50, 50, 50, 0.9)", paddingTop: "10px", fontFamily: "Lato",textAlign: "center"}}></Cell>)
-        row.push(<Cell key={`rb${0}-${j}`} style={{color: "rgba(50, 50, 50, 0.9)", paddingTop: "10px", fontFamily: "Lato",textAlign: "center"}}></Cell>)
-        row.push(<Cell key={`rc${0}-${j}`} style={{color: "rgba(50, 50, 50, 0.9)", paddingTop: "10px", fontFamily: "Lato",textAlign: "center", position: "relative"}}></Cell>)
-      })
-      rows.push(<Row key={`rowt`} style={{height: "30px"}}>{row}</Row>)
-    }
+      for(let i=0 ; i < 4; i++) {
+        row.push(<Cell className="nameColumn" style={{  paddingTop: "10px", paddingBottom: "10px", paddingRight: "10px"}} key={`gt${i}`} >
+        <div >
+          <span style={{marginTop: "0px", fontFamily: "Lato", float: "left", width: "20px", textAlign: "right"}}></span>
+          <span className="nameSize" style={{marginTop: "3px", fontSize: "12px", color:"rgba(50, 50, 50, 0.9)", fontFamily: "Roboto", marginLeft: "10px",float: "left"}}></span>
+          <span className="ptsColumn" style={{ marginTop: "0px", color: "white", fontWeight: "bold", fontFamily: "Lato", marginLeft: "2px", textAlign: "right"}}></span>
+        </div>
+        </Cell>)
+        this.state.matches.map((match,j) => {
+          row.push(<Cell key={`rat${i}-${j}`} style={{color: "rgba(50, 50, 50, 0.9)", paddingTop: "10px", fontFamily: "Lato",textAlign: "center"}}></Cell>)
+          row.push(<Cell key={`rbt${i}-${j}`} style={{color: "rgba(50, 50, 50, 0.9)", paddingTop: "10px", fontFamily: "Lato",textAlign: "center"}}></Cell>)
+          row.push(<Cell key={`rct${i}-${j}`} style={{color: "rgba(50, 50, 50, 0.9)", paddingTop: "10px", fontFamily: "Lato",textAlign: "center", position: "relative"}}></Cell>)
+        })
+        rows.push(<Row key={`rowt`} style={{height: "30px"}}>{row}</Row>)
+  
+      }
+    // }
 
 
     return (
