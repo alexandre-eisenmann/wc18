@@ -42,9 +42,9 @@ class Home extends Component {
           </div>
 
 
-        <div style={{width: "100%", height: "280px"}} >
+        <div style={{width: "100%", height: "260px"}} >
           <div className="stripe">
-          <div style={{marginTop: "284px", 
+          <div style={{marginTop: "200px", 
                       overflow:"hidden",
                       whiteSpace: "nowrap",
                       marginLeft: "calc(-80vw)",
@@ -65,18 +65,20 @@ class Home extends Component {
             as partidas da primeria fase. <a  style={{color: "white"}} href="#regulamento">Veja o regulamento abaixo</a>.
 
             </p>
-            <div style={{textAlign: "center", marginTop: "35px"}}>
+            
+          </div>
+
+            <div style={{marginTop: "50px"}}>
             <FloatingActionButton secondary={true} style={{}}
             href = "/bids"
             >
             <FontIcon className="material-icons">arrow_forward_ios</FontIcon>
             </FloatingActionButton>
             </div>
-            
-          </div>
+          
         </div>
 
-        <div style={{width: "100%", overflow: "hidden"}} >
+        <div style={{marginTop:"80px", width: "100%", overflow: "hidden"}} >
 
 
 
