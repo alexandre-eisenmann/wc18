@@ -59,13 +59,13 @@ class Home extends Component {
 
           <div style={{position: "absolute", top: "30px", color: "white", textAlign: "left", marginLeft: "30px"}}>
             <p style={{fontSize: "40px", fontFamily: 'Roboto Condensed'}}>Bolão dos Bolões</p>
-            <p style={{fontSize: "18px", marginTop: "-10px", width: "300px", fontFamily: 'Open Sans'}}>
+            <p style={{fontSize: "18px", marginTop: "-30px", width: "300px", fontFamily: 'Open Sans'}}>
             Façam seus palpites para a copa da Russia 2018! Você terá oportunidade de fazer pontos mesmo que 
             não acerte o resultado em cheio. O ganhador será aquele com maior número de pontos entre todas 
             as partidas da primeria fase. <a  style={{color: "white"}} href="#regulamento">Veja o regulamento abaixo</a>.
 
             </p>
-            <div style={{textAlign: "center", marginTop: "25px"}}>
+            <div style={{textAlign: "center", marginTop: "35px"}}>
             <FloatingActionButton secondary={true} style={{}}
             href = "/bids"
             >
