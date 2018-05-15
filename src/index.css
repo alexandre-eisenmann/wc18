@@ -9,7 +9,7 @@ body {
   height: 100%;
   /* overflow: hidden; */
   -webkit-transform: skewY(-12deg); 
-  transform: skewY(-12deg);
+  transform: skewY(-8deg);
   -webkit-transform-origin: 0;
   transform-origin: 0;
   /* background: linear-gradient(150deg,#53f 15%,#05d5ff 70%,#a6ffcb 94%) */
@@ -223,8 +223,30 @@ ul {
 
 
 
+.abutton  {
+  white-space: nowrap;
+  display: inline-block;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 14px;
+  -webkit-box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+  box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+  background: #fff;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .025em;
+  color: #6772e5;
+  text-decoration: none;
+  -webkit-transition: all .15s ease;
+  transition: all .15s ease;
+  /* background: #3ecf8e; */
+  text-shadow: 0 1px 3px rgba(36,180,126,.4);
+    background: linear-gradient(150deg,rgb(30, 136, 229) 15%,#05d5ff 70%,#a6ffcb 94%)
+
+  /* background: linear-gradient(150deg,#DF620D 15%,#FFAC3B 70%,#FFE596 94%) */
 
 
-
-
-
+  
+}

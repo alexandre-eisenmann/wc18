@@ -3,6 +3,10 @@ import {NavLink} from "react-router-dom";
 import Paper from 'material-ui/Paper'
 import { orange500,amberA700 } from "material-ui/styles/colors";
 import './flags.css';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
+import ActionHome from 'material-ui/svg-icons/action/home';
+import FontIcon from 'material-ui/FontIcon';
 
 
 
@@ -38,7 +42,7 @@ class Home extends Component {
           </div>
 
 
-        <div style={{width: "100%", height: "350px"}} >
+        <div style={{width: "100%", height: "280px"}} >
           <div className="stripe">
           <div style={{marginTop: "284px", 
                       overflow:"hidden",
@@ -53,18 +57,27 @@ class Home extends Component {
             </div>
           </div>
 
-          <div style={{position: "absolute", top: "40px", color: "white", textAlign: "left", marginLeft: "30px"}}>
+          <div style={{position: "absolute", top: "30px", color: "white", textAlign: "left", marginLeft: "30px"}}>
             <p style={{fontSize: "40px", fontFamily: 'Roboto Condensed'}}>Bolão dos Bolões</p>
             <p style={{fontSize: "18px", marginTop: "-10px", width: "300px", fontFamily: 'Open Sans'}}>
             Façam seus palpites para a copa da Russia 2018! Você terá oportunidade de fazer pontos mesmo que 
             não acerte o resultado em cheio. O ganhador será aquele com maior número de pontos entre todas 
-            as partidas da primeria fase. <a style={{color: "white"}} href="#regulamento">Veja o regulamento abaixo</a>.
+            as partidas da primeria fase. <a  style={{color: "white"}} href="#regulamento">Veja o regulamento abaixo</a>.
 
-            
             </p>
+            <div style={{textAlign: "center", marginTop: "25px"}}>
+            <FloatingActionButton secondary={true} style={{}}
+            href = "/bids"
+            >
+            <FontIcon className="material-icons">arrow_forward_ios</FontIcon>
+            </FloatingActionButton>
+            </div>
+            
           </div>
         </div>
+
         <div style={{width: "100%", overflow: "hidden"}} >
+
 
 
               
