@@ -10,6 +10,13 @@
   box-shadow: 0 0 2px rgba(0,0,0,.14), 0 2px 4px rgba(0,0,0,.28);
 }
 
+.viz-flags {
+  width: 64px;
+  height: 48px;
+  box-shadow: 0 0 2px rgba(0,0,0,.14), 0 2px 4px rgba(0,0,0,.28);
+}
+
+
 .f-ru {background: url(flags/4x3/ru.svg) no-repeat top left; background-size: contain}
 .f-sa {background: url(flags/4x3/sa.svg) no-repeat top left; background-size: contain}
 .f-eg {background: url(flags/4x3/eg.svg) no-repeat top left; background-size: contain}

@@ -39,6 +39,8 @@ class Home extends Component {
                      }}>
               <NavLink style={{textDecoration: "none",color: "rgba(220,220,220,0.8)"}} to="/bids">MEUS JOGOS</NavLink>
               <NavLink style={{textDecoration: "none",marginLeft: "20px", color: "rgba(220,220,220,0.8)"}} to="/leaderboard">TABELAO</NavLink>
+              <a style={{textDecoration: "none",marginLeft: "20px", color: "rgba(220,220,220,0.8)"}} href="https://medium.com/bolão-dos-bolões-2018">BLOG</a>
+
           </div>
 
 

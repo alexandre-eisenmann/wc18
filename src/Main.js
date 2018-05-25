@@ -11,7 +11,7 @@ import Master from './Master'
 import Home from './Home'
 import Login from './Login'
 import Leaderboard from './Leaderboard'
-import MatchViz from './MatchViz'
+import Viz from './Viz'
 import Payment from './Payment'
 import * as firebase from 'firebase'
 import {Tabs, Tab} from 'material-ui/Tabs';
@@ -87,7 +87,7 @@ class Main extends Component {
               if (!(props.location.pathname == "/")) {
                 return <div>
                 <AppBar style={{boxShadow: "none", backgroundColor: bgColor}}
-                title={"Copa do Mundo 2018"}
+                title={"Bolão dos Bolões"}
                 showMenuIconButton={false}
                 {...params}
                 >
@@ -97,6 +97,8 @@ class Main extends Component {
                 <Tab style={{backgroundColor: bgColor}} label="HOME" containerElement={<Link to="/" />} />
                 <Tab style={{backgroundColor: bgColor}} label="MEUS JOGOS" containerElement={<Link to="/bids" />} />
                 <Tab style={{backgroundColor: bgColor}} label="TABELÃO" containerElement={<Link to="/leaderboard" />} />
+                <Tab style={{backgroundColor: bgColor}} label="BLOG" containerElement={<a href="https://medium.com/bolão-dos-bolões-2018" />} />
+
                 </Tabs>
                 </div>
               } else { 
@@ -115,7 +117,7 @@ class Main extends Component {
               <Route path="/master" component={Master}/>
               <Route path="/payment" component={Payment}/>
               <Route path="/leaderboard" component={Leaderboard}/>
-              <Route path="/viz" component={MatchViz}/>
+              <Route path="/viz" component={Viz}/>
 
 
             </div>
