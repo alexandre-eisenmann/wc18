@@ -47,8 +47,6 @@
             }
         })
         });
-        console.log(games)
-        console.log(games.reduce((acc,ele) => {acc[ele.res.a+"-"+ele.res.h]=(acc[ele.res.a+"-"+ele.res.h] ? acc[ele.res.a+"-"+ele.res.h] : 0)+1 ; return acc},{}))
         this.setState({games: games})
       })
     }
