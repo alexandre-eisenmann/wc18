@@ -240,7 +240,7 @@ export default class Leaderboard extends Component {
     const rows=[]
     this.state.games.map((game,i) => {
       const row = []
-      if (self.state.search === undefined || !self.state.search || game.name.toLowerCase().indexOf(self.state.search.toLowerCase()) >= 0) {
+      // if (self.state.search === undefined || !self.state.search || game.name.toLowerCase().indexOf(self.state.search.toLowerCase()) >= 0) {
         row.push(<Cell className="nameColumn" style={{  paddingTop: "10px", paddingBottom: "10px", paddingRight: "10px"}} key={`g${i}`} >
         <div >
           <span style={{marginTop: "0px", fontFamily: "Lato", float: "left", width: "20px", textAlign: "right"}}>{game.position}</span>
@@ -257,7 +257,7 @@ export default class Leaderboard extends Component {
           </Cell>)
       })
       rows.push(<Row key={`row${i}`} style={{height: "30px"}}>{row}</Row>)
-      }
+      // }
     })
 
     // if (rows.length == 0 ) {
@@ -305,20 +305,23 @@ export default class Leaderboard extends Component {
           </IconButton>
 
 
-          <SearchBar
-            onChange={(value) => this.setState({search: value})}
-            onRequestSearch={() =>{}}
+          <div
+            // onChange={(value) => this.setState({search: value})}
+            // onRequestSearch={() =>{}}
             style={{
               margin: '0 auto',
               position: "absolute",
-              top: "60px",
+              top: "75px",
               zIndex: "1000",
               width: "236px",
+              fontFamily: "Lato",
               boxShadow: "unset",
               height: "40px",
-              left: "13px",
+              left: "30px",
               width: "219px"
-            }} />
+            }} >
+            {`${this.state.games.length} participantes`}
+            </div>
           <StickyTable>
             <Row >
               {header}
