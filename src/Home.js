@@ -3,11 +3,17 @@ import {NavLink} from "react-router-dom";
 import Paper from 'material-ui/Paper'
 import { orange500,amberA700 } from "material-ui/styles/colors";
 import './flags.css';
+import './scroll.css';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import ActionHome from 'material-ui/svg-icons/action/home';
 import FontIcon from 'material-ui/FontIcon';
+import moment from 'moment'
 
+
+
+const today = moment(new Date());
+const startDate = moment([2018, 5, 15]);
 
 
 const style ={
@@ -46,7 +52,21 @@ class Home extends Component {
 
         <div style={{width: "100%", height: "260px"}} >
           <div className="stripe">
-          <div style={{marginTop: "196px", 
+          <div style={{paddingTop: "130px"}}>
+              <div class="scroll-left">
+                <div>FALTAM <span style={{
+                  paddingLeft: "6px", 
+                  paddingRight: "6px",
+                  marginLeft: "2px", 
+                  marginRight: "4px",
+                  // borderRadius: "40px",
+                  backgroundColor: "rgba(255,255,255,0.3)",
+
+                 fontSize: "40px", fontWeight: "bold", color: "red", fontFamily: "Lato"}}>{startDate.diff(today, 'days')}</span> DIAS PARA A COPA</div>
+              </div>
+            </div>
+
+          <div style={{marginTop: "66px", 
                       overflow:"hidden",
                       whiteSpace: "nowrap",
                       marginLeft: "calc(-80vw)",
@@ -67,9 +87,9 @@ class Home extends Component {
             as partidas da primeria fase. <a  style={{color: "white"}} href="#regulamento">Veja o regulamento abaixo</a>.
 
             </p>
+
             
           </div>
-
             <div style={{marginTop: "30px"}}>
             <FloatingActionButton secondary={true} style={{}}
             href = "/bids"

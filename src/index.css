@@ -8,7 +8,7 @@ body {
   width: 100%;
   height: 100%;
   /* overflow: hidden; */
-  -webkit-transform: skewY(-12deg); 
+  -webkit-transform: skewY(-8deg); 
   transform: skewY(-8deg);
   -webkit-transform-origin: 0;
   transform-origin: 0;
