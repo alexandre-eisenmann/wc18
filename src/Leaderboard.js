@@ -318,6 +318,7 @@ export default class Leaderboard extends Component {
               boxShadow: "unset",
               height: "40px",
               left: "30px",
+              color: "#ccc",
               width: "219px"
             }} >
             {`${this.state.games.length} participantes`}
