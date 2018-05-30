@@ -107,18 +107,18 @@
                       keyAccessor={(d) => d.gameId}
 
                       start={(d,i) => ({
-                        opacity: 0.5,
+                        opacity: 0.8,
                         opacity2: 0.0,
-                        x: 5,
-                        y: 5 
+                        x: -0.2,
+                        y: -0.2 
                       })}
 
                       enter={(d,i) => ([{
-                        opacity: [0.5],
+                        opacity: [0.8],
                         opacity2: [0.5],
                         x: [d.res.a],
                         y: [d.res.h],
-                        timing: { delay: i*80,duration: 1250, ease: easeExpInOut },
+                        timing: { delay: i*100,duration: 1000, ease: easeExpInOut },
                         events: {
                           end() { // runs in the context of the node
                             
@@ -133,7 +133,7 @@
                       },{
                         opacity: [0],
                         opacity2: [0],
-                        timing: {delay:(i*80)+1250}
+                        timing: {delay:(i*100)+1000}
                       }]
 
                     )}
@@ -152,7 +152,7 @@
                                   cx={x*unit}
                                   cy={y*unit}
                                   strokeWidth={0.6}
-                                  r={1}
+                                  r={1.5}
                                 />
                                 <text 
                                   transform={`rotate(135 ${x*unit} ${y*unit})`}
