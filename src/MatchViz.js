@@ -60,9 +60,9 @@
       return <div style={{position: "relative"}}>
               {/* <div style={{position: "absolute", top: "100px", left: "100px"}} className={`viz-flags f-${this.teams[this.props.match.home_team].iso2}`}></div>
               <div style={{position: "absolute", top: "100px", left: "500px"}} className={`viz-flags f-${this.teams[this.props.match.away_team].iso2}`}></div> */}
-              <svg viewBox="0 0 200 200"> 
+              <svg viewBox="0 0 180 180"> 
 
-                <g transform="translate(100,150) rotate(225 0 0)">
+                <g transform="translate(90,160) rotate(225 0 0)">
                     {/* <text transform={`rotate(135 0 0)`} style={{fontSize:"4px", fontFamily: "Lato"}}  x={0} dx={-4} dy={7} y={0} >0 x 0</text> */}
                     <line x1={-0*unit} y1={-0*unit} x2={-0*unit} y2={100} style={{stroke: "black",strokeWidth: 0.6}} opacity={0.8}/>
                     {[...Array(6).keys()].map((gols) => {

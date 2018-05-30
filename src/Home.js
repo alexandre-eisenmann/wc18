@@ -71,8 +71,8 @@ class Home extends Component {
                       whiteSpace: "nowrap",
                       marginLeft: "calc(-80vw)",
                       display: "inline-block"}}>
-              {flags.map((clazz) => {
-                return <div className={` ${clazz} flags-strip`} ></div>
+              {flags.map((clazz,i) => {
+                return <div key={i} className={` ${clazz} flags-strip`} ></div>
               })}
 
 
