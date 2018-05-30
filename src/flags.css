@@ -11,9 +11,9 @@
 }
 
 .viz-flags {
-  width: 64px;
-  height: 48px;
-  box-shadow: 0 0 2px rgba(0,0,0,.14), 0 2px 4px rgba(0,0,0,.28);
+  width: 128px;
+  height: 96px;
+  box-shadow: 0 0 1px rgba(0,0,0,.14), 0 2px 4px rgba(0,0,0,.28);
 }
 
 

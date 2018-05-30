@@ -13,6 +13,7 @@
   import FontIcon from 'material-ui/FontIcon';
   import IconButton from 'material-ui/IconButton';
   import { easeExpInOut } from 'd3-ease';
+  
 
   export default class MatchViz extends Component {
 
@@ -56,34 +57,44 @@
       const self = this
       const unit = 20
 
-      return <div>
-                {/* <div style={{position: "absolute", left: "300px"}}>
-                  <div className={`viz-flags f-${this.teams[this.props.match.home_team].iso2}`}></div>
-                  <div className={`viz-flags f-${this.teams[this.props.match.away_team].iso2}`}></div>
-                </div> */}
+      return <div style={{position: "relative"}}>
+              {/* <div style={{position: "absolute", top: "100px", left: "100px"}} className={`viz-flags f-${this.teams[this.props.match.home_team].iso2}`}></div>
+              <div style={{position: "absolute", top: "100px", left: "500px"}} className={`viz-flags f-${this.teams[this.props.match.away_team].iso2}`}></div> */}
+              <svg viewBox="0 0 200 200"> 
 
-              <svg viewBox="0 0 200 110"> 
-
-                <g transform="translate(100,100) rotate(225 0 0)">
-                    <line x1={-0*unit} y1={-0*unit} x2={-0*unit} y2={100} style={{stroke: "black",strokeWidth: 0.4}} opacity={0.2}/>
-                    <text transform="rotate(180 100 0) " style={{fontSize:"4px", fontFamily: "Lato"}}  x={100} dy={4} y={0} >{this.teams[this.props.match.away_team].name.toUpperCase()}</text>
-                    <line x1={-0*unit} y1={-0*unit} x2={100} y2={-0*unit} style={{stroke: "black", strokeWidth: 0.4}} opacity={0.2}/>
-                    <text transform="rotate(90 0 100)" style={{ fontSize:"4px", fontFamily: "Lato"}} textAnchor={"end"}  x={0} dy={4} y={100} >{this.teams[this.props.match.home_team].name.toUpperCase()}</text>
+                <g transform="translate(100,150) rotate(225 0 0)">
+                    {/* <text transform={`rotate(135 0 0)`} style={{fontSize:"4px", fontFamily: "Lato"}}  x={0} dx={-4} dy={7} y={0} >0 x 0</text> */}
+                    <line x1={-0*unit} y1={-0*unit} x2={-0*unit} y2={100} style={{stroke: "black",strokeWidth: 0.6}} opacity={0.8}/>
+                    {[...Array(6).keys()].map((gols) => {
+                        return <g key={gols}>
+                          <line x1={gols*unit} y1={-0*unit} x2={gols*unit} y2={100} style={{stroke: "black",strokeWidth: 0.2}} opacity={0.2}/>
+                          <line x1={-0*unit} y1={gols*unit} x2={100} y2={gols*unit} style={{stroke: "black", strokeWidth: 0.2}} opacity={0.2}/>
+                          {gols < 5 ?
+                            <g>
+                              <text opacity={0.5} transform={`rotate(180 ${gols*unit} 100)`} style={{fontSize:"4px", fontFamily: "Lato"}}  x={gols*unit} dx={-4} dy={4} y={100} >{gols}</text>
+                              <text opacity={0.5} transform={`rotate(90 100 ${gols*unit})`} style={{fontSize:"4px", fontFamily: "Lato"}}  x={100} dx={1} dy={4} y={gols*unit} >{gols}</text>
+                            </g>: null}
+                        </g>
+                    })}
+ 
+                    <text transform="rotate(180 100 0) " style={{fontSize:"6px", fontFamily: "Lato"}}  x={100} dy={8} y={0} >{this.teams[this.props.match.away_team].name.toUpperCase()}</text>
+                    <line x1={-0*unit} y1={-0*unit} x2={100} y2={-0*unit} style={{stroke: "black", strokeWidth: 0.6}} opacity={0.8}/>
+                    <text transform="rotate(90 0 100)" style={{ fontSize:"6px", fontFamily: "Lato"}} textAnchor={"end"}  x={0} dy={8} y={100} >{this.teams[this.props.match.home_team].name.toUpperCase()}</text>
 
                     {Object.keys(this.state.summary).map((key,i) => {
                       const qtd = this.state.summary[key]
                       const a = key.substring(0,1) 
                       const h = key.substring(2,3)
-                      // const r = Math.sqrt(qtd/Math.PI)*5 
-                      const r = qtd
+                      const r = Math.sqrt(qtd/Math.PI)*5 
+                      // const r = qtd
                       if (a != h) {
-                        const color = a > h ? "red" : "blue"
-                        return <circle key={i} fill={color} cx={a*unit} cy={h*unit} r={r} opacity={0.5}/>
+                        const color = a > h ? pink500 : blue500
+                        return <circle key={i} fill={color} cx={a*unit} cy={h*unit} r={r} opacity={0.8}/>
                       } else {
                         const rr = Math.sin(Math.PI/4)*(r)
                         return <g key={i} >
-                          <path fill={"red"} d = {`M${a*unit-rr},${h*unit-rr} L${a*unit+rr},${h*unit+rr} A${r},${r} 0 1,0 ${a*unit-rr},${h*unit-rr} z`} opacity={0.5}/>
-                          <path fill={"blue"}  d = {`M${a*unit-rr},${h*unit-rr} L${a*unit+rr},${h*unit+rr} A${r},${r} 0 1,1 ${a*unit-rr},${h*unit-rr} z`}opacity={0.5} />
+                          <path fill={pink500} d = {`M${a*unit-rr},${h*unit-rr} L${a*unit+rr},${h*unit+rr} A${r},${r} 0 1,0 ${a*unit-rr},${h*unit-rr} z`} opacity={0.8}/>
+                          <path fill={blue500}  d = {`M${a*unit-rr},${h*unit-rr} L${a*unit+rr},${h*unit+rr} A${r},${r} 0 1,1 ${a*unit-rr},${h*unit-rr} z`}opacity={0.8} />
                         </g>
 
                       }
@@ -97,15 +108,17 @@
 
                       start={(d,i) => ({
                         opacity: 0.5,
-                        x: 0,
-                        y: 0 
+                        opacity2: 0.0,
+                        x: 5,
+                        y: 5 
                       })}
 
                       enter={(d,i) => ([{
                         opacity: [0.5],
+                        opacity2: [0.5],
                         x: [d.res.a],
                         y: [d.res.h],
-                        timing: { delay: i*80,duration: 750, ease: easeExpInOut },
+                        timing: { delay: i*80,duration: 1250, ease: easeExpInOut },
                         events: {
                           end() { // runs in the context of the node
                             
@@ -119,7 +132,8 @@
 
                       },{
                         opacity: [0],
-                        timing: {delay:(i*80)+750}
+                        opacity2: [0],
+                        timing: {delay:(i*80)+1250}
                       }]
 
                     )}
@@ -127,20 +141,30 @@
                       {(nodes) => (
                         <g>
                           {nodes.map(({ key, data, state }) => {  
-                            const { opacity, x, y, ...rest } = state;
+                            const { opacity, opacity2, x, y, ...rest } = state;
                             
 
                             return (
                                 <g key={key}>
                                 <circle 
-                                  stroke={"black"}
-                                  fill={"transparent"}
+                                  fill={data.res.a > data.res.h ? pink500 : blue500}
                                   opacity={opacity} 
                                   cx={x*unit}
                                   cy={y*unit}
                                   strokeWidth={0.6}
-                                  r={2}
+                                  r={1}
                                 />
+                                <text 
+                                  transform={`rotate(135 ${x*unit} ${y*unit})`}
+                                  style={{fontSize:"4px", fontFamily: "Lato"}}
+                                  opacity={opacity2} 
+                                  textAnchor="middle"
+                                  x={x*unit}
+                                  y={y*unit}
+                                  dy={-5}
+                                  strokeWidth={0.6}
+                                >{`${data.res.a} x ${data.res.h}`}</text>
+                                
                                 </g>
                             );
                           })}
