@@ -38,23 +38,18 @@ export default class Viz extends Component {
       }
     })
 
-    
-
-
-
-    // this.state = {games: [], summary: {}}
   }
 
   componentWillUnmount() {
   }
 
   componentDidMount() {
-      // this.loadGames(15)
   }
 
 
   render() {
     return  <div>
+      <div style={{margin: "auto", fontWeight: "bold", marginTop: "50px", fontSize: "30px", fontFamily: "Roboto Condensed"}} >ESPAÇO DE PALPIPES </div>
       {this.upcomming.map((match,i) => {
         return <MathViz key={i} match={match} />
       })}
