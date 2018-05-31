@@ -56,7 +56,7 @@
       const self = this
       const unit = 20
 
-      return <div style={{position: "relative"}}>
+      return <div style={{margin: "auto", maxWidth: "500px", position: "relative"}}>
               <svg viewBox="0 0 180 180"> 
                 <g transform="translate(90,160) rotate(225 0 0)">
                     <line x1={-0*unit} y1={-0*unit} x2={-0*unit} y2={100} style={{stroke: "black",strokeWidth: 0.6}} opacity={0.8}/>
