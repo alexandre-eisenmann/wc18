@@ -9,6 +9,8 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import ActionHome from 'material-ui/svg-icons/action/home';
 import FontIcon from 'material-ui/FontIcon';
 import moment from 'moment'
+import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
 
 
 
@@ -82,21 +84,54 @@ class Home extends Component {
           <div style={{position: "absolute", top: "30px", color: "white", textAlign: "left", marginLeft: "30px"}}>
             <p style={{fontSize: "40px", fontFamily: 'Roboto Condensed'}}>Bolão dos Bolões</p>
             <p style={{fontSize: "16px", marginTop: "-30px", width: "300px", fontFamily: 'Open Sans'}}>
-            Façam seus palpites para a copa da Russia 2018! Você terá oportunidade de fazer pontos mesmo que 
-            não acerte o resultado em cheio. O ganhador será aquele com maior número de pontos entre todas 
-            as partidas da primeria fase. <a  style={{color: "white"}} href="#regulamento">Veja o regulamento abaixo</a>.
+            Façam seus palpites para a copa da Russia 2018! O ganhador é aquele com maior
+            número de pontos entre todas as partidas da primera fase. 
+            
+              <FlatButton
+                  label="Regulamento" 
+                  style={{color: "white", 
+                          marginTop: "16px",
+                          height: "unset",
+                          borderRadius: "48px",
+                          border: "6px solid white",
+                          backgroundColor: "transparent",
+                          fontFamily: "Roboto Condensed"
+                        }}
+                  href="#regulamento"
+                />
+
+              <FlatButton
+                  label="Jogar" 
+                  style={{color: "white", 
+                          marginLeft: "20px",
+                          marginTop: "16px",
+                          height: "unset",
+                          borderRadius: "48px",
+                          border: "6px solid white",
+                          fontFamily: "Roboto Condensed",
+                          backgroundColor: "transparent"}}
+                  href="/bids"
+                />
+
+
 
             </p>
 
             
           </div>
-            <div style={{marginTop: "30px"}}>
+
+            <div style={{fontWeight: "bold", color: "#009B3A", fontFamily: "Roboto Condensed", margin: "auto", marginTop: "30px"}}>SCROLL</div>
+            <a href="#regulamento">
+              <div className="arrow" style={{margin: "auto", marginTop: "5px"}}> </div>
+            </a>
+
+            {/* <div style={{marginTop: "30px"}}>
             <FloatingActionButton secondary={true} style={{}}
             href = "/bids"
             >
             <FontIcon className="material-icons">arrow_forward_ios</FontIcon>
             </FloatingActionButton>
-            </div>
+            </div> */}
           
         </div>
 

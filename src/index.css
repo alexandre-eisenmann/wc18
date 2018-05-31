@@ -250,3 +250,12 @@ ul {
 
   
 }
+
+
+.arrow {
+  background: url(arrow.svg) no-repeat top left; 
+  background-size: contain;
+  width: 40px;
+  height: 40px;
+}
+
