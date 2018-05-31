@@ -129,7 +129,7 @@ class Home extends Component {
             </a>
         </div>
 
-        <div id="viz" style={{marginTop:"100px", width: "100%", overflow: "hidden"}} >
+        <div  style={{marginTop:"100px", width: "100%", overflow: "hidden"}} >
           <Viz />
         </div>
 
