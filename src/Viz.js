@@ -49,7 +49,12 @@ export default class Viz extends Component {
 
   render() {
     return  <div>
-      <div style={{margin: "auto", fontWeight: "bold", marginTop: "50px", fontSize: "30px", fontFamily: "Roboto Condensed"}} >ESPAÇO DE PALPIPES </div>
+      <div style={{margin: "auto", textAlign: "left", fontWeight: "bold", paddingLeft:"20px", paddingRight: "20px", marginTop: "50px",width: "340px", fontSize: "30px", fontFamily: "Roboto Condensed"}} >ESPAÇO DE PALPIPES </div>
+      <div style={{margin: "auto", fontFamily: "Open Sans", marginTop: "20px", paddingLeft:"20px", paddingRight: "20px", textAlign: "left", width: "340px"}} >
+      Os gráficos abaixam representam a distribuição de palpites para os próximos jogos. A área de cada círculo é proporcional
+      ao número de apostadores para o resultado. Observem que os empates situam-se bem na linha vertical que passa pela 
+      origem (zero a zero) e o resultado 5 a 5. 
+      </div>
       {this.upcomming.map((match,i) => {
         return <MathViz key={i} match={match} />
       })}

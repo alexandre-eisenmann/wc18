@@ -58,7 +58,7 @@ class Home extends Component {
         <div style={{width: "100%", height: "260px"}} >
           <div className="stripe">
           <div style={{paddingTop: "130px"}}>
-              <div class="scroll-left">
+              <div className="scroll-left">
                 <div>FALTAM <span style={{
                   paddingLeft: "6px", 
                   paddingRight: "6px",
@@ -86,7 +86,7 @@ class Home extends Component {
 
           <div style={{position: "absolute", top: "30px", color: "white", textAlign: "left", marginLeft: "30px"}}>
             <p style={{fontSize: "40px", fontFamily: 'Roboto Condensed'}}>Bolão dos Bolões</p>
-            <p style={{fontSize: "16px", marginTop: "-30px", width: "300px", fontFamily: 'Open Sans'}}>
+            <div style={{fontSize: "16px", marginTop: "-30px", width: "300px", fontFamily: 'Open Sans'}}>
             Façam seus palpites para a copa da Russia 2018! O ganhador é aquele com maior
             número de pontos entre todas as partidas da primera fase. 
             
@@ -118,7 +118,7 @@ class Home extends Component {
 
 
 
-            </p>
+            </div>
 
             
           </div>
