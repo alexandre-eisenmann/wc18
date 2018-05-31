@@ -97,7 +97,7 @@ class Home extends Component {
                           backgroundColor: "transparent",
                           fontFamily: "Roboto Condensed"
                         }}
-                  href="#regulamento"
+                  href="/rules"
                 />
 
               <FlatButton

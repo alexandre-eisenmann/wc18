@@ -12,6 +12,7 @@ import Home from './Home'
 import Login from './Login'
 import Leaderboard from './Leaderboard'
 import Viz from './Viz'
+import Rules from './Rules'
 import Payment from './Payment'
 import * as firebase from 'firebase'
 import {Tabs, Tab} from 'material-ui/Tabs';
@@ -118,6 +119,7 @@ class Main extends Component {
               <Route path="/payment" component={Payment}/>
               <Route path="/leaderboard" component={Leaderboard}/>
               <Route path="/viz" component={Viz}/>
+              <Route path="/rules" component={Rules}/>
 
 
             </div>
