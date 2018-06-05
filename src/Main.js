@@ -12,6 +12,7 @@ import Home from './Home'
 import Login from './Login'
 import Leaderboard from './Leaderboard'
 import Viz from './Viz'
+import VizHist from './VizHist'
 import Rules from './Rules'
 import Payment from './Payment'
 import * as firebase from 'firebase'
@@ -120,7 +121,7 @@ class Main extends Component {
               <Route path="/leaderboard" component={Leaderboard}/>
               <Route path="/viz" component={Viz}/>
               <Route path="/rules" component={Rules}/>
-
+              <Route path="/vizhist" component={VizHist}/>
 
             </div>
 
