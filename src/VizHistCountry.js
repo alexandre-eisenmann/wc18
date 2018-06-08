@@ -36,58 +36,15 @@ export default class VizHist extends Component {
     this.state = {results: {}, tab: {}}
   }
 
-  componentDidMount() {
-    const self = this
-    const db = firebase.app().database(`https://worldcup-27dc4-741d7.firebaseio.com/`)
-    const results = {}
-    db.ref(`summary/${this.props.country}`).once('value', snapshot => {
-      snapshot.forEach(function(childSnapshot) {
-        var year = childSnapshot.key
-        var matches = childSnapshot.val()
-        matches.map((match) => {
-          // if (match.home_team == "Portugal" || match.away_team == "Portugal") {
-            const games = results[year] || []
-            games.push(match)
-            results[year] = games
-          // }
-        })
-      });
-      self.setState({results: results, tab: self.tabular(this.props.country, results)})
-    })
-
-  }
-
-  tabular(team, results) {
-    const tab = {}
-    Object.keys(results).map((key) => {
-      const stat = {v: 0, l:0, t: 0}
-        results[key].map((match) => {
-        
-          if (match.home_team == team) {
-            if (match.home_score > match.away_score) {
-              stat.v++
-            } else if (match.home_score < match.away_score) {
-              stat.l++
-            } else {
-              stat.t++
-            }
-          } else {
-            if (match.home_score > match.away_score) {
-              stat.l++
-            } else if (match.home_score < match.away_score) {
-              stat.v++
-            } else {
-              stat.t++
-            }
-          }
-      })
-      tab[key] = stat
-    })
-    return tab;
+  componentWillReceiveProps(props) {
+    if (props.data) {
+      this.setState({result: props.data.result, tab: props.data.tab})
+    }
   }
 
 
   render() {
+    if (!this.state.tab) return null
     const years = Object.keys(this.state.tab)
     const m = 5
     return (
@@ -98,7 +55,7 @@ export default class VizHist extends Component {
         <text dx={10} dy={-3} style={{fontFamily: "Lato", fontSize: "15px"}} >{this.props.country.toUpperCase()}</text>
         {[...Array(2018-init).keys()].map((key) => {
           const year = init + key
-            return <g>
+            return <g key={key}>
               {(year+2) % 4 == 0 && <text fill={"rgba(255,255,255,0.8)"} x={x(year)+w/2} y={6} style={{textAnchor: "middle", fontFamily: "Lato", fontSize: "4px"}}>{year}</text>}
             </g>
         })}

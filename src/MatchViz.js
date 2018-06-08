@@ -13,6 +13,7 @@
   import FontIcon from 'material-ui/FontIcon';
   import IconButton from 'material-ui/IconButton';
   import { easeExpInOut } from 'd3-ease';
+import { connect } from "tls";
   
 
   export default class MatchViz extends Component {
@@ -20,43 +21,52 @@
     constructor(props) {
       super(props)
       this.teams = data.teams.reduce((acc,ele) => {acc[ele.id] = ele; return acc}, {})
-      this.state = {games: [], summary: {}}
+      this.state = {render: false, games: this.props.games, summary: {}}
+      this.ref = React.createRef()
+
     }
 
-    componentWillUnmount() {
+    componentWillReceiveProps(props) {
+      if (props.games && props.games.length > 0) {
+        this.checkIfInViewport()
+        this.setState({games: props.games})
+      }
+    }
+
+    isInViewport() {
+      if (!this.ref.current) return false;
+      const rect = this.ref.current.getBoundingClientRect()
+      const top = rect.top;
+      const height = rect.height
+      return top < window.innerHeight && (top + height) > 0
+    }
+  
+    checkIfInViewport() {
+      if (this.isInViewport()) {
+        this.setState({render: true})
+      } 
     }
 
     componentDidMount() {
-        this.loadGames(this.props.match.name)
+      this.checkIfInViewport()
+      window.addEventListener('scroll', this.handleScroll.bind(this))
+      
+    }
+  
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.handleScroll.bind(this))
+    }
+  
+    handleScroll(event)  {
+      this.checkIfInViewport()
     }
 
-    loadGames = (matchId) => {
-      const games = []
-      firebase.database().ref(`wc18`).once('value', snapshot => {
-        snapshot.forEach(function(childSnapshot) {
-          var childKey = childSnapshot.key
-          var childData = childSnapshot.val()
 
-          Object.keys(childData).map((key) => {
-            const id = key
-            const details = { res:childData[key][matchId],status:childData[key].status}
-            
-            if (details.status == "payed") {
-              Object.assign(details, {gameId: id, userId: childKey})
-              
-              games.push(details)
-            }
-        })
-        });
-        this.setState({games: games})
-      })
-    }
-
-    render() {
+   render() {
       const self = this
       const unit = 20
 
-      return <div style={{margin: "auto", maxWidth: "500px", position: "relative"}}>
+      return <div ref={this.ref} style={{margin: "auto", maxWidth: "500px", position: "relative"}}>
               <svg viewBox="0 0 180 180"> 
                 <g transform="translate(90,160) rotate(225 0 0)">
                     <line x1={-0*unit} y1={-0*unit} x2={-0*unit} y2={100} style={{stroke: "black",strokeWidth: 0.6}} opacity={0.8}/>
@@ -96,8 +106,7 @@
                     } )}
 
 
-
-                    <NodeGroup
+                    {this.state.render && this.state.games && <NodeGroup
                       data={this.state.games}
                       keyAccessor={(d) => d.gameId}
 
@@ -165,7 +174,7 @@
                           })}
                         </g>
                       )}
-                  </NodeGroup>
+                  </NodeGroup>}
                 </g>
             </svg>
         </div>

@@ -33,17 +33,74 @@ export default class VizHist extends Component {
 
   constructor(props) {
     super(props)
+    this.state = {data: {}}
   }
 
   componentDidMount() {
+    const db = firebase.app().database(`https://worldcup-27dc4-741d7.firebaseio.com/`)
+    this.loadCountry(db, "Russia")
+    this.loadCountry(db, "Saudi Arabia")
+    // this.loadCountry(db, "Brazil")
   }
 
+  loadCountry(db,home_team) {
+    const self = this
+    const results = {}
+    db.ref(`summary/${home_team}`).once('value', snapshot => {
+      snapshot.forEach(function(childSnapshot) {
+        var year = childSnapshot.key
+        var matches = childSnapshot.val()
+        matches.map((match) => {
+          // if (match.home_team == "Portugal" || match.away_team == "Portugal") {
+            const games = results[year] || []
+            games.push(match)
+            results[year] = games
+          // }
+        })
+      });
+      const clone = {...this.state.data}
+      clone[home_team] = {results: results, tab: self.tabular(home_team, results)}
+      self.setState({data: clone})
+    })
+    
+  }
+
+  tabular(team, results) {
+    const tab = {}
+    Object.keys(results).map((key) => {
+      const stat = {v: 0, l:0, t: 0}
+        results[key].map((match) => {
+        
+          if (match.home_team == team) {
+            if (match.home_score > match.away_score) {
+              stat.v++
+            } else if (match.home_score < match.away_score) {
+              stat.l++
+            } else {
+              stat.t++
+            }
+          } else {
+            if (match.home_score > match.away_score) {
+              stat.l++
+            } else if (match.home_score < match.away_score) {
+              stat.v++
+            } else {
+              stat.t++
+            }
+          }
+      })
+      tab[key] = stat
+    })
+    return tab;
+  }
+  
 
   render() {
     return (
       <div style={{margin: "auto", width: "80%", position: "relative"}}>
-         <VizHistCountry country="Russia"/>
-         <VizHistCountry country="Saudi Arabia"/>
+         <VizHistCountry country="Russia" data={this.state.data['Russia']}/>
+         <VizHistCountry country="Saudi Arabia" data={this.state.data['Saudi Arabia']}/>
+         {/* <VizHistCountry country="Brazil" data={this.state.data['Brazil']}/> */}
       </div>
 
 

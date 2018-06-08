@@ -19,6 +19,15 @@ export default class Viz extends Component {
   constructor(props) {
     super(props)
 
+    this.state = {gamesMap: {}, upcomming: []}
+
+
+  }
+
+  componentWillUnmount() {
+  }
+
+  componentDidMount() {
     const matches = ['a','b','c','d','e','f','g','h'].map((group) => data.groups[group].matches).reduce((acc,ele) => acc.concat(ele),[])
     const sortedMatches = matches.sort((a,b) => {
       if (moment(a.date).isBefore(moment(b.date) )) 
@@ -31,19 +40,46 @@ export default class Viz extends Component {
     this.matches = sortedMatches
     this.teams = data.teams.reduce((acc,ele) => {acc[ele.id] = ele; return acc}, {})
     const today = moment(new Date());
-    this.upcomming = []
+    const up = []
     sortedMatches.map((match) => {
-      if (!today.isAfter(match.date) && this.upcomming.length<5) {
-        this.upcomming.push(match)
+      if (!today.isAfter(match.date) && up.length<5) {
+        up.push(match)
       }
     })
 
+    this.setState({upcomming: up})
+    this.loadGames(up)
   }
 
-  componentWillUnmount() {
-  }
+  loadGames = (upcomming) => {
+    const self = this
+    const map = {}
+    firebase.database().ref(`wc18`).once('value', snapshot => {
+      snapshot.forEach(function(childSnapshot) {
+        var childKey = childSnapshot.key
+        var childData = childSnapshot.val()
 
-  componentDidMount() {
+        Object.keys(childData).map((key) => {
+          const id = key
+          upcomming.map((match) => {
+            const matchId = match.name
+            // console.log(matchId)
+            const details = { res:childData[key][matchId],status:childData[key].status}
+          
+            if (details.status == "payed") {
+              Object.assign(details, {gameId: id, userId: childKey})
+              let games = map[matchId]
+              if (!games) games = []
+              games.push(details)
+              map[matchId] = games
+            }
+              
+          })
+
+      })
+      });
+      this.setState({gamesMap: map})
+    })
   }
 
 
@@ -55,8 +91,9 @@ export default class Viz extends Component {
       ao número de apostadores para o resultado. Observem que os empates situam-se bem na linha vertical que passa pela 
       origem (zero a zero) e o resultado 5 a 5. 
       </div>
-      {this.upcomming.map((match,i) => {
-        return <MathViz key={i} match={match} />
+      { this.state.upcomming.map((match,i) => {
+        // console.log("aaaa", this.state.gamesMap[match.name])
+        return <MathViz key={i} match={match} games={this.state.gamesMap[match.name]}/>
       })}
       
       
