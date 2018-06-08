@@ -1,6 +1,5 @@
   import React, { Component } from "react";
   import NodeGroup from 'react-move/NodeGroup';
-
   import data from './data.json'
   import moment from 'moment'
   import { StickyTable, Row, Cell } from 'react-sticky-table';
@@ -66,25 +65,27 @@ import { connect } from "tls";
       const self = this
       const unit = 20
 
+      const color = this.props.darkMode ? "white" : "black"
+
       return <div ref={this.ref} style={{margin: "auto", maxWidth: "500px", position: "relative"}}>
               <svg viewBox="0 0 180 180"> 
                 <g transform="translate(90,160) rotate(225 0 0)">
-                    <line x1={-0*unit} y1={-0*unit} x2={-0*unit} y2={100} style={{stroke: "black",strokeWidth: 0.6}} opacity={0.8}/>
+                    <line x1={-0*unit} y1={-0*unit} x2={-0*unit} y2={100} style={{stroke: color,strokeWidth: 0.6}} opacity={0.8}/>
                     {[...Array(6).keys()].map((gols) => {
                         return <g key={gols}>
-                          <line x1={gols*unit} y1={-0*unit} x2={gols*unit} y2={100} style={{stroke: "black",strokeWidth: 0.2}} opacity={0.2}/>
-                          <line x1={-0*unit} y1={gols*unit} x2={100} y2={gols*unit} style={{stroke: "black", strokeWidth: 0.2}} opacity={0.2}/>
+                          <line x1={gols*unit} y1={-0*unit} x2={gols*unit} y2={100} style={{stroke: color,strokeWidth: 0.2}} opacity={0.2}/>
+                          <line x1={-0*unit} y1={gols*unit} x2={100} y2={gols*unit} style={{stroke: color, strokeWidth: 0.2}} opacity={0.2}/>
                           {gols < 5 ?
                             <g>
-                              <text opacity={0.5} transform={`rotate(180 ${gols*unit} 100)`} style={{fontSize:"4px", fontFamily: "Lato"}}  x={gols*unit} dx={-4} dy={4} y={100} >{gols}</text>
-                              <text opacity={0.5} transform={`rotate(90 100 ${gols*unit})`} style={{fontSize:"4px", fontFamily: "Lato"}}  x={100} dx={1} dy={4} y={gols*unit} >{gols}</text>
+                              <text opacity={0.5} fill={color} transform={`rotate(180 ${gols*unit} 100)`} style={{fontSize:"4px", fontFamily: "Lato"}}  x={gols*unit} dx={-4} dy={4} y={100} >{gols}</text>
+                              <text opacity={0.5} fill={color} transform={`rotate(90 100 ${gols*unit})`} style={{fontSize:"4px", fontFamily: "Lato"}}  x={100} dx={1} dy={4} y={gols*unit} >{gols}</text>
                             </g>: null}
                         </g>
                     })}
  
-                    <text transform="rotate(180 100 0) " style={{fontSize:"6px", fontFamily: "Lato"}}  x={100} dy={8} y={0} >{this.teams[this.props.match.away_team].name.toUpperCase()}</text>
-                    <line x1={-0*unit} y1={-0*unit} x2={100} y2={-0*unit} style={{stroke: "black", strokeWidth: 0.6}} opacity={0.8}/>
-                    <text transform="rotate(90 0 100)" style={{ fontSize:"6px", fontFamily: "Lato"}} textAnchor={"end"}  x={0} dy={8} y={100} >{this.teams[this.props.match.home_team].name.toUpperCase()}</text>
+                    <text transform="rotate(180 100 0) " fill={color} style={{fontSize:"6px", fontFamily: "Lato"}}  x={100} dy={8} y={0} >{this.props.awayTeam.toUpperCase()}</text>
+                    <line x1={-0*unit} y1={-0*unit} x2={100} y2={-0*unit} style={{stroke: color, strokeWidth: 0.6}} opacity={0.8}/>
+                    <text transform="rotate(90 0 100)" fill={color} style={{ fontSize:"6px", fontFamily: "Lato"}} textAnchor={"end"}  x={0} dy={8} y={100} >{this.props.homeTeam.toUpperCase()}</text>
 
                     {Object.keys(this.state.summary).map((key,i) => {
                       const qtd = this.state.summary[key]
@@ -167,6 +168,7 @@ import { connect } from "tls";
                                   y={y*unit}
                                   dy={-5}
                                   strokeWidth={0.6}
+                                  fill={color}
                                 >{`${data.res.a} x ${data.res.h}`}</text>
                                 
                                 </g>

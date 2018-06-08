@@ -17,6 +17,9 @@ import * as firebase from 'firebase'
 import * as d3 from 'd3';
 import NodeGroup from 'react-move/NodeGroup';
 import { easeExpInOut } from 'd3-ease';
+import MathViz from './MatchViz'
+
+
 
 
 
@@ -38,29 +41,40 @@ export default class VizHist extends Component {
 
   componentDidMount() {
     const db = firebase.app().database(`https://worldcup-27dc4-741d7.firebaseio.com/`)
-    this.loadCountry(db, "Russia")
-    this.loadCountry(db, "Saudi Arabia")
+    this.loadCountry(db, "Brazil", "Germany")
+    this.loadCountry(db, "Germany")
     // this.loadCountry(db, "Brazil")
   }
 
-  loadCountry(db,home_team) {
+  loadCountry(db,team, other_team) {
     const self = this
     const results = {}
-    db.ref(`summary/${home_team}`).once('value', snapshot => {
+    const collect = []
+    db.ref(`summary/${team}`).once('value', snapshot => {
       snapshot.forEach(function(childSnapshot) {
         var year = childSnapshot.key
         var matches = childSnapshot.val()
         matches.map((match) => {
-          // if (match.home_team == "Portugal" || match.away_team == "Portugal") {
+            if (other_team) {
+              if (match.home_team == other_team) {
+                collect.push({gameId: match.id, res: {a: match.home_score,h: match.away_score}})
+              } else if (match.away_team == other_team) {
+                collect.push({gameId: match.id,res: {a: match.away_score,h: match.home_score}})
+              }
+            }
+
             const games = results[year] || []
             games.push(match)
             results[year] = games
-          // }
         })
       });
       const clone = {...this.state.data}
-      clone[home_team] = {results: results, tab: self.tabular(home_team, results)}
+      clone[team] = {results: results, tab: self.tabular(team, results)}
       self.setState({data: clone})
+      if (other_team) {
+        console.log(collect)
+        self.setState({cross: collect})
+      }
     })
     
   }
@@ -97,10 +111,12 @@ export default class VizHist extends Component {
 
   render() {
     return (
-      <div style={{margin: "auto", width: "80%", position: "relative"}}>
-         <VizHistCountry country="Russia" data={this.state.data['Russia']}/>
-         <VizHistCountry country="Saudi Arabia" data={this.state.data['Saudi Arabia']}/>
-         {/* <VizHistCountry country="Brazil" data={this.state.data['Brazil']}/> */}
+      <div style={{paddingTop: "20px", paddingBottom: "300px", paddingLeft: "10%", paddingRight: "10%", width: "80%", position: "relative", backgroundColor: "black"}}>
+         <div style={{fontFamily: "Lato", textAlign: "center", fontSize: "15px", color: "white"}}>BRAZIL</div>
+         <VizHistCountry country="Brazil" data={this.state.data['Brazil']}/>
+         <MathViz homeTeam="Brazil" awayTeam="Germany" games={this.state.cross} darkMode={true}/>
+         <VizHistCountry country="Germany" data={this.state.data['Germany']}/>
+         <div style={{fontFamily: "Lato", textAlign: "center", fontSize: "15px", color: "white"}}>GERMANY</div>
       </div>
 
 

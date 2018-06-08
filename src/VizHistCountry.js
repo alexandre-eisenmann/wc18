@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import {NavLink} from "react-router-dom";
 import Paper from 'material-ui/Paper'
 
-import {pink300,amberA700, blue500, blue300,grey300,grey400,grey200,lightGreen500, orange200,deepOrange500, orange900,yellow500,green700, orange500, blue600, cyan500,cyan600,cyan100, cyan200, cyan300, pink500,pink100} from 'material-ui/styles/colors'
+import {pink300, green500, green300, amber500, amber300, amberA700, blue500, blue300,grey300,grey400,grey200,lightGreen500, orange200,deepOrange500, orange900,yellow500,green700, orange500, blue600, cyan500,cyan600,cyan100, cyan200, cyan300, pink500,pink100} from 'material-ui/styles/colors'
 import './flags.css';
 import './scroll.css';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
@@ -46,13 +46,13 @@ export default class VizHist extends Component {
   render() {
     if (!this.state.tab) return null
     const years = Object.keys(this.state.tab)
-    const m = 5
+    const m = 4
     return (
-      <svg viewBox="0 0 600 300"> 
-      <g transform="translate(0,150)">
+      <svg viewBox="0 0 600 200" style={{border: "1px solid black", backgroundColor: "black"}}> 
+      <g transform="translate(0,100)">
         <g >
-        <rect x={x(init)} y={1} width={580} height={7} fill={"rgba(0,0,0,0.8)"} />
-        <text dx={10} dy={-3} style={{fontFamily: "Lato", fontSize: "15px"}} >{this.props.country.toUpperCase()}</text>
+        <rect x={x(init)} y={1} width={580} height={7} fill={"rgba(80,80,80,0.8)"} />
+        {/* <text y={-70} dx={10} style={{fontFamily: "Lato", fontSize: "15px"}} fill={"rgb(200,200,200)"}>{this.props.country.toUpperCase()}</text> */}
         {[...Array(2018-init).keys()].map((key) => {
           const year = init + key
             return <g key={key}>
@@ -87,9 +87,9 @@ export default class VizHist extends Component {
                   return <g  key={key}>
                           
                           {/* {(year+2) % 4 == 0 && <text fill={"rgba(255,255,255,0.8)"} x={x(year)+w/2} y={6} style={{textAnchor: "middle", fontFamily: "Lato", fontSize: "4px"}}>{key}</text>} */}
-                          <rect x={x(year)} y={-ve*height} width={w} height={ve*height} fill={blue500} />
-                          <rect x={x(year)} y={-e*height} width={w} height={e*height} fill={blue300} />
-                          <rect x={x(year)} y={9} width={w} height={d*height} fill={pink300}/>
+                          <rect x={x(year)} y={-ve*height} width={w} height={ve*height} fill={amber500} />
+                          <rect x={x(year)} y={-e*height} width={w} height={e*height} fill={amber300} />
+                          <rect x={x(year)} y={9} width={w} height={d*height} fill={"rgb(100,100,100)"}/>
                         </g>
                 })}
               </g>
