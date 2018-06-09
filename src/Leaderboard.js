@@ -11,6 +11,7 @@ import './flags.css';
 import SearchBar from 'material-ui-search-bar'
 import FontIcon from 'material-ui/FontIcon';
 import IconButton from 'material-ui/IconButton';
+import { amber300 } from "material-ui/styles/colors";
 
 
 
@@ -244,8 +245,8 @@ export default class Leaderboard extends Component {
         row.push(<Cell className="nameColumn" style={{  paddingTop: "10px", paddingBottom: "10px", paddingRight: "10px"}} key={`g${i}`} >
         <div >
           <span style={{marginTop: "0px", fontFamily: "Lato", float: "left", width: "20px", textAlign: "right"}}>{game.position}</span>
-          <span className="nameSize" style={{marginTop: "3px", fontSize: "10px", color:"rgba(50, 50, 50, 0.9)", fontFamily: "Lato", marginLeft: "10px",float: "left"}}><div style={{width: "130px", overflow: "hidden"}}> {game.name}</div></span>
-          <span className="ptsColumn" style={{ marginTop: "0px", color: "white", fontWeight: "bold", fontFamily: "Lato", marginLeft: "2px", textAlign: "right"}}> {game.total}</span>
+          <span className="nameSize" style={{marginTop: "3px", fontSize: "10px", color:"rgba(50, 50, 50, 0.9)", fontFamily: "Roboto Condensed", marginLeft: "10px",float: "left"}}><div style={{width: "130px", overflow: "hidden"}}> {game.name}</div></span>
+          <span className="ptsColumn" style={{ marginTop: "0px", color: pink500, fontWeight: "bold", fontFamily: "Lato", marginLeft: "2px", textAlign: "right"}}> {game.total}</span>
         </div>
         </Cell>)
         this.state.matches.map((match,j) => {
@@ -256,7 +257,7 @@ export default class Leaderboard extends Component {
           {this.renderPts(game[match.name].pts)}
           </Cell>)
       })
-      rows.push(<Row key={`row${i}`} style={{height: "30px"}}>{row}</Row>)
+      rows.push(<Row key={`row${i}`} className={`row-${i % 2}`} style={{height: "30px"}}>{row}</Row>)
       // }
     })
 

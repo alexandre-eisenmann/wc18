@@ -84,6 +84,13 @@ ul {
 
 .nameColumn {
   overflow: hidden;
+  background-color: #ddd;
+
+  
+  /* background-color: #4dd0e1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Cg fill='%231e88e5' fill-opacity='0.5'%3E%3Cpath fill-rule='evenodd' d='M0 0h4v4H0V0zm4 4h4v4H4V4z'/%3E%3C/g%3E%3C/svg%3E"); */
+  background-color: #eee;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath fill-rule='evenodd' d='M0 0h4v4H0V0zm4 4h4v4H4V4z'/%3E%3C/g%3E%3C/svg%3E");
 }
 
 .nameSize {
@@ -209,15 +216,29 @@ ul {
 
 
 .sticky-table-column {
-  background-image:url(background_gs.svg);
-  background-color: #eee;
-  padding-left: 20px;
-  border-right: 5px solid white;
+  /* background-image:url(background_gs.svg); */
+  /* background: linear-gradient(150deg,rgb(30, 136, 229) 15%,#05d5ff 70%,#a6ffcb 94%); */
+  /* background: linear-gradient(150deg,rgb(30, 136, 229) 15%,#05d5ff 70%,#a6ffcb 94%); */
+  /* background: linear-gradient(150deg,#DF620D 15%,#FFAC3B 70%,#FFE596 94%); */
+  /* background: linear-gradient(150deg,#FFE596 15%,#FFAC3B 70%, #DF620D 94%); */
+  /* background: linear-gradient(150deg,#fedf00 15%,#009b3a 70%, rgb(30, 136, 229) 94%); */
+  /* background: linear-gradient(150deg,black 15%,#009b3a 70%, rgb(30, 136, 229) 94%); */
+  /* background: linear-gradient(150deg,white 15%, rgb(30, 136, 229) 94%); */
+  /* background: linear-gradient(150deg,white 15%,rgb(77, 208, 225) rgb(30, 136, 229) 94%); */
+  background: linear-gradient(150deg,rgb(30, 136, 229) 15%, rgb(77, 208, 225) 70%, #eee 94%);
+  background-color: none !important;
+  padding-left: 25px;
+  border-right: 0px solid white;
   color: #333;
+  /* color: white */
 }
 
 .sticky-table-x-wrapper {
-  background-color:#eee;
+  background-color:white;
+}
+
+.row-0 {
+  background-color: #f6f6f6;
 }
 
 
@@ -242,7 +263,7 @@ ul {
   transition: all .15s ease;
   /* background: #3ecf8e; */
   text-shadow: 0 1px 3px rgba(36,180,126,.4);
-    background: linear-gradient(150deg,rgb(30, 136, 229) 15%,#05d5ff 70%,#a6ffcb 94%)
+  background: linear-gradient(150deg,rgb(30, 136, 229) 15%,#05d5ff 70%,#a6ffcb 94%)
 
   /* background: linear-gradient(150deg,#DF620D 15%,#FFAC3B 70%,#FFE596 94%) */
 
