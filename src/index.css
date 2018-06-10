@@ -229,8 +229,9 @@ ul {
   
 
   background-color: none !important;
-  padding-left: 24px;
-  border-right: 1px solid rgb(30, 136, 229);
+  padding-left: 23px;
+  /* border-right: 1px solid rgb(30, 136, 229); */
+  padding-right: 2px;
   color: #333;
   /* color: white */
 }
