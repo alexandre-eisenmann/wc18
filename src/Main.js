@@ -14,7 +14,7 @@ import Leaderboard from './Leaderboard'
 import Viz from './Viz'
 import VizHist from './VizHist'
 import Rules from './Rules'
-import Payment from './Payment'
+import NotAvailable from './NotAvailable'
 import * as firebase from 'firebase'
 import {Tabs, Tab} from 'material-ui/Tabs';
 import Slider from 'material-ui/Slider';
@@ -117,7 +117,7 @@ class Main extends Component {
               <Route path="/login/*" component={Login}/>
               <Route path="/bids" component={Bid}/>
               <Route path="/master" component={Master}/>
-              <Route path="/payment" component={Payment}/>
+              <Route path="/payment" component={NotAvailable}/>
               <Route path="/leaderboard" component={Leaderboard}/>
               <Route path="/viz" component={Viz}/>
               <Route path="/rules" component={Rules}/>

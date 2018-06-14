@@ -18,7 +18,7 @@ import Viz from './Viz'
 
 
 const today = moment(new Date());
-const startDate = moment([2018, 5, 15]);
+const startDate = moment([2018, 6, 16]);
 
 
 const style ={
@@ -67,7 +67,7 @@ class Home extends Component {
                   // borderRadius: "40px",
                   backgroundColor: "rgba(255,255,255,0.3)",
 
-                 fontSize: "40px", fontWeight: "bold", color: "red", fontFamily: "Lato"}}>{startDate.diff(today, 'days')}</span> DIAS PARA A COPA</div>
+                 fontSize: "40px", fontWeight: "bold", color: "red", fontFamily: "Lato"}}>{startDate.diff(today, 'days')}</span> DIAS PARA A FINAL DA COPA</div>
               </div>
             </div>
 
@@ -104,7 +104,7 @@ class Home extends Component {
                 />
 
               <FlatButton
-                  label="Jogar" 
+                  label="Tabelão" 
                   style={{color: "white", 
                           marginLeft: "20px",
                           marginTop: "16px",
@@ -113,7 +113,7 @@ class Home extends Component {
                           border: "6px solid white",
                           fontFamily: "Roboto Condensed",
                           backgroundColor: "transparent"}}
-                  href="/bids"
+                  href="/leaderboard"
                 />
 
 

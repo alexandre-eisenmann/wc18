@@ -91,7 +91,7 @@ import { connect } from "tls";
                       const qtd = this.state.summary[key]
                       const a = key.substring(0,1) 
                       const h = key.substring(2,3)
-                      const r = Math.sqrt(qtd/Math.PI)*5 
+                      const r = Math.sqrt(qtd/Math.PI)*3 
                       // const r = qtd
                       if (a != h) {
                         const color = a > h ? pink500 : blue500

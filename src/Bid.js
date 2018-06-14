@@ -275,7 +275,8 @@ export default class Bid extends Component {
         </div>          
         <div style={{display: "flex", flexWrap: "wrap", minHeight: "40px", position: "relative", paddingLeft: "20px", paddingRight: "60px", paddingTop: "5px",paddingBottom: "13px", backgroundColor: cyan300}}>
             {<div className="agdopagto-bubble">
-                Não esqueça de pagar seus jogos!
+                {/* Não esqueça de pagar seus jogos! */}
+                Apostas encerradas :(
             </div>}
 
             {Object.keys(this.state.bids).map((bid) => {
@@ -290,7 +291,8 @@ export default class Bid extends Component {
                </Chip>
                }
             })}
-            <FloatingActionButton href="/payment" disabled={!anyReadyToPay} secondary={true} style={{position: "absolute", 
+            <FloatingActionButton href="/payment" disabled={true} secondary={true} style={{position: "absolute", 
+            // <FloatingActionButton href="/payment" disabled={!anyReadyToPay} secondary={true} style={{position: "absolute", 
                 top:  "0px", right: "25px"}} mini={true} >
               <FontIcon className="material-icons">payment</FontIcon>
             </FloatingActionButton>
