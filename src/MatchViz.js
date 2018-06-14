@@ -127,9 +127,14 @@ import { connect } from "tls";
                         events: {
                           end() { // runs in the context of the node
                             
-                            const bag = {...self.state.summary}
-                            bag[d.res.a+"-"+d.res.h]=( bag[d.res.a+"-"+d.res.h] ? bag[d.res.a+"-"+d.res.h] : 0)+1
-                            self.setState({summary: bag })
+                            if (d.gameId == "master" && d.userId == "gabarito") {
+                              self.setState({result:{a: d.res.a, h: d.res.h}})
+
+                            } else {
+                              const bag = {...self.state.summary}
+                              bag[d.res.a+"-"+d.res.h]=( bag[d.res.a+"-"+d.res.h] ? bag[d.res.a+"-"+d.res.h] : 0)+1
+                              self.setState({summary: bag })
+                            }
                           },
                         },
 
@@ -147,8 +152,10 @@ import { connect } from "tls";
                         <g>
                           {nodes.map(({ key, data, state }) => {  
                             const { opacity, opacity2, x, y, ...rest } = state;
-                            
-
+                             
+                            if (data.gameId == "master" && data.userId == "gabarito") {
+                              return null
+                            } 
                             return (
                                 <g key={key}>
                                 <circle 
