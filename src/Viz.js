@@ -96,7 +96,8 @@ export default class Viz extends Component {
       origem (zero a zero) e o resultado 5 a 5. 
       </div>
       { this.state.upcomming.map((match,i) => {
-        return <MathViz key={i} homeTeam={this.teams[match.home_team].name} awayTeam={this.teams[match.away_team].name} games={this.state.gamesMap[match.name]} result={this.state.resultsMap[match.name]}/>
+        let r = this.state.resultsMap[match.name]
+        return <MathViz key={i} homeTeam={this.teams[match.home_team].name} awayTeam={this.teams[match.away_team].name} games={this.state.gamesMap[match.name]}  result={r} />
       })}
       
       

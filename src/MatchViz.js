@@ -111,14 +111,17 @@ import { Animate } from "react-move";
                         start={{
                           opacity: 0,
                           opacity2: 0,
-                          _a: 2.5,
-                          _h: 2.5,
-                          r_coeff:30
+                          opacity3: 0.2,
+                          opacity4: 0,
+                          _a: 5,
+                          _h: 5,
+                          r_coeff:0
                         }}
 
                         enter={[
                           {
                             opacity: [1],
+                            opacity4: [1],
                             _a: [this.props.result.a],
                             _h: [this.props.result.h],
                             r_coeff: [1],
@@ -126,6 +129,8 @@ import { Animate } from "react-move";
                           },
                           {
                             opacity2: [1],
+                            opacity3: [0],
+                            opacity4: [0],
                             _a: [this.props.result.a],
                             _h: [this.props.result.h],
                             timing: {delay: this.props.games.length*100 + 3000 + 100, duration: 1000, ease: easeExpInOut },                            
@@ -135,30 +140,27 @@ import { Animate } from "react-move";
 
                       >
                         {(state) => {
-                          const { _a, _h, r_coeff, opacity, opacity2 } = state ;
+                          const { _a, _h, r_coeff, opacity, opacity2, opacity3, opacity4 } = state ;
                           const a = _a*unit
                           const h = _h*unit
                           const ar = this.props.result.a
                           const hr = this.props.result.h
-                          const key = a+"-"+h
+                          const key = ar+"-"+hr
                           const qtd = this.state.summary[key]
                           const r = (qtd ? Math.sqrt(qtd/Math.PI)*3 : 3)*r_coeff
                           return <g>
-                              <circle key={"result"} fill={`rgba(255,255,255,0.2)`} strokeWidth={3} stroke={"rgba(174,234,0,0.5)"} cx={a} cy={h} r={r} opacity={opacity}/>
-                              <g transform={`rotate(45 ${a} ${h})`}>
-                                <line x1={a} y1={h-r-4} x2={a} y2={h+r+4} strokeWidth={0.2} stroke="black" opacity={opacity} />
-                                <line x1={a-r-4} y1={h} x2={a+r+4} y2={h} strokeWidth={0.2} stroke="black" opacity={opacity} />
-                              </g>
                               {[...Array(10).keys()].map((av) => {
                                 return [...Array(10).keys()].map((hv) => {
                                   const keyv = av+"-"+hv
                                   const qtdv = this.state.summary[keyv]
                                   if (qtdv) {
                                     const rv = Math.sqrt(qtdv/Math.PI)*3
-                                    if ( av-hv == ar-hr) {
-                                      return <circle key={`result-2${av}${hv}`} fill={`rgba(0,0,0,0.2)`} strokeWidth={3} stroke={"rgba(298,255,0,0.5)"} cx={av*unit} cy={hv*unit} r={rv} opacity={opacity2}/>
-                                    } else if (av > hv && ar > hr || av < hv && ar < hr) {
-                                      return <circle key={`result-3${av}${hv}`} fill={`rgba(0,0,0,0.2)`} strokeWidth={3} stroke={"rgba(238, 255, 65,0.5)"} cx={av*unit} cy={hv*unit} r={rv} opacity={opacity2}/>
+                                    if (av != ar ||  hv != hr) {
+                                      if ( av-hv == ar-hr) {
+                                        return <circle key={`result-2${av}${hv}`} fill={`transparent`} strokeWidth={1} stroke={"rgba(0,0,0,0.8)"} cx={av*unit} cy={hv*unit} r={rv+0.5} opacity={opacity2}/>
+                                      } else if (av > hv && ar > hr || av < hv && ar < hr) {
+                                        return <circle key={`result-3${av}${hv}`} fill={`transparent`} strokeWidth={0.5} stroke={"rgba(0,0,0,0.8)"} cx={av*unit} cy={hv*unit} r={rv+0.25} opacity={opacity2}/>
+                                      }
                                     }
                                   }
                                 })
@@ -166,6 +168,11 @@ import { Animate } from "react-move";
 
 
                               }
+                              <circle key={"result"} fill={`rgba(0,0,0,${opacity3})`} strokeWidth={1.5} stroke={"rgba(0,0,0,1)"} cx={a} cy={h} r={r+0.75} opacity={opacity}/>
+                              <g transform={`rotate(45 ${a} ${h})`}>
+                                <line x1={a} y1={h-r-4} x2={a} y2={h+r+4} strokeWidth={1.0} stroke="black" opacity={opacity4} />
+                                <line x1={a-r-4} y1={h} x2={a+r+4} y2={h} strokeWidth={1.0} stroke="black" opacity={opacity4} />
+                              </g>
 
 
                           </g>
