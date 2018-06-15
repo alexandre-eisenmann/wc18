@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 import data from './data.json'
+import gamesFromFile from './games.json'
 import moment from 'moment'
 import { StickyTable, Row, Cell } from 'react-sticky-table';
 import CircularProgress from 'material-ui/CircularProgress';
@@ -35,7 +36,9 @@ export default class Leaderboard extends Component {
 
 
     this.teams = data.teams.reduce((acc,ele) => {acc[ele.id] = ele; return acc}, {})
-    this.state = {games: [], matches: [], render: false, expanded: true}
+    this.state = {games: gamesFromFile, matches: this.matches,  expanded: true, updating: false, render: false}
+
+    // this.state = {games:[], matches: matches,  render: false, expanded: true, updating: false}
 
 
 
@@ -98,18 +101,30 @@ export default class Leaderboard extends Component {
   }
 
   componentDidMount() {
-
+    // this.setState({games: gamesFromFile.slice(-1), matches: this.matches,  expanded: true, updating: false, render: true})
+    // setTimeout(() => {
+    //   this.setState({render: true})
+    // },1000)
+    // console.log("mounting")
+    // this.setState({render: false})
+    
     const self = this
     const matches = [...this.matches]
+    
+    // self.loadGamesFromFile(matches)
     
       self.ref1 = firebase.database().ref(`wc18/master/gabarito`)
       self.ref1.on('child_removed', function(data) {
           matches[self.matchesRef[data.key]].away_result = null
           matches[self.matchesRef[data.key]].home_result = null
+          self.setState({updating: true})
+          self.loadGames(matches)
+
       })
       self.ref2 = firebase.database().ref(`wc18/master/gabarito`)
       const res = self.ref2.on('value', snapshot => {
         const results  = {}
+        self.setState({updating: true})
         snapshot.forEach(function(childSnapshot) {
           var childKey = childSnapshot.key
           var childData = childSnapshot.val()
@@ -141,26 +156,51 @@ export default class Leaderboard extends Component {
     this.setState({expanded: !this.state.expanded})
   }
 
-  loadGames = (matches) => {
-    const games = []
-    firebase.database().ref(`wc18`).once('value', snapshot => {
-      snapshot.forEach(function(childSnapshot) {
-        var childKey = childSnapshot.key
-        var childData = childSnapshot.val()
 
-        Object.keys(childData).map((key) => {
-          const id = key
-          const details = childData[key]
-          
-          if (details.status == "payed") {
-            Object.assign(details, {gameId: id, userId: childKey})
-            
-            games.push(details)
-          }
 
-        })
+  // loadGamesFromFile = (matches) => {
+      // const games = gamesFromFile
+      // // this.calculate(games, matches)
+      // const sortedGames = games.sort((a,b) => {
+      //   const diff = b.total - a.total
+      //   if (diff != 0) return diff 
+      //   else {
+      //     var nameA = a.name.toUpperCase()
+      //     var nameB = b.name.toUpperCase() 
+      //     if (nameA < nameB) {
+      //       return -1;
+      //     }
+      //     if (nameA > nameB) {
+      //       return 1;
+      //     }
         
-      });
+      //     return 0;
+      //   }
+      // })
+      // this.calculatePosition(sortedGames)
+      // this.setState({games: gamesFromFile, matches: matches, render: true})
+  // }
+
+
+  loadGames = (matches) => {
+     const games = gamesFromFile
+    // firebase.database().ref(`wc18`).once('value', snapshot => {
+    //   snapshot.forEach(function(childSnapshot) {
+    //     var childKey = childSnapshot.key
+    //     var childData = childSnapshot.val()
+
+    //     Object.keys(childData).map((key) => {
+    //       const id = key
+    //       const details = childData[key]
+          
+    //       if (details.status == "payed") {
+    //         Object.assign(details, {gameId: id, userId: childKey})
+    //         games.push(details)
+    //       }
+
+    //     })
+        
+    //   });
 
       
       this.calculate(games, matches)
@@ -181,9 +221,12 @@ export default class Leaderboard extends Component {
         }
       })
       this.calculatePosition(sortedGames)
-      this.setState({games: sortedGames, matches: matches, render: true})
+      setTimeout(() => {
+        this.setState({games: sortedGames, matches: matches, render: true, updating: false})
+      }, 100)
       
-    })
+      
+    // })
   }
 
 
@@ -205,8 +248,9 @@ export default class Leaderboard extends Component {
   }
 
   render() {
-    if (!this.state.render) 
+    if (!this.state.render) {
       return <div style={{backgroundColor: "white", textAlign: "center", marginTop: "10%", width:"100%"}}><CircularProgress size={60} thickness={7} /></div>
+    }
 
     const header = []
     header.push(<Cell key={"nome"}></Cell>)
@@ -322,7 +366,7 @@ export default class Leaderboard extends Component {
               color: "#ccc",
               width: "219px"
             }} >
-            {`${this.state.games.length} participantes`}
+            {this.state.updating ? <CircularProgress size={20} thickness={3} /> : `${this.state.games.length} participantes`}
             </div>
           <StickyTable>
             <Row >
