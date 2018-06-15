@@ -1,18 +1,19 @@
-  import React, { Component } from "react";
-  import NodeGroup from 'react-move/NodeGroup';
-  import data from './data.json'
-  import moment from 'moment'
-  import { StickyTable, Row, Cell } from 'react-sticky-table';
-  import CircularProgress from 'material-ui/CircularProgress';
-  import 'react-sticky-table/dist/react-sticky-table.css';
-  import {blue500, grey300,grey400,grey200,lightGreen500, orange200,deepOrange500, orange900,yellow500,green700, orange500, blue600, cyan500,cyan600,cyan100, cyan200, cyan300, pink500,pink100} from 'material-ui/styles/colors'
-  import * as firebase from 'firebase'
-  import './flags.css';
-  import SearchBar from 'material-ui-search-bar'
-  import FontIcon from 'material-ui/FontIcon';
-  import IconButton from 'material-ui/IconButton';
-  import { easeExpInOut } from 'd3-ease';
+import React, { Component } from "react";
+import NodeGroup from 'react-move/NodeGroup';
+import data from './data.json'
+import moment from 'moment'
+import { StickyTable, Row, Cell } from 'react-sticky-table';
+import CircularProgress from 'material-ui/CircularProgress';
+import 'react-sticky-table/dist/react-sticky-table.css';
+import {blue500, grey300,grey400,grey200,lightGreen500, orange200,deepOrange500, orange900,yellow500,green700, orange500, blue600, cyan500,cyan600,cyan100, cyan200, cyan300, pink500,pink100} from 'material-ui/styles/colors'
+import * as firebase from 'firebase'
+import './flags.css';
+import SearchBar from 'material-ui-search-bar'
+import FontIcon from 'material-ui/FontIcon';
+import IconButton from 'material-ui/IconButton';
+import { easeExpInOut } from 'd3-ease';
 import { connect } from "tls";
+import { Animate } from "react-move";
   
 
   export default class MatchViz extends Component {
@@ -105,7 +106,71 @@ import { connect } from "tls";
 
                       }
                     } )}
+                    
+                    {this.state.render && this.props.result && <Animate
+                        start={{
+                          opacity: 0,
+                          opacity2: 0,
+                          _a: 2.5,
+                          _h: 2.5,
+                          r_coeff:30
+                        }}
 
+                        enter={[
+                          {
+                            opacity: [1],
+                            _a: [this.props.result.a],
+                            _h: [this.props.result.h],
+                            r_coeff: [1],
+                            timing: {delay: this.props.games.length*100 + 1000, duration: 2000, ease: easeExpInOut },                            
+                          },
+                          {
+                            opacity2: [1],
+                            _a: [this.props.result.a],
+                            _h: [this.props.result.h],
+                            timing: {delay: this.props.games.length*100 + 3000 + 100, duration: 1000, ease: easeExpInOut },                            
+                          }
+                        ]
+                        }
+
+                      >
+                        {(state) => {
+                          const { _a, _h, r_coeff, opacity, opacity2 } = state ;
+                          const a = _a*unit
+                          const h = _h*unit
+                          const ar = this.props.result.a
+                          const hr = this.props.result.h
+                          const key = a+"-"+h
+                          const qtd = this.state.summary[key]
+                          const r = (qtd ? Math.sqrt(qtd/Math.PI)*3 : 3)*r_coeff
+                          return <g>
+                              <circle key={"result"} fill={`rgba(255,255,255,0.2)`} strokeWidth={3} stroke={"rgba(174,234,0,0.5)"} cx={a} cy={h} r={r} opacity={opacity}/>
+                              <g transform={`rotate(45 ${a} ${h})`}>
+                                <line x1={a} y1={h-r-4} x2={a} y2={h+r+4} strokeWidth={0.2} stroke="black" opacity={opacity} />
+                                <line x1={a-r-4} y1={h} x2={a+r+4} y2={h} strokeWidth={0.2} stroke="black" opacity={opacity} />
+                              </g>
+                              {[...Array(10).keys()].map((av) => {
+                                return [...Array(10).keys()].map((hv) => {
+                                  const keyv = av+"-"+hv
+                                  const qtdv = this.state.summary[keyv]
+                                  if (qtdv) {
+                                    const rv = Math.sqrt(qtdv/Math.PI)*3
+                                    if ( av-hv == ar-hr) {
+                                      return <circle key={`result-2${av}${hv}`} fill={`rgba(0,0,0,0.2)`} strokeWidth={3} stroke={"rgba(298,255,0,0.5)"} cx={av*unit} cy={hv*unit} r={rv} opacity={opacity2}/>
+                                    } else if (av > hv && ar > hr || av < hv && ar < hr) {
+                                      return <circle key={`result-3${av}${hv}`} fill={`rgba(0,0,0,0.2)`} strokeWidth={3} stroke={"rgba(238, 255, 65,0.5)"} cx={av*unit} cy={hv*unit} r={rv} opacity={opacity2}/>
+                                    }
+                                  }
+                                })
+                              })}
+
+
+                              }
+
+
+                          </g>
+                        }}
+                      </Animate>}
 
                     {this.state.render && this.state.games && <NodeGroup
                       data={this.state.games}
@@ -127,14 +192,9 @@ import { connect } from "tls";
                         events: {
                           end() { // runs in the context of the node
                             
-                            if (d.gameId == "master" && d.userId == "gabarito") {
-                              self.setState({result:{a: d.res.a, h: d.res.h}})
-
-                            } else {
                               const bag = {...self.state.summary}
                               bag[d.res.a+"-"+d.res.h]=( bag[d.res.a+"-"+d.res.h] ? bag[d.res.a+"-"+d.res.h] : 0)+1
                               self.setState({summary: bag })
-                            }
                           },
                         },
 
@@ -153,9 +213,6 @@ import { connect } from "tls";
                           {nodes.map(({ key, data, state }) => {  
                             const { opacity, opacity2, x, y, ...rest } = state;
                              
-                            if (data.gameId == "master" && data.userId == "gabarito") {
-                              return null
-                            } 
                             return (
                                 <g key={key}>
                                 <circle 

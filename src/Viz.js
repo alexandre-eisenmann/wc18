@@ -19,7 +19,7 @@ export default class Viz extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {gamesMap: {}, upcomming: []}
+    this.state = {gamesMap: {}, resultsMap:{}, upcomming: []}
 
 
   }
@@ -42,7 +42,7 @@ export default class Viz extends Component {
     const today = moment(new Date());
     const up = []
     sortedMatches.map((match) => {
-      if (!today.isAfter(match.date) && up.length<5) {
+      if (!today.add(-1, 'days').isAfter(match.date) && up.length<5) {
         up.push(match)
       }
     })
@@ -54,6 +54,7 @@ export default class Viz extends Component {
   loadGames = (upcomming) => {
     const self = this
     const map = {}
+    const results = {}
     firebase.database().ref(`wc18`).once('value', snapshot => {
       snapshot.forEach(function(childSnapshot) {
         var childKey = childSnapshot.key
@@ -61,9 +62,9 @@ export default class Viz extends Component {
 
         Object.keys(childData).map((key) => {
           const id = key
+          
           upcomming.map((match) => {
             const matchId = match.name
-            // console.log(matchId)
             const details = { res:childData[key][matchId],status:childData[key].status}
           
             if (details.status == "payed") {
@@ -73,12 +74,15 @@ export default class Viz extends Component {
               games.push(details)
               map[matchId] = games
             }
+            if (id == "gabarito") {
+              results[matchId] = childData[key][matchId]
+            }
               
           })
 
       })
       });
-      this.setState({gamesMap: map})
+      this.setState({gamesMap: map, resultsMap: results})
     })
   }
 
@@ -92,7 +96,7 @@ export default class Viz extends Component {
       origem (zero a zero) e o resultado 5 a 5. 
       </div>
       { this.state.upcomming.map((match,i) => {
-        return <MathViz key={i} homeTeam={this.teams[match.home_team].name} awayTeam={this.teams[match.away_team].name} games={this.state.gamesMap[match.name]}/>
+        return <MathViz key={i} homeTeam={this.teams[match.home_team].name} awayTeam={this.teams[match.away_team].name} games={this.state.gamesMap[match.name]} result={this.state.resultsMap[match.name]}/>
       })}
       
       
