@@ -42,7 +42,7 @@ export default class Viz extends Component {
     const today = moment(new Date());
     const up = []
     sortedMatches.map((match) => {
-      if (!today.add(-1, 'days').isAfter(match.date) && up.length<5) {
+      if (!today.add(-1,'hours').isAfter(match.date) && up.length<5) {
         up.push(match)
       }
     })
