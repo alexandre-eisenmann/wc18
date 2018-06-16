@@ -11,6 +11,7 @@ import Master from './Master'
 import Home from './Home'
 import Login from './Login'
 import Leaderboard from './Leaderboard'
+import Ranking from './Ranking'
 import Viz from './Viz'
 import VizHist from './VizHist'
 import Rules from './Rules'
@@ -122,6 +123,7 @@ class Main extends Component {
               <Route path="/viz" component={Viz}/>
               <Route path="/rules" component={Rules}/>
               <Route path="/vizhist" component={VizHist}/>
+              <Route path="/ranking" component={Ranking}/>
 
             </div>
 

@@ -13,6 +13,8 @@ import moment from 'moment'
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import Viz from './Viz'
+import Ranking from './Ranking'
+
 
 
 
@@ -49,7 +51,7 @@ class Home extends Component {
                      top: "10px"
                      }}>
               <NavLink style={{textDecoration: "none",color: "rgba(220,220,220,0.8)"}} to="/bids">MEUS JOGOS</NavLink>
-              <NavLink style={{textDecoration: "none",marginLeft: "20px", color: "rgba(220,220,220,0.8)"}} to="/leaderboard">TABELAO</NavLink>
+              <NavLink style={{textDecoration: "none",marginLeft: "20px", color: "rgba(220,220,220,0.8)"}} to="/leaderboard">TABELÃO</NavLink>
               <a style={{textDecoration: "none",marginLeft: "20px", color: "rgba(220,220,220,0.8)"}} href="https://medium.com/bolão-dos-bolões-2018">BLOG</a>
 
           </div>
@@ -104,7 +106,7 @@ class Home extends Component {
                 />
 
               <FlatButton
-                  label="Tabelão" 
+                  label="Colocação" 
                   style={{color: "white", 
                           marginLeft: "20px",
                           marginTop: "16px",
@@ -113,7 +115,7 @@ class Home extends Component {
                           border: "6px solid white",
                           fontFamily: "Roboto Condensed",
                           backgroundColor: "transparent"}}
-                  href="/leaderboard"
+                  href="/ranking"
                 />
 
 
