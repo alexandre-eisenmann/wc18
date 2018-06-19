@@ -202,15 +202,15 @@ export default class Ranking extends Component {
 
   renderCircle = (pts,j,i) => {
     const colors = {8: blue500, 5: grey400, 3: "white", 0: "transparent"}
-    const strokeColor = {8: blue500, 5: grey400, 3: "rgb(100,100,100, 0.5)", 0: "rgb(100,100,100, 0.2)"}
+    const strokeColor = {8: blue500, 5: "rgb(100,100,100, 0.5)", 3: "rgb(100,100,100, 0.5)", 0: "rgb(20,20,20, 0.1)"}
     const fontColors = {8: "white", 5: "white", 3: "rgb(150,150,150)", 0: "#fff"}
     return <Animate
         start={{
-          x: 1500
+          x: 2000
         }}
         enter={
           {
-            x: [15+j*11],
+            x: [15+j*12],
             timing: {delay: i*500+750 + j*80, duration: 1500, ease: easeExpInOut },                            
           }
         }
