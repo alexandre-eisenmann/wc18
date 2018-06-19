@@ -205,22 +205,21 @@ export default class Ranking extends Component {
     const strokeColor = {8: blue500, 5: grey400, 3: "rgb(100,100,100, 0.5)", 0: "rgb(100,100,100, 0.2)"}
     const fontColors = {8: "white", 5: "white", 3: "rgb(150,150,150)", 0: "#fff"}
     return <Animate
-    start={{
-      x: 1500
-    }}
-    enter={
-      {
-        x: [15+j*11],
-        timing: {delay: i*500+750 + j*80, duration: 1500, ease: easeExpInOut },                            
-      }
-    }
-
-  >
-    {(state) => {
-      const { x } = state ;
-      return <circle key={`c${i}`} cx={x} cy={40} r={5} stroke={strokeColor[pts]} strokeWidth={1} fill={colors[pts]}/>
-    }}
-  </Animate> 
+        start={{
+          x: 1500
+        }}
+        enter={
+          {
+            x: [15+j*11],
+            timing: {delay: i*500+750 + j*80, duration: 1500, ease: easeExpInOut },                            
+          }
+        }
+        >
+      {(state) => {
+        const { x } = state ;
+        return <circle key={`c${i}`} cx={x} cy={40} r={5} stroke={strokeColor[pts]} strokeWidth={1} fill={colors[pts]}/>
+      }}
+    </Animate> 
     
   }
 
@@ -274,15 +273,21 @@ export default class Ranking extends Component {
 
     return (
       <div>
-        <div className="whitebar" style={{paddingLeft: "25px",paddingBottom: "20px"}}>        
+        {/* <div className="whitebar" style={{paddingLeft: "25px",paddingBottom: "20px"}}>        
           <div style={{paddingLeft:"10px", paddingTop: "35px", fontFamily: "Roboto Condensed", fontSize: "30px", color: "#ddd"}}>Ranking</div>
-        </div>
-        {this.state.logged && this.state.user && <div className="mygames" 
-                style={{paddingLeft: "25px", backgroundColor: cyan500}}>
+        </div> */}
+        {this.state.logged && this.state.user && <div className="mygames" style={{paddingLeft: "25px", backgroundColor: cyan500}}>
             <div className="mygames-row" style={{backgroundColor: cyan600}}>
+                <div style={{backgroundColor: cyan600,padding: "5px", fontSize: "10px",  paddingTop: "10px", paddingLeft: "10px", paddingBottom: "0px", color: "rgba(255, 255, 255, 0.7)"}}>
+                  MEUS JOGOS
+              </div>          
+
               {myrows}
             </div>
         </div>} 
+        <div className="whitebar" style={{paddingLeft: "25px",paddingBottom: "20px"}}>        
+          <div style={{paddingLeft:"10px", paddingTop: "35px", fontFamily: "Roboto Condensed", fontSize: "30px", color: "#ddd"}}>Classificação Geral</div>
+        </div>
       <div className="degrade">
         <div className="checkers">
           {rows}
