@@ -14,6 +14,8 @@ import FontIcon from 'material-ui/FontIcon';
 import IconButton from 'material-ui/IconButton';
 import { amber300 } from "material-ui/styles/colors";
 import { constants } from "fs";
+import { easeExpInOut } from 'd3-ease';
+import { Animate } from "react-move";
 
 
 
@@ -198,21 +200,28 @@ export default class Ranking extends Component {
   }
 
 
-
-  renderPts = (pts) => {
-    const colors = {8: blue500, 5: grey400, 3: "white"}
+  renderCircle = (pts,j,i) => {
+    const colors = {8: blue500, 5: grey400, 3: "white", 0: "transparent"}
+    const strokeColor = {8: blue500, 5: grey400, 3: "rgb(100,100,100, 0.5)", 0: "rgb(100,100,100, 0.2)"}
     const fontColors = {8: "white", 5: "white", 3: "rgb(150,150,150)", 0: "#fff"}
-    if (pts != null) {
-      return  <div style={{width: "20px",height: "20px",
-      backgroundColor: colors[pts],
-      borderRadius: "10px",
-      position: "absolute",left: "10px"}}>
-      <div style={{color: fontColors[pts], fontSize: "10px", marginTop: "3px"}}>
-        {pts == 0 ? "x" : pts}
-      </div>
-    </div>
+    return <Animate
+    start={{
+      x: 1500
+    }}
+    enter={
+      {
+        x: [15+j*11],
+        timing: {delay: i*500+750 + j*80, duration: 1500, ease: easeExpInOut },                            
+      }
     }
-    return null
+
+  >
+    {(state) => {
+      const { x } = state ;
+      return <circle key={`c${i}`} cx={x} cy={40} r={5} stroke={strokeColor[pts]} strokeWidth={1} fill={colors[pts]}/>
+    }}
+  </Animate> 
+    
   }
 
   render() {
@@ -224,14 +233,19 @@ export default class Ranking extends Component {
     const rows=[]
     const myrows=[]
     this.state.games.map((game,i) => {
+      const results = [...Array(48).keys()].map((idx) => game[idx+1]['pts']).filter((e) => e === 0 || e)
       const row = []
       row.push(<div  key={`g${i}`} >
       <div style={{position: "relative", height: "60px"}}>
         <div style={{color: "white",position: "absolute", top: "24px",  marginLeft: "-25px",fontFamily: "Lato", fontSize: "8px", textAlign: "right", display: "inline-block", width: "20px"}}> {game.position}<sup>o</sup></div>
         <div style={{display: "inline-block", height: "100%", width: "calc(100vw - 60px)", marginTop:"6px", marginBottom: "6px",height: "100%"}}>
             <svg width="100%" height="100%" >
-            <text x={10} y={30} style={{fontFamily: "Lato", fontSize: "15px"}}>{game.name}</text>
-          </svg> 
+              <text x={10} y={30} style={{fontFamily: "Lato", fontSize: "15px"}}>{game.name}</text>
+              {results.map((pts,j) => {
+                return this.renderCircle(pts,j, i)
+              })}
+
+            </svg> 
         </div>
         <div style={{display: "inline-block", position: "absolute", width: "20px", top: "20px", color: pink500, fontWeight: "bold", fontFamily: "Lato", textAlign: "right"}}> {game.total}</div>
       </div>
@@ -265,7 +279,7 @@ export default class Ranking extends Component {
         </div>
         {this.state.logged && this.state.user && <div className="mygames" 
                 style={{paddingLeft: "25px", backgroundColor: cyan500}}>
-            <div class="mygames-row" style={{backgroundColor: cyan600}}>
+            <div className="mygames-row" style={{backgroundColor: cyan600}}>
               {myrows}
             </div>
         </div>} 
