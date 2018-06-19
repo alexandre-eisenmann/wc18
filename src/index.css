@@ -221,24 +221,29 @@ ul {
   padding-left: 25px;
 }
 
+.mygames-row:last-child {
+  padding-bottom: 15px
+}
+
 .whitebar {
-   position: relative;
-   background: white;
-   height: 80px;
+  position: relative;
+  background: white; 
+  /* height: 80px; */
 
 }
 
 .whitebar:after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 1;
-  box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
+ content: "";
+ position: absolute;
+ top: 0;
+ bottom: 0;
+ left: 0;
+ right: 0;
+ z-index: 1;
+ box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
 
 }
+
 
 .sticky-table-column {
   /* background-image:url(background_gs.svg); */

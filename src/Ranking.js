@@ -13,6 +13,7 @@ import SearchBar from 'material-ui-search-bar'
 import FontIcon from 'material-ui/FontIcon';
 import IconButton from 'material-ui/IconButton';
 import { amber300 } from "material-ui/styles/colors";
+import { constants } from "fs";
 
 
 
@@ -36,7 +37,7 @@ export default class Ranking extends Component {
 
 
     this.teams = data.teams.reduce((acc,ele) => {acc[ele.id] = ele; return acc}, {})
-    this.state = {games: gamesFromFile, matches: this.matches,  expanded: true, updating: false, render: false}
+    this.state = {mygames:[],logged: null, user: null,games: gamesFromFile, matches: this.matches,  expanded: true, updating: false, render: false}
 
   }
 
@@ -88,11 +89,12 @@ export default class Ranking extends Component {
     })
   }
 
-
   componentWillUnmount() {
 
+    if (this.ref)  this.ref.off('value')
     if (this.ref1) this.ref1.off('value')
     if (this.ref2) this.ref2.off('value')
+    this.unsubscribe()
 
   }
 
@@ -100,6 +102,27 @@ export default class Ranking extends Component {
     
     const self = this
     const matches = [...this.matches]
+
+    this.unsubscribe = firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        self.setState({logged: true, user: user})
+        self.ref = firebase.database().ref(`wc18/${user.uid}`)
+        self.ref.on('value', snapshot => {
+          const bids  = {}
+          snapshot.forEach(function(childSnapshot) {
+            var childKey = childSnapshot.key
+            var childData = childSnapshot.val()
+            bids[childKey] = childData
+          });
+          console.log(bids)
+          self.setState({mygames:bids})
+        })
+    
+      } else {
+        self.setState({logged: false, user: null})
+      }
+    });
+    
     
     
     self.ref1 = firebase.database().ref(`wc18/master/gabarito`)
@@ -129,7 +152,7 @@ export default class Ranking extends Component {
         const h = result.h == undefined ? null : result.h
         matches[self.matchesRef[key]].away_result = a
         matches[self.matchesRef[key]].home_result = h
-    })
+      })
 
       self.loadGames(matches)
     })
@@ -169,9 +192,8 @@ export default class Ranking extends Component {
       }
     })
     this.calculatePosition(sortedGames)
-    setTimeout(() => {
-      this.setState({games: sortedGames, matches: matches, render: true, updating: false})
-    }, 100)
+    console.log(sortedGames)
+    this.setState({games: sortedGames, matches: matches, render: true, updating: false})
     
   }
 
@@ -200,31 +222,55 @@ export default class Ranking extends Component {
 
     const self = this
     const rows=[]
+    const myrows=[]
     this.state.games.map((game,i) => {
       const row = []
-        row.push(<div  key={`g${i}`} >
-        <div style={{position: "relative", height: "60px"}}>
-          <div style={{color: "white",position: "absolute", top: "24px",  marginLeft: "-25px",fontFamily: "Lato", fontSize: "8px", textAlign: "right", display: "inline-block", width: "20px"}}> {game.position}<sup>o</sup></div>
-          <div style={{display: "inline-block", height: "100%", width: "calc(100vw - 60px)", marginTop:"6px", marginBottom: "6px",height: "100%"}}>
-             <svg width="100%" height="100%" >
-              <text x={10} y={30} style={{fontFamily: "Lato", fontSize: "15px"}}>{game.name}</text>
-            </svg> 
-          </div>
-          <div style={{display: "inline-block", position: "absolute", width: "20px", top: "20px", color: pink500, fontWeight: "bold", fontFamily: "Lato", textAlign: "right"}}> {game.total}</div>
+      row.push(<div  key={`g${i}`} >
+      <div style={{position: "relative", height: "60px"}}>
+        <div style={{color: "white",position: "absolute", top: "24px",  marginLeft: "-25px",fontFamily: "Lato", fontSize: "8px", textAlign: "right", display: "inline-block", width: "20px"}}> {game.position}<sup>o</sup></div>
+        <div style={{display: "inline-block", height: "100%", width: "calc(100vw - 60px)", marginTop:"6px", marginBottom: "6px",height: "100%"}}>
+            <svg width="100%" height="100%" >
+            <text x={10} y={30} style={{fontFamily: "Lato", fontSize: "15px"}}>{game.name}</text>
+          </svg> 
         </div>
-        </div>)
+        <div style={{display: "inline-block", position: "absolute", width: "20px", top: "20px", color: pink500, fontWeight: "bold", fontFamily: "Lato", textAlign: "right"}}> {game.total}</div>
+      </div>
+      </div>)
       rows.push(<div key={`row${i}`} >{row}</div>)
-    })
+      Object.keys(self.state.mygames).map((key,i) => {
+        if (key == game.gameId) {
+          myrows.push(<div key={`row${i}`} >
+            <div  key={`mg${i}`} >
+              <div style={{position: "relative", height: "40px"}}>
+                <div style={{color: "white", position: "absolute", top: "24px",  marginLeft: "-25px",fontFamily: "Lato", fontSize: "8px", textAlign: "right", display: "inline-block", width: "20px"}}> {game.position}<sup>o</sup></div>
+                <div style={{display: "inline-block", height: "100%", width: "calc(100vw - 60px)", marginTop:"6px", marginBottom: "6px",height: "100%"}}>
+                    <svg width="100%" height="100%" >
+                    <text x={10} y={30} style={{fontFamily: "Lato", fontSize: "15px"}} fill={"white"}>{game.name}</text>
+                  </svg> 
+                </div>
+                <div style={{display: "inline-block", position: "absolute", width: "20px", top: "20px", color: "white", fontWeight: "bold", fontFamily: "Lato", textAlign: "right"}}> {game.total}</div>
+              </div>
+              </div>
+            </div>)
+        }
 
+      })
+
+    })
 
     return (
       <div>
-      <div className="whitebar">
-         <div style={{paddingLeft:"20px", paddingTop: "35px", fontFamily: "Roboto Condensed", fontSize: "30px", color: "#ddd"}}>Ranking</div>
-      </div>
+        <div className="whitebar" style={{paddingLeft: "25px",paddingBottom: "20px"}}>        
+          <div style={{paddingLeft:"10px", paddingTop: "35px", fontFamily: "Roboto Condensed", fontSize: "30px", color: "#ddd"}}>Ranking</div>
+        </div>
+        {this.state.logged && this.state.user && <div className="mygames" 
+                style={{paddingLeft: "25px", backgroundColor: cyan500}}>
+            <div class="mygames-row" style={{backgroundColor: cyan600}}>
+              {myrows}
+            </div>
+        </div>} 
       <div className="degrade">
         <div className="checkers">
-          
           {rows}
         </div>
       </div>
