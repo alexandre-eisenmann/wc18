@@ -260,15 +260,23 @@ export default class Ranking extends Component {
 
     return (
       <div>
-        <div className="whitebar" style={{paddingLeft: "25px",paddingBottom: "20px"}}>        
+        {/* <div className="whitebar" style={{paddingLeft: "25px",paddingBottom: "20px"}}>        
           <div style={{paddingLeft:"10px", paddingTop: "35px", fontFamily: "Roboto Condensed", fontSize: "30px", color: "#ddd"}}>Ranking</div>
-        </div>
+        </div> */}
         {this.state.logged && this.state.user && <div className="mygames" 
                 style={{paddingLeft: "25px", backgroundColor: cyan500}}>
+
             <div class="mygames-row" style={{backgroundColor: cyan600}}>
+              <div style={{backgroundColor: cyan600,padding: "5px", fontSize: "10px",  paddingTop: "10px", paddingLeft: "10px", paddingBottom: "0px", color: "rgba(255, 255, 255, 0.7)"}}>
+                  MEUS JOGOS
+              </div>          
+
               {myrows}
             </div>
         </div>} 
+        <div className="whitebar" style={{paddingLeft: "25px",paddingBottom: "20px"}}>        
+          <div style={{paddingLeft:"10px", paddingTop: "35px", fontFamily: "Roboto Condensed", fontSize: "30px", color: "#ddd"}}>Classificação Geral</div>
+        </div>
       <div className="degrade">
         <div className="checkers">
           {rows}
