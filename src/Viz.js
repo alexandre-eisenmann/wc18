@@ -12,7 +12,7 @@ import './flags.css';
 import FontIcon from 'material-ui/FontIcon';
 import IconButton from 'material-ui/IconButton';
 import { easeExpInOut } from 'd3-ease';
-import MathViz from './MatchViz'
+import MatchViz from './MatchViz'
 
 export default class Viz extends Component {
 
@@ -97,7 +97,7 @@ export default class Viz extends Component {
       </div>
       { this.state.upcomming.map((match,i) => {
         let r = this.state.resultsMap[match.name]
-        return <MathViz key={i} homeTeam={this.teams[match.home_team].name} awayTeam={this.teams[match.away_team].name} games={this.state.gamesMap[match.name]}  result={r} />
+        return <MatchViz key={i} homeTeam={this.teams[match.home_team].name} awayTeam={this.teams[match.away_team].name} games={this.state.gamesMap[match.name]}  result={r} />
       })}
       
       
