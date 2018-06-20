@@ -192,28 +192,6 @@ export default class Ranking extends Component {
     
   }
 
-
-  renderCircle = (pts,j,i) => {
-    const colors = {8: blue500, 5: grey400, 3: "white", 0: "transparent"}
-    const strokeColor = {8: blue500, 5: grey400, 3: "rgb(100,100,100, 0.5)", 0: "rgb(100,100,100, 0.2)"}
-    const fontColors = {8: "white", 5: "white", 3: "rgb(150,150,150)", 0: "#fff"}
-    return <Animate key={`c${i}-${j}`} 
-        start={{
-          x: 1500
-        }}
-        enter={{
-            x: [15+j*11],
-            timing: {delay: i*500+750 + j*80, duration: 1500, ease: easeExpInOut },                            
-          }}
-        >
-      {(state) => {
-        const { x } = state ;
-        return <circle cx={x} cy={40} r={5} stroke={strokeColor[pts]} strokeWidth={1} fill={colors[pts]}/>
-      }}
-    </Animate> 
-    
-  }
-
   render() {
     if (!this.state.render) {
       return <div style={{backgroundColor: "white", textAlign: "center", marginTop: "10%", width:"100%"}}><CircularProgress size={60} thickness={7} /></div>
