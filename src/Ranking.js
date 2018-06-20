@@ -3,20 +3,13 @@ import React, { Component } from "react";
 import data from './data.json'
 import gamesFromFile from './games.json'
 import moment from 'moment'
-import { StickyTable, Row, Cell } from 'react-sticky-table';
 import CircularProgress from 'material-ui/CircularProgress';
 import 'react-sticky-table/dist/react-sticky-table.css';
-import {blue500, grey300,grey400,grey200,lightGreen500, orange200,deepOrange500, orange900,yellow500,green700, orange500, blue600, cyan500,cyan600,cyan100, cyan200, cyan300, pink500,pink100} from 'material-ui/styles/colors'
+import {blue500, blue300,grey300,grey400,grey200,lightGreen500, orange200,deepOrange500, orange900,yellow500,green700, orange500, blue600, cyan400,cyan500,cyan600,cyan100, cyan200, cyan300, pink500,pink100} from 'material-ui/styles/colors'
 import * as firebase from 'firebase'
 import './flags.css';
-import SearchBar from 'material-ui-search-bar'
-import FontIcon from 'material-ui/FontIcon';
-import IconButton from 'material-ui/IconButton';
-import { amber300 } from "material-ui/styles/colors";
-import { constants } from "fs";
 import { easeExpInOut } from 'd3-ease';
 import { Animate } from "react-move";
-
 
 
 
@@ -35,6 +28,7 @@ export default class Ranking extends Component {
       return 0
     })
     this.matchesRef = sortedMatches.reduce((acc, ele, i) => {acc[ele.name] = i; return acc}, {})
+    this.matchesInvRef = sortedMatches.reduce((acc, ele, i) => {acc[i] = ele.name; return acc}, {})
     this.matches = sortedMatches
 
 
@@ -116,7 +110,6 @@ export default class Ranking extends Component {
             var childData = childSnapshot.val()
             bids[childKey] = childData
           });
-          console.log(bids)
           self.setState({mygames:bids})
         })
     
@@ -194,34 +187,29 @@ export default class Ranking extends Component {
       }
     })
     this.calculatePosition(sortedGames)
-    console.log(sortedGames)
     this.setState({games: sortedGames, matches: matches, render: true, updating: false})
     
   }
+  
+  renderCircle(pts, j, i, colors, strokeColor) {
 
-
-  renderCircle = (pts,j,i) => {
-    const colors = {8: blue500, 5: grey400, 3: "white", 0: "transparent"}
-    const strokeColor = {8: blue500, 5: "rgba(100,100,100, 0.5)", 3: "rgba(100,100,100, 0.5)", 0: "rgba(0,0,0, 0.3)"}
-    const fontColors = {8: "white", 5: "white", 3: "rgb(150,150,150)", 0: "#fff"}
-    return <Animate
-        start={{
-          x: 2000
+    return <Animate key={`c${i}-${j}`} 
+          start={{
+            x: 2000
+          }}
+          enter={{
+              x: [15+j*12],
+              timing: {delay: i*500+750 + j*80, duration: 1500, ease: easeExpInOut },                            
+            }}
+          >
+        {(state) => {
+          const { x } = state
+          return <circle cx={x} cy={42} r={5} stroke={strokeColor[pts]} strokeWidth={1} fill={colors[pts]}/>
         }}
-        enter={
-          {
-            x: [15+j*12],
-            timing: {delay: i*500+750 + j*80, duration: 1500, ease: easeExpInOut },                            
-          }
-        }
-        >
-      {(state) => {
-        const { x } = state ;
-        return <circle key={`c${i}`} cx={x} cy={40} r={5} stroke={strokeColor[pts]} strokeWidth={1} fill={colors[pts]}/>
-      }}
-    </Animate> 
-    
+        </Animate> 
+
   }
+
 
   render() {
     if (!this.state.render) {
@@ -231,40 +219,52 @@ export default class Ranking extends Component {
     const self = this
     const rows=[]
     const myrows=[]
+    const offset = Object.keys(self.state.mygames).length
+    let k=0
     this.state.games.map((game,i) => {
-      const results = [...Array(48).keys()].map((idx) => game[idx+1]['pts']).filter((e) => e === 0 || e)
+      const results = [...Array(48).keys()].map((idx) => game[self.matchesInvRef[idx]]['pts']).filter((e) => e === 0 || e)
       const row = []
       row.push(<div  key={`g${i}`} >
       <div style={{position: "relative", height: "60px"}}>
         <div style={{color: "white",position: "absolute", top: "24px",  marginLeft: "-25px",fontFamily: "Lato", fontSize: "8px", textAlign: "right", display: "inline-block", width: "20px"}}> {game.position}<sup>o</sup></div>
         <div style={{display: "inline-block", height: "100%", width: "calc(100vw - 60px)", marginTop:"6px", marginBottom: "6px",height: "100%"}}>
-            <svg width="100%" height="100%" >
-              <text x={10} y={30} style={{fontFamily: "Lato", fontSize: "15px"}}>{game.name}</text>
-              {results.map((pts,j) => {
-                return this.renderCircle(pts,j, i)
-              })}
+          <svg width="100%" height="100%" >
+            <text x={10} y={30} style={{fontFamily: "Lato", fontSize: "15px"}} fill={"black"}>{game.name}</text>
+            {results.map((pts,j) => {
+              return this.renderCircle(pts,j,offset+i,
+                {8: blue500, 5: grey400, 3: "white", 0: "transparent"},
+                {8: blue500, 5: "rgba(100,100,100, 0.5)", 3: "rgba(100,100,100, 0.5)", 0: "rgba(0,0,0, 0.3)"})
 
-            </svg> 
+            })}
+          </svg>
         </div>
         <div style={{display: "inline-block", position: "absolute", width: "20px", top: "20px", color: pink500, fontWeight: "bold", fontFamily: "Lato", textAlign: "right"}}> {game.total}</div>
       </div>
       </div>)
       rows.push(<div key={`row${i}`} >{row}</div>)
-      Object.keys(self.state.mygames).map((key,i) => {
+      Object.keys(self.state.mygames).map((key) => {
         if (key == game.gameId) {
-          myrows.push(<div key={`row${i}`} >
-            <div  key={`mg${i}`} >
-              <div style={{position: "relative", height: "40px"}}>
+          myrows.push(<div key={`row${k}`} >
+            <div  key={`mg${k}`} >
+              <div style={{position: "relative", height: "60px"}}>
                 <div style={{color: "white", position: "absolute", top: "24px",  marginLeft: "-25px",fontFamily: "Lato", fontSize: "8px", textAlign: "right", display: "inline-block", width: "20px"}}> {game.position}<sup>o</sup></div>
                 <div style={{display: "inline-block", height: "100%", width: "calc(100vw - 60px)", marginTop:"6px", marginBottom: "6px",height: "100%"}}>
-                    <svg width="100%" height="100%" >
+                  <svg width="100%" height="100%" >
                     <text x={10} y={30} style={{fontFamily: "Lato", fontSize: "15px"}} fill={"white"}>{game.name}</text>
-                  </svg> 
+                    {results.map((pts,j) => {
+                      return this.renderCircle(pts,j,k,
+                        {8: blue500, 5: grey400, 3: "rgba(255,255,255,0.8)", 0: "transparent"},
+                        {8: "rgba(0,0,0, 0.5)", 5: "rgba(0,0,0, 0.5)", 3: "rgba(0,0,0, 0.5)", 0: "rgba(255,255,255, 0.3)"})
+                                        
+                      })}
+                  </svg>
+                    
                 </div>
                 <div style={{display: "inline-block", position: "absolute", width: "20px", top: "20px", color: "white", fontWeight: "bold", fontFamily: "Lato", textAlign: "right"}}> {game.total}</div>
               </div>
               </div>
             </div>)
+          k++
         }
 
       })
@@ -273,23 +273,25 @@ export default class Ranking extends Component {
 
     return (
       <div>
-        {/* <div className="whitebar" style={{paddingLeft: "25px",paddingBottom: "20px"}}>        
+        <div className="whitebar" style={{paddingLeft: "25px",paddingBottom: "20px"}}>        
           <div style={{paddingLeft:"10px", paddingTop: "35px", fontFamily: "Roboto Condensed", fontSize: "30px", color: "#ddd"}}>Ranking</div>
-        </div> */}
+        </div>
         {this.state.logged && this.state.user && <div className="mygames" style={{paddingLeft: "25px", backgroundColor: cyan500}}>
             <div className="mygames-row" style={{backgroundColor: cyan600}}>
-                <div style={{backgroundColor: cyan600,padding: "5px", fontSize: "10px",  paddingTop: "10px", paddingLeft: "10px", paddingBottom: "0px", color: "rgba(255, 255, 255, 0.7)"}}>
-                  MEUS JOGOS
+               <div style={{backgroundColor: cyan600,padding: "5px", fontSize: "10px",  paddingTop: "10px", paddingLeft: "10px", paddingBottom: "0px", color: "rgba(255, 255, 255, 0.7)"}}>
+                 MEUS JOGOS
               </div>          
-
               {myrows}
             </div>
         </div>} 
-        <div className="whitebar" style={{paddingLeft: "25px",paddingBottom: "20px"}}>        
-          <div style={{paddingLeft:"10px", paddingTop: "35px", fontFamily: "Roboto Condensed", fontSize: "30px", color: "#ddd"}}>Classificação Geral</div>
-        </div>
+        {/* <div className="whitebar" style={{paddingLeft: "25px",paddingBottom: "20px", backgroundColor: cyan300}}>        
+          <div style={{paddingLeft:"10px", paddingTop: "35px", fontFamily: "Roboto Condensed", fontSize: "30px", color: "#ddd"}}></div>
+        </div> */}
       <div className="degrade">
         <div className="checkers">
+            <div style={{padding: "5px", fontSize: "10px",  paddingTop: "10px", paddingLeft: "10px", paddingBottom: "0px", color: "rgb(100,100,100)"}}>
+                CLASSIFICAÇÃO GERAL
+            </div>          
           {rows}
         </div>
       </div>
