@@ -5,14 +5,15 @@ import gamesFromFile from './games.json'
 import moment from 'moment'
 import CircularProgress from 'material-ui/CircularProgress';
 import 'react-sticky-table/dist/react-sticky-table.css';
-import {blue500, grey300,grey400,grey200,lightGreen500, orange200,deepOrange500, orange900,yellow500,green700, orange500, blue600, cyan400,cyan500,cyan600,cyan100, cyan200, cyan300, pink500,pink100} from 'material-ui/styles/colors'
+import {blue500, blue300,grey300,grey400,grey200,lightGreen500, orange200,deepOrange500, orange900,yellow500,green700, orange500, blue600, cyan400,cyan500,cyan600,cyan100, cyan200, cyan300, pink500,pink100} from 'material-ui/styles/colors'
 import * as firebase from 'firebase'
 import './flags.css';
 import { easeExpInOut } from 'd3-ease';
 import { Animate } from "react-move";
-import VizResults from './VizResults'
 
 
+const strokeWidth = {8: 0, 5: 3, 3: 2, 0: 0.4}
+const radius =      {8: 5, 5: 3.5, 3: 4, 0: 4.80}
 
 
 export default class Ranking extends Component {
@@ -192,6 +193,48 @@ export default class Ranking extends Component {
     
   }
 
+  renderCircle(pts, j, i, colors, strokeColor) {
+    return <Animate key={`c${i}-${j}`} 
+    start={{
+      x: 2000
+    }}
+    enter={{
+        x: [15+j*12],
+        timing: {delay: i*500+750 + j*80, duration: 1500, ease: easeExpInOut },                            
+      }}
+    >
+  {(state) => {
+    const { x } = state
+    return <circle cx={x} cy={42} r={radius[pts]} stroke={strokeColor[pts]} strokeWidth={strokeWidth[pts]} fill={colors[pts]}/>
+  }}
+  </Animate> 
+
+  }
+  // renderCircle(results, name, i, textColor, colors, strokeColor) {
+  //   return (<svg width="100%" height="100%" >
+  //     <text x={10} y={30} style={{fontFamily: "Lato", fontSize: "15px"}} fill={textColor}>{name}</text>
+  //     {results.map((pts,j) => {
+  //       return <Animate key={`c${i}-${j}`} 
+  //           start={{
+  //             x: 2000
+  //           }}
+  //           enter={{
+  //               x: [15+j*12],
+  //               timing: {delay: i*500+750 + j*80, duration: 1500, ease: easeExpInOut },                            
+  //             }}
+  //           >
+  //         {(state) => {
+  //           const { x } = state
+  //           return <circle cx={x} cy={42} r={radius[pts]} stroke={strokeColor[pts]} strokeWidth={strokeWidth[pts]} fill={colors[pts]}/>
+  //         }}
+  //       </Animate> 
+    
+  //     })}
+  //   </svg>) 
+  // }
+
+
+
   render() {
     if (!this.state.render) {
       return <div style={{backgroundColor: "white", textAlign: "center", marginTop: "10%", width:"100%"}}><CircularProgress size={60} thickness={7} /></div>
@@ -209,7 +252,18 @@ export default class Ranking extends Component {
       <div style={{position: "relative", height: "60px"}}>
         <div style={{color: "white",position: "absolute", top: "24px",  marginLeft: "-25px",fontFamily: "Lato", fontSize: "8px", textAlign: "right", display: "inline-block", width: "20px"}}> {game.position}<sup>o</sup></div>
         <div style={{display: "inline-block", height: "100%", width: "calc(100vw - 60px)", marginTop:"6px", marginBottom: "6px",height: "100%"}}>
-            <VizResults gameResults={results} gameData={game} idx={offset+i}/>
+          <svg width="100%" height="100%" >
+            <text x={10} y={30} style={{fontFamily: "Lato", fontSize: "15px"}} fill={"black"}>{game.name}</text>
+            {results.map((pts,j) => {
+              return this.renderCircle(pts,j,offset+i,
+                {8: blue300, 5: "transparent", 3: "transparent", 0: "transparent"},
+                {8: blue300, 5:blue300, 3: blue300, 0: "rgba(50,50,50,0.5)"})
+            })}
+          </svg>
+
+            {/* {self.renderCircle(results, game.name, offset+i, "black",
+            {8: blue300, 5: "transparent", 3: "transparent", 0: "transparent"},
+            {8: blue300, 5:blue300, 3: blue300, 0: "rgba(50,50,50,0.5)"})} */}
         </div>
         <div style={{display: "inline-block", position: "absolute", width: "20px", top: "20px", color: pink500, fontWeight: "bold", fontFamily: "Lato", textAlign: "right"}}> {game.total}</div>
       </div>
@@ -222,7 +276,20 @@ export default class Ranking extends Component {
               <div style={{position: "relative", height: "60px"}}>
                 <div style={{color: "white", position: "absolute", top: "24px",  marginLeft: "-25px",fontFamily: "Lato", fontSize: "8px", textAlign: "right", display: "inline-block", width: "20px"}}> {game.position}<sup>o</sup></div>
                 <div style={{display: "inline-block", height: "100%", width: "calc(100vw - 60px)", marginTop:"6px", marginBottom: "6px",height: "100%"}}>
-                    <VizResults gameResults={results} gameData={game} idx={k} mode={"dark"}/>                  
+                  <svg width="100%" height="100%" >
+                    <text x={10} y={30} style={{fontFamily: "Lato", fontSize: "15px"}} fill={"white"}>{game.name}</text>
+                    {results.map((pts,j) => {
+                      return this.renderCircle(pts,j,k,
+                        {8: "white", 5: "transparent", 3: "transparent", 0: "transparent"},
+                        {8: "white", 5:"white", 3: "white", 0: "white"})
+                      })}
+                  </svg>
+
+
+                    {/* {self.renderCircle(results, game.name, k, "white",
+                    {8: "white", 5: "transparent", 3: "transparent", 0: "transparent"},
+                    {8: "white", 5:"white", 3: "white", 0: "white"})} */}
+                    
                 </div>
                 <div style={{display: "inline-block", position: "absolute", width: "20px", top: "20px", color: "white", fontWeight: "bold", fontFamily: "Lato", textAlign: "right"}}> {game.total}</div>
               </div>
