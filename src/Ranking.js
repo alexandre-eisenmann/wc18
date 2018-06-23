@@ -192,19 +192,23 @@ export default class Ranking extends Component {
   }
   
   renderCircle(pts, j, i, colors, strokeColor) {
-
+    
+    const k = Math.floor(j / 24)
+    const kj = j % 24
     return <Animate key={`c${i}-${j}`} 
           start={{
-            x: 2000
+            x: 2000,
+            y: 42
           }}
           enter={{
-              x: [15+j*12],
+              x: [15+kj*12],
+              y: [42 + k*12],
               timing: {delay: i*500+750 + j*80, duration: 1500, ease: easeExpInOut },                            
             }}
           >
         {(state) => {
-          const { x } = state
-          return <circle cx={x} cy={42} r={5} stroke={strokeColor[pts]} strokeWidth={1} fill={colors[pts]}/>
+          const { x,y } = state
+          return <circle cx={x} cy={y} r={5} stroke={strokeColor[pts]} strokeWidth={1} fill={colors[pts]}/>
         }}
         </Animate> 
 
