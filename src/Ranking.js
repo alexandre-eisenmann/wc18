@@ -229,7 +229,7 @@ export default class Ranking extends Component {
       const results = [...Array(48).keys()].map((idx) => game[self.matchesInvRef[idx]]['pts']).filter((e) => e === 0 || e)
       const row = []
       row.push(<div  key={`g${i}`} >
-      <div style={{position: "relative", height: "60px"}}>
+      <div  style={{position: "relative", height: "60px"}}>
         <div style={{color: "white",position: "absolute", top: "24px",  marginLeft: "-25px",fontFamily: "Lato", fontSize: "8px", textAlign: "right", display: "inline-block", width: "20px"}}> {game.position}<sup>o</sup></div>
         <div style={{display: "inline-block", height: "100%", width: "calc(100vw - 60px)", marginTop:"6px", marginBottom: "6px",height: "100%"}}>
           <svg width="100%" height="100%" >
@@ -245,14 +245,14 @@ export default class Ranking extends Component {
         <div style={{display: "inline-block", position: "absolute", width: "20px", top: "20px", color: pink500, fontWeight: "bold", fontFamily: "Lato", textAlign: "right"}}> {game.total}</div>
       </div>
       </div>)
-      rows.push(<div key={`row${i}`} >{row}</div>)
+      rows.push(<div className="player-row" key={`row${i}`} >{row}</div>)
       Object.keys(self.state.mygames).map((key) => {
         if (key == game.gameId) {
           myrows.push(<div key={`row${k}`} >
             <div  key={`mg${k}`} >
               <div style={{position: "relative", height: "60px"}}>
                 <div style={{color: "white", position: "absolute", top: "24px",  marginLeft: "-25px",fontFamily: "Lato", fontSize: "8px", textAlign: "right", display: "inline-block", width: "20px"}}> {game.position}<sup>o</sup></div>
-                <div style={{display: "inline-block", height: "100%", width: "calc(100vw - 60px)", marginTop:"6px", marginBottom: "6px",height: "100%"}}>
+                <div  style={{display: "inline-block", height: "100%", width: "calc(100vw - 60px)", marginTop:"6px", marginBottom: "6px",height: "100%"}}>
                   <svg width="100%" height="100%" >
                     <text x={10} y={30} style={{fontFamily: "Lato", fontSize: "15px"}} fill={"white"}>{game.name}</text>
                     {results.map((pts,j) => {
