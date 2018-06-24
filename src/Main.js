@@ -12,6 +12,7 @@ import Home from './Home'
 import Login from './Login'
 import Leaderboard from './Leaderboard'
 import Ranking from './Ranking'
+import RankingBars from './RankingBars'
 import Viz from './Viz'
 import VizHist from './VizHist'
 import Rules from './Rules'
@@ -124,6 +125,7 @@ class Main extends Component {
               <Route path="/rules" component={Rules}/>
               <Route path="/vizhist" component={VizHist}/>
               <Route path="/ranking" component={Ranking}/>
+              <Route path="/rankingbars" component={RankingBars}/>
 
             </div>
 

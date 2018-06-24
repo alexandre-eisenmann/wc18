@@ -91,13 +91,14 @@ class Home extends Component {
             <div style={{fontSize: "16px", marginTop: "-30px", width: "300px", fontFamily: 'Open Sans'}}>
             Façam seus palpites para a copa da Russia 2018! O ganhador é aquele com maior
             número de pontos entre todas as partidas da primera fase. 
-            
+              <br></br>
               <FlatButton
-                  label="Regulamento" 
+                  label="Regras" 
                   style={{color: "white", 
                           marginTop: "16px",
                           height: "unset",
                           borderRadius: "48px",
+                          boxShadow: "0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08)",
                           border: `6px solid white`,
                           backgroundColor: "transparent",
                           fontFamily: "Roboto Condensed"
@@ -106,18 +107,32 @@ class Home extends Component {
                 />
 
               <FlatButton
-                  label="Colocação" 
+                  label="Ranking" 
                   style={{color: "white", 
-                          marginLeft: "20px",
+                          marginLeft: "10px",
                           marginTop: "16px",
                           height: "unset",
                           borderRadius: "48px",
+                          boxShadow: "0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08)",
                           border: "6px solid white",
                           fontFamily: "Roboto Condensed",
                           backgroundColor: "transparent"}}
                   href="/ranking"
                 />
 
+              <FlatButton
+                  label="NOVO" 
+                  style={{color: "white", 
+                          marginLeft: "10px",
+                          marginTop: "16px",
+                          height: "unset",
+                          borderRadius: "48px",
+                          boxShadow: "0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08)",
+                          border: "6px solid white",
+                          fontFamily: "Roboto Condensed",
+                          backgroundColor: "transparent"}}
+                  href="/rankingbars"
+                />
 
 
             </div>
