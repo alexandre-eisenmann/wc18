@@ -69,7 +69,7 @@ class Home extends Component {
                   // borderRadius: "40px",
                   backgroundColor: "rgba(255,255,255,0.3)",
 
-                 fontSize: "40px", fontWeight: "bold", color: "red", fontFamily: "Lato"}}>{startDate.diff(today, 'days')}</span> DIAS PARA A COPA DO QATAR</div>
+                 fontSize: "40px", fontWeight: "bold", color: "red", fontFamily: "Lato"}}>{startDate.diff(today, 'days')}</span> DIAS PARA A COPA</div>
               </div>
             </div>
 
