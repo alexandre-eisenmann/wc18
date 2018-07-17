@@ -31,9 +31,9 @@ export default class Viz extends Component {
     const matches = ['a','b','c','d','e','f','g','h'].map((group) => data.groups[group].matches).reduce((acc,ele) => acc.concat(ele),[])
     const sortedMatches = matches.sort((a,b) => {
       if (moment(a.date).isBefore(moment(b.date) )) 
-        return -1
+        return 1
       else if (moment(a.date).isAfter(moment(b.date)))
-        return 1 
+        return -1 
       return 0
     })
     this.matchesRef = sortedMatches.reduce((acc, ele, i) => {acc[ele.name] = i; return acc}, {})
@@ -42,7 +42,8 @@ export default class Viz extends Component {
     const today = moment(new Date());
     const up = []
     sortedMatches.map((match) => {
-      if (!today.add(-1,'hours').isAfter(match.date) && up.length<5) {
+      if (up.length<5) {
+        // if (!today.add(-1,'hours').isAfter(match.date) && up.length<5) {
         up.push(match)
       }
     })

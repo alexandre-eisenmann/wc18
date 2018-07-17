@@ -20,7 +20,7 @@ import Ranking from './Ranking'
 
 
 const today = moment(new Date());
-const startDate = moment([2018, 6, 16]);
+const startDate = moment([2022, 10, 21]);
 
 
 const style ={
@@ -69,7 +69,7 @@ class Home extends Component {
                   // borderRadius: "40px",
                   backgroundColor: "rgba(255,255,255,0.3)",
 
-                 fontSize: "40px", fontWeight: "bold", color: "red", fontFamily: "Lato"}}>{startDate.diff(today, 'days')}</span> DIAS PARA A FINAL DA COPA</div>
+                 fontSize: "40px", fontWeight: "bold", color: "red", fontFamily: "Lato"}}>{startDate.diff(today, 'days')}</span> DIAS PARA A COPA DO QATAR</div>
               </div>
             </div>
 
