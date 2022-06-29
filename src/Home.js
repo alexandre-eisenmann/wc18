@@ -106,7 +106,7 @@ class Home extends Component {
                   href="/rules"
                 />
 
-              <FlatButton
+              {/* <FlatButton
                   label="Ranking" 
                   style={{color: "white", 
                           marginLeft: "10px",
@@ -118,9 +118,9 @@ class Home extends Component {
                           fontFamily: "Roboto Condensed",
                           backgroundColor: "transparent"}}
                   href="/ranking"
-                />
+                /> */}
 
-              <FlatButton
+              {/* <FlatButton
                   label="NOVO" 
                   style={{color: "white", 
                           marginLeft: "10px",
@@ -132,7 +132,7 @@ class Home extends Component {
                           fontFamily: "Roboto Condensed",
                           backgroundColor: "transparent"}}
                   href="/rankingbars"
-                />
+                /> */}
 
 
             </div>
