@@ -5,9 +5,12 @@ import CircularProgress from 'material-ui/CircularProgress';
 import FlatButton from 'material-ui/FlatButton'
 import Dialog from 'material-ui/Dialog';
 
-import * as firebase from 'firebase'
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 
-const provider = new firebase.auth.FacebookAuthProvider();
+
+const provider = new firebase.auth.GoogleAuthProvider();
+
 
 export default class Login extends Component {
 

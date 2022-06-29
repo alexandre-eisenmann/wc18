@@ -1,14 +1,16 @@
 import React, { Component } from "react";
 
 import data from './data.json'
-import * as firebase from 'firebase'
+import firebase from 'firebase/compat/app';
 import FlatButton from 'material-ui/FlatButton';
+import 'firebase/compat/auth';
 import AppBar from 'material-ui/AppBar';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import Avatar from 'material-ui/Avatar';
+
 
 
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
@@ -21,7 +23,7 @@ import {
 
 
 
-const provider = new firebase.auth.FacebookAuthProvider();
+const provider = new firebase.auth.GoogleAuthProvider();
 
 
 export default class Header extends Component {

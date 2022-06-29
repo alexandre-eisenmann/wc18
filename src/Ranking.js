@@ -4,9 +4,9 @@ import data from './data.json'
 import gamesFromFile from './games.json'
 import moment from 'moment'
 import CircularProgress from 'material-ui/CircularProgress';
-import 'react-sticky-table/dist/react-sticky-table.css';
+// import 'react-sticky-table/dist/react-sticky-table.css';
 import {blue500, blue300,grey300,grey400,grey200,lightGreen500, orange200,deepOrange500, orange900,yellow500,green700, orange500, blue600, cyan400,cyan500,cyan600,cyan100, cyan200, cyan300, pink500,pink100} from 'material-ui/styles/colors'
-import * as firebase from 'firebase'
+import firebase from 'firebase/compat/app';
 import './flags.css';
 import { easeExpInOut } from 'd3-ease';
 import { Animate } from "react-move";

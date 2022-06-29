@@ -10,7 +10,7 @@ import {
 
 import Paper from 'material-ui/Paper'
 import data from './data.json'
-import * as firebase from 'firebase'
+import firebase from 'firebase/compat/app';
 import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField'
 import {green700, blue600, cyan500, cyan100,pink500} from 'material-ui/styles/colors'

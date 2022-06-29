@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import GroupView from './GroupView.js'
 import Header from './Header.js'
-import * as firebase from 'firebase'
+import firebase from 'firebase/compat/app';
 import {Redirect} from "react-router-dom"
 import FlatButton from 'material-ui/FlatButton'
 import FloatingActionButton from 'material-ui/FloatingActionButton'

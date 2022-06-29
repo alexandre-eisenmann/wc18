@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import Main from './Main';
 import registerServiceWorker from './registerServiceWorker';
-import * as firebase from 'firebase'
+import firebase from 'firebase/compat/app';
 
 const config = {
   apiKey: "AIzaSyBdQGJm5ziMBTEUa588Z3B93OQxm3MELow",

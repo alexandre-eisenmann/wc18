@@ -10,14 +10,14 @@ import Bid from './Bid'
 import Master from './Master'
 import Home from './Home'
 import Login from './Login'
-import Leaderboard from './Leaderboard'
+// import Leaderboard from './Leaderboard'
 import Ranking from './Ranking'
 import RankingBars from './RankingBars'
 import Viz from './Viz'
 import VizHist from './VizHist'
 import Rules from './Rules'
 import NotAvailable from './NotAvailable'
-import * as firebase from 'firebase'
+import firebase from 'firebase/compat/app';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import Slider from 'material-ui/Slider';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
@@ -120,12 +120,12 @@ class Main extends Component {
               <Route path="/bids" component={Bid}/>
               <Route path="/master" component={Master}/>
               <Route path="/payment" component={NotAvailable}/>
-              <Route path="/leaderboard" component={Leaderboard}/>
+              {/* <Route path="/leaderboard" component={Leaderboard}/> */}
               <Route path="/viz" component={Viz}/>
               <Route path="/rules" component={Rules}/>
               <Route path="/vizhist" component={VizHist}/>
               <Route path="/ranking" component={Ranking}/>
-              <Route path="/rankingbars" component={RankingBars}/>
+              {/* <Route path="/rankingbars" component={RankingBars}/> */}
 
             </div>
 

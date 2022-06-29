@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import GroupView from './GroupView.js'
 import Header from './Header.js'
-import * as firebase from 'firebase'
+import firebase from 'firebase/compat/app';
 import {Link, Redirect} from "react-router-dom"
 import FlatButton from 'material-ui/FlatButton'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
@@ -181,7 +181,7 @@ export default class Bid extends Component {
     let complete = false
     let edit = true
 
-    if (this.state.currentBid) {
+    if (this.state.currentBid && this.state.bids[this.state.currentBid]) {
       if (this.state.bids[this.state.currentBid].status == "readytopay") {
           status = "Aguardando Pagamento"
           edit = false
@@ -215,7 +215,7 @@ export default class Bid extends Component {
       
       
       <div id="flowSection" style={style}>
-      {this.state.logged == false && <Redirect to='/login?fw=bids' />}
+      {this.state.logged == false && <Redirect to='/  ?fw=bids' />}
       {this.state.logged == null &&  <div style={{backgroundColor: "white", textAlign: "center", marginTop: "10%", width:"100%"}}><CircularProgress size={60} thickness={7} /></div>}
       {this.state.logged && this.state.user && <div>
         <Dialog
@@ -320,7 +320,7 @@ export default class Bid extends Component {
         </div>}
 
       <div style={{position: "relative"}} id="gameSection">
-      { this.state.currentBid && 
+      { this.state.currentBid && this.state.bids[this.state.currentBid] && 
         <div>
           
           <Toolbar style={{backgroundColor: "rgba(255,255,255,0.5)"}}>

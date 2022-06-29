@@ -13,7 +13,7 @@ import moment from 'moment'
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import Viz from './Viz'
-import * as firebase from 'firebase'
+import firebase from 'firebase/compat/app';
 import * as d3 from 'd3';
 import NodeGroup from 'react-move/NodeGroup';
 import { easeExpInOut } from 'd3-ease';
