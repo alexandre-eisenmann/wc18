@@ -10,6 +10,7 @@ import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import Avatar from 'material-ui/Avatar';
+import { DATABASE_ROOT_NODE } from "./constants";
 
 
 
@@ -50,7 +51,7 @@ export default class Header extends Component {
   }
 
   newGame() {
-    const newRef = firebase.database().ref('wc18/' + this.state.user.uid).push()
+    const newRef = firebase.database().ref(`${DATABASE_ROOT_NODE}/` + this.state.user.uid).push()
     
     const game = {1: [2,1], 2: [3,0]}
 

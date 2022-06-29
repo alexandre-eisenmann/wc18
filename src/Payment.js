@@ -29,7 +29,7 @@ import {
   TableRowColumn,
   TableFooter,
 } from 'material-ui/Table';
-
+import { DATABASE_ROOT_NODE } from './constants';
 
 
 export default class Payment extends Component {
@@ -92,8 +92,8 @@ export default class Payment extends Component {
                   self.setState({paymentStatus: status, transactionId: transactionId})
                   transaction.item_list.items.map((item) => {
 
-                    firebase.database().ref(`wc18/${self.state.user.uid}/${item.sku}/transactionId`).set(transactionId)
-                    firebase.database().ref(`wc18/${self.state.user.uid}/${item.sku}/status`).set("payed")
+                    firebase.database().ref(`${DATABASE_ROOT_NODE}18/${self.state.user.uid}/${item.sku}/transactionId`).set(transactionId)
+                    firebase.database().ref(`${DATABASE_ROOT_NODE}/${self.state.user.uid}/${item.sku}/status`).set("payed")
                   })
                 })
                 document.getElementById("paypal-button").remove()
@@ -120,7 +120,7 @@ export default class Payment extends Component {
     this.unsubscribe = firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         self.setState({logged: true, user: user})
-        self.ref = firebase.database().ref(`wc18/${user.uid}`)
+        self.ref = firebase.database().ref(`${DATABASE_ROOT_NODE}/${user.uid}`)
         self.ref.once('value', snapshot => {
           const bids  = {}, list=[]
           snapshot.forEach(function(childSnapshot) {

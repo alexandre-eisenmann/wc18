@@ -36,7 +36,7 @@ export default class VizHist extends Component {
     this.state = {results: {}, tab: {}}
   }
 
-  componentWillReceiveProps(props) {
+  UNSAFE_componentWillReceiveProps(props) {
     if (props.data) {
       this.setState({result: props.data.result, tab: props.data.tab})
     }

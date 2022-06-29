@@ -16,6 +16,7 @@ import TextField from 'material-ui/TextField'
 import {green700, blue600, cyan500, cyan100,pink500} from 'material-ui/styles/colors'
 import moment from 'moment'
 import './flags.css'
+import { DATABASE_ROOT_NODE } from "./constants";
 
 
 
@@ -49,7 +50,7 @@ export default class GroupView extends Component {
   
   }
 
-  componentWillReceiveProps(props) {
+  UNSAFE_componentWillReceiveProps(props) {
     const upcoming = Object.assign({}, {gameId:props.gameId}, this.emptyMatches, props.bids[props.gameId])
     this.setState(upcoming)
     
@@ -57,7 +58,7 @@ export default class GroupView extends Component {
 
   updateResult(match,team,value) {
     if (isNaN(value)) value = null
-    firebase.database().ref(`wc18/${this.props.userId}/${this.props.gameId}/${match}/${team}`).set(value)
+    firebase.database().ref(`${DATABASE_ROOT_NODE}/${this.props.userId}/${this.props.gameId}/${match}/${team}`).set(value)
   }
 
 
@@ -67,7 +68,7 @@ export default class GroupView extends Component {
     const team = fieldTokens[2]
     let value = parseInt(event.target.value,10)
     if (isNaN(value)) value = null
-    firebase.database().ref(`wc18/${this.props.userId}/${this.props.gameId}/${matchId}/${team}`).set(value)
+    firebase.database().ref(`${DATABASE_ROOT_NODE}/${this.props.userId}/${this.props.gameId}/${matchId}/${team}`).set(value)
   }
 
 

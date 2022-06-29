@@ -4,6 +4,8 @@ import './App.css';
 import GroupView from './GroupView.js'
 import Header from './Header.js'
 import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth'
+import 'firebase/compat/database'
 import {Link, Redirect} from "react-router-dom"
 import FlatButton from 'material-ui/FlatButton'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
@@ -21,7 +23,7 @@ import Avatar from 'material-ui/Avatar';
 import {green700, blue600, cyan500,cyan600,cyan100, cyan200, cyan300, pink500,pink100} from 'material-ui/styles/colors';
 import IconButton from 'material-ui/IconButton';
 import './bubbles.css'
-
+import { DATABASE_ROOT_NODE } from './constants';
 
 const chipStyles = {
   chip: {
@@ -47,11 +49,10 @@ export default class Bid extends Component {
   constructor(props) {
     super(props)
     this.state = {logged: null, user: null, bids:[], currentBid: null, deleteBid: null, status: null}
-
   }
 
   onNewGame() {
-    const newRef = firebase.database().ref('wc18/' + this.state.user.uid).push()
+    const newRef = firebase.database().ref(`${DATABASE_ROOT_NODE}/` + this.state.user.uid).push()
     newRef.set({name: this.state.user.displayName, email: this.state.user.email, mobile: null})
     this.setState({currentBid: newRef.key})
     
@@ -63,15 +64,15 @@ export default class Bid extends Component {
   }
 
   onNameChange(event, value) {
-    firebase.database().ref(`wc18/${this.state.user.uid}/${this.state.currentBid}/name`).set(value)
+    firebase.database().ref(`${DATABASE_ROOT_NODE}/${this.state.user.uid}/${this.state.currentBid}/name`).set(value)
   }
 
   onEmailChange(event, value) {
-    firebase.database().ref(`wc18/${this.state.user.uid}/${this.state.currentBid}/email`).set(value)
+    firebase.database().ref(`${DATABASE_ROOT_NODE}/${this.state.user.uid}/${this.state.currentBid}/email`).set(value)
   }
 
   onMobileChange(event, value) {
-    firebase.database().ref(`wc18/${this.state.user.uid}/${this.state.currentBid}/mobile`).set(value)
+    firebase.database().ref(`${DATABASE_ROOT_NODE}/${this.state.user.uid}/${this.state.currentBid}/mobile`).set(value)
   }
   
   onRequestDelete(event, bid) {
@@ -83,7 +84,7 @@ export default class Bid extends Component {
   }
 
   handleDelete() {
-    firebase.database().ref(`wc18/${this.state.user.uid}/${this.state.deleteBid}`).remove()
+    firebase.database().ref(`${DATABASE_ROOT_NODE}/${this.state.user.uid}/${this.state.deleteBid}`).remove()
     if (this.state.deleteBid == this.state.currentBid)
       this.setState({currentBid: null})
     this.setState({deleteBid: null})
@@ -125,11 +126,12 @@ export default class Bid extends Component {
   }
 
   componentDidMount() {
+
     const self = this
     this.unsubscribe = firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         self.setState({logged: true, user: user})
-        self.ref = firebase.database().ref(`wc18/${user.uid}`)
+        self.ref = firebase.database().ref(`${DATABASE_ROOT_NODE}/${user.uid}`)
         self.ref.on('value', snapshot => {
           const bids  = {}
           snapshot.forEach(function(childSnapshot) {
@@ -155,7 +157,7 @@ export default class Bid extends Component {
 
     if (this.state.currentBid) {
 
-      firebase.database().ref(`wc18/${this.state.user.uid}/${this.state.currentBid}/status`).set("readytopay")
+      firebase.database().ref(`${DATABASE_ROOT_NODE}/${this.state.user.uid}/${this.state.currentBid}/status`).set("readytopay")
       const y = document.getElementById("flowSection").getBoundingClientRect().y
       window.scrollTo(0,y)
   
@@ -163,7 +165,7 @@ export default class Bid extends Component {
   }
   handleRemoveFromCard() {
     if (this.state.currentBid) {
-      firebase.database().ref(`wc18/${this.state.user.uid}/${this.state.currentBid}/status`).remove()
+      firebase.database().ref(`${DATABASE_ROOT_NODE}/${this.state.user.uid}/${this.state.currentBid}/status`).remove()
     }
   }
 
@@ -215,7 +217,7 @@ export default class Bid extends Component {
       
       
       <div id="flowSection" style={style}>
-      {this.state.logged == false && <Redirect to='/  ?fw=bids' />}
+      {this.state.logged == false && <Redirect to='/login?fw=bids' />} 
       {this.state.logged == null &&  <div style={{backgroundColor: "white", textAlign: "center", marginTop: "10%", width:"100%"}}><CircularProgress size={60} thickness={7} /></div>}
       {this.state.logged && this.state.user && <div>
         <Dialog

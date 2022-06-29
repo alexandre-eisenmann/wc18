@@ -26,7 +26,6 @@ export default class Login extends Component {
 
     const self = this
 
-
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
 
@@ -67,7 +66,7 @@ export default class Login extends Component {
           open={this.state.open}
         >
             <div>
-            <div style={{float: "left"}}><button style={{cursor: "pointer",  width: "202px", border: "none", height: "46px", background: "url(login_facebook.png)"}} onClick={this.login.bind(this)}></button></div>
+            <div style={{float: "left"}}><button style={{cursor: "pointer",  width: "190px", border: "none", height: "46px", background: "url(btn_google_signin_light_normal_web.png)"}} onClick={this.login.bind(this)}></button></div>
             
             <div style={{float: "right"}}><FlatButton
               label="Cancel"

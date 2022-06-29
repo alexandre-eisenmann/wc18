@@ -15,6 +15,7 @@ import FontIcon from 'material-ui/FontIcon';
 import IconButton from 'material-ui/IconButton';
 import { easeExpInOut } from 'd3-ease';
 import MatchViz from './MatchViz'
+import { DATABASE_WC18 } from "./constants";
 
 export default class Viz extends Component {
 
@@ -58,7 +59,7 @@ export default class Viz extends Component {
     const self = this
     const map = {}
     const results = {}
-    firebase.database().ref(`wc18`).once('value', snapshot => {
+    firebase.database().ref(`${DATABASE_WC18}`).once('value', snapshot => {
       snapshot.forEach(function(childSnapshot) {
         var childKey = childSnapshot.key
         var childData = childSnapshot.val()
@@ -92,7 +93,7 @@ export default class Viz extends Component {
 
   render() {
     return  <div>
-      <div id="viz" style={{margin: "auto", textAlign: "left", fontWeight: "bold", marginTop: "50px", width: "340px", fontSize: "30px", fontFamily: "Roboto Condensed"}} >CHUVA DE PALPIPES </div>
+      <div id="viz" style={{margin: "auto", textAlign: "left", fontWeight: "bold", marginTop: "50px", width: "340px", fontSize: "30px", fontFamily: "Roboto Condensed"}} >CHUVA DE PALPIPES - 2018</div>
       <div style={{margin: "auto", fontFamily: "Open Sans", marginTop: "20px", paddingLeft:"20px", paddingRight: "20px", textAlign: "left", width: "340px"}} >
       Os gráficos abaixam representam a distribuição de palpites para os próximos jogos. A área de cada círculo é proporcional
       ao número de apostadores para o resultado. Observem que os empates situam-se bem na linha vertical que passa pela 

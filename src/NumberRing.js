@@ -10,7 +10,7 @@ export default class NumberRing extends Component {
         this.onMouseOver = this.onMouseOver.bind(this);
     }
 
-    componentWillReceiveProps(props) {
+    UNSAFE_componentWillReceiveProps(props) {
         this.setState({value: props.value})
     }
 

@@ -21,6 +21,7 @@ export default class Rules extends Component {
 
   constructor(props) {
     super(props)
+    
   }
 
   render() {

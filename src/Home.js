@@ -89,7 +89,7 @@ class Home extends Component {
           <div style={{position: "absolute", top: "30px", color: "white", textAlign: "left", marginLeft: "30px"}}>
             <p style={{fontSize: "40px", fontFamily: 'Roboto Condensed'}}>Bolão dos Bolões</p>
             <div style={{fontSize: "16px", marginTop: "-30px", width: "300px", fontFamily: 'Open Sans'}}>
-            Façam seus palpites para a copa da Russia 2018! O ganhador é aquele com maior
+            Façam seus palpites para a copa da Qatar 2022! O ganhador é aquele com maior
             número de pontos entre todas as partidas da primera fase. 
               <br></br>
               <FlatButton

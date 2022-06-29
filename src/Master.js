@@ -20,6 +20,7 @@ import FontIcon from 'material-ui/FontIcon';
 import Avatar from 'material-ui/Avatar';
 import {green700, blue600, cyan500,cyan600,cyan100, cyan200, cyan300, pink500,pink100} from 'material-ui/styles/colors';
 import IconButton from 'material-ui/IconButton';
+import { DATABASE_ROOT_NODE } from './constants';
 
 const style ={
   backgroundImage: "url(background_gs.svg)",
@@ -49,7 +50,7 @@ export default class Master extends Component {
       if (user) {
         const canEdit = ['alexandre.eisenmann@gmail.com', 'ricardoke@gmail.com','joao@idst.com.br','felel19@hotmail.com'].includes(user.email)
         self.setState({logged: true, user: user, edit: canEdit})
-        self.ref = firebase.database().ref(`wc18/master`)
+        self.ref = firebase.database().ref(`${DATABASE_ROOT_NODE}/master`)
         self.ref.on('value', snapshot => {
           const bids  = {}
           snapshot.forEach(function(childSnapshot) {

@@ -75,10 +75,8 @@ class Main extends Component {
     
     const params = {}
     if (this.state.logged) {
-      params['iconElementRight'] = toolbar(`https://graph.facebook.com/${this.state.user.providerData[0].uid}/picture`)
+      params['iconElementRight'] = toolbar(`${this.state.user.photoURL}`)
     }
-    
-
     return (
         <MuiThemeProvider>
         <BrowserRouter>
@@ -118,6 +116,7 @@ class Main extends Component {
               <Route path="/login" component={Login}/>
               <Route path="/login/*" component={Login}/>
               <Route path="/bids" component={Bid}/>
+              <Route path="/abc" component={Bid}/>
               <Route path="/master" component={Master}/>
               <Route path="/payment" component={NotAvailable}/>
               {/* <Route path="/leaderboard" component={Leaderboard}/> */}

@@ -10,6 +10,7 @@ import firebase from 'firebase/compat/app';
 import './flags.css';
 import { easeExpInOut } from 'd3-ease';
 import { Animate } from "react-move";
+import { DATABASE_ROOT_NODE } from "./constants";
 
 
 
@@ -102,7 +103,7 @@ export default class Ranking extends Component {
     this.unsubscribe = firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         self.setState({logged: true, user: user})
-        self.ref = firebase.database().ref(`wc18/${user.uid}`)
+        self.ref = firebase.database().ref(`${DATABASE_ROOT_NODE}/${user.uid}`)
         self.ref.on('value', snapshot => {
           const bids  = {}
           snapshot.forEach(function(childSnapshot) {
@@ -120,7 +121,7 @@ export default class Ranking extends Component {
     
     
     
-    self.ref1 = firebase.database().ref(`wc18/master/gabarito`)
+    self.ref1 = firebase.database().ref(`${DATABASE_ROOT_NODE}/master/gabarito`)
     self.ref1.on('child_removed', function(data) {
         matches[self.matchesRef[data.key]].away_result = null
         matches[self.matchesRef[data.key]].home_result = null
@@ -128,7 +129,7 @@ export default class Ranking extends Component {
         self.loadGames(matches)
 
     })
-    self.ref2 = firebase.database().ref(`wc18/master/gabarito`)
+    self.ref2 = firebase.database().ref(`${DATABASE_ROOT_NODE}/master/gabarito`)
     const res = self.ref2.on('value', snapshot => {
       const results  = {}
       self.setState({updating: true})

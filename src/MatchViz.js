@@ -26,7 +26,7 @@ import { Animate } from "react-move";
 
     }
 
-    componentWillReceiveProps(props) {
+    UNSAFE_componentWillReceiveProps(props) {
       if (props.games && props.games.length > 0) {
         this.checkIfInViewport()
         this.setState({games: props.games})
