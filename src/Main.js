@@ -17,6 +17,7 @@ import Viz from './Viz'
 import VizHist from './VizHist'
 import Rules from './Rules'
 import NotAvailable from './NotAvailable'
+import Payment from './Payment'
 import firebase from 'firebase/compat/app';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import Slider from 'material-ui/Slider';
@@ -77,6 +78,8 @@ class Main extends Component {
     if (this.state.logged) {
       params['iconElementRight'] = toolbar(`${this.state.user.photoURL}`)
     }
+    
+
     return (
         <MuiThemeProvider>
         <BrowserRouter>
@@ -118,7 +121,7 @@ class Main extends Component {
               <Route path="/bids" component={Bid}/>
               <Route path="/abc" component={Bid}/>
               <Route path="/master" component={Master}/>
-              <Route path="/payment" component={NotAvailable}/>
+              <Route path="/payment" component={Payment}/>
               {/* <Route path="/leaderboard" component={Leaderboard}/> */}
               <Route path="/viz" component={Viz}/>
               <Route path="/rules" component={Rules}/>

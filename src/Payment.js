@@ -4,6 +4,7 @@ import './App.css';
 import GroupView from './GroupView.js'
 import Header from './Header.js'
 import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth'
 import {Redirect} from "react-router-dom"
 import FlatButton from 'material-ui/FlatButton'
 import FloatingActionButton from 'material-ui/FloatingActionButton'

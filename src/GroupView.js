@@ -33,11 +33,12 @@ export default class GroupView extends Component {
 
     
     this.matches = data.groups[this.props.group].matches.sort((a,b) => {
-        if (moment(a.date).isBefore(moment(b.date) )) 
-          return -1
-        else if (moment(a.date).isAfter(moment(b.date)))
-          return 1 
-        return 0
+      return a.name - b.name
+        // if (moment(a.date).isBefore(moment(b.date) )) 
+        //   return -1
+        // else if (moment(a.date).isAfter(moment(b.date)))
+        //   return 1 
+        // return 0
     })
     this.emptyMatches = this.matches.reduce((acc, elem) => {
         acc[elem.name] = {a: null, h: null}
