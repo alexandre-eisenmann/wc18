@@ -135,7 +135,7 @@ export default class Payment extends Component {
                 name: childData.name,
                 description: `${user.uid}/${childKey}`,
                 quantity: 1,
-                price: 20.00,
+                price: 30.00,
                 currency: 'BRL'
               })
             }
