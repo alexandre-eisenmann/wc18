@@ -93,7 +93,7 @@ export default class Payment extends Component {
                   self.setState({paymentStatus: status, transactionId: transactionId})
                   transaction.item_list.items.map((item) => {
 
-                    firebase.database().ref(`${DATABASE_ROOT_NODE}18/${self.state.user.uid}/${item.sku}/transactionId`).set(transactionId)
+                    firebase.database().ref(`${DATABASE_ROOT_NODE}/${self.state.user.uid}/${item.sku}/transactionId`).set(transactionId)
                     firebase.database().ref(`${DATABASE_ROOT_NODE}/${self.state.user.uid}/${item.sku}/status`).set("payed")
                   })
                 })
