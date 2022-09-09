@@ -241,7 +241,7 @@ export default class Bid extends Component {
         </Dialog>
         <div>
         <div style={{backgroundColor: cyan500,padding: "5px", fontSize: "10px",  paddingTop: "10px", paddingLeft: "27px", paddingBottom: "0px", color: "rgba(255, 255, 255, 0.7)"}}>
-        RASCUNHO
+        RASCUNHO (draft)
         </div>          
         <div style={{display: "flex", flexWrap: "wrap", minHeight: "40px", position: "relative", paddingLeft: "20px", paddingRight: "60px", paddingTop: "5px",paddingBottom: "13px", backgroundColor: cyan500}}>
             
@@ -273,7 +273,7 @@ export default class Bid extends Component {
 
         {anyReadyToPay && <div id="agdoPagto">
         <div style={{backgroundColor: cyan300,padding: "5px", fontSize: "10px",  paddingTop: "10px", paddingLeft: "27px", paddingBottom: "0px", color: "rgba(255, 255, 255, 0.7)"}}>
-        AGUARDANDO PAGAMENTO
+        AGUARDANDO PAGAMENTO (waiting payment)
         </div>          
         <div style={{display: "flex", flexWrap: "wrap", minHeight: "40px", position: "relative", paddingLeft: "20px", paddingRight: "60px", paddingTop: "5px",paddingBottom: "13px", backgroundColor: cyan300}}>
             {<div className="agdopagto-bubble">
@@ -304,7 +304,7 @@ export default class Bid extends Component {
 
         {anyPayed && <div>
         <div style={{backgroundColor: cyan600,padding: "5px", fontSize: "10px",  paddingTop: "10px", paddingLeft: "27px", paddingBottom: "0px", color: "rgba(255, 255, 255, 0.7)"}}>
-          PAGOS</div>          
+          PAGOS (payed)</div>          
         <div style={{display: "flex", flexWrap: "wrap", minHeight: "40px", position: "relative", paddingLeft: "20px", paddingRight: "60px", paddingTop: "5px",paddingBottom: "13px", backgroundColor: cyan600}}>
 
             {Object.keys(this.state.bids).map((bid) => {

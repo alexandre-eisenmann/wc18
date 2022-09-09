@@ -314,7 +314,7 @@ export default class Ranking extends Component {
         {this.state.logged && this.state.user && <div className="mygames" style={{paddingLeft: "25px", backgroundColor: cyan500}}>
             <div className="mygames-row" style={{backgroundColor: cyan600}}>
                <div style={{backgroundColor: cyan600,padding: "5px", fontSize: "10px",  paddingTop: "10px", paddingLeft: "10px", paddingBottom: "0px", color: "rgba(255, 255, 255, 0.7)"}}>
-                 MEUS JOGOS
+                 MEUS JOGOS (my bids)
               </div>          
               {myrows}
             </div>
@@ -325,7 +325,7 @@ export default class Ranking extends Component {
       <div className="degrade">
         <div className="checkers">
             <div style={{padding: "5px", fontSize: "10px",  paddingTop: "10px", paddingLeft: "10px", paddingBottom: "0px", color: "rgb(100,100,100)"}}>
-                CLASSIFICAÇÃO GERAL
+                CLASSIFICAÇÃO GERAL (leaderboard)
             </div>          
           {rows}
         </div>

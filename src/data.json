@@ -165,7 +165,7 @@
     "a": {
         "matches": [
             {
-                "name": 1,
+                "name": 2,
                 "type": "group",
                 "home_team": 30,
                 "away_team": 11,
@@ -180,13 +180,13 @@
                 "group": "a"
             },
             {
-                "name": 3,
+                "name": 1,
                 "type": "group",
                 "home_team": 1,
                 "away_team": 3,
                 "home_result": null,
                 "away_result": null,
-                "date": "2022-11-21T13:00:00+00:00",
+                "date": "2022-11-21T06:00:00+00:00",
                 "stadium": 1,
                 "channels": [],
                 "finished": false,
@@ -259,7 +259,7 @@
     "b": {
         "matches": [
             {
-                "name": 2,
+                "name": 3,
                 "type": "group",
                 "home_team": 28,
                 "away_team": 8,
