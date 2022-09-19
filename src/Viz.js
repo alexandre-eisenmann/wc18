@@ -15,7 +15,7 @@ import FontIcon from 'material-ui/FontIcon';
 import IconButton from 'material-ui/IconButton';
 import { easeExpInOut } from 'd3-ease';
 import MatchViz from './MatchViz'
-import { DATABASE_WC18 } from "./constants";
+import { DATABASE_WC18, DATABASE_ROOT_NODE } from "./constants";
 
 export default class Viz extends Component {
 
@@ -34,9 +34,9 @@ export default class Viz extends Component {
     const matches = ['a','b','c','d','e','f','g','h'].map((group) => data.groups[group].matches).reduce((acc,ele) => acc.concat(ele),[])
     const sortedMatches = matches.sort((a,b) => {
       if (moment(a.date).isBefore(moment(b.date) )) 
-        return 1
+        return -1
       else if (moment(a.date).isAfter(moment(b.date)))
-        return -1 
+        return 1 
       return 0
     })
     this.matchesRef = sortedMatches.reduce((acc, ele, i) => {acc[ele.name] = i; return acc}, {})
@@ -45,10 +45,10 @@ export default class Viz extends Component {
     const today = moment(new Date());
     const up = []
     sortedMatches.map((match) => {
-      if (up.length<5) {
+      // if (up.length<5) {
         // if (!today.add(-1,'hours').isAfter(match.date) && up.length<5) {
         up.push(match)
-      }
+      // }
     })
 
     this.setState({upcomming: up})
@@ -59,7 +59,7 @@ export default class Viz extends Component {
     const self = this
     const map = {}
     const results = {}
-    firebase.database().ref(`${DATABASE_WC18}`).once('value', snapshot => {
+    firebase.database().ref(`${DATABASE_ROOT_NODE}`).once('value', snapshot => {
       snapshot.forEach(function(childSnapshot) {
         var childKey = childSnapshot.key
         var childData = childSnapshot.val()
@@ -93,7 +93,7 @@ export default class Viz extends Component {
 
   render() {
     return  <div>
-      <div id="viz" style={{margin: "auto", textAlign: "left", fontWeight: "bold", marginTop: "50px", width: "340px", fontSize: "30px", fontFamily: "Roboto Condensed"}} >CHUVA DE PALPIPES - 2018</div>
+      <div id="viz" style={{margin: "auto", textAlign: "left", fontWeight: "bold", marginTop: "50px", width: "340px", fontSize: "30px", fontFamily: "Roboto Condensed"}} >CHUVA DE PALPIPES</div>
       <div style={{margin: "auto", fontFamily: "Open Sans", marginTop: "20px", paddingLeft:"20px", paddingRight: "20px", textAlign: "left", width: "340px"}} >
       Os gráficos abaixam representam a distribuição de palpites para os próximos jogos. A área de cada círculo é proporcional
       ao número de apostadores para o resultado. Observem que os empates situam-se bem na linha vertical que passa pela 
