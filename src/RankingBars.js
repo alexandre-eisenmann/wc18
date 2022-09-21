@@ -314,7 +314,7 @@ export default class Ranking extends Component {
         {this.state.logged && this.state.user && <div className="mygames" style={{paddingLeft: "25px", backgroundColor: cyan500}}>
             <div className="mygames-row" style={{backgroundColor: cyan600}}>
                <div style={{backgroundColor: cyan600,padding: "5px", fontSize: "10px",  paddingTop: "10px", paddingLeft: "10px", paddingBottom: "0px", color: "rgba(255, 255, 255, 0.7)"}}>
-                 MEUS JOGOS (my bids)
+                 JOGOS (my bids)
               </div>          
               {myrows}
             </div>
