@@ -59,7 +59,7 @@ function Bar(props) {
                             {props.label}
                             
                         </div>
-                        <div style={{ display: "flex",  justifyContent: "flex-end",fontSize: "10px", color:"white", marginTop: "-10px", marginRight: "10px"}}>
+                        <div style={{ display: "flex",  justifyContent: "flex-end",fontSize: "10px", color:"white", marginTop: "-12px", marginRight: "10px"}}>
                             {props.value}
                             
                         </div>

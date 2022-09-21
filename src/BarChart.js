@@ -106,14 +106,14 @@ class BarChart extends React.Component {
         ...this.props.barStyle,
         marginTop: `calc(${this.state.currRank[name]} * ${this.barHeight})`,
         // width: `${100 * this.props.data[name][currIdx]/ this.state.maxVal}%`,
-        width: `${100 + this.props.data[name][currIdx]*1.25}%`,
+        width: `${70 + this.props.data[name][currIdx]}%`,
         backgroundColor: this.props.colors[name],
       };
       const prevStyle = {
         ...this.props.barStyle,
         marginTop: `calc(${this.state.prevRank[name]} * ${this.barHeight})`,
         // width: `${100 * this.props.data[name][prevIdx]/ this.state.maxVal}%`,
-        width: `${100 + this.props.data[name][prevIdx]*1.25}%`,
+        width: `${70 + this.props.data[name][prevIdx]}%`, 
         backgroundColor: this.props.colors[name],
       };
       return [value, hidden, currStyle, prevStyle];
