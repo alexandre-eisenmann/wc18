@@ -14,6 +14,7 @@ import Login from './Login'
 import Leaderboard from './Leaderboard3'
 import Ranking from './Ranking'
 import RankingBars from './RankingBars'
+import BarRace from './BarRace'
 import Viz from './Viz'
 import VizHist from './VizHist'
 import Rules from './Rules'
@@ -103,6 +104,7 @@ class Main extends Component {
                 <Tab style={{backgroundColor: bgColor}} label="HOME" containerElement={<Link to="/" />} />
                 <Tab style={{backgroundColor: bgColor}} label="MEUS JOGOS" containerElement={<Link to="/bids" />} />
                 <Tab style={{backgroundColor: bgColor}} label="TABELÃO" containerElement={<Link to="/leaderboard" />} />
+                <Tab style={{backgroundColor: bgColor}} label="RANKING" containerElement={<Link to="/barrace" />} />
                 <Tab style={{backgroundColor: bgColor}} label="BLOG" containerElement={<a href="https://medium.com/bolão-dos-bolões-2018" />} />
 
                 </Tabs>
@@ -128,6 +130,7 @@ class Main extends Component {
               <Route path="/rules" component={Rules}/>
               <Route path="/vizhist" component={VizHist}/>
               <Route path="/ranking" component={Ranking}/>
+              <Route path="/barrace" component={BarRace}/>
               {/* <Route path="/rankingbars" component={RankingBars}/> */}
 
             </div>
