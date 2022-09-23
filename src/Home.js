@@ -52,7 +52,7 @@ class Home extends Component {
                      }}>
               <NavLink style={{textDecoration: "none",color: "rgba(220,220,220,0.8)"}} to="/bids">JOGOS</NavLink>
               <NavLink style={{textDecoration: "none",marginLeft: "20px", color: "rgba(220,220,220,0.8)"}} to="/leaderboard">TABELÃO</NavLink>
-              <NavLink style={{textDecoration: "none",marginLeft: "20px", color: "rgba(220,220,220,0.8)"}} to="/barrace">RANKING</NavLink>
+              <NavLink style={{textDecoration: "none",marginLeft: "20px", color: "rgba(220,220,220,0.8)"}} to="/rules">REGRAS</NavLink>
               <a style={{textDecoration: "none",marginLeft: "20px", color: "rgba(220,220,220,0.8)"}} href="https://medium.com/bolão-dos-bolões-2018">BLOG</a>
 
           </div>
@@ -86,25 +86,41 @@ class Home extends Component {
 
             </div>
           </div>
+          {/* <div style={{
+                  position: "absolute",
+                  top: "221px",
+                  color: "white",
+                  textAlign: "left",
+                  width: "100%",
+                  height: "1px",
+                  fontSize: "11px",
+                  borderTop: "1px solid white",
+                  padding: "2px"
+            }}>RANKINGS</div> */}
 
+
+          
           <div style={{position: "absolute", top: "30px", color: "white", textAlign: "left", marginLeft: "30px"}}>
             <p style={{fontSize: "40px", fontFamily: 'Roboto Condensed'}}>Bolão dos Bolões</p>
             <div style={{fontSize: "16px", marginTop: "-30px", width: "300px", fontFamily: 'Open Sans'}}>
             Façam seus palpites para a copa da Qatar 2022! O ganhador é aquele com maior
             número de pontos entre todas as partidas da primera fase. 
               <br></br>
+              
+              
               <FlatButton
-                  label="Regras" 
+                  label="2022" 
                   style={{color: "white", 
                           marginTop: "16px",
                           height: "unset",
                           borderRadius: "48px",
                           boxShadow: "0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08)",
-                          border: `6px solid white`,
+                          border: `2px solid white`,
                           backgroundColor: "transparent",
+                          fontSize: "10px",
                           fontFamily: "Roboto Condensed"
                         }}
-                  href="/rules"
+                  href="/leaderboard"
                 />
 
               {/* <FlatButton
@@ -135,6 +151,18 @@ class Home extends Component {
                   href="/rankingbars"
                 /> */}
 
+                <FlatButton 
+                    style={{color: "white", 
+                    marginTop: "16px",
+                    marginLeft: "10px",
+                    height: "unset",
+                    borderRadius: "48px",
+                    boxShadow: "0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08)",
+                    border: `2px solid white`,
+                    backgroundColor: "transparent",
+                    fontFamily: "Roboto Condensed"}}
+                
+                    href="/barrace">2018</FlatButton>
 
             </div>
 

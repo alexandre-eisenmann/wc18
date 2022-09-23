@@ -12,6 +12,7 @@ import data_file from './data2018.json';
 
 
 const randomColor = () => {return `rgb(${Math.min(180,255 * Math.random())}, ${Math.min(180,255 * Math.random())}, ${255})`}
+const pickColor = (pts) => {return `rgb(${200 * ((pts/151))}, ${200 * (1-(pts/151))}, ${255})`}
 
 const _teams = data_file.teams.reduce((acc,ele) => {acc[ele.id] = ele; return acc}, {})
 const _matches_raw = ['a','b','c','d','e','f','g','h'].map((group) => data_file.groups[group].matches).reduce((acc,ele) => acc.concat(ele),[])
@@ -34,7 +35,8 @@ const len = data[Object.keys(data)[0]].length;
 const keys = Object.keys(data);
 const colors = keys.reduce((res, item) => ({ 
     ...res, 
-    ...{ [item]: randomColor() } 
+    // ...{ [item]: randomColor() } 
+    ...{ [item]: pickColor(data[item][47]) } 
 }), {});
 
 const labels = keys.reduce((res, item, idx) => {

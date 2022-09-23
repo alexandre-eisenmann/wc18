@@ -104,7 +104,7 @@ class Main extends Component {
                 <Tab style={{backgroundColor: bgColor}} label="HOME" containerElement={<Link to="/" />} />
                 <Tab style={{backgroundColor: bgColor}} label="JOGOS" containerElement={<Link to="/bids" />} />
                 <Tab style={{backgroundColor: bgColor}} label="TABELÃO" containerElement={<Link to="/leaderboard" />} />
-                <Tab style={{backgroundColor: bgColor}} label="RANKING" containerElement={<Link to="/barrace" />} />
+                <Tab style={{backgroundColor: bgColor}} label="REGRAS" containerElement={<Link to="/rules" />} />
                 <Tab style={{backgroundColor: bgColor}} label="BLOG" containerElement={<a href="https://medium.com/bolão-dos-bolões-2018" />} />
 
                 </Tabs>
