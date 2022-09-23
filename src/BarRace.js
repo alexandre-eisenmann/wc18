@@ -25,7 +25,7 @@ const sortedMatches = _matches_raw.sort((a,b) => {
 })
 const _matches = sortedMatches.reduce((acc, ele, i) => {acc[ele.name] = ele; return acc}, {})
 const matches = Object.values(_matches).map(ele => { return {...ele, home: _teams[_matches[ele.name].home_team].name, away: _teams[_matches[ele.name].away_team].name}})
-console.log(matches)
+console.log("participantes ", Object.keys(data).length)
 
 
 
