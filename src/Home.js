@@ -104,7 +104,7 @@ class Home extends Component {
             <p style={{fontSize: "40px", fontFamily: 'Roboto Condensed'}}>Bolão dos Bolões</p>
             <div style={{fontSize: "16px", marginTop: "-30px", width: "300px", fontFamily: 'Open Sans'}}>
             Façam seus palpites para a copa da Qatar 2022! O ganhador é aquele com maior
-            número de pontos entre todas as partidas da primera fase. 
+            número de pontos entre todas as partidas da primeira fase. 
               <br></br>
               
               
