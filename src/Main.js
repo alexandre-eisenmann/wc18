@@ -124,7 +124,7 @@ class Main extends Component {
               <Route path="/bids" component={Bid}/>
               <Route path="/abc" component={Bid}/>
               <Route path="/master" component={Master}/>
-              <Route path="/payment" component={Payment}/>
+              {/* <Route path="/payment" component={Payment}/> */}
               <Route path="/leaderboard" component={Leaderboard}/>
               <Route path="/viz" component={Viz}/>
               <Route path="/rules" component={Rules}/>

@@ -293,8 +293,8 @@ export default class Bid extends Component {
                </Chip>
                }
             })}
-            {/* <FloatingActionButton href="/payment" disabled={true} secondary={true} style={{position: "absolute",  */}
-            <FloatingActionButton href="/payment" disabled={!anyReadyToPay} secondary={true} style={{position: "absolute", 
+            <FloatingActionButton href="/payment" disabled={true} secondary={true} style={{position: "absolute",  
+             /* <FloatingActionButton href="/payment" disabled={!anyReadyToPay} secondary={true} style={{position: "absolute",  */
                 top:  "0px", right: "25px"}} mini={true} >
               <FontIcon className="material-icons">payment</FontIcon>
             </FloatingActionButton>
