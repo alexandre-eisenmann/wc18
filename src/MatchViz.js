@@ -172,8 +172,8 @@ import { Animate } from "react-move";
                               }
                               <circle key={"result"} fill={`rgba(0,0,0,${opacity3})`} strokeWidth={1.5} stroke={"rgba(0,0,0,1)"} cx={a} cy={h} r={r+0.75} opacity={opacity}/>
                               <g transform={`rotate(45 ${a} ${h})`}>
-                                <line x1={a} y1={h-r-4} x2={a} y2={h+r+4} strokeWidth={1.0} stroke="black" opacity={opacity4} />
-                                <line x1={a-r-4} y1={h} x2={a+r+4} y2={h} strokeWidth={1.0} stroke="black" opacity={opacity4} />
+                                <line x1={a} y1={h-r-4} x2={a} y2={h+r+4} strokeWidth={1.0} stroke="black" opacity={opacity} />
+                                <line x1={a-r-4} y1={h} x2={a+r+4} y2={h} strokeWidth={1.0} stroke="black" opacity={opacity} />
                               </g>
 
 
