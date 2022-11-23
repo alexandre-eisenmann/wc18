@@ -11,6 +11,8 @@ import './flags.css';
 import { easeExpInOut } from 'd3-ease';
 import { Animate } from "react-move";
 import { DATABASE_ROOT_NODE } from "./constants";
+import FontIcon from 'material-ui/FontIcon';
+import IconButton from 'material-ui/IconButton';
 
 
 
@@ -34,7 +36,7 @@ export default class Ranking extends Component {
 
 
     this.teams = data.teams.reduce((acc,ele) => {acc[ele.id] = ele; return acc}, {})
-    this.state = {mygames:[],logged: null, user: null,games: gamesFromFile, matches: this.matches,  expanded: true, updating: false, render: false}
+    this.state = {mygames:[],pins:[],logged: null, user: null,games: gamesFromFile, matches: this.matches,  expanded: true, updating: false, render: false}
 
   }
 
@@ -91,6 +93,7 @@ export default class Ranking extends Component {
     if (this.ref)  this.ref.off('value')
     if (this.ref1) this.ref1.off('value')
     if (this.ref2) this.ref2.off('value')
+    if (this.ref3) this.ref3.off('value')
     this.unsubscribe()
 
   }
@@ -113,6 +116,17 @@ export default class Ranking extends Component {
           });
           self.setState({mygames:bids})
         })
+
+        self.ref3= firebase.database().ref(`${DATABASE_ROOT_NODE}/pins/${user.uid}`)
+        self.ref3.on('value', snapshot => {
+          const pins  = []
+          snapshot.forEach(function(childSnapshot) {
+            pins.push(childSnapshot.key)
+          });
+          self.setState({pins:pins})
+        })    
+    
+
     
       } else {
         self.setState({logged: false, user: null})
@@ -127,6 +141,7 @@ export default class Ranking extends Component {
         matches[self.matchesRef[data.key]].home_result = null
         self.setState({updating: true})
         self.loadGames(matches)
+        
 
     })
     self.ref2 = firebase.database().ref(`${DATABASE_ROOT_NODE}/master/gabarito`)
@@ -153,9 +168,11 @@ export default class Ranking extends Component {
       self.loadGames(matches)
     })
 
+
   }
 
 
+  
   expandOrCollapse = (event) => {
     if (this.state.expanded) 
       document.getElementsByClassName("header")[0].style.display = "none"
@@ -166,31 +183,84 @@ export default class Ranking extends Component {
 
 
 
-
   loadGames = (matches) => {
-    const games = gamesFromFile
+    const games = []
+    firebase.database().ref(`${DATABASE_ROOT_NODE}`).once('value', snapshot => {
+      snapshot.forEach(function(childSnapshot) {
+        var childKey = childSnapshot.key
+        var childData = childSnapshot.val()
+
+        Object.keys(childData).map((key) => {
+          const id = key
+          const details = childData[key]
+          
+          if (details.status == "payed") {
+            Object.assign(details, {gameId: id, userId: childKey})
+            
+            games.push(details)
+          }
+
+        })
+        
+      });
+
       
-    this.calculate(games, matches)
-    const sortedGames = games.sort((a,b) => {
-      const diff = b.total - a.total
-      if (diff != 0) return diff 
-      else {
-        var nameA = a.name.toUpperCase()
-        var nameB = b.name.toUpperCase() 
-        if (nameA < nameB) {
-          return -1;
+      this.calculate(games, matches)
+      const sortedGames = games.sort((a,b) => {
+        const diff = b.total - a.total
+        if (diff != 0) return diff 
+        else {
+          var nameA = a.name.toUpperCase()
+          var nameB = b.name.toUpperCase() 
+          if (nameA < nameB) {
+            return -1;
+          }
+          if (nameA > nameB) {
+            return 1;
+          }
+        
+          return 0;
         }
-        if (nameA > nameB) {
-          return 1;
-        }
+      })
+      this.calculatePosition(sortedGames)
+      // this.setState({games: sortedGames, matches: matches, render: true})
+
+      this.setState({games: sortedGames, matches: matches, render: true, updating: false})
+  
       
-        return 0;
-      }
     })
-    this.calculatePosition(sortedGames)
-    this.setState({games: sortedGames, matches: matches, render: true, updating: false})
-    
   }
+
+
+
+
+
+
+
+  // loadGames = (matches) => {
+  //   const games = gamesFromFile
+      
+  //   this.calculate(games, matches)
+  //   const sortedGames = games.sort((a,b) => {
+  //     const diff = b.total - a.total
+  //     if (diff != 0) return diff 
+  //     else {
+  //       var nameA = a.name.toUpperCase()
+  //       var nameB = b.name.toUpperCase() 
+  //       if (nameA < nameB) {
+  //         return -1;
+  //       }
+  //       if (nameA > nameB) {
+  //         return 1;
+  //       }
+      
+  //       return 0;
+  //     }
+  //   })
+  //   this.calculatePosition(sortedGames)
+  //   this.setState({games: sortedGames, matches: matches, render: true, updating: false})
+    
+  // }
   
   renderCircle(pts, j, i, colors, strokeColor) {
     
@@ -215,6 +285,13 @@ export default class Ranking extends Component {
 
   }
 
+  pin(gameId) {
+    firebase.database().ref(`${DATABASE_ROOT_NODE}/pins/${this.state.user.uid}/${gameId}`).set(true)
+  }
+
+  unpin(gameId) {
+    firebase.database().ref(`${DATABASE_ROOT_NODE}/pins/${this.state.user.uid}/${gameId}`).remove()
+  }
 
   render() {
     if (!this.state.render) {
@@ -226,38 +303,65 @@ export default class Ranking extends Component {
     const myrows=[]
     const offset = Object.keys(self.state.mygames).length
     let k=0
+    let padding_left = 10
+    let padding_left_circle = 0
+    if (this.state.logged) {
+      padding_left = 25
+      padding_left_circle = 1.5
+    }
+
+
     this.state.games.map((game,i) => {
       const results = [...Array(48).keys()].map((idx) => game[self.matchesInvRef[idx]]['pts']).filter((e) => e === 0 || e)
       const row = []
+      const includeGameId = this.state.pins.includes(game.gameId)
       row.push(<div  key={`g${i}`} >
       <div  style={{position: "relative", height: "60px"}}>
         <div style={{color: "white",position: "absolute", top: "24px",  marginLeft: "-25px",fontFamily: "Lato", fontSize: "8px", textAlign: "right", display: "inline-block", width: "20px"}}> {game.position}<sup>o</sup></div>
+        {this.state.logged && <div style={{display: "inline-block", position: "absolute", marginLeft: "-10px", width: "10px", top: "9px", color: pink500, fontWeight: "bold", fontFamily: "Lato", textAlign: "right"}}> 
+            <IconButton disabled={false}  >
+                {!includeGameId && <FontIcon className="ranking-pin material-icons-outlined"  onClick={this.pin.bind(this,game.gameId)}>push_pin</FontIcon>}
+                {includeGameId && <FontIcon className="ranking-pin material-icons"  onClick={this.unpin.bind(this,game.gameId)}>push_pin</FontIcon>}
+            </IconButton>
+        </div>}
+
         <div style={{display: "inline-block", height: "100%", width: "calc(100vw - 60px)", marginTop:"6px", marginBottom: "6px",height: "100%"}}>
           <svg width="100%" height="100%" >
-            <text x={10} y={30} style={{fontFamily: "Lato", fontSize: "15px"}} fill={"black"}>{game.name}</text>
+            <text x={padding_left} y={30} style={{fontFamily: "Lato", fontSize: "15px"}} fill={"black"}>{game.name}</text>
             {results.map((pts,j) => {
-              return this.renderCircle(pts,j,offset+i,
+              return this.renderCircle(pts,padding_left_circle+j,offset+i,
                 {8: blue500, 5: grey400, 3: "white", 0: "transparent"},
                 {8: blue500, 5: "rgba(100,100,100, 0.5)", 3: "rgba(100,100,100, 0.5)", 0: "rgba(0,0,0, 0.3)"})
 
             })}
           </svg>
         </div>
+
         <div style={{display: "inline-block", position: "absolute", width: "20px", top: "20px", color: pink500, fontWeight: "bold", fontFamily: "Lato", textAlign: "right"}}> {game.total}</div>
       </div>
       </div>)
       rows.push(<div className="player-row" key={`row${i}`} >{row}</div>)
-      Object.keys(self.state.mygames).map((key) => {
+
+      const pinned = [...new Set([...Object.keys(self.state.mygames) ,...self.state.pins])]; 
+
+      pinned.map((key) => {
         if (key == game.gameId) {
+          const includeGameId = this.state.pins.includes(game.gameId)
           myrows.push(<div key={`row${k}`} >
             <div  key={`mg${k}`} >
               <div style={{position: "relative", height: "60px"}}>
                 <div style={{color: "white", position: "absolute", top: "24px",  marginLeft: "-25px",fontFamily: "Lato", fontSize: "8px", textAlign: "right", display: "inline-block", width: "20px"}}> {game.position}<sup>o</sup></div>
+                {this.state.logged && <div style={{display: "inline-block", position: "absolute", marginLeft: "-10px", width: "10px", top: "9px", color: pink500, fontWeight: "bold", fontFamily: "Lato", textAlign: "right"}}> 
+                  <IconButton disabled={false}  >
+                      {includeGameId && <FontIcon className="ranking-pin-white material-icons"  onClick={this.unpin.bind(this,game.gameId)}>push_pin</FontIcon>}
+                  </IconButton>
+              </div>}
+
                 <div  style={{display: "inline-block", height: "100%", width: "calc(100vw - 60px)", marginTop:"6px", marginBottom: "6px",height: "100%"}}>
                   <svg width="100%" height="100%" >
-                    <text x={10} y={30} style={{fontFamily: "Lato", fontSize: "15px"}} fill={"white"}>{game.name}</text>
+                    <text x={padding_left} y={30} style={{fontFamily: "Lato", fontSize: "15px"}} fill={"white"}>{game.name}</text>
                     {results.map((pts,j) => {
-                      return this.renderCircle(pts,j,k,
+                      return this.renderCircle(pts,padding_left_circle+j,k,
                         {8: blue500, 5: grey400, 3: "rgba(255,255,255,0.8)", 0: "transparent"},
                         {8: "rgba(0,0,0, 0.5)", 5: "rgba(0,0,0, 0.5)", 3: "rgba(0,0,0, 0.5)", 0: "rgba(255,255,255, 0.3)"})
                                         

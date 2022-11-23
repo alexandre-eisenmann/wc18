@@ -56,6 +56,7 @@ class Main extends Component {
 
 
     }
+    
 
   logout() {	
       firebase.auth().signOut()	
@@ -123,7 +124,7 @@ class Main extends Component {
               <Route path="/login/*" component={Login}/>
               <Route path="/bids" component={Bid}/>
               <Route path="/abc" component={Bid}/>
-              <Route path="/master" component={Master}/>
+              <Route path="/master" component={Master}/>  
               {/* <Route path="/payment" component={Payment}/> */}
               <Route path="/leaderboard" component={Leaderboard}/>
               <Route path="/viz" component={Viz}/>
@@ -131,7 +132,6 @@ class Main extends Component {
               <Route path="/vizhist" component={VizHist}/>
               <Route path="/ranking" component={Ranking}/>
               <Route path="/barrace" component={BarRace}/>
-              {/* <Route path="/rankingbars" component={RankingBars}/> */}
 
             </div>
 

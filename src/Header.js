@@ -132,7 +132,7 @@ export default class Header extends Component {
   // { <AppBar showMenuIconButton={false} title="Worldcup 2018" iconElementRight={this.state.user == null ?  login : <Logged user={this.state.user}/>} /> }
 
     return (
-      <AppBar showMenuIconButton={false} title="XXXX"
+      <AppBar showMenuIconButton={false} title="Worldcup 2022"
        iconElementRight={this.state.user == null ?  login : <Logged user={this.state.user}/>} />
       
     )  

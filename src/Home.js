@@ -120,7 +120,7 @@ class Home extends Component {
                           fontSize: "10px",
                           fontFamily: "Roboto Condensed"
                         }}
-                  href="/leaderboard"
+                  href="/ranking"
                 />
 
               {/* <FlatButton

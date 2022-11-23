@@ -48,7 +48,7 @@ export default class Master extends Component {
     const self = this
     this.unsubscribe = firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
-        const canEdit = ['alexandre.eisenmann@gmail.com', 'ricardoke@gmail.com','joao@idst.com.br','felel19@hotmail.com'].includes(user.email)
+        const canEdit = ['alexandre.eisenmann@gmail.com', 'ricardoke@gmail.com','joao@idst.com.br','felipe.lara19@gmail.com'].includes(user.email)
         self.setState({logged: true, user: user, edit: canEdit})
         self.ref = firebase.database().ref(`${DATABASE_ROOT_NODE}/master`)
         self.ref.on('value', snapshot => {
