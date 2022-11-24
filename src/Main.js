@@ -34,6 +34,8 @@ import {green700, blue600,cyan500} from 'material-ui/styles/colors';
 
 const bgColor = blue600
 
+const provider = new firebase.auth.GoogleAuthProvider();
+
 class Main extends Component {
 
     constructor(props) {
@@ -57,6 +59,10 @@ class Main extends Component {
 
     }
     
+  login() {
+    firebase.auth().signInWithRedirect(provider);
+  }
+  
 
   logout() {	
       firebase.auth().signOut()	
@@ -66,21 +72,29 @@ class Main extends Component {
 
     const toolbar = (url) => <div>	
             <div style={{position: "relative"}} >
-              <FlatButton	
-                    label="Logout"	
-                    onClick={this.logout.bind(this)}	
-                    labelStyle={{fontSize: "10px", color: "#ccc"}}	
-                    style ={{position: "absolute", top: "0px", left: "-80px"}}	
-                  />	
-              <Avatar size={30} src={url} /> 	
-            </div>	
+              {this.state.logged && <div>
+                <FlatButton	
+                      label="Logout"	
+                      onClick={this.logout.bind(this)}	
+                      labelStyle={{fontSize: "10px", color: "#ccc"}}	
+                      style ={{position: "absolute", top: "0px", left: "-80px"}}	
+                    />	
+                <Avatar size={30} src={`${this.state.user.photoURL}`} /> 	
+              </div>}
+              {!this.state.logged && <div>
+                <FlatButton	
+                      label="Login"	
+                      onClick={this.login.bind(this)}	
+                      labelStyle={{fontSize: "10px", color: "#ccc"}}	
+                      style ={{position: "absolute", top: "0px", left: "-80px"}}	
+                    />	
+              </div>}
+            </div>
            </div>
 
     
     const params = {}
-    if (this.state.logged) {
-      params['iconElementRight'] = toolbar(`${this.state.user.photoURL}`)
-    }
+    params['iconElementRight'] = toolbar()
     
 
     return (
@@ -105,8 +119,7 @@ class Main extends Component {
                 <Tab style={{backgroundColor: bgColor}} label="HOME" containerElement={<Link to="/" />} />
                 <Tab style={{backgroundColor: bgColor}} label="JOGOS" containerElement={<Link to="/bids" />} />
                 <Tab style={{backgroundColor: bgColor}} label="TABELÃO" containerElement={<Link to="/leaderboard" />} />
-                <Tab style={{backgroundColor: bgColor}} label="REGRAS" containerElement={<Link to="/rules" />} />
-                <Tab style={{backgroundColor: bgColor}} label="BLOG" containerElement={<a href="https://medium.com/bolão-dos-bolões-2018" />} />
+                <Tab style={{backgroundColor: bgColor}} label="RANKING" containerElement={<Link to="/ranking" />} />
 
                 </Tabs>
                 </div>

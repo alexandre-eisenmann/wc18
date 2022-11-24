@@ -164,7 +164,6 @@ export default class Leaderboard extends Component {
       });
 
       
-      console.log(games)
       this.calculate(games, matches)
       const sortedGames = games.sort((a,b) => {
         const diff = b.total - a.total

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import GroupView from './GroupView.js'
-import Header from './Header.js'
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth'
 import 'firebase/compat/database'
@@ -20,7 +19,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 import data from './data.json'
 import FontIcon from 'material-ui/FontIcon';
 import Avatar from 'material-ui/Avatar';
-import {green700, blue600, cyan500,cyan600,cyan100, cyan200, cyan300, pink500,pink100} from 'material-ui/styles/colors';
+import {green700, blue600, cyan500,cyan600,cyan100, cyan200, cyan300, pink500,pink100,orange200} from 'material-ui/styles/colors';
 import IconButton from 'material-ui/IconButton';
 import './bubbles.css'
 import { DATABASE_ROOT_NODE } from './constants';
@@ -43,6 +42,7 @@ const style ={
 
 }
 
+const provider = new firebase.auth.GoogleAuthProvider();
 
 export default class Bid extends Component {
 
@@ -217,7 +217,16 @@ export default class Bid extends Component {
       
       
       <div id="flowSection" style={style}>
-      {this.state.logged == false && <Redirect to='/login?fw=bids' />} 
+      {/* {this.state.logged == false && <Redirect to='/login?fw=bids' />}  */}
+      {this.state.logged == false && <div style={{background: orange200, textAlign: "center", fontSize: "14px", padding: "8px"}}>
+          <div>
+            <span style={{textDecoration: "underline", cursor: "pointer"}}onClick={() => {firebase.auth().signInWithRedirect(provider); return false;}}>
+              Login
+              </span><span> para ver seus jogos</span>
+          </div>
+          </div>
+        }
+
       {this.state.logged == null &&  <div style={{backgroundColor: "white", textAlign: "center", marginTop: "10%", width:"100%"}}><CircularProgress size={60} thickness={7} /></div>}
       {this.state.logged && this.state.user && <div>
         <Dialog

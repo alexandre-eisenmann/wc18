@@ -52,7 +52,8 @@ class Home extends Component {
                      }}>
               <NavLink style={{textDecoration: "none",color: "rgba(220,220,220,0.8)"}} to="/bids">JOGOS</NavLink>
               <NavLink style={{textDecoration: "none",marginLeft: "20px", color: "rgba(220,220,220,0.8)"}} to="/leaderboard">TABELÃO</NavLink>
-              <NavLink style={{textDecoration: "none",marginLeft: "20px", color: "rgba(220,220,220,0.8)"}} to="/rules">REGRAS</NavLink>
+              {/* <NavLink style={{textDecoration: "none",marginLeft: "20px", color: "rgba(220,220,220,0.8)"}} to="/rules">REGRAS</NavLink> */}
+              <NavLink style={{textDecoration: "none",marginLeft: "20px", color: "rgba(220,220,220,0.8)"}} to="/ranking">RANKING</NavLink>
               <a style={{textDecoration: "none",marginLeft: "20px", color: "rgba(220,220,220,0.8)"}} href="https://medium.com/bolão-dos-bolões-2018">BLOG</a>
 
           </div>
@@ -103,8 +104,8 @@ class Home extends Component {
           <div style={{position: "absolute", top: "30px", color: "white", textAlign: "left", marginLeft: "30px"}}>
             <p style={{fontSize: "40px", fontFamily: 'Roboto Condensed'}}>Bolão dos Bolões</p>
             <div style={{fontSize: "16px", marginTop: "-30px", width: "300px", fontFamily: 'Open Sans'}}>
-            Façam seus palpites para a copa da Qatar 2022! O ganhador é aquele com maior
-            número de pontos entre todas as partidas da primeira fase. 
+            Façam seus palpites para a primeria fase da copa da Qatar 2022! 
+            Aprenda como os pontos são calculados no nosso <a style={{color: "white"}}href="/rules" >regulamento</a>. 
               <br></br>
               
               

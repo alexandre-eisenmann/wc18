@@ -13,8 +13,10 @@ import { Animate } from "react-move";
 import { DATABASE_ROOT_NODE } from "./constants";
 import FontIcon from 'material-ui/FontIcon';
 import IconButton from 'material-ui/IconButton';
+import FlatButton from 'material-ui/FlatButton'
+import RaisedButton from 'material-ui/RaisedButton';
 
-
+const provider = new firebase.auth.GoogleAuthProvider();
 
 
 export default class Ranking extends Component {
@@ -382,9 +384,27 @@ export default class Ranking extends Component {
 
     return (
       <div>
+        {this.state.logged == false && <div style={{background: orange200, textAlign: "center", fontSize: "14px", padding: "8px"}}>
+          
+          {/* <a  onClick={() => {firebase.auth().signInWithRedirect(provider); return false;}}>Login</a> para "pinar" seus amigos */}
+
+          <div>
+            
+            <span style={{textDecoration: "underline", cursor: "pointer"}}onClick={() => {firebase.auth().signInWithRedirect(provider); return false;}}>
+              Login
+              </span><span> para <i>pinar</i> seus amigos</span>
+          </div>
+          
+          
+          </div>
+
+          
+          
+          }
         <div className="whitebar" style={{paddingLeft: "25px",paddingBottom: "20px"}}>        
           <div style={{paddingLeft:"10px", paddingTop: "35px", fontFamily: "Roboto Condensed", fontSize: "30px", color: "#ddd"}}>Ranking</div>
         </div>
+        
         {this.state.logged && this.state.user && <div className="mygames" style={{paddingLeft: "25px", backgroundColor: cyan500}}>
             <div className="mygames-row" style={{backgroundColor: cyan600}}>
                <div style={{backgroundColor: cyan600,padding: "5px", fontSize: "10px",  paddingTop: "10px", paddingLeft: "10px", paddingBottom: "0px", color: "rgba(255, 255, 255, 0.7)"}}>
