@@ -311,16 +311,28 @@ export default class Ranking extends Component {
       padding_left = 25
       padding_left_circle = 1.5
     }
-
+    let lastPosition=1
+    let blockPosition=0
+    let showPosition=false
     const statistics = {}
+  
     this.state.games.map((game,i) => {
       const results = [...Array(48).keys()].map((idx) => game[self.matchesInvRef[idx]]['pts']).filter((e) => e === 0 || e)
       
       const row = []
       const includeGameId = this.state.pins.includes(game.gameId)
+      showPosition = game.position == 1 || false
+      if (game.position != lastPosition) {
+        blockPosition++;
+        showPosition = true;
+      } 
+      
+      lastPosition = game.position
+
       row.push(<div  key={`g${i}`} >
-      <div  style={{position: "relative", height: "60px"}}>
-        <div style={{color: "white",position: "absolute", top: "24px",  marginLeft: "-25px",fontFamily: "Lato", fontSize: "8px", textAlign: "right", display: "inline-block", width: "20px"}}> {game.position}<sup>o</sup></div>
+      <div  style={{position: "relative", height: "60px"}} className={`${blockPosition % 2 == 0? "even" : "odd"}`}>
+        <div className={`sidebar ${blockPosition % 2 == 0? "even" : "odd"}`}> </div>
+        {showPosition && <div className={`position ${game.position < 10 ? "onedigit" : ""}`} > {game.position}<sup>o</sup></div>}
         {this.state.logged && <div style={{display: "inline-block", position: "absolute", marginLeft: "-10px", width: "10px", top: "9px", color: pink500, fontWeight: "bold", fontFamily: "Lato", textAlign: "right"}}> 
             <IconButton disabled={false}  >
                 {!includeGameId && <FontIcon className="ranking-pin material-icons-outlined"  onClick={this.pin.bind(this,game.gameId)}>push_pin</FontIcon>}
@@ -357,7 +369,8 @@ export default class Ranking extends Component {
           myrows.push(<div key={`row${k}`} >
             <div  key={`mg${k}`} >
               <div style={{position: "relative", height: "60px"}}>
-                <div style={{color: "white", position: "absolute", top: "24px",  marginLeft: "-25px",fontFamily: "Lato", fontSize: "8px", textAlign: "right", display: "inline-block", width: "20px"}}> {game.position}<sup>o</sup></div>
+                {<div className={`position pins ${game.position < 10 ? "onedigit" : game.position < 100 ? "twodigits" :""}`} > {game.position}<sup>o</sup></div>}
+                {/* <div style={{color: "white", position: "absolute", top: "24px",  marginLeft: "-25px",fontFamily: "Lato", fontSize: "8px", textAlign: "right", display: "inline-block", width: "20px"}}> {game.position}<sup>o</sup></div> */}
                 {this.state.logged && <div style={{display: "inline-block", position: "absolute", marginLeft: "-10px", width: "10px", top: "9px", color: pink500, fontWeight: "bold", fontFamily: "Lato", textAlign: "right"}}> 
                   <IconButton disabled={false}  >
                       {includeGameId && <FontIcon className="ranking-pin-white material-icons"  onClick={this.unpin.bind(this,game.gameId)}>push_pin</FontIcon>}
