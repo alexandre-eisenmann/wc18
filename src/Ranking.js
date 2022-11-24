@@ -312,9 +312,10 @@ export default class Ranking extends Component {
       padding_left_circle = 1.5
     }
 
-
+    const statistics = {}
     this.state.games.map((game,i) => {
       const results = [...Array(48).keys()].map((idx) => game[self.matchesInvRef[idx]]['pts']).filter((e) => e === 0 || e)
+      
       const row = []
       const includeGameId = this.state.pins.includes(game.gameId)
       row.push(<div  key={`g${i}`} >
@@ -331,6 +332,10 @@ export default class Ranking extends Component {
           <svg width="100%" height="100%" >
             <text x={padding_left} y={30} style={{fontFamily: "Lato", fontSize: "15px"}} fill={"black"}>{game.name}</text>
             {results.map((pts,j) => {
+              if (pts>0) {
+                statistics[j] = statistics[j] ||  {8:0,5:0,3:0}
+                statistics[j][pts] = statistics[j][pts]+1
+              }
               return this.renderCircle(pts,padding_left_circle+j,offset+i,
                 {8: blue500, 5: grey400, 3: "white", 0: "transparent"},
                 {8: blue500, 5: "rgba(100,100,100, 0.5)", 3: "rgba(100,100,100, 0.5)", 0: "rgba(0,0,0, 0.3)"})
@@ -381,25 +386,17 @@ export default class Ranking extends Component {
       })
 
     })
+    console.log("stats",statistics)
 
     return (
       <div>
         {this.state.logged == false && <div style={{background: orange200, textAlign: "center", fontSize: "14px", padding: "8px"}}>
-          
-          {/* <a  onClick={() => {firebase.auth().signInWithRedirect(provider); return false;}}>Login</a> para "pinar" seus amigos */}
-
           <div>
-            
             <span style={{textDecoration: "underline", cursor: "pointer"}}onClick={() => {firebase.auth().signInWithRedirect(provider); return false;}}>
               Login
               </span><span> para <i>pinar</i> seus amigos</span>
           </div>
-          
-          
           </div>
-
-          
-          
           }
         <div className="whitebar" style={{paddingLeft: "25px",paddingBottom: "20px"}}>        
           <div style={{paddingLeft:"10px", paddingTop: "35px", fontFamily: "Roboto Condensed", fontSize: "30px", color: "#ddd"}}>Ranking</div>
