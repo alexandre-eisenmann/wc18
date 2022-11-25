@@ -8,6 +8,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 import {blue500, blue300,grey300,grey400,grey200,lightGreen500, orange200,deepOrange500, orange900,yellow500,green700, orange500, blue600, cyan400,cyan500,cyan600,cyan100, cyan200, cyan300, pink500,pink100} from 'material-ui/styles/colors'
 import firebase from 'firebase/compat/app';
 import './flags.css';
+import './index.css';
 import { easeExpInOut } from 'd3-ease';
 import { Animate } from "react-move";
 import { DATABASE_ROOT_NODE } from "./constants";
@@ -17,7 +18,6 @@ import FlatButton from 'material-ui/FlatButton'
 import RaisedButton from 'material-ui/RaisedButton';
 
 const provider = new firebase.auth.GoogleAuthProvider();
-
 
 export default class Ranking extends Component {
 
@@ -225,44 +225,12 @@ export default class Ranking extends Component {
         }
       })
       this.calculatePosition(sortedGames)
-      // this.setState({games: sortedGames, matches: matches, render: true})
 
       this.setState({games: sortedGames, matches: matches, render: true, updating: false})
   
       
     })
   }
-
-
-
-
-
-
-
-  // loadGames = (matches) => {
-  //   const games = gamesFromFile
-      
-  //   this.calculate(games, matches)
-  //   const sortedGames = games.sort((a,b) => {
-  //     const diff = b.total - a.total
-  //     if (diff != 0) return diff 
-  //     else {
-  //       var nameA = a.name.toUpperCase()
-  //       var nameB = b.name.toUpperCase() 
-  //       if (nameA < nameB) {
-  //         return -1;
-  //       }
-  //       if (nameA > nameB) {
-  //         return 1;
-  //       }
-      
-  //       return 0;
-  //     }
-  //   })
-  //   this.calculatePosition(sortedGames)
-  //   this.setState({games: sortedGames, matches: matches, render: true, updating: false})
-    
-  // }
   
   renderCircle(pts, j, i, colors, strokeColor) {
     
@@ -332,7 +300,7 @@ export default class Ranking extends Component {
       row.push(<div  key={`g${i}`} >
       <div  style={{position: "relative", height: "60px"}} className={`${blockPosition % 2 == 0? "even" : "odd"}`}>
         <div className={`sidebar ${blockPosition % 2 == 0? "even" : "odd"}`}> </div>
-        {showPosition && <div className={`position ${game.position < 10 ? "onedigit" : ""}`} > {game.position}<sup>o</sup></div>}
+        {showPosition && <div className={`position ${game.position < 10 ? "onedigit" : game.position < 100 ? "twodigits" : ""}`} > {game.position}<sup>o</sup></div>}
         {this.state.logged && <div style={{display: "inline-block", position: "absolute", marginLeft: "-10px", width: "10px", top: "9px", color: pink500, fontWeight: "bold", fontFamily: "Lato", textAlign: "right"}}> 
             <IconButton disabled={false}  >
                 {!includeGameId && <FontIcon className="ranking-pin material-icons-outlined"  onClick={this.pin.bind(this,game.gameId)}>push_pin</FontIcon>}
@@ -340,7 +308,7 @@ export default class Ranking extends Component {
             </IconButton>
         </div>}
 
-        <div style={{display: "inline-block", height: "100%", width: "calc(100vw - 60px)", marginTop:"6px", marginBottom: "6px",height: "100%"}}>
+        <div style={{display: "inline-block", height: "100%", width: "calc(100vw - 60px)", marginTop:"0px", marginBottom: "6px",height: "100%"}}>
           <svg width="100%" height="100%" >
             <text x={padding_left} y={30} style={{fontFamily: "Lato", fontSize: "15px"}} fill={"black"}>{game.name}</text>
             {results.map((pts,j) => {
@@ -349,14 +317,14 @@ export default class Ranking extends Component {
                 statistics[j][pts] = statistics[j][pts]+1
               }
               return this.renderCircle(pts,padding_left_circle+j,offset+i,
-                {8: blue500, 5: grey400, 3: "white", 0: "transparent"},
+                {8: blue500, 5: grey400, 3: "rgba(240,240,240,1)", 0: "transparent"},
                 {8: blue500, 5: "rgba(100,100,100, 0.5)", 3: "rgba(100,100,100, 0.5)", 0: "rgba(0,0,0, 0.3)"})
 
             })}
           </svg>
         </div>
 
-        <div style={{display: "inline-block", position: "absolute", width: "20px", top: "20px", color: pink500, fontWeight: "bold", fontFamily: "Lato", textAlign: "right"}}> {game.total}</div>
+        <div style={{display: "inline-block", position: "absolute", width: "20px", top: "14px", color: pink500, fontWeight: "bold", fontFamily: "Lato", textAlign: "right"}}> {game.total}</div>
       </div>
       </div>)
       rows.push(<div className="player-row" key={`row${i}`} >{row}</div>)
@@ -377,19 +345,19 @@ export default class Ranking extends Component {
                   </IconButton>
               </div>}
 
-                <div  style={{display: "inline-block", height: "100%", width: "calc(100vw - 60px)", marginTop:"6px", marginBottom: "6px",height: "100%"}}>
+                <div  style={{display: "inline-block", height: "100%", width: "calc(100vw - 60px)", marginTop:"0px", marginBottom: "6px",height: "100%"}}>
                   <svg width="100%" height="100%" >
                     <text x={padding_left} y={30} style={{fontFamily: "Lato", fontSize: "15px"}} fill={"white"}>{game.name}</text>
                     {results.map((pts,j) => {
                       return this.renderCircle(pts,padding_left_circle+j,k,
-                        {8: blue500, 5: grey400, 3: "rgba(255,255,255,0.8)", 0: "transparent"},
-                        {8: "rgba(0,0,0, 0.5)", 5: "rgba(0,0,0, 0.5)", 3: "rgba(0,0,0, 0.5)", 0: "rgba(255,255,255, 0.3)"})
+                        {8: blue500, 5: grey400, 3: "rgba(240,240,240,1)", 0: "transparent"},
+                        {8: "rgba(0,0,0, 0.2)", 5: "rgba(0,0,0, 0.5)", 3: "rgba(0,0,0, 0.5)", 0: "rgba(255,255,255, 0.3)"})
                                         
                       })}
                   </svg>
                     
                 </div>
-                <div style={{display: "inline-block", position: "absolute", width: "20px", top: "20px", color: "white", fontWeight: "bold", fontFamily: "Lato", textAlign: "right"}}> {game.total}</div>
+                <div style={{display: "inline-block", position: "absolute", width: "20px", top: "14px", color: "white", fontWeight: "bold", fontFamily: "Lato", textAlign: "right"}}> {game.total}</div>
               </div>
               </div>
             </div>)

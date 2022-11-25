@@ -57,16 +57,3 @@
 .f-sn {background: url(flags/4x3/sn.svg) no-repeat top left; background-size: contain}
 .f-gb-eng {background: url(flags/4x3/gb-eng.svg) no-repeat top left; background-size: contain}
 .f-gb-wls {background: url(flags/4x3/gb-wls.svg) no-repeat top left; background-size: contain}
-
-
-.ranking-pin {
-  font-size: 20px !important;
-  color: rgb(150,150,150) !important;
-  cursor: pointer
-}
-
-.ranking-pin-white {
-  font-size: 20px !important;
-  color: white !important;
-  cursor: pointer
-}
