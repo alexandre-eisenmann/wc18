@@ -277,7 +277,7 @@ export default class Ranking extends Component {
     let padding_left_circle = 0
     if (this.state.logged) {
       padding_left = 25
-      padding_left_circle = 1.5
+      padding_left_circle = 0
     }
     let lastPosition=1
     let blockPosition=0
