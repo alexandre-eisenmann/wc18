@@ -239,11 +239,11 @@ export default class Ranking extends Component {
     return <Animate key={`c${i}-${j}`} 
           start={{
             x: 2000,
-            y: 42
+            y: 36
           }}
           enter={{
               x: [15+kj*12],
-              y: [42 + k*12],
+              y: [36 + k*12],
               timing: {delay: i*500+750 + j*80, duration: 1500, ease: easeExpInOut },                            
             }}
           >
@@ -279,9 +279,9 @@ export default class Ranking extends Component {
       padding_left = 25
       padding_left_circle = 0
     }
-    let lastPosition=1
-    let blockPosition=0
-    let showPosition=false
+    let lastPosition=0
+    let blockPosition=1
+    let showPosition=true
     const statistics = {}
   
     this.state.games.map((game,i) => {
@@ -289,7 +289,7 @@ export default class Ranking extends Component {
       
       const row = []
       const includeGameId = this.state.pins.includes(game.gameId)
-      showPosition = game.position == 1 || false
+      showPosition = false
       if (game.position != lastPosition) {
         blockPosition++;
         showPosition = true;
@@ -301,7 +301,8 @@ export default class Ranking extends Component {
       <div  style={{position: "relative", height: "60px"}} className={`${blockPosition % 2 == 0? "even" : "odd"}`}>
         <div className={`sidebar ${blockPosition % 2 == 0? "even" : "odd"}`}> </div>
         {showPosition && <div className={`position ${game.position < 10 ? "onedigit" : game.position < 100 ? "twodigits" : ""}`} > {game.position}<sup>o</sup></div>}
-        {this.state.logged && <div style={{display: "inline-block", position: "absolute", marginLeft: "-10px", width: "10px", top: "9px", color: pink500, fontWeight: "bold", fontFamily: "Lato", textAlign: "right"}}> 
+        
+        {this.state.logged && <div style={{display: "inline-block", position: "absolute", marginLeft: "-10px", width: "10px", top: "3px", color: pink500, fontWeight: "bold", fontFamily: "Lato", textAlign: "right"}}> 
             <IconButton disabled={false}  >
                 {!includeGameId && <FontIcon className="ranking-pin material-icons-outlined"  onClick={this.pin.bind(this,game.gameId)}>push_pin</FontIcon>}
                 {includeGameId && <FontIcon className="ranking-pin material-icons"  onClick={this.unpin.bind(this,game.gameId)}>push_pin</FontIcon>}
@@ -310,7 +311,7 @@ export default class Ranking extends Component {
 
         <div style={{display: "inline-block", height: "100%", width: "calc(100vw - 60px)", marginTop:"0px", marginBottom: "6px",height: "100%"}}>
           <svg width="100%" height="100%" >
-            <text x={padding_left} y={30} style={{fontFamily: "Lato", fontSize: "15px"}} fill={"black"}>{game.name}</text>
+            <text x={padding_left} y={24} style={{fontFamily: "Lato", fontSize: "15px"}} fill={"black"}>{game.name}</text>
             {results.map((pts,j) => {
               if (pts>0) {
                 statistics[j] = statistics[j] ||  {8:0,5:0,3:0}
@@ -324,8 +325,9 @@ export default class Ranking extends Component {
           </svg>
         </div>
 
-        <div style={{display: "inline-block", position: "absolute", width: "20px", top: "14px", color: pink500, fontWeight: "bold", fontFamily: "Lato", textAlign: "right"}}> {game.total}</div>
-      </div>
+        <div style={{display: "inline-block", position: "absolute", width: "20px", top: "8px", color: pink500, fontWeight: "bold", fontFamily: "Lato", textAlign: "right"}}> {game.total}</div>
+        </div>
+
       </div>)
       rows.push(<div className="player-row" key={`row${i}`} >{row}</div>)
 
@@ -339,7 +341,7 @@ export default class Ranking extends Component {
               <div style={{position: "relative", height: "60px"}}>
                 {<div className={`position pins ${game.position < 10 ? "onedigit" : game.position < 100 ? "twodigits" :""}`} > {game.position}<sup>o</sup></div>}
                 {/* <div style={{color: "white", position: "absolute", top: "24px",  marginLeft: "-25px",fontFamily: "Lato", fontSize: "8px", textAlign: "right", display: "inline-block", width: "20px"}}> {game.position}<sup>o</sup></div> */}
-                {this.state.logged && <div style={{display: "inline-block", position: "absolute", marginLeft: "-10px", width: "10px", top: "9px", color: pink500, fontWeight: "bold", fontFamily: "Lato", textAlign: "right"}}> 
+                {this.state.logged && <div style={{display: "inline-block", position: "absolute", marginLeft: "-10px", width: "10px", top: "3px", color: pink500, fontWeight: "bold", fontFamily: "Lato", textAlign: "right"}}> 
                   <IconButton disabled={false}  >
                       {includeGameId && <FontIcon className="ranking-pin-white material-icons"  onClick={this.unpin.bind(this,game.gameId)}>push_pin</FontIcon>}
                   </IconButton>
@@ -347,7 +349,7 @@ export default class Ranking extends Component {
 
                 <div  style={{display: "inline-block", height: "100%", width: "calc(100vw - 60px)", marginTop:"0px", marginBottom: "6px",height: "100%"}}>
                   <svg width="100%" height="100%" >
-                    <text x={padding_left} y={30} style={{fontFamily: "Lato", fontSize: "15px"}} fill={"white"}>{game.name}</text>
+                    <text x={padding_left} y={24} style={{fontFamily: "Lato", fontSize: "15px"}} fill={"white"}>{game.name}</text>
                     {results.map((pts,j) => {
                       return this.renderCircle(pts,padding_left_circle+j,k,
                         {8: blue500, 5: grey400, 3: "rgba(240,240,240,1)", 0: "transparent"},
@@ -357,7 +359,7 @@ export default class Ranking extends Component {
                   </svg>
                     
                 </div>
-                <div style={{display: "inline-block", position: "absolute", width: "20px", top: "14px", color: "white", fontWeight: "bold", fontFamily: "Lato", textAlign: "right"}}> {game.total}</div>
+                <div style={{display: "inline-block", position: "absolute", width: "20px", top: "8px", color: "white", fontWeight: "bold", fontFamily: "Lato", textAlign: "right"}}> {game.total}</div>
               </div>
               </div>
             </div>)
@@ -385,7 +387,7 @@ export default class Ranking extends Component {
         
         {this.state.logged && this.state.user && <div className="mygames" style={{paddingLeft: "25px", backgroundColor: cyan500}}>
             <div className="mygames-row" style={{backgroundColor: cyan600}}>
-               <div style={{backgroundColor: cyan600,padding: "5px", fontSize: "10px",  paddingTop: "10px", paddingLeft: "10px", paddingBottom: "0px", color: "rgba(255, 255, 255, 0.7)"}}>
+               <div style={{backgroundColor: cyan600,padding: "5px", fontSize: "10px",  paddingTop: "10px", paddingLeft: "10px", paddingBottom: "6px", color: "rgba(255, 255, 255, 0.7)"}}>
                  MEUS JOGOS (my bids)
               </div>          
               {myrows}
@@ -396,7 +398,7 @@ export default class Ranking extends Component {
         </div> */}
       <div className="degrade">
         <div className="checkers">
-            <div style={{padding: "5px", fontSize: "10px",  paddingTop: "10px", paddingLeft: "10px", paddingBottom: "0px", color: "rgb(100,100,100)"}}>
+            <div style={{padding: "5px", fontSize: "10px",  paddingTop: "10px", paddingLeft: "10px", paddingBottom: "6px", color: "rgb(100,100,100)"}}>
                 CLASSIFICAÇÃO GERAL (leaderboard)
             </div>          
           {rows}

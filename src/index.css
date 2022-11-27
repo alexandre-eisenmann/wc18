@@ -336,7 +336,7 @@ ul {
 .position {
  color: white;
  position: absolute;
- top: 30px;
+ top: 24px;
  margin-left: -22px;
  font-family: Lato;
  font-size: 15px;
@@ -349,11 +349,11 @@ ul {
 
 .position.onedigit {
   transform: none; 
-  top: 15px;
+  top: 9px;
   margin-left: -24px;
 }
 
-.position.twodigits {margin-left: -24px; top: 24px}
+.position.twodigits {margin-left: -24px; top: 18px}
 
 .position sup{
   font-size: 10px;
@@ -363,13 +363,13 @@ ul {
 
 
 .position.pins {
-  top: 35px;
+  top: 29px;
   font-size: 15px;
 
 }
-.position.pins {top:30px;}
-.position.pins.onedigit {top:15px;}
-.position.pins.twodigits {top:20px;}
+.position.pins {top:24px;}
+.position.pins.onedigit {top:9px;}
+.position.pins.twodigits {top:14px;}
 
 
 .ranking-pin {
