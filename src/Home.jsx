@@ -9,7 +9,7 @@ import Viz from './Viz'
 const today = dayjs()
 const startDate = dayjs('2026-06-11')
 
-const flags = ["f-sa","f-eg","f-uy","f-ma","f-ir","f-br","f-de","f-ar","f-ru","f-gb-eng","f-pt","f-es","f-fr","f-au","f-is","f-pe","f-dk","f-hr","f-ng","f-br","f-cr","f-rs","f-mx","f-ch","f-se","f-kr","f-be","f-pa","f-tn","f-co","f-jp","f-pl","f-sn"]
+const flags = ["f-mx","f-kr","f-za","f-ca","f-br","f-ma","f-us","f-de","f-nl","f-be","f-es","f-fr","f-ar","f-pt","f-gb-eng","f-hr","f-jp","f-sn","f-eg","f-au","f-ch","f-ec","f-co","f-uy","f-ir","f-ht","f-gb-sct","f-py","f-ci","f-se","f-tn","f-nz","f-cv","f-sa","f-iq","f-no","f-dz","f-at","f-cd","f-uz","f-gh","f-pa","f-tr","f-cw","f-ba","f-jo","f-qa"]
 
 class Home extends Component {
   render() {
@@ -67,10 +67,27 @@ class Home extends Component {
               Aprenda como os pontos são calculados no nosso <a style={{ color: "white" }} href="/rules">regulamento</a>.
               <br />
               <Button
+                href="/bids"
+                style={{
+                  color: "white",
+                  marginTop: "16px",
+                  height: "unset",
+                  borderRadius: "48px",
+                  boxShadow: "0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08)",
+                  border: "2px solid white",
+                  backgroundColor: "rgba(255,255,255,0.2)",
+                  fontSize: "10px",
+                  fontFamily: "Roboto Condensed",
+                  minWidth: "unset",
+                  padding: "4px 12px"
+                }}
+              >2026</Button>
+              <Button
                 href="/ranking"
                 style={{
                   color: "white",
                   marginTop: "16px",
+                  marginLeft: "10px",
                   height: "unset",
                   borderRadius: "48px",
                   boxShadow: "0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08)",

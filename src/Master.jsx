@@ -4,7 +4,7 @@ import GroupView from './GroupView'
 import firebase from 'firebase/compat/app'
 import { Navigate } from "react-router-dom"
 import { CircularProgress } from '@mui/material'
-import data from './data.json'
+import data from './data26.json'
 import { DATABASE_ROOT_NODE } from './constants'
 
 const style = {
@@ -56,7 +56,7 @@ export default class Master extends Component {
             <div>
               <div style={{ paddingLeft: "2px", paddingTop: "20px" }}>
                 <div style={{ textAlign: "center" }}>
-                  {['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'].map(group => (
+                  {Object.keys(data.groups).map(group => (
                     <GroupView viewMode={!this.state.edit} complete={true} userId={"master"} bids={this.state.bids} gameId={"gabarito"} key={group} group={group} />
                   ))}
                 </div>

@@ -16,7 +16,7 @@ import DoneIcon from '@mui/icons-material/Done'
 import DoneAllIcon from '@mui/icons-material/DoneAll'
 import EditIcon from '@mui/icons-material/Edit'
 import { green, blue, cyan, pink, orange } from '@mui/material/colors'
-import data from './data.json'
+import data from './data26.json'
 import './bubbles.css'
 import { DATABASE_ROOT_NODE } from './constants'
 
@@ -352,7 +352,7 @@ export default class Bid extends Component {
                   </div>
 
                   <div style={{ textAlign: "center" }}>
-                    {['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'].map(group => (
+                    {Object.keys(data.groups).map(group => (
                       <GroupView
                         viewMode={!edit}
                         complete={this.state.status ? this.state.status[this.state.currentBid][group] : false}

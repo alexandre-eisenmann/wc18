@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { Paper } from '@mui/material'
 import { pink } from '@mui/material/colors'
-import data from './data.json'
+import data from './data26.json'
 import firebase from 'firebase/compat/app'
 import './flags.css'
 import { DATABASE_ROOT_NODE } from "./constants"
