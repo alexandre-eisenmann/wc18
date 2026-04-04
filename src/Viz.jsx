@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import data from './data26.json'
+import defaultData from './data26.json'
 import dayjs from 'dayjs'
 import { CircularProgress, IconButton, Icon } from '@mui/material'
 import { blue, grey, orange, cyan, pink } from '@mui/material/colors'
@@ -20,6 +20,7 @@ export default class Viz extends Component {
   componentWillUnmount() { }
 
   componentDidMount() {
+    const data = this.props.tournamentData || defaultData
     const matches = Object.keys(data.groups).map((group) => data.groups[group].matches).reduce((acc, ele) => acc.concat(ele), [])
     const sortedMatches = matches.sort((a, b) => {
       if (dayjs(a.date).isBefore(dayjs(b.date))) return -1
@@ -37,7 +38,8 @@ export default class Viz extends Component {
     const self = this
     const map = {}
     const results = {}
-    firebase.database().ref(`${DATABASE_ROOT_NODE}`).once('value', snapshot => {
+    const dbNode = this.props.dbNode || DATABASE_ROOT_NODE
+    firebase.database().ref(dbNode).once('value', snapshot => {
       snapshot.forEach(function (childSnapshot) {
         const childData = childSnapshot.val()
         Object.keys(childData).map((key) => {
