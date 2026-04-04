@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import data from './data.json'
+import data from './data26.json'
 import dayjs from 'dayjs'
 import { CircularProgress, IconButton, Icon } from '@mui/material'
 import { blue, grey, orange, cyan, pink } from '@mui/material/colors'
@@ -20,7 +20,7 @@ export default class Viz extends Component {
   componentWillUnmount() { }
 
   componentDidMount() {
-    const matches = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'].map((group) => data.groups[group].matches).reduce((acc, ele) => acc.concat(ele), [])
+    const matches = Object.keys(data.groups).map((group) => data.groups[group].matches).reduce((acc, ele) => acc.concat(ele), [])
     const sortedMatches = matches.sort((a, b) => {
       if (dayjs(a.date).isBefore(dayjs(b.date))) return -1
       else if (dayjs(a.date).isAfter(dayjs(b.date))) return 1
