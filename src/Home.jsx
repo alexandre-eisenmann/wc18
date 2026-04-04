@@ -83,7 +83,7 @@ class Home extends Component {
                 }}
               >2026</Button>
               <Button
-                href="/ranking"
+                href="/barrace22"
                 style={{
                   color: "white",
                   marginTop: "16px",

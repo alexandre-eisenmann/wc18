@@ -7,6 +7,7 @@ import Login from './Login'
 import Leaderboard from './Leaderboard3'
 import Ranking from './Ranking'
 import BarRace from './BarRace'
+import BarRace22 from './BarRace22'
 import Viz from './Viz'
 import VizHist from './VizHist'
 import Rules from './Rules'
@@ -90,6 +91,7 @@ export default function App() {
             <Route path="/vizhist" element={<VizHist />} />
             <Route path="/ranking" element={<Ranking />} />
             <Route path="/barrace" element={<BarRace />} />
+            <Route path="/barrace22" element={<BarRace22 />} />
           </Routes>
         </div>
       </div>
