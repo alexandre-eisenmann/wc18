@@ -272,10 +272,10 @@ export default class MatchViz extends Component {
           </g>
         </svg>
         {this.state.games && this.state.games.length > 0 && (
-          <span
+          <button
             onClick={this.handleAnimate}
-            style={{ fontSize: "12px", color: "#999", cursor: "pointer", fontFamily: "Lato", textDecoration: "underline", userSelect: "none", marginBottom: "8px", display: "inline-block", letterSpacing: "2px" }}
-          >animate</span>
+            style={{ fontSize: "12px", color: "#999", background: "transparent", border: "1px solid #ccc", borderRadius: "4px", padding: "4px 14px", cursor: "pointer", fontFamily: "Lato", letterSpacing: "1px", marginBottom: "8px" }}
+          >Animate</button>
         )}
       </div>
     )
