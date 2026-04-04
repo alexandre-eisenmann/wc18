@@ -8,16 +8,11 @@ import CircularProgress from 'material-ui/CircularProgress';
 import {blue500, blue300,grey300,grey400,grey200,lightGreen500, orange200,deepOrange500, orange900,yellow500,green700, orange500, blue600, cyan400,cyan500,cyan600,cyan100, cyan200, cyan300, pink500,pink100} from 'material-ui/styles/colors'
 import firebase from 'firebase/compat/app';
 import './flags.css';
-import './index.css';
-import { easeExpInOut } from 'd3-ease';
+import { easeExpInOut } from 'd3';
 import { Animate } from "react-move";
 import { DATABASE_ROOT_NODE } from "./constants";
-import FontIcon from 'material-ui/FontIcon';
-import IconButton from 'material-ui/IconButton';
-import FlatButton from 'material-ui/FlatButton'
-import RaisedButton from 'material-ui/RaisedButton';
 
-const provider = new firebase.auth.GoogleAuthProvider();
+
 
 export default class Ranking extends Component {
 
@@ -38,7 +33,7 @@ export default class Ranking extends Component {
 
 
     this.teams = data.teams.reduce((acc,ele) => {acc[ele.id] = ele; return acc}, {})
-    this.state = {mygames:[],pins:[],logged: null, user: null,games: gamesFromFile, matches: this.matches,  expanded: true, updating: false, render: false}
+    this.state = {mygames:[],logged: null, user: null,games: gamesFromFile, matches: this.matches,  expanded: true, updating: false, render: false}
 
   }
 
@@ -95,7 +90,6 @@ export default class Ranking extends Component {
     if (this.ref)  this.ref.off('value')
     if (this.ref1) this.ref1.off('value')
     if (this.ref2) this.ref2.off('value')
-    if (this.ref3) this.ref3.off('value')
     this.unsubscribe()
 
   }
@@ -118,17 +112,6 @@ export default class Ranking extends Component {
           });
           self.setState({mygames:bids})
         })
-
-        self.ref3= firebase.database().ref(`${DATABASE_ROOT_NODE}/pins/${user.uid}`)
-        self.ref3.on('value', snapshot => {
-          const pins  = []
-          snapshot.forEach(function(childSnapshot) {
-            pins.push(childSnapshot.key)
-          });
-          self.setState({pins:pins})
-        })    
-    
-
     
       } else {
         self.setState({logged: false, user: null})
@@ -143,7 +126,6 @@ export default class Ranking extends Component {
         matches[self.matchesRef[data.key]].home_result = null
         self.setState({updating: true})
         self.loadGames(matches)
-        
 
     })
     self.ref2 = firebase.database().ref(`${DATABASE_ROOT_NODE}/master/gabarito`)
@@ -170,11 +152,9 @@ export default class Ranking extends Component {
       self.loadGames(matches)
     })
 
-
   }
 
 
-  
   expandOrCollapse = (event) => {
     if (this.state.expanded) 
       document.getElementsByClassName("header")[0].style.display = "none"
@@ -185,83 +165,80 @@ export default class Ranking extends Component {
 
 
 
+
   loadGames = (matches) => {
-    const games = []
-    firebase.database().ref(`${DATABASE_ROOT_NODE}`).once('value', snapshot => {
-      snapshot.forEach(function(childSnapshot) {
-        var childKey = childSnapshot.key
-        var childData = childSnapshot.val()
-
-        Object.keys(childData).map((key) => {
-          const id = key
-          const details = childData[key]
-          
-          if (details.status == "payed") {
-            Object.assign(details, {gameId: id, userId: childKey})
-            
-            games.push(details)
-          }
-
-        })
-        
-      });
-
+    const games = gamesFromFile
       
-      this.calculate(games, matches)
-      const sortedGames = games.sort((a,b) => {
-        const diff = b.total - a.total
-        if (diff != 0) return diff 
-        else {
-          var nameA = a.name.toUpperCase()
-          var nameB = b.name.toUpperCase() 
-          if (nameA < nameB) {
-            return -1;
-          }
-          if (nameA > nameB) {
-            return 1;
-          }
-        
-          return 0;
+    this.calculate(games, matches)
+    const sortedGames = games.sort((a,b) => {
+      const diff = b.total - a.total
+      if (diff != 0) return diff 
+      else {
+        var nameA = a.name.toUpperCase()
+        var nameB = b.name.toUpperCase() 
+        if (nameA < nameB) {
+          return -1;
         }
-      })
-      this.calculatePosition(sortedGames)
-
-      this.setState({games: sortedGames, matches: matches, render: true, updating: false})
-  
+        if (nameA > nameB) {
+          return 1;
+        }
       
+        return 0;
+      }
     })
+    this.calculatePosition(sortedGames)
+    this.setState({games: sortedGames, matches: matches, render: true, updating: false})
+    
   }
+
+
+  renderBar(pts, j, i, colors, strokeColor, acc) {
+    colors[0] = "black"
+    return <Animate key={`c${i}-${j}`} 
+          start={{
+            x: 2000,
+            y: 42
+          }}
+          enter={{
+              x: [acc],
+              y: [42],
+              timing: {delay: j*1000 + i*50+500, duration: 200, ease: easeExpInOut },                            
+            }}
+          >
+        {(state) => {
+          const { x,y } = state
+          return <line x1={10+x} y1={y} x2={(10+x+(pts+1)*3)} y2={y} strokeWidth={10} stroke={colors[pts]}/>
+
+        }}
+        </Animate> 
+
+  }
+
   
-  renderCircle(pts, j, i, colors, strokeColor) {
+  renderCircle(pts, j, i, colors, strokeColor, acc) {
     
     const k = Math.floor(j / 24)
     const kj = j % 24
     return <Animate key={`c${i}-${j}`} 
           start={{
             x: 2000,
-            y: 36
+            y: 42
           }}
           enter={{
               x: [15+kj*12],
-              y: [36 + k*12],
+              y: [42 + k*12],
               timing: {delay: i*500+750 + j*80, duration: 1500, ease: easeExpInOut },                            
             }}
           >
         {(state) => {
           const { x,y } = state
           return <circle cx={x} cy={y} r={5} stroke={strokeColor[pts]} strokeWidth={1} fill={colors[pts]}/>
+
         }}
         </Animate> 
 
   }
 
-  pin(gameId) {
-    firebase.database().ref(`${DATABASE_ROOT_NODE}/pins/${this.state.user.uid}/${gameId}`).set(true)
-  }
-
-  unpin(gameId) {
-    firebase.database().ref(`${DATABASE_ROOT_NODE}/pins/${this.state.user.uid}/${gameId}`).remove()
-  }
 
   render() {
     if (!this.state.render) {
@@ -273,93 +250,52 @@ export default class Ranking extends Component {
     const myrows=[]
     const offset = Object.keys(self.state.mygames).length
     let k=0
-    let padding_left = 10
-    let padding_left_circle = 0
-    if (this.state.logged) {
-      padding_left = 25
-      padding_left_circle = 0
-    }
-    let lastPosition=0
-    let blockPosition=1
-    let showPosition=true
-    const statistics = {}
-  
     this.state.games.map((game,i) => {
       const results = [...Array(48).keys()].map((idx) => game[self.matchesInvRef[idx]]['pts']).filter((e) => e === 0 || e)
-      
       const row = []
-      const includeGameId = this.state.pins.includes(game.gameId)
-      showPosition = false
-      if (game.position != lastPosition) {
-        blockPosition++;
-        showPosition = true;
-      } 
-      
-      lastPosition = game.position
-
+      let accPts = 0 
       row.push(<div  key={`g${i}`} >
-      <div  style={{position: "relative", height: "60px"}} className={`${blockPosition % 2 == 0? "even" : "odd"}`}>
-        <div className={`sidebar ${blockPosition % 2 == 0? "even" : "odd"}`}> </div>
-        {showPosition && <div className={`position ${game.position < 10 ? "onedigit" : game.position < 100 ? "twodigits" : ""}`} > {game.position}<sup>o</sup></div>}
-        
-        {this.state.logged && <div style={{display: "inline-block", position: "absolute", marginLeft: "-10px", width: "10px", top: "3px", color: pink500, fontWeight: "bold", fontFamily: "Lato", textAlign: "right"}}> 
-            <IconButton disabled={false}  >
-                {!includeGameId && <FontIcon className="ranking-pin material-icons-outlined"  onClick={this.pin.bind(this,game.gameId)}>push_pin</FontIcon>}
-                {includeGameId && <FontIcon className="ranking-pin material-icons"  onClick={this.unpin.bind(this,game.gameId)}>push_pin</FontIcon>}
-            </IconButton>
-        </div>}
-
-        <div style={{display: "inline-block", height: "100%", width: "calc(100vw - 60px)", marginTop:"0px", marginBottom: "6px",height: "100%"}}>
+      <div  style={{position: "relative", height: "60px"}}>
+        <div style={{color: "white",position: "absolute", top: "24px",  marginLeft: "-25px",fontFamily: "Lato", fontSize: "8px", textAlign: "right", display: "inline-block", width: "20px"}}> {game.position}<sup>o</sup></div>
+        <div style={{display: "inline-block", height: "100%", width: "calc(100vw - 60px)", marginTop:"6px", marginBottom: "6px",height: "100%"}}>
           <svg width="100%" height="100%" >
-            <text x={padding_left} y={24} style={{fontFamily: "Lato", fontSize: "15px"}} fill={"black"}>{game.name}</text>
+            <text x={10} y={30} style={{fontFamily: "Lato", fontSize: "15px"}} fill={"black"}>{game.name}</text>
             {results.map((pts,j) => {
-              if (pts>0) {
-                statistics[j] = statistics[j] ||  {8:0,5:0,3:0}
-                statistics[j][pts] = statistics[j][pts]+1
-              }
-              return this.renderCircle(pts,padding_left_circle+j,offset+i,
-                {8: blue500, 5: grey400, 3: "rgba(240,240,240,1)", 0: "transparent"},
-                {8: blue500, 5: "rgba(100,100,100, 0.5)", 3: "rgba(100,100,100, 0.5)", 0: "rgba(0,0,0, 0.3)"})
+              const acc = accPts
+              accPts += (pts+1)*3
+              return this.renderBar(pts,j,offset+i,
+                {8: blue500, 5: grey400, 3: "white", 0: "transparent"},
+                {8: blue500, 5: "rgba(100,100,100, 0.5)", 3: "rgba(100,100,100, 0.5)", 0: "rgba(0,0,0, 0.3)"}, acc)
 
             })}
           </svg>
         </div>
-
-        <div style={{display: "inline-block", position: "absolute", width: "20px", top: "8px", color: pink500, fontWeight: "bold", fontFamily: "Lato", textAlign: "right"}}> {game.total}</div>
-        </div>
-
+        <div style={{display: "inline-block", position: "absolute", width: "20px", top: "20px", color: pink500, fontWeight: "bold", fontFamily: "Lato", textAlign: "right"}}> {game.total}</div>
+      </div>
       </div>)
       rows.push(<div className="player-row" key={`row${i}`} >{row}</div>)
-
-      const pinned = [...new Set([...Object.keys(self.state.mygames) ,...self.state.pins])]; 
-
-      pinned.map((key) => {
+      Object.keys(self.state.mygames).map((key) => {
         if (key == game.gameId) {
-          const includeGameId = this.state.pins.includes(game.gameId)
+          let accPts = 0 
           myrows.push(<div key={`row${k}`} >
             <div  key={`mg${k}`} >
               <div style={{position: "relative", height: "60px"}}>
-                {<div className={`position pins ${game.position < 10 ? "onedigit" : game.position < 100 ? "twodigits" :""}`} > {game.position}<sup>o</sup></div>}
-                {/* <div style={{color: "white", position: "absolute", top: "24px",  marginLeft: "-25px",fontFamily: "Lato", fontSize: "8px", textAlign: "right", display: "inline-block", width: "20px"}}> {game.position}<sup>o</sup></div> */}
-                {this.state.logged && <div style={{display: "inline-block", position: "absolute", marginLeft: "-10px", width: "10px", top: "3px", color: pink500, fontWeight: "bold", fontFamily: "Lato", textAlign: "right"}}> 
-                  <IconButton disabled={false}  >
-                      {includeGameId && <FontIcon className="ranking-pin-white material-icons"  onClick={this.unpin.bind(this,game.gameId)}>push_pin</FontIcon>}
-                  </IconButton>
-              </div>}
-
-                <div  style={{display: "inline-block", height: "100%", width: "calc(100vw - 60px)", marginTop:"0px", marginBottom: "6px",height: "100%"}}>
+                <div style={{color: "white", position: "absolute", top: "24px",  marginLeft: "-25px",fontFamily: "Lato", fontSize: "8px", textAlign: "right", display: "inline-block", width: "20px"}}> {game.position}<sup>o</sup></div>
+                <div  style={{display: "inline-block", height: "100%", width: "calc(100vw - 60px)", marginTop:"6px", marginBottom: "6px",height: "100%"}}>
                   <svg width="100%" height="100%" >
-                    <text x={padding_left} y={24} style={{fontFamily: "Lato", fontSize: "15px"}} fill={"white"}>{game.name}</text>
+                    <text x={10} y={30} style={{fontFamily: "Lato", fontSize: "15px"}} fill={"white"}>{game.name}</text>
                     {results.map((pts,j) => {
-                      return this.renderCircle(pts,padding_left_circle+j,k,
-                        {8: blue500, 5: grey400, 3: "rgba(240,240,240,1)", 0: "transparent"},
-                        {8: "rgba(0,0,0, 0.2)", 5: "rgba(0,0,0, 0.5)", 3: "rgba(0,0,0, 0.5)", 0: "rgba(255,255,255, 0.3)"})
+                      const acc = accPts
+                      accPts += (pts+1)*3
+                      return this.renderBar(pts,j,k,
+                        {8: blue500, 5: grey400, 3: "rgba(255,255,255,0.8)", 0: "transparent"},
+                        {8: "rgba(0,0,0, 0.5)", 5: "rgba(0,0,0, 0.5)", 3: "rgba(0,0,0, 0.5)", 0: "rgba(255,255,255, 0.3)"},acc)
                                         
                       })}
                   </svg>
                     
                 </div>
-                <div style={{display: "inline-block", position: "absolute", width: "20px", top: "8px", color: "white", fontWeight: "bold", fontFamily: "Lato", textAlign: "right"}}> {game.total}</div>
+                <div style={{display: "inline-block", position: "absolute", width: "20px", top: "20px", color: "white", fontWeight: "bold", fontFamily: "Lato", textAlign: "right"}}> {game.total}</div>
               </div>
               </div>
             </div>)
@@ -369,26 +305,16 @@ export default class Ranking extends Component {
       })
 
     })
-    console.log("stats",statistics)
 
     return (
       <div>
-        {this.state.logged == false && <div style={{background: orange200, textAlign: "center", fontSize: "14px", padding: "8px"}}>
-          <div>
-            <span style={{textDecoration: "underline", cursor: "pointer"}}onClick={() => {firebase.auth().signInWithRedirect(provider); return false;}}>
-              Login
-              </span><span> para <i>pinar</i> seus amigos</span>
-          </div>
-          </div>
-          }
         <div className="whitebar" style={{paddingLeft: "25px",paddingBottom: "20px"}}>        
           <div style={{paddingLeft:"10px", paddingTop: "35px", fontFamily: "Roboto Condensed", fontSize: "30px", color: "#ddd"}}>Ranking</div>
         </div>
-        
         {this.state.logged && this.state.user && <div className="mygames" style={{paddingLeft: "25px", backgroundColor: cyan500}}>
             <div className="mygames-row" style={{backgroundColor: cyan600}}>
-               <div style={{backgroundColor: cyan600,padding: "5px", fontSize: "10px",  paddingTop: "10px", paddingLeft: "10px", paddingBottom: "6px", color: "rgba(255, 255, 255, 0.7)"}}>
-                 MEUS JOGOS (my bids)
+               <div style={{backgroundColor: cyan600,padding: "5px", fontSize: "10px",  paddingTop: "10px", paddingLeft: "10px", paddingBottom: "0px", color: "rgba(255, 255, 255, 0.7)"}}>
+                 JOGOS (my bids)
               </div>          
               {myrows}
             </div>
@@ -398,7 +324,7 @@ export default class Ranking extends Component {
         </div> */}
       <div className="degrade">
         <div className="checkers">
-            <div style={{padding: "5px", fontSize: "10px",  paddingTop: "10px", paddingLeft: "10px", paddingBottom: "6px", color: "rgb(100,100,100)"}}>
+            <div style={{padding: "5px", fontSize: "10px",  paddingTop: "10px", paddingLeft: "10px", paddingBottom: "0px", color: "rgb(100,100,100)"}}>
                 CLASSIFICAÇÃO GERAL (leaderboard)
             </div>          
           {rows}

@@ -4,7 +4,7 @@ import BarChart from './BarChart';
 
 
 import data from './data_bar_race.json'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import firebase from 'firebase/compat/app';
 import { DATABASE_WC18 } from "./constants"
 import data_file from './data2018.json';
@@ -17,9 +17,9 @@ const pickColor = (pts) => {return `rgb(${200 * ((pts/151))}, ${200 * (1-(pts/15
 const _teams = data_file.teams.reduce((acc,ele) => {acc[ele.id] = ele; return acc}, {})
 const _matches_raw = ['a','b','c','d','e','f','g','h'].map((group) => data_file.groups[group].matches).reduce((acc,ele) => acc.concat(ele),[])
 const sortedMatches = _matches_raw.sort((a,b) => {
-  if (moment(a.date).isBefore(moment(b.date) )) 
+  if (dayjs(a.date).isBefore(dayjs(b.date)))
     return -1
-  else if (moment(a.date).isAfter(moment(b.date)))
+  else if (dayjs(a.date).isAfter(dayjs(b.date)))
     return 1 
   return 0
 })

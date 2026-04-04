@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import GroupView from './GroupView.js'
+import GroupView from './GroupView'
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth'
 import {Redirect} from "react-router-dom"
