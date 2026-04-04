@@ -107,7 +107,7 @@ export default function Home() {
 
       <div style={{ marginTop: "100px", width: "100%", overflow: "hidden" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "16px", paddingLeft: "60px", marginBottom: "8px" }}>
-          {['2026', '2022', '2018'].map(year => (
+          {['2018', '2022', '2026'].map(year => (
             <span
               key={year}
               onClick={() => setSelectedYear(year)}
