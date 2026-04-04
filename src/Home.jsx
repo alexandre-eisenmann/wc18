@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { NavLink } from "react-router-dom"
-import { Button } from '@mui/material'
+
 import dayjs from 'dayjs'
 import './flags.css'
 import './scroll.css'
@@ -21,19 +21,6 @@ const YEARS = {
   '2018': { data: data18, dbNode: DATABASE_WC18 },
 }
 
-const btnStyle = {
-  color: "white",
-  marginTop: "16px",
-  height: "unset",
-  borderRadius: "48px",
-  boxShadow: "0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08)",
-  border: "2px solid white",
-  backgroundColor: "transparent",
-  fontSize: "10px",
-  fontFamily: "Roboto Condensed",
-  minWidth: "unset",
-  padding: "4px 12px"
-}
 
 export default function Home() {
   const [selectedYear, setSelectedYear] = useState('2026')
@@ -91,10 +78,11 @@ export default function Home() {
             Façam seus palpites para a primeria fase da copa USA/Canada/México 2026!
             Aprenda como os pontos são calculados no nosso <a style={{ color: "white" }} href="/rules">regulamento</a>.
             <br />
-            <div style={{ marginTop: "16px", fontSize: "10px", color: "rgba(255,255,255,0.6)", fontFamily: "Roboto Condensed", letterSpacing: "1px" }}>PREVIOUS WORLD CUPS</div>
-            <div>
-              <Button href="/barrace" style={btnStyle}>2018</Button>
-              <Button href="/barrace22" style={{ ...btnStyle, marginLeft: "10px" }}>2022</Button>
+            <div style={{ marginTop: "16px", fontSize: "9px", color: "rgba(255,255,255,0.35)", fontFamily: "Roboto Condensed", letterSpacing: "1px" }}>
+              previous cups:{" "}
+              <a href="/barrace" style={{ color: "rgba(255,255,255,0.35)", textDecoration: "underline" }}>2018</a>
+              {" · "}
+              <a href="/barrace22" style={{ color: "rgba(255,255,255,0.35)", textDecoration: "underline" }}>2022</a>
             </div>
           </div>
         </div>
