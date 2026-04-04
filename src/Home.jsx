@@ -66,55 +66,42 @@ class Home extends Component {
               Façam seus palpites para a primeria fase da copa USA/Canada/México 2026!
               Aprenda como os pontos são calculados no nosso <a style={{ color: "white" }} href="/rules">regulamento</a>.
               <br />
-              <Button
-                href="/bids"
-                style={{
-                  color: "white",
-                  marginTop: "16px",
-                  height: "unset",
-                  borderRadius: "48px",
-                  boxShadow: "0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08)",
-                  border: "2px solid white",
-                  backgroundColor: "rgba(255,255,255,0.2)",
-                  fontSize: "10px",
-                  fontFamily: "Roboto Condensed",
-                  minWidth: "unset",
-                  padding: "4px 12px"
-                }}
-              >2026</Button>
-              <Button
-                href="/barrace22"
-                style={{
-                  color: "white",
-                  marginTop: "16px",
-                  marginLeft: "10px",
-                  height: "unset",
-                  borderRadius: "48px",
-                  boxShadow: "0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08)",
-                  border: "2px solid white",
-                  backgroundColor: "transparent",
-                  fontSize: "10px",
-                  fontFamily: "Roboto Condensed",
-                  minWidth: "unset",
-                  padding: "4px 12px"
-                }}
-              >2022</Button>
-              <Button
-                href="/barrace"
-                style={{
-                  color: "white",
-                  marginTop: "16px",
-                  marginLeft: "10px",
-                  height: "unset",
-                  borderRadius: "48px",
-                  boxShadow: "0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08)",
-                  border: "2px solid white",
-                  backgroundColor: "transparent",
-                  fontFamily: "Roboto Condensed",
-                  minWidth: "unset",
-                  padding: "4px 12px"
-                }}
-              >2018</Button>
+              <div style={{ marginTop: "16px", fontSize: "10px", color: "rgba(255,255,255,0.6)", fontFamily: "Roboto Condensed", letterSpacing: "1px" }}>PREVIOUS WORLD CUPS</div>
+              <div>
+                <Button
+                  href="/barrace22"
+                  style={{
+                    color: "white",
+                    marginTop: "8px",
+                    height: "unset",
+                    borderRadius: "48px",
+                    boxShadow: "0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08)",
+                    border: "2px solid white",
+                    backgroundColor: "transparent",
+                    fontSize: "10px",
+                    fontFamily: "Roboto Condensed",
+                    minWidth: "unset",
+                    padding: "4px 12px"
+                  }}
+                >2022</Button>
+                <Button
+                  href="/barrace"
+                  style={{
+                    color: "white",
+                    marginTop: "8px",
+                    marginLeft: "10px",
+                    height: "unset",
+                    borderRadius: "48px",
+                    boxShadow: "0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08)",
+                    border: "2px solid white",
+                    backgroundColor: "transparent",
+                    fontSize: "10px",
+                    fontFamily: "Roboto Condensed",
+                    minWidth: "unset",
+                    padding: "4px 12px"
+                  }}
+                >2018</Button>
+              </div>
             </div>
           </div>
 
