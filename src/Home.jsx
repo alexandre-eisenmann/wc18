@@ -69,7 +69,7 @@ class Home extends Component {
               <div style={{ marginTop: "16px", fontSize: "10px", color: "rgba(255,255,255,0.6)", fontFamily: "Roboto Condensed", letterSpacing: "1px" }}>PREVIOUS WORLD CUPS</div>
               <div>
                 <Button
-                  href="/barrace22"
+                  href="/barrace"
                   style={{
                     color: "white",
                     marginTop: "8px",
@@ -83,9 +83,9 @@ class Home extends Component {
                     minWidth: "unset",
                     padding: "4px 12px"
                   }}
-                >2022</Button>
+                >2018</Button>
                 <Button
-                  href="/barrace"
+                  href="/barrace22"
                   style={{
                     color: "white",
                     marginTop: "8px",
@@ -100,7 +100,7 @@ class Home extends Component {
                     minWidth: "unset",
                     padding: "4px 12px"
                   }}
-                >2018</Button>
+                >2022</Button>
               </div>
             </div>
           </div>
