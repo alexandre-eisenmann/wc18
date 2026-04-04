@@ -74,14 +74,8 @@ export default class Viz extends Component {
         </div>
         {this.state.upcomming.map((match, i) => {
           const r = this.state.resultsMap[match.name]
-          return <MatchViz key={i} homeTeam={this.teams[match.home_team].name} awayTeam={this.teams[match.away_team].name} games={this.state.gamesMap[match.name]} result={r} animateKey={this.state.animateKey} />
+          return <MatchViz key={i} homeTeam={this.teams[match.home_team].name} awayTeam={this.teams[match.away_team].name} games={this.state.gamesMap[match.name]} result={r} />
         })}
-        <div style={{ textAlign: "center", marginTop: "10px", marginBottom: "40px" }}>
-          <button
-            onClick={() => this.setState(s => ({ animateKey: s.animateKey + 1 }))}
-            style={{ fontSize: "12px", color: "#999", background: "transparent", border: "1px solid #ccc", borderRadius: "4px", padding: "4px 14px", cursor: "pointer", fontFamily: "Lato", letterSpacing: "1px" }}
-          >▶ Animate</button>
-        </div>
       </div>
     )
   }

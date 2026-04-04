@@ -17,9 +17,15 @@ export default class MatchViz extends Component {
       render: false,
       games: this.props.games,
       summary: this.computeSummary(this.props.games),
-      animating: false
+      animating: false,
+      animateKey: 0
     }
     this.ref = React.createRef()
+  }
+
+  handleAnimate = () => {
+    this.checkIfInViewport()
+    this.setState(s => ({ summary: {}, animating: true, render: true, animateKey: s.animateKey + 1 }))
   }
 
   computeSummary(games) {
@@ -35,16 +41,7 @@ export default class MatchViz extends Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const gamesArrived = nextProps.games && nextProps.games !== this.props.games
-    const animateTriggered = nextProps.animateKey !== this.props.animateKey && nextProps.animateKey > 0
-
-    if (animateTriggered) {
-      this.checkIfInViewport()
-      this.setState({ summary: {}, animating: true, render: true, games: nextProps.games || this.state.games })
-      return
-    }
-
-    if (gamesArrived) {
+    if (nextProps.games && nextProps.games !== this.props.games) {
       this.checkIfInViewport()
       this.setState({ games: nextProps.games, summary: this.computeSummary(nextProps.games), animating: false })
     }
@@ -81,7 +78,7 @@ export default class MatchViz extends Component {
     const color = this.props.darkMode ? "white" : "black"
 
     return (
-      <div ref={this.ref} style={{ margin: "auto", maxWidth: "500px", position: "relative" }}>
+      <div ref={this.ref} style={{ margin: "auto", maxWidth: "500px", position: "relative", textAlign: "center" }}>
         <svg viewBox="0 0 180 180">
           <g transform="translate(90,160) rotate(225 0 0)">
             <line x1={0} y1={0} x2={0} y2={100} style={{ stroke: color, strokeWidth: 0.6 }} opacity={0.8} />
@@ -217,6 +214,7 @@ export default class MatchViz extends Component {
             {/* Animated dots (only when animating) */}
             {this.state.animating && this.state.render && this.state.games && (
               <NodeGroup
+                key={this.state.animateKey}
                 data={this.state.games}
                 keyAccessor={(d) => d.gameId}
                 start={() => ({ opacity: 0.8, opacity2: 0.0, x: -0.2, y: -0.2 })}
@@ -273,6 +271,12 @@ export default class MatchViz extends Component {
             )}
           </g>
         </svg>
+        {this.state.games && this.state.games.length > 0 && (
+          <button
+            onClick={this.handleAnimate}
+            style={{ fontSize: "11px", color: "#bbb", background: "transparent", border: "1px solid #ddd", borderRadius: "4px", padding: "3px 12px", cursor: "pointer", fontFamily: "Lato", letterSpacing: "1px", marginBottom: "8px" }}
+          >▶ Animate</button>
+        )}
       </div>
     )
   }
