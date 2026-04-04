@@ -79,7 +79,7 @@ export default function Home() {
             Aprenda como os pontos são calculados no nosso <a style={{ color: "white" }} href="/rules">regulamento</a>.
             <br />
             <div style={{ marginTop: "16px", fontSize: "9px", color: "rgba(255,255,255,0.35)", fontFamily: "Roboto Condensed", letterSpacing: "1px" }}>
-              previous cups:{" "}
+              previous cups leaderboards:{" "}
               <a href="/barrace" style={{ color: "rgba(255,255,255,0.35)", textDecoration: "underline" }}>2018</a>
               {" · "}
               <a href="/barrace22" style={{ color: "rgba(255,255,255,0.35)", textDecoration: "underline" }}>2022</a>
