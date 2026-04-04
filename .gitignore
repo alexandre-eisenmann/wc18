@@ -8,6 +8,7 @@
 
 # production
 /build
+/dist
 
 /.vscode
 
@@ -24,5 +25,6 @@ yarn-error.log*
 yarn.*
 
 .firebase/**
+.claude/
 
 
