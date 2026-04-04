@@ -7,7 +7,7 @@
     { "id": 5,  "name": "Canada",            "iso2": "ca" },
     { "id": 6,  "name": "Switzerland",       "iso2": "ch" },
     { "id": 7,  "name": "Qatar",             "iso2": "qa" },
-    { "id": 8,  "name": "Bosnia","iso2": "ba" },
+    { "id": 8,  "name": "Bosnia",            "iso2": "ba" },
     { "id": 9,  "name": "Brazil",            "iso2": "br" },
     { "id": 10, "name": "Morocco",           "iso2": "ma" },
     { "id": 11, "name": "Haiti",             "iso2": "ht" },
@@ -52,122 +52,122 @@
   "groups": {
     "a": {
       "matches": [
-        { "name": 1,  "type": "group", "home_team": 1,  "away_team": 2,  "home_result": null, "away_result": null, "date": "2026-06-11T19:00:00+00:00", "stadium": 1, "channels": [], "finished": false, "home": "Mexico",            "away": "South Korea",       "group": "a" },
-        { "name": 2,  "type": "group", "home_team": 3,  "away_team": 4,  "home_result": null, "away_result": null, "date": "2026-06-11T22:00:00+00:00", "stadium": 2, "channels": [], "finished": false, "home": "South Africa",      "away": "Czechia",           "group": "a" },
-        { "name": 25, "type": "group", "home_team": 1,  "away_team": 3,  "home_result": null, "away_result": null, "date": "2026-06-15T19:00:00+00:00", "stadium": 3, "channels": [], "finished": false, "home": "Mexico",            "away": "South Africa",      "group": "a" },
-        { "name": 26, "type": "group", "home_team": 2,  "away_team": 4,  "home_result": null, "away_result": null, "date": "2026-06-15T22:00:00+00:00", "stadium": 4, "channels": [], "finished": false, "home": "South Korea",       "away": "Czechia",           "group": "a" },
-        { "name": 49, "type": "group", "home_team": 1,  "away_team": 4,  "home_result": null, "away_result": null, "date": "2026-06-19T20:00:00+00:00", "stadium": 5, "channels": [], "finished": false, "home": "Mexico",            "away": "Czechia",           "group": "a" },
-        { "name": 50, "type": "group", "home_team": 2,  "away_team": 3,  "home_result": null, "away_result": null, "date": "2026-06-19T20:00:00+00:00", "stadium": 6, "channels": [], "finished": false, "home": "South Korea",       "away": "South Africa",      "group": "a" }
+        { "name": 1,  "type": "group", "home_team": 1,  "away_team": 3,  "home_result": null, "away_result": null, "date": "2026-06-11T19:00:00+00:00", "stadium": 1, "channels": [], "finished": false, "home": "Mexico",       "away": "South Africa", "group": "a" },
+        { "name": 2,  "type": "group", "home_team": 2,  "away_team": 4,  "home_result": null, "away_result": null, "date": "2026-06-12T02:00:00+00:00", "stadium": 2, "channels": [], "finished": false, "home": "South Korea",  "away": "Czechia",      "group": "a" },
+        { "name": 25, "type": "group", "home_team": 4,  "away_team": 3,  "home_result": null, "away_result": null, "date": "2026-06-18T16:00:00+00:00", "stadium": 3, "channels": [], "finished": false, "home": "Czechia",      "away": "South Africa", "group": "a" },
+        { "name": 26, "type": "group", "home_team": 1,  "away_team": 2,  "home_result": null, "away_result": null, "date": "2026-06-19T03:00:00+00:00", "stadium": 4, "channels": [], "finished": false, "home": "Mexico",       "away": "South Korea",  "group": "a" },
+        { "name": 49, "type": "group", "home_team": 3,  "away_team": 2,  "home_result": null, "away_result": null, "date": "2026-06-25T01:00:00+00:00", "stadium": 5, "channels": [], "finished": false, "home": "South Africa", "away": "South Korea",  "group": "a" },
+        { "name": 50, "type": "group", "home_team": 4,  "away_team": 1,  "home_result": null, "away_result": null, "date": "2026-06-25T01:00:00+00:00", "stadium": 6, "channels": [], "finished": false, "home": "Czechia",      "away": "Mexico",       "group": "a" }
       ]
     },
     "b": {
       "matches": [
-        { "name": 3,  "type": "group", "home_team": 5,  "away_team": 6,  "home_result": null, "away_result": null, "date": "2026-06-12T16:00:00+00:00", "stadium": 1, "channels": [], "finished": false, "home": "Canada",            "away": "Switzerland",       "group": "b" },
-        { "name": 4,  "type": "group", "home_team": 7,  "away_team": 8,  "home_result": null, "away_result": null, "date": "2026-06-12T19:00:00+00:00", "stadium": 2, "channels": [], "finished": false, "home": "Qatar",             "away": "Bosnia","group": "b" },
-        { "name": 27, "type": "group", "home_team": 5,  "away_team": 7,  "home_result": null, "away_result": null, "date": "2026-06-16T16:00:00+00:00", "stadium": 3, "channels": [], "finished": false, "home": "Canada",            "away": "Qatar",             "group": "b" },
-        { "name": 28, "type": "group", "home_team": 6,  "away_team": 8,  "home_result": null, "away_result": null, "date": "2026-06-16T19:00:00+00:00", "stadium": 4, "channels": [], "finished": false, "home": "Switzerland",       "away": "Bosnia","group": "b" },
-        { "name": 51, "type": "group", "home_team": 5,  "away_team": 8,  "home_result": null, "away_result": null, "date": "2026-06-20T20:00:00+00:00", "stadium": 5, "channels": [], "finished": false, "home": "Canada",            "away": "Bosnia","group": "b" },
-        { "name": 52, "type": "group", "home_team": 6,  "away_team": 7,  "home_result": null, "away_result": null, "date": "2026-06-20T20:00:00+00:00", "stadium": 6, "channels": [], "finished": false, "home": "Switzerland",       "away": "Qatar",             "group": "b" }
+        { "name": 3,  "type": "group", "home_team": 5,  "away_team": 8,  "home_result": null, "away_result": null, "date": "2026-06-12T19:00:00+00:00", "stadium": 1, "channels": [], "finished": false, "home": "Canada",       "away": "Bosnia",       "group": "b" },
+        { "name": 4,  "type": "group", "home_team": 7,  "away_team": 6,  "home_result": null, "away_result": null, "date": "2026-06-13T19:00:00+00:00", "stadium": 2, "channels": [], "finished": false, "home": "Qatar",        "away": "Switzerland",  "group": "b" },
+        { "name": 27, "type": "group", "home_team": 6,  "away_team": 8,  "home_result": null, "away_result": null, "date": "2026-06-18T19:00:00+00:00", "stadium": 3, "channels": [], "finished": false, "home": "Switzerland",  "away": "Bosnia",       "group": "b" },
+        { "name": 28, "type": "group", "home_team": 5,  "away_team": 7,  "home_result": null, "away_result": null, "date": "2026-06-18T22:00:00+00:00", "stadium": 4, "channels": [], "finished": false, "home": "Canada",       "away": "Qatar",        "group": "b" },
+        { "name": 51, "type": "group", "home_team": 6,  "away_team": 5,  "home_result": null, "away_result": null, "date": "2026-06-24T19:00:00+00:00", "stadium": 5, "channels": [], "finished": false, "home": "Switzerland",  "away": "Canada",       "group": "b" },
+        { "name": 52, "type": "group", "home_team": 8,  "away_team": 7,  "home_result": null, "away_result": null, "date": "2026-06-24T19:00:00+00:00", "stadium": 6, "channels": [], "finished": false, "home": "Bosnia",       "away": "Qatar",        "group": "b" }
       ]
     },
     "c": {
       "matches": [
-        { "name": 5,  "type": "group", "home_team": 9,  "away_team": 10, "home_result": null, "away_result": null, "date": "2026-06-13T16:00:00+00:00", "stadium": 1, "channels": [], "finished": false, "home": "Brazil",            "away": "Morocco",           "group": "c" },
-        { "name": 6,  "type": "group", "home_team": 11, "away_team": 12, "home_result": null, "away_result": null, "date": "2026-06-13T19:00:00+00:00", "stadium": 2, "channels": [], "finished": false, "home": "Haiti",             "away": "Scotland",          "group": "c" },
-        { "name": 29, "type": "group", "home_team": 9,  "away_team": 11, "home_result": null, "away_result": null, "date": "2026-06-17T16:00:00+00:00", "stadium": 3, "channels": [], "finished": false, "home": "Brazil",            "away": "Haiti",             "group": "c" },
-        { "name": 30, "type": "group", "home_team": 10, "away_team": 12, "home_result": null, "away_result": null, "date": "2026-06-17T19:00:00+00:00", "stadium": 4, "channels": [], "finished": false, "home": "Morocco",           "away": "Scotland",          "group": "c" },
-        { "name": 53, "type": "group", "home_team": 9,  "away_team": 12, "home_result": null, "away_result": null, "date": "2026-06-21T20:00:00+00:00", "stadium": 5, "channels": [], "finished": false, "home": "Brazil",            "away": "Scotland",          "group": "c" },
-        { "name": 54, "type": "group", "home_team": 10, "away_team": 11, "home_result": null, "away_result": null, "date": "2026-06-21T20:00:00+00:00", "stadium": 6, "channels": [], "finished": false, "home": "Morocco",           "away": "Haiti",             "group": "c" }
+        { "name": 5,  "type": "group", "home_team": 9,  "away_team": 10, "home_result": null, "away_result": null, "date": "2026-06-13T22:00:00+00:00", "stadium": 1, "channels": [], "finished": false, "home": "Brazil",       "away": "Morocco",      "group": "c" },
+        { "name": 6,  "type": "group", "home_team": 11, "away_team": 12, "home_result": null, "away_result": null, "date": "2026-06-14T01:00:00+00:00", "stadium": 2, "channels": [], "finished": false, "home": "Haiti",        "away": "Scotland",     "group": "c" },
+        { "name": 29, "type": "group", "home_team": 12, "away_team": 10, "home_result": null, "away_result": null, "date": "2026-06-19T22:00:00+00:00", "stadium": 3, "channels": [], "finished": false, "home": "Scotland",     "away": "Morocco",      "group": "c" },
+        { "name": 30, "type": "group", "home_team": 9,  "away_team": 11, "home_result": null, "away_result": null, "date": "2026-06-20T01:00:00+00:00", "stadium": 4, "channels": [], "finished": false, "home": "Brazil",       "away": "Haiti",        "group": "c" },
+        { "name": 53, "type": "group", "home_team": 12, "away_team": 9,  "home_result": null, "away_result": null, "date": "2026-06-24T22:00:00+00:00", "stadium": 5, "channels": [], "finished": false, "home": "Scotland",     "away": "Brazil",       "group": "c" },
+        { "name": 54, "type": "group", "home_team": 10, "away_team": 11, "home_result": null, "away_result": null, "date": "2026-06-24T22:00:00+00:00", "stadium": 6, "channels": [], "finished": false, "home": "Morocco",      "away": "Haiti",        "group": "c" }
       ]
     },
     "d": {
       "matches": [
-        { "name": 7,  "type": "group", "home_team": 13, "away_team": 14, "home_result": null, "away_result": null, "date": "2026-06-14T16:00:00+00:00", "stadium": 1, "channels": [], "finished": false, "home": "USA",               "away": "Paraguay",          "group": "d" },
-        { "name": 8,  "type": "group", "home_team": 15, "away_team": 16, "home_result": null, "away_result": null, "date": "2026-06-14T19:00:00+00:00", "stadium": 2, "channels": [], "finished": false, "home": "Australia",         "away": "Turkey",            "group": "d" },
-        { "name": 31, "type": "group", "home_team": 13, "away_team": 15, "home_result": null, "away_result": null, "date": "2026-06-18T16:00:00+00:00", "stadium": 3, "channels": [], "finished": false, "home": "USA",               "away": "Australia",         "group": "d" },
-        { "name": 32, "type": "group", "home_team": 14, "away_team": 16, "home_result": null, "away_result": null, "date": "2026-06-18T19:00:00+00:00", "stadium": 4, "channels": [], "finished": false, "home": "Paraguay",          "away": "Turkey",            "group": "d" },
-        { "name": 55, "type": "group", "home_team": 13, "away_team": 16, "home_result": null, "away_result": null, "date": "2026-06-22T20:00:00+00:00", "stadium": 5, "channels": [], "finished": false, "home": "USA",               "away": "Turkey",            "group": "d" },
-        { "name": 56, "type": "group", "home_team": 14, "away_team": 15, "home_result": null, "away_result": null, "date": "2026-06-22T20:00:00+00:00", "stadium": 6, "channels": [], "finished": false, "home": "Paraguay",          "away": "Australia",         "group": "d" }
+        { "name": 7,  "type": "group", "home_team": 13, "away_team": 14, "home_result": null, "away_result": null, "date": "2026-06-13T01:00:00+00:00", "stadium": 1, "channels": [], "finished": false, "home": "USA",          "away": "Paraguay",     "group": "d" },
+        { "name": 8,  "type": "group", "home_team": 15, "away_team": 16, "home_result": null, "away_result": null, "date": "2026-06-14T04:00:00+00:00", "stadium": 2, "channels": [], "finished": false, "home": "Australia",    "away": "Turkey",       "group": "d" },
+        { "name": 31, "type": "group", "home_team": 13, "away_team": 15, "home_result": null, "away_result": null, "date": "2026-06-19T19:00:00+00:00", "stadium": 3, "channels": [], "finished": false, "home": "USA",          "away": "Australia",    "group": "d" },
+        { "name": 32, "type": "group", "home_team": 16, "away_team": 14, "home_result": null, "away_result": null, "date": "2026-06-20T04:00:00+00:00", "stadium": 4, "channels": [], "finished": false, "home": "Turkey",       "away": "Paraguay",     "group": "d" },
+        { "name": 55, "type": "group", "home_team": 16, "away_team": 13, "home_result": null, "away_result": null, "date": "2026-06-26T02:00:00+00:00", "stadium": 5, "channels": [], "finished": false, "home": "Turkey",       "away": "USA",          "group": "d" },
+        { "name": 56, "type": "group", "home_team": 14, "away_team": 15, "home_result": null, "away_result": null, "date": "2026-06-26T02:00:00+00:00", "stadium": 6, "channels": [], "finished": false, "home": "Paraguay",     "away": "Australia",    "group": "d" }
       ]
     },
     "e": {
       "matches": [
-        { "name": 9,  "type": "group", "home_team": 17, "away_team": 18, "home_result": null, "away_result": null, "date": "2026-06-15T16:00:00+00:00", "stadium": 1, "channels": [], "finished": false, "home": "Germany",           "away": "Curaçao",           "group": "e" },
-        { "name": 10, "type": "group", "home_team": 19, "away_team": 20, "home_result": null, "away_result": null, "date": "2026-06-15T22:00:00+00:00", "stadium": 2, "channels": [], "finished": false, "home": "Ivory Coast",       "away": "Ecuador",           "group": "e" },
-        { "name": 33, "type": "group", "home_team": 17, "away_team": 19, "home_result": null, "away_result": null, "date": "2026-06-19T16:00:00+00:00", "stadium": 3, "channels": [], "finished": false, "home": "Germany",           "away": "Ivory Coast",       "group": "e" },
-        { "name": 34, "type": "group", "home_team": 18, "away_team": 20, "home_result": null, "away_result": null, "date": "2026-06-19T22:00:00+00:00", "stadium": 4, "channels": [], "finished": false, "home": "Curaçao",           "away": "Ecuador",           "group": "e" },
-        { "name": 57, "type": "group", "home_team": 17, "away_team": 20, "home_result": null, "away_result": null, "date": "2026-06-23T20:00:00+00:00", "stadium": 5, "channels": [], "finished": false, "home": "Germany",           "away": "Ecuador",           "group": "e" },
-        { "name": 58, "type": "group", "home_team": 18, "away_team": 19, "home_result": null, "away_result": null, "date": "2026-06-23T20:00:00+00:00", "stadium": 6, "channels": [], "finished": false, "home": "Curaçao",           "away": "Ivory Coast",       "group": "e" }
+        { "name": 9,  "type": "group", "home_team": 17, "away_team": 18, "home_result": null, "away_result": null, "date": "2026-06-14T17:00:00+00:00", "stadium": 1, "channels": [], "finished": false, "home": "Germany",      "away": "Curaçao",      "group": "e" },
+        { "name": 10, "type": "group", "home_team": 19, "away_team": 20, "home_result": null, "away_result": null, "date": "2026-06-14T23:00:00+00:00", "stadium": 2, "channels": [], "finished": false, "home": "Ivory Coast",  "away": "Ecuador",      "group": "e" },
+        { "name": 33, "type": "group", "home_team": 17, "away_team": 19, "home_result": null, "away_result": null, "date": "2026-06-20T20:00:00+00:00", "stadium": 3, "channels": [], "finished": false, "home": "Germany",      "away": "Ivory Coast",  "group": "e" },
+        { "name": 34, "type": "group", "home_team": 20, "away_team": 18, "home_result": null, "away_result": null, "date": "2026-06-21T00:00:00+00:00", "stadium": 4, "channels": [], "finished": false, "home": "Ecuador",      "away": "Curaçao",      "group": "e" },
+        { "name": 57, "type": "group", "home_team": 20, "away_team": 17, "home_result": null, "away_result": null, "date": "2026-06-25T20:00:00+00:00", "stadium": 5, "channels": [], "finished": false, "home": "Ecuador",      "away": "Germany",      "group": "e" },
+        { "name": 58, "type": "group", "home_team": 18, "away_team": 19, "home_result": null, "away_result": null, "date": "2026-06-25T20:00:00+00:00", "stadium": 6, "channels": [], "finished": false, "home": "Curaçao",      "away": "Ivory Coast",  "group": "e" }
       ]
     },
     "f": {
       "matches": [
-        { "name": 11, "type": "group", "home_team": 21, "away_team": 22, "home_result": null, "away_result": null, "date": "2026-06-16T16:00:00+00:00", "stadium": 1, "channels": [], "finished": false, "home": "Netherlands",       "away": "Japan",             "group": "f" },
-        { "name": 12, "type": "group", "home_team": 23, "away_team": 24, "home_result": null, "away_result": null, "date": "2026-06-16T22:00:00+00:00", "stadium": 2, "channels": [], "finished": false, "home": "Sweden",            "away": "Tunisia",           "group": "f" },
-        { "name": 35, "type": "group", "home_team": 21, "away_team": 23, "home_result": null, "away_result": null, "date": "2026-06-20T16:00:00+00:00", "stadium": 3, "channels": [], "finished": false, "home": "Netherlands",       "away": "Sweden",            "group": "f" },
-        { "name": 36, "type": "group", "home_team": 22, "away_team": 24, "home_result": null, "away_result": null, "date": "2026-06-20T22:00:00+00:00", "stadium": 4, "channels": [], "finished": false, "home": "Japan",             "away": "Tunisia",           "group": "f" },
-        { "name": 59, "type": "group", "home_team": 21, "away_team": 24, "home_result": null, "away_result": null, "date": "2026-06-24T20:00:00+00:00", "stadium": 5, "channels": [], "finished": false, "home": "Netherlands",       "away": "Tunisia",           "group": "f" },
-        { "name": 60, "type": "group", "home_team": 22, "away_team": 23, "home_result": null, "away_result": null, "date": "2026-06-24T20:00:00+00:00", "stadium": 6, "channels": [], "finished": false, "home": "Japan",             "away": "Sweden",            "group": "f" }
+        { "name": 11, "type": "group", "home_team": 21, "away_team": 22, "home_result": null, "away_result": null, "date": "2026-06-14T20:00:00+00:00", "stadium": 1, "channels": [], "finished": false, "home": "Netherlands",  "away": "Japan",        "group": "f" },
+        { "name": 12, "type": "group", "home_team": 23, "away_team": 24, "home_result": null, "away_result": null, "date": "2026-06-15T02:00:00+00:00", "stadium": 2, "channels": [], "finished": false, "home": "Sweden",       "away": "Tunisia",      "group": "f" },
+        { "name": 35, "type": "group", "home_team": 21, "away_team": 23, "home_result": null, "away_result": null, "date": "2026-06-20T17:00:00+00:00", "stadium": 3, "channels": [], "finished": false, "home": "Netherlands",  "away": "Sweden",       "group": "f" },
+        { "name": 36, "type": "group", "home_team": 24, "away_team": 22, "home_result": null, "away_result": null, "date": "2026-06-21T04:00:00+00:00", "stadium": 4, "channels": [], "finished": false, "home": "Tunisia",      "away": "Japan",        "group": "f" },
+        { "name": 59, "type": "group", "home_team": 22, "away_team": 23, "home_result": null, "away_result": null, "date": "2026-06-25T23:00:00+00:00", "stadium": 5, "channels": [], "finished": false, "home": "Japan",        "away": "Sweden",       "group": "f" },
+        { "name": 60, "type": "group", "home_team": 24, "away_team": 21, "home_result": null, "away_result": null, "date": "2026-06-25T23:00:00+00:00", "stadium": 6, "channels": [], "finished": false, "home": "Tunisia",      "away": "Netherlands",  "group": "f" }
       ]
     },
     "g": {
       "matches": [
-        { "name": 13, "type": "group", "home_team": 25, "away_team": 26, "home_result": null, "away_result": null, "date": "2026-06-17T16:00:00+00:00", "stadium": 1, "channels": [], "finished": false, "home": "Belgium",           "away": "Egypt",             "group": "g" },
-        { "name": 14, "type": "group", "home_team": 27, "away_team": 28, "home_result": null, "away_result": null, "date": "2026-06-17T22:00:00+00:00", "stadium": 2, "channels": [], "finished": false, "home": "Iran",              "away": "New Zealand",       "group": "g" },
-        { "name": 37, "type": "group", "home_team": 25, "away_team": 27, "home_result": null, "away_result": null, "date": "2026-06-21T16:00:00+00:00", "stadium": 3, "channels": [], "finished": false, "home": "Belgium",           "away": "Iran",              "group": "g" },
-        { "name": 38, "type": "group", "home_team": 26, "away_team": 28, "home_result": null, "away_result": null, "date": "2026-06-21T22:00:00+00:00", "stadium": 4, "channels": [], "finished": false, "home": "Egypt",             "away": "New Zealand",       "group": "g" },
-        { "name": 61, "type": "group", "home_team": 25, "away_team": 28, "home_result": null, "away_result": null, "date": "2026-06-25T20:00:00+00:00", "stadium": 5, "channels": [], "finished": false, "home": "Belgium",           "away": "New Zealand",       "group": "g" },
-        { "name": 62, "type": "group", "home_team": 26, "away_team": 27, "home_result": null, "away_result": null, "date": "2026-06-25T20:00:00+00:00", "stadium": 6, "channels": [], "finished": false, "home": "Egypt",             "away": "Iran",              "group": "g" }
+        { "name": 13, "type": "group", "home_team": 25, "away_team": 26, "home_result": null, "away_result": null, "date": "2026-06-15T22:00:00+00:00", "stadium": 1, "channels": [], "finished": false, "home": "Belgium",      "away": "Egypt",        "group": "g" },
+        { "name": 14, "type": "group", "home_team": 27, "away_team": 28, "home_result": null, "away_result": null, "date": "2026-06-16T04:00:00+00:00", "stadium": 2, "channels": [], "finished": false, "home": "Iran",         "away": "New Zealand",  "group": "g" },
+        { "name": 37, "type": "group", "home_team": 25, "away_team": 27, "home_result": null, "away_result": null, "date": "2026-06-21T19:00:00+00:00", "stadium": 3, "channels": [], "finished": false, "home": "Belgium",      "away": "Iran",         "group": "g" },
+        { "name": 38, "type": "group", "home_team": 28, "away_team": 26, "home_result": null, "away_result": null, "date": "2026-06-22T01:00:00+00:00", "stadium": 4, "channels": [], "finished": false, "home": "New Zealand",  "away": "Egypt",        "group": "g" },
+        { "name": 61, "type": "group", "home_team": 26, "away_team": 27, "home_result": null, "away_result": null, "date": "2026-06-27T03:00:00+00:00", "stadium": 5, "channels": [], "finished": false, "home": "Egypt",        "away": "Iran",         "group": "g" },
+        { "name": 62, "type": "group", "home_team": 28, "away_team": 25, "home_result": null, "away_result": null, "date": "2026-06-27T03:00:00+00:00", "stadium": 6, "channels": [], "finished": false, "home": "New Zealand",  "away": "Belgium",      "group": "g" }
       ]
     },
     "h": {
       "matches": [
-        { "name": 15, "type": "group", "home_team": 29, "away_team": 30, "home_result": null, "away_result": null, "date": "2026-06-18T16:00:00+00:00", "stadium": 1, "channels": [], "finished": false, "home": "Spain",             "away": "Cape Verde",        "group": "h" },
-        { "name": 16, "type": "group", "home_team": 31, "away_team": 32, "home_result": null, "away_result": null, "date": "2026-06-18T22:00:00+00:00", "stadium": 2, "channels": [], "finished": false, "home": "Saudi Arabia",      "away": "Uruguay",           "group": "h" },
-        { "name": 39, "type": "group", "home_team": 29, "away_team": 31, "home_result": null, "away_result": null, "date": "2026-06-22T16:00:00+00:00", "stadium": 3, "channels": [], "finished": false, "home": "Spain",             "away": "Saudi Arabia",      "group": "h" },
-        { "name": 40, "type": "group", "home_team": 30, "away_team": 32, "home_result": null, "away_result": null, "date": "2026-06-22T22:00:00+00:00", "stadium": 4, "channels": [], "finished": false, "home": "Cape Verde",        "away": "Uruguay",           "group": "h" },
-        { "name": 63, "type": "group", "home_team": 29, "away_team": 32, "home_result": null, "away_result": null, "date": "2026-06-26T20:00:00+00:00", "stadium": 5, "channels": [], "finished": false, "home": "Spain",             "away": "Uruguay",           "group": "h" },
-        { "name": 64, "type": "group", "home_team": 30, "away_team": 31, "home_result": null, "away_result": null, "date": "2026-06-26T20:00:00+00:00", "stadium": 6, "channels": [], "finished": false, "home": "Cape Verde",        "away": "Saudi Arabia",      "group": "h" }
+        { "name": 15, "type": "group", "home_team": 29, "away_team": 30, "home_result": null, "away_result": null, "date": "2026-06-15T17:00:00+00:00", "stadium": 1, "channels": [], "finished": false, "home": "Spain",        "away": "Cape Verde",   "group": "h" },
+        { "name": 16, "type": "group", "home_team": 31, "away_team": 32, "home_result": null, "away_result": null, "date": "2026-06-15T22:00:00+00:00", "stadium": 2, "channels": [], "finished": false, "home": "Saudi Arabia", "away": "Uruguay",      "group": "h" },
+        { "name": 39, "type": "group", "home_team": 29, "away_team": 31, "home_result": null, "away_result": null, "date": "2026-06-21T16:00:00+00:00", "stadium": 3, "channels": [], "finished": false, "home": "Spain",        "away": "Saudi Arabia", "group": "h" },
+        { "name": 40, "type": "group", "home_team": 32, "away_team": 30, "home_result": null, "away_result": null, "date": "2026-06-21T22:00:00+00:00", "stadium": 4, "channels": [], "finished": false, "home": "Uruguay",      "away": "Cape Verde",   "group": "h" },
+        { "name": 63, "type": "group", "home_team": 30, "away_team": 31, "home_result": null, "away_result": null, "date": "2026-06-27T00:00:00+00:00", "stadium": 5, "channels": [], "finished": false, "home": "Cape Verde",   "away": "Saudi Arabia", "group": "h" },
+        { "name": 64, "type": "group", "home_team": 32, "away_team": 29, "home_result": null, "away_result": null, "date": "2026-06-27T00:00:00+00:00", "stadium": 6, "channels": [], "finished": false, "home": "Uruguay",      "away": "Spain",        "group": "h" }
       ]
     },
     "i": {
       "matches": [
-        { "name": 17, "type": "group", "home_team": 33, "away_team": 34, "home_result": null, "away_result": null, "date": "2026-06-19T16:00:00+00:00", "stadium": 1, "channels": [], "finished": false, "home": "France",            "away": "Senegal",           "group": "i" },
-        { "name": 18, "type": "group", "home_team": 35, "away_team": 36, "home_result": null, "away_result": null, "date": "2026-06-19T22:00:00+00:00", "stadium": 2, "channels": [], "finished": false, "home": "Iraq",              "away": "Norway",            "group": "i" },
-        { "name": 41, "type": "group", "home_team": 33, "away_team": 35, "home_result": null, "away_result": null, "date": "2026-06-23T16:00:00+00:00", "stadium": 3, "channels": [], "finished": false, "home": "France",            "away": "Iraq",              "group": "i" },
-        { "name": 42, "type": "group", "home_team": 34, "away_team": 36, "home_result": null, "away_result": null, "date": "2026-06-23T22:00:00+00:00", "stadium": 4, "channels": [], "finished": false, "home": "Senegal",           "away": "Norway",            "group": "i" },
-        { "name": 65, "type": "group", "home_team": 33, "away_team": 36, "home_result": null, "away_result": null, "date": "2026-06-27T20:00:00+00:00", "stadium": 5, "channels": [], "finished": false, "home": "France",            "away": "Norway",            "group": "i" },
-        { "name": 66, "type": "group", "home_team": 34, "away_team": 35, "home_result": null, "away_result": null, "date": "2026-06-27T20:00:00+00:00", "stadium": 6, "channels": [], "finished": false, "home": "Senegal",           "away": "Iraq",              "group": "i" }
+        { "name": 17, "type": "group", "home_team": 33, "away_team": 34, "home_result": null, "away_result": null, "date": "2026-06-16T19:00:00+00:00", "stadium": 1, "channels": [], "finished": false, "home": "France",       "away": "Senegal",      "group": "i" },
+        { "name": 18, "type": "group", "home_team": 35, "away_team": 36, "home_result": null, "away_result": null, "date": "2026-06-16T22:00:00+00:00", "stadium": 2, "channels": [], "finished": false, "home": "Iraq",         "away": "Norway",       "group": "i" },
+        { "name": 41, "type": "group", "home_team": 33, "away_team": 35, "home_result": null, "away_result": null, "date": "2026-06-22T21:00:00+00:00", "stadium": 3, "channels": [], "finished": false, "home": "France",       "away": "Iraq",         "group": "i" },
+        { "name": 42, "type": "group", "home_team": 36, "away_team": 34, "home_result": null, "away_result": null, "date": "2026-06-23T00:00:00+00:00", "stadium": 4, "channels": [], "finished": false, "home": "Norway",       "away": "Senegal",      "group": "i" },
+        { "name": 65, "type": "group", "home_team": 36, "away_team": 33, "home_result": null, "away_result": null, "date": "2026-06-26T19:00:00+00:00", "stadium": 5, "channels": [], "finished": false, "home": "Norway",       "away": "France",       "group": "i" },
+        { "name": 66, "type": "group", "home_team": 34, "away_team": 35, "home_result": null, "away_result": null, "date": "2026-06-26T19:00:00+00:00", "stadium": 6, "channels": [], "finished": false, "home": "Senegal",      "away": "Iraq",         "group": "i" }
       ]
     },
     "j": {
       "matches": [
-        { "name": 19, "type": "group", "home_team": 37, "away_team": 38, "home_result": null, "away_result": null, "date": "2026-06-20T16:00:00+00:00", "stadium": 1, "channels": [], "finished": false, "home": "Argentina",         "away": "Algeria",           "group": "j" },
-        { "name": 20, "type": "group", "home_team": 39, "away_team": 40, "home_result": null, "away_result": null, "date": "2026-06-20T22:00:00+00:00", "stadium": 2, "channels": [], "finished": false, "home": "Austria",           "away": "Jordan",            "group": "j" },
-        { "name": 43, "type": "group", "home_team": 37, "away_team": 39, "home_result": null, "away_result": null, "date": "2026-06-24T16:00:00+00:00", "stadium": 3, "channels": [], "finished": false, "home": "Argentina",         "away": "Austria",           "group": "j" },
-        { "name": 44, "type": "group", "home_team": 38, "away_team": 40, "home_result": null, "away_result": null, "date": "2026-06-24T22:00:00+00:00", "stadium": 4, "channels": [], "finished": false, "home": "Algeria",           "away": "Jordan",            "group": "j" },
-        { "name": 67, "type": "group", "home_team": 37, "away_team": 40, "home_result": null, "away_result": null, "date": "2026-06-28T20:00:00+00:00", "stadium": 5, "channels": [], "finished": false, "home": "Argentina",         "away": "Jordan",            "group": "j" },
-        { "name": 68, "type": "group", "home_team": 38, "away_team": 39, "home_result": null, "away_result": null, "date": "2026-06-28T20:00:00+00:00", "stadium": 6, "channels": [], "finished": false, "home": "Algeria",           "away": "Austria",           "group": "j" }
+        { "name": 19, "type": "group", "home_team": 37, "away_team": 38, "home_result": null, "away_result": null, "date": "2026-06-17T01:00:00+00:00", "stadium": 1, "channels": [], "finished": false, "home": "Argentina",    "away": "Algeria",      "group": "j" },
+        { "name": 20, "type": "group", "home_team": 39, "away_team": 40, "home_result": null, "away_result": null, "date": "2026-06-17T04:00:00+00:00", "stadium": 2, "channels": [], "finished": false, "home": "Austria",      "away": "Jordan",       "group": "j" },
+        { "name": 43, "type": "group", "home_team": 37, "away_team": 39, "home_result": null, "away_result": null, "date": "2026-06-22T17:00:00+00:00", "stadium": 3, "channels": [], "finished": false, "home": "Argentina",    "away": "Austria",      "group": "j" },
+        { "name": 44, "type": "group", "home_team": 40, "away_team": 38, "home_result": null, "away_result": null, "date": "2026-06-23T03:00:00+00:00", "stadium": 4, "channels": [], "finished": false, "home": "Jordan",       "away": "Algeria",      "group": "j" },
+        { "name": 67, "type": "group", "home_team": 38, "away_team": 39, "home_result": null, "away_result": null, "date": "2026-06-28T02:00:00+00:00", "stadium": 5, "channels": [], "finished": false, "home": "Algeria",      "away": "Austria",      "group": "j" },
+        { "name": 68, "type": "group", "home_team": 40, "away_team": 37, "home_result": null, "away_result": null, "date": "2026-06-28T02:00:00+00:00", "stadium": 6, "channels": [], "finished": false, "home": "Jordan",       "away": "Argentina",    "group": "j" }
       ]
     },
     "k": {
       "matches": [
-        { "name": 21, "type": "group", "home_team": 41, "away_team": 42, "home_result": null, "away_result": null, "date": "2026-06-21T16:00:00+00:00", "stadium": 1, "channels": [], "finished": false, "home": "Portugal",          "away": "DR Congo",          "group": "k" },
-        { "name": 22, "type": "group", "home_team": 43, "away_team": 44, "home_result": null, "away_result": null, "date": "2026-06-21T22:00:00+00:00", "stadium": 2, "channels": [], "finished": false, "home": "Uzbekistan",        "away": "Colombia",          "group": "k" },
-        { "name": 45, "type": "group", "home_team": 41, "away_team": 43, "home_result": null, "away_result": null, "date": "2026-06-25T16:00:00+00:00", "stadium": 3, "channels": [], "finished": false, "home": "Portugal",          "away": "Uzbekistan",        "group": "k" },
-        { "name": 46, "type": "group", "home_team": 42, "away_team": 44, "home_result": null, "away_result": null, "date": "2026-06-25T22:00:00+00:00", "stadium": 4, "channels": [], "finished": false, "home": "DR Congo",          "away": "Colombia",          "group": "k" },
-        { "name": 69, "type": "group", "home_team": 41, "away_team": 44, "home_result": null, "away_result": null, "date": "2026-06-29T20:00:00+00:00", "stadium": 5, "channels": [], "finished": false, "home": "Portugal",          "away": "Colombia",          "group": "k" },
-        { "name": 70, "type": "group", "home_team": 42, "away_team": 43, "home_result": null, "away_result": null, "date": "2026-06-29T20:00:00+00:00", "stadium": 6, "channels": [], "finished": false, "home": "DR Congo",          "away": "Uzbekistan",        "group": "k" }
+        { "name": 21, "type": "group", "home_team": 41, "away_team": 42, "home_result": null, "away_result": null, "date": "2026-06-17T17:00:00+00:00", "stadium": 1, "channels": [], "finished": false, "home": "Portugal",     "away": "DR Congo",     "group": "k" },
+        { "name": 22, "type": "group", "home_team": 43, "away_team": 44, "home_result": null, "away_result": null, "date": "2026-06-18T02:00:00+00:00", "stadium": 2, "channels": [], "finished": false, "home": "Uzbekistan",   "away": "Colombia",     "group": "k" },
+        { "name": 45, "type": "group", "home_team": 41, "away_team": 43, "home_result": null, "away_result": null, "date": "2026-06-23T17:00:00+00:00", "stadium": 3, "channels": [], "finished": false, "home": "Portugal",     "away": "Uzbekistan",   "group": "k" },
+        { "name": 46, "type": "group", "home_team": 44, "away_team": 42, "home_result": null, "away_result": null, "date": "2026-06-24T02:00:00+00:00", "stadium": 4, "channels": [], "finished": false, "home": "Colombia",     "away": "DR Congo",     "group": "k" },
+        { "name": 69, "type": "group", "home_team": 44, "away_team": 41, "home_result": null, "away_result": null, "date": "2026-06-27T23:30:00+00:00", "stadium": 5, "channels": [], "finished": false, "home": "Colombia",     "away": "Portugal",     "group": "k" },
+        { "name": 70, "type": "group", "home_team": 42, "away_team": 43, "home_result": null, "away_result": null, "date": "2026-06-27T23:30:00+00:00", "stadium": 6, "channels": [], "finished": false, "home": "DR Congo",     "away": "Uzbekistan",   "group": "k" }
       ]
     },
     "l": {
       "matches": [
-        { "name": 23, "type": "group", "home_team": 45, "away_team": 46, "home_result": null, "away_result": null, "date": "2026-06-22T16:00:00+00:00", "stadium": 1, "channels": [], "finished": false, "home": "England",           "away": "Croatia",           "group": "l" },
-        { "name": 24, "type": "group", "home_team": 47, "away_team": 48, "home_result": null, "away_result": null, "date": "2026-06-22T22:00:00+00:00", "stadium": 2, "channels": [], "finished": false, "home": "Ghana",             "away": "Panama",            "group": "l" },
-        { "name": 47, "type": "group", "home_team": 45, "away_team": 47, "home_result": null, "away_result": null, "date": "2026-06-26T16:00:00+00:00", "stadium": 3, "channels": [], "finished": false, "home": "England",           "away": "Ghana",             "group": "l" },
-        { "name": 48, "type": "group", "home_team": 46, "away_team": 48, "home_result": null, "away_result": null, "date": "2026-06-26T22:00:00+00:00", "stadium": 4, "channels": [], "finished": false, "home": "Croatia",           "away": "Panama",            "group": "l" },
-        { "name": 71, "type": "group", "home_team": 45, "away_team": 48, "home_result": null, "away_result": null, "date": "2026-06-30T20:00:00+00:00", "stadium": 5, "channels": [], "finished": false, "home": "England",           "away": "Panama",            "group": "l" },
-        { "name": 72, "type": "group", "home_team": 46, "away_team": 47, "home_result": null, "away_result": null, "date": "2026-06-30T20:00:00+00:00", "stadium": 6, "channels": [], "finished": false, "home": "Croatia",           "away": "Ghana",             "group": "l" }
+        { "name": 23, "type": "group", "home_team": 45, "away_team": 46, "home_result": null, "away_result": null, "date": "2026-06-17T20:00:00+00:00", "stadium": 1, "channels": [], "finished": false, "home": "England",      "away": "Croatia",      "group": "l" },
+        { "name": 24, "type": "group", "home_team": 47, "away_team": 48, "home_result": null, "away_result": null, "date": "2026-06-17T23:00:00+00:00", "stadium": 2, "channels": [], "finished": false, "home": "Ghana",        "away": "Panama",       "group": "l" },
+        { "name": 47, "type": "group", "home_team": 45, "away_team": 47, "home_result": null, "away_result": null, "date": "2026-06-23T20:00:00+00:00", "stadium": 3, "channels": [], "finished": false, "home": "England",      "away": "Ghana",        "group": "l" },
+        { "name": 48, "type": "group", "home_team": 48, "away_team": 46, "home_result": null, "away_result": null, "date": "2026-06-23T23:00:00+00:00", "stadium": 4, "channels": [], "finished": false, "home": "Panama",       "away": "Croatia",      "group": "l" },
+        { "name": 71, "type": "group", "home_team": 48, "away_team": 45, "home_result": null, "away_result": null, "date": "2026-06-27T21:00:00+00:00", "stadium": 5, "channels": [], "finished": false, "home": "Panama",       "away": "England",      "group": "l" },
+        { "name": 72, "type": "group", "home_team": 46, "away_team": 47, "home_result": null, "away_result": null, "date": "2026-06-27T21:00:00+00:00", "stadium": 6, "channels": [], "finished": false, "home": "Croatia",      "away": "Ghana",        "group": "l" }
       ]
     }
   }
