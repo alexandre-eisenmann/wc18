@@ -217,15 +217,14 @@ export default class Leaderboard extends Component {
           </IconButton>
 
           <div style={{
-            margin: '0 auto',
             position: "absolute",
-            top: "75px",
+            top: "8px",
+            left: "50px",
             zIndex: "1000",
             fontFamily: "Lato",
-            height: "40px",
-            left: "30px",
             color: "#ccc",
-            width: "219px"
+            fontSize: "13px",
+            lineHeight: "24px"
           }}>
             {`${this.state.games.length} participantes`}
           </div>
