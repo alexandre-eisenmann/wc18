@@ -7,7 +7,7 @@
     { "id": 5,  "name": "Canada",            "iso2": "ca" },
     { "id": 6,  "name": "Switzerland",       "iso2": "ch" },
     { "id": 7,  "name": "Qatar",             "iso2": "qa" },
-    { "id": 8,  "name": "Bosnia-Herzegovina","iso2": "ba" },
+    { "id": 8,  "name": "Bosnia","iso2": "ba" },
     { "id": 9,  "name": "Brazil",            "iso2": "br" },
     { "id": 10, "name": "Morocco",           "iso2": "ma" },
     { "id": 11, "name": "Haiti",             "iso2": "ht" },
@@ -63,10 +63,10 @@
     "b": {
       "matches": [
         { "name": 3,  "type": "group", "home_team": 5,  "away_team": 6,  "home_result": null, "away_result": null, "date": "2026-06-12T16:00:00+00:00", "stadium": 1, "channels": [], "finished": false, "home": "Canada",            "away": "Switzerland",       "group": "b" },
-        { "name": 4,  "type": "group", "home_team": 7,  "away_team": 8,  "home_result": null, "away_result": null, "date": "2026-06-12T19:00:00+00:00", "stadium": 2, "channels": [], "finished": false, "home": "Qatar",             "away": "Bosnia-Herzegovina","group": "b" },
+        { "name": 4,  "type": "group", "home_team": 7,  "away_team": 8,  "home_result": null, "away_result": null, "date": "2026-06-12T19:00:00+00:00", "stadium": 2, "channels": [], "finished": false, "home": "Qatar",             "away": "Bosnia","group": "b" },
         { "name": 27, "type": "group", "home_team": 5,  "away_team": 7,  "home_result": null, "away_result": null, "date": "2026-06-16T16:00:00+00:00", "stadium": 3, "channels": [], "finished": false, "home": "Canada",            "away": "Qatar",             "group": "b" },
-        { "name": 28, "type": "group", "home_team": 6,  "away_team": 8,  "home_result": null, "away_result": null, "date": "2026-06-16T19:00:00+00:00", "stadium": 4, "channels": [], "finished": false, "home": "Switzerland",       "away": "Bosnia-Herzegovina","group": "b" },
-        { "name": 51, "type": "group", "home_team": 5,  "away_team": 8,  "home_result": null, "away_result": null, "date": "2026-06-20T20:00:00+00:00", "stadium": 5, "channels": [], "finished": false, "home": "Canada",            "away": "Bosnia-Herzegovina","group": "b" },
+        { "name": 28, "type": "group", "home_team": 6,  "away_team": 8,  "home_result": null, "away_result": null, "date": "2026-06-16T19:00:00+00:00", "stadium": 4, "channels": [], "finished": false, "home": "Switzerland",       "away": "Bosnia","group": "b" },
+        { "name": 51, "type": "group", "home_team": 5,  "away_team": 8,  "home_result": null, "away_result": null, "date": "2026-06-20T20:00:00+00:00", "stadium": 5, "channels": [], "finished": false, "home": "Canada",            "away": "Bosnia","group": "b" },
         { "name": 52, "type": "group", "home_team": 6,  "away_team": 7,  "home_result": null, "away_result": null, "date": "2026-06-20T20:00:00+00:00", "stadium": 6, "channels": [], "finished": false, "home": "Switzerland",       "away": "Qatar",             "group": "b" }
       ]
     },
