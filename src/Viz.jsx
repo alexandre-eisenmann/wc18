@@ -77,10 +77,10 @@ export default class Viz extends Component {
           return <MatchViz key={i} homeTeam={this.teams[match.home_team].name} awayTeam={this.teams[match.away_team].name} games={this.state.gamesMap[match.name]} result={r} animateKey={this.state.animateKey} />
         })}
         <div style={{ textAlign: "center", marginTop: "10px", marginBottom: "40px" }}>
-          <span
+          <button
             onClick={() => this.setState(s => ({ animateKey: s.animateKey + 1 }))}
-            style={{ fontSize: "11px", color: "#bbb", cursor: "pointer", fontFamily: "Lato", letterSpacing: "1px", userSelect: "none" }}
-          >▶ animate</span>
+            style={{ fontSize: "12px", color: "#999", background: "transparent", border: "1px solid #ccc", borderRadius: "4px", padding: "4px 14px", cursor: "pointer", fontFamily: "Lato", letterSpacing: "1px" }}
+          >▶ Animate</button>
         </div>
       </div>
     )
