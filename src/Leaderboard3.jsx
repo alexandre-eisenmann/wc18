@@ -134,6 +134,11 @@ export default class Leaderboard extends Component {
     })
   }
 
+  abbr = (name) => {
+    const overrides = { "DR Congo": "DRC" }
+    return (overrides[name] || name.substring(0, 3)).toUpperCase()
+  }
+
   renderPts = (pts) => {
     const colors = { 8: blue500, 5: grey400, 3: "white" }
     const fontColors = { 8: "white", 5: "white", 3: "rgb(150,150,150)", 0: "#fff" }
@@ -159,7 +164,7 @@ export default class Leaderboard extends Component {
       header.push(<Cell key={`ha${i}`}>
         <div style={{ position: "relative", marginTop: "6px", marginBottom: "6px", marginLeft: "4px", marginRight: "4px" }}>
           <div style={{ color: "black", textAlign: "center", paddingLeft: "7px", fontSize: "small", fontWeight: "bold", fontFamily: "Lato", textOrientation: "upright", writingMode: "vertical-rl" }}>
-            {this.teams[match.home_team].name.substring(0, 3).toUpperCase()}
+            {this.abbr(this.teams[match.home_team].name)}
           </div>
           <div style={{ marginTop: "4px" }}><div className={`leaderboard-flags f-${this.teams[match.home_team].iso2}`}></div></div>
           <div style={{ marginTop: "4px", textAlign: "center" }}>{match.home_result != null ? match.home_result : "."}</div>
@@ -168,7 +173,7 @@ export default class Leaderboard extends Component {
       header.push(<Cell key={`hb${i}`}>
         <div style={{ position: "relative", marginBottom: "6px", marginLeft: "4px", marginRight: "4px" }}>
           <div style={{ color: "black", textAlign: "center", paddingLeft: "7px", fontSize: "small", fontWeight: "bold", fontFamily: "Lato", textOrientation: "upright", writingMode: "vertical-rl" }}>
-            {this.teams[match.away_team].name.substring(0, 3).toUpperCase()}
+            {this.abbr(this.teams[match.away_team].name)}
           </div>
           <div style={{ marginTop: "4px" }}><div className={`leaderboard-flags f-${this.teams[match.away_team].iso2}`}></div></div>
           <div style={{ marginTop: "4px", textAlign: "center" }}>{match.away_result != null ? match.away_result : "."}</div>
