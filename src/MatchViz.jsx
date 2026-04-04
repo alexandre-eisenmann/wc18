@@ -13,14 +13,40 @@ export default class MatchViz extends Component {
   constructor(props) {
     super(props)
     this.teams = data.teams.reduce((acc, ele) => { acc[ele.id] = ele; return acc }, {})
-    this.state = { render: false, games: this.props.games, summary: {} }
+    this.state = {
+      render: false,
+      games: this.props.games,
+      summary: this.computeSummary(this.props.games),
+      animating: false
+    }
     this.ref = React.createRef()
   }
 
-  UNSAFE_componentWillReceiveProps(props) {
-    if (props.games && props.games.length > 0) {
+  computeSummary(games) {
+    if (!games) return {}
+    const summary = {}
+    games.forEach(g => {
+      if (g.res) {
+        const key = g.res.a + "-" + g.res.h
+        summary[key] = (summary[key] || 0) + 1
+      }
+    })
+    return summary
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const gamesArrived = nextProps.games && nextProps.games !== this.props.games
+    const animateTriggered = nextProps.animateKey !== this.props.animateKey && nextProps.animateKey > 0
+
+    if (animateTriggered) {
       this.checkIfInViewport()
-      this.setState({ games: props.games })
+      this.setState({ summary: {}, animating: true, render: true, games: nextProps.games || this.state.games })
+      return
+    }
+
+    if (gamesArrived) {
+      this.checkIfInViewport()
+      this.setState({ games: nextProps.games, summary: this.computeSummary(nextProps.games), animating: false })
     }
   }
 
@@ -95,19 +121,57 @@ export default class MatchViz extends Component {
               }
             })}
 
-            {this.state.render && this.props.result && (
+            {/* Static result marker (default view) */}
+            {!this.state.animating && this.props.result && (() => {
+              const ar = this.props.result.a
+              const hr = this.props.result.h
+              const key = ar + "-" + hr
+              const qtd = this.state.summary[key]
+              const r = (qtd ? Math.sqrt(qtd / Math.PI) * 3 : 3)
+              const a = ar * unit
+              const h = hr * unit
+              return (
+                <g>
+                  {[...Array(10).keys()].map((av) =>
+                    [...Array(10).keys()].map((hv) => {
+                      const keyv = av + "-" + hv
+                      const qtdv = this.state.summary[keyv]
+                      if (qtdv) {
+                        const rv = Math.sqrt(qtdv / Math.PI) * 3
+                        if (av !== ar || hv !== hr) {
+                          if (av - hv === ar - hr) {
+                            return <circle key={`s2${av}${hv}`} fill="transparent" strokeWidth={1} stroke="rgba(0,0,0,0.8)" cx={av * unit} cy={hv * unit} r={rv + 0.5} />
+                          } else if ((av > hv && ar > hr) || (av < hv && ar < hr)) {
+                            return <circle key={`s3${av}${hv}`} fill="transparent" strokeWidth={0.5} stroke="rgba(0,0,0,0.8)" cx={av * unit} cy={hv * unit} r={rv + 0.25} />
+                          }
+                        }
+                      }
+                      return null
+                    })
+                  )}
+                  <circle fill="rgba(0,0,0,0)" strokeWidth={1.5} stroke="rgba(0,0,0,1)" cx={a} cy={h} r={r + 0.75} />
+                  <g transform={`rotate(45 ${a} ${h})`}>
+                    <line x1={a} y1={h - r - 4} x2={a} y2={h + r + 4} strokeWidth={1.0} stroke="black" />
+                    <line x1={a - r - 4} y1={h} x2={a + r + 4} y2={h} strokeWidth={1.0} stroke="black" />
+                  </g>
+                </g>
+              )
+            })()}
+
+            {/* Animated result marker */}
+            {this.state.animating && this.state.render && this.props.result && (
               <Animate
                 start={{ opacity: 0, opacity2: 0, opacity3: 0.2, opacity4: 0, _a: 5, _h: 5, r_coeff: 0 }}
                 enter={[
                   {
                     opacity: [1], opacity4: [1],
                     _a: [this.props.result.a], _h: [this.props.result.h], r_coeff: [1],
-                    timing: { delay: this.props.games.length * 100 + 1000, duration: 2000, ease: easeExpInOut },
+                    timing: { delay: this.state.games.length * 100 + 1000, duration: 2000, ease: easeExpInOut },
                   },
                   {
                     opacity2: [1], opacity3: [0], opacity4: [0],
                     _a: [this.props.result.a], _h: [this.props.result.h],
-                    timing: { delay: this.props.games.length * 100 + 3000 + 100, duration: 1000, ease: easeExpInOut },
+                    timing: { delay: this.state.games.length * 100 + 3000 + 100, duration: 1000, ease: easeExpInOut },
                   }
                 ]}
               >
@@ -150,7 +214,8 @@ export default class MatchViz extends Component {
               </Animate>
             )}
 
-            {this.state.render && this.state.games && (
+            {/* Animated dots (only when animating) */}
+            {this.state.animating && this.state.render && this.state.games && (
               <NodeGroup
                 data={this.state.games}
                 keyAccessor={(d) => d.gameId}

@@ -14,7 +14,7 @@ export default class Viz extends Component {
 
   constructor(props) {
     super(props)
-    this.state = { gamesMap: {}, resultsMap: {}, upcomming: [] }
+    this.state = { gamesMap: {}, resultsMap: {}, upcomming: [], animateKey: 0 }
   }
 
   componentWillUnmount() { }
@@ -74,8 +74,14 @@ export default class Viz extends Component {
         </div>
         {this.state.upcomming.map((match, i) => {
           const r = this.state.resultsMap[match.name]
-          return <MatchViz key={i} homeTeam={this.teams[match.home_team].name} awayTeam={this.teams[match.away_team].name} games={this.state.gamesMap[match.name]} result={r} />
+          return <MatchViz key={i} homeTeam={this.teams[match.home_team].name} awayTeam={this.teams[match.away_team].name} games={this.state.gamesMap[match.name]} result={r} animateKey={this.state.animateKey} />
         })}
+        <div style={{ textAlign: "center", marginTop: "10px", marginBottom: "40px" }}>
+          <span
+            onClick={() => this.setState(s => ({ animateKey: s.animateKey + 1 }))}
+            style={{ fontSize: "11px", color: "#bbb", cursor: "pointer", fontFamily: "Lato", letterSpacing: "1px", userSelect: "none" }}
+          >▶ animate</span>
+        </div>
       </div>
     )
   }
