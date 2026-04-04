@@ -17,7 +17,7 @@ export default class Rules extends Component {
                 <li><strong>2nd place:</strong> 25%</li>
                 <li><strong>3rd place:</strong> 5%</li>
               </ul>
-              <p>In case of a tie, the tied players share all the prizes they occupy equally, and no prize is left for the next rank. For example: two players tied for 1st means there is no 2nd place — the next player goes straight to 3rd.</p>
+              <p>In case of a tie, the tied players share equally the combined value of all prizes they occupy — no prize passes to the next rank. For example: two players tied for 1st split the 1st + 2nd prizes together (70% + 25% = 95%, so 47.5% each), and the next player is 3rd.</p>
               <p>Scoring:</p>
               <ul>
                 <li>Exact score: <strong>8 points</strong></li>
@@ -34,7 +34,7 @@ export default class Rules extends Component {
                 <li><strong>2º lugar:</strong> 25%</li>
                 <li><strong>3º lugar:</strong> 5%</li>
               </ul>
-              <p>Em caso de empate, os jogadores empatados dividem igualmente todos os prêmios que ocupam, e nenhum prêmio sobra para a posição seguinte. Por exemplo: dois jogadores empatados em 1º significa que não há 2º lugar — o próximo jogador vai direto para o 3º.</p>
+              <p>Em caso de empate, os jogadores empatados dividem igualmente o valor combinado de todos os prêmios que ocupam — nenhum prêmio passa para a próxima posição. Por exemplo: dois jogadores empatados em 1º dividem os prêmios de 1º + 2º juntos (70% + 25% = 95%, ou seja, 47,5% cada), e o próximo jogador é o 3º.</p>
               <p>Pontuação:</p>
               <ul>
                 <li>Placar exato: <strong>8 pontos</strong></li>
