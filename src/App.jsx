@@ -11,6 +11,7 @@ import BarRace22 from './BarRace22'
 import Viz from './Viz'
 import VizHist from './VizHist'
 import Rules from './Rules'
+import Payment from './Payment'
 import firebase from 'firebase/compat/app'
 import { AppBar, Tabs, Tab, Avatar, Button } from '@mui/material'
 import { blue } from '@mui/material/colors'
@@ -88,6 +89,7 @@ export default function App() {
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/viz" element={<Viz />} />
             <Route path="/rules" element={<Rules />} />
+        <Route path="/payment" element={<Payment />} />
             <Route path="/vizhist" element={<VizHist />} />
             <Route path="/ranking" element={<Ranking />} />
             <Route path="/barrace" element={<BarRace />} />

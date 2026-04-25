@@ -9,10 +9,9 @@ import 'firebase/compat/database'
 import 'firebase/compat/functions'
 import { DATABASE_ROOT_NODE } from './constants'
 
-// Replace with the real pk_test_... key once received from the Stripe account owner.
-const STRIPE_PUBLISHABLE_KEY = 'pk_test_REPLACE_ME'
-
-const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY)
+// Set in .env: VITE_STRIPE_PUBLISHABLE_KEY=pk_test_... (use pk_live_... in production).
+const publishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
+const stripePromise = publishableKey ? loadStripe(publishableKey) : null
 
 // ─── CheckoutForm ─────────────────────────────────────────────────────────────
 // Rendered inside <Elements> after a PaymentIntent has been created.
@@ -42,7 +41,12 @@ function CheckoutForm({ onSuccess }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <PaymentElement />
+      <PaymentElement
+        options={{
+          layout: 'tabs',
+          paymentMethodOrder: ['card', 'pix'],
+        }}
+      />
       <Button
         type="submit"
         variant="contained"
@@ -110,6 +114,16 @@ export default function Payment() {
 
   if (logged === null) return <div style={{ textAlign: 'center', marginTop: '20%' }}><CircularProgress size={60} thickness={7} /></div>
   if (logged === false) return <Navigate to='/login?fw=payment' replace />
+  if (!publishableKey) return (
+    <div style={{ padding: 32, maxWidth: 480, margin: 'auto' }}>
+      <div style={{ fontSize: 18, marginBottom: 12 }}>Chave do Stripe ausente</div>
+      <div style={{ color: '#777', lineHeight: 1.5 }}>
+        Defina <code style={{ background: '#eee', padding: '2px 6px' }}>VITE_STRIPE_PUBLISHABLE_KEY</code> no arquivo{' '}
+        <code style={{ background: '#eee', padding: '2px 6px' }}>.env</code> na raiz do projeto (veja <code style={{ background: '#eee', padding: '2px 6px' }}>.env.example</code>).
+        Em produção, use a chave publicável <code>pk_live_</code> correspondente.
+      </div>
+    </div>
+  )
   if (done) return (
     <div style={{ padding: 40, textAlign: 'center' }}>
       <div style={{ fontSize: 28, marginBottom: 16 }}>Pagamento confirmado!</div>
@@ -173,8 +187,14 @@ export default function Payment() {
         </>
       )}
 
-      {clientSecret && (
-        <Elements stripe={stripePromise} options={{ clientSecret }}>
+      {clientSecret && stripePromise && (
+        <Elements
+          stripe={stripePromise}
+          options={{
+            clientSecret,
+            locale: 'pt-BR',
+          }}
+        >
           <CheckoutForm onSuccess={() => setDone(true)} />
         </Elements>
       )}

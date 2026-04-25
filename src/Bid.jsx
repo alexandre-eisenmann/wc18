@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import './App.css'
 import GroupView from './GroupView'
 import firebase from 'firebase/compat/app'
@@ -249,7 +250,12 @@ export default class Bid extends Component {
               AGUARDANDO PAGAMENTO (waiting payment)
             </div>
             <div style={{ display: "flex", flexWrap: "wrap", minHeight: "40px", position: "relative", paddingLeft: "20px", paddingRight: "60px", paddingTop: "5px", paddingBottom: "13px", backgroundColor: cyan300 }}>
-              <div className="agdopagto-bubble">Não esqueça de pagar seus jogos!</div>
+              <div className="agdopagto-bubble" style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 12, width: '100%', paddingRight: 48, boxSizing: 'border-box' }}>
+                <span>Não esqueça de pagar seus jogos!</span>
+                <Button component={Link} to="/payment" variant="contained" size="small" color="primary">
+                  Pagar agora
+                </Button>
+              </div>
               {Object.keys(this.state.bids).map((bid) => {
                 if (this.state.bids[bid].status === "readytopay") {
                   const onDelete = canEdit(bid) ? (event) => this.onRequestDelete(event, bid) : undefined
