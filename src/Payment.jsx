@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useLayoutEffect } from 'react'
 import { Navigate } from 'react-router-dom'
 import { CircularProgress, Button, Paper, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import { loadStripe } from '@stripe/stripe-js'
@@ -19,6 +19,21 @@ function CheckoutForm({ onSuccess }) {
   const stripe = useStripe()
   const elements = useElements()
   const [status, setStatus] = useState('idle') // idle | processing | error | done
+
+  // Tear down the Payment Element so Stripe does not leave iframes / the corner badge in the DOM
+  // after navigating away (SPAs often hit this; see element.destroy in Stripe.js docs).
+  useLayoutEffect(() => {
+    return () => {
+      const paymentEl = elements?.getElement?.("payment")
+      if (paymentEl) {
+        try {
+          paymentEl.destroy()
+        } catch {
+          // already destroyed or race with Elements unmount
+        }
+      }
+    }
+  }, [elements])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -95,6 +110,22 @@ export default function Payment() {
       }
     })
     return unsub
+  }, [])
+
+  // Best-effort: remove Stripe’s hidden controller iframes that sometimes stay in <body> after the form unmounts
+  // (stops the small “stripe” control looking like it is stuck on other routes).
+  useLayoutEffect(() => {
+    return () => {
+      document
+        .querySelectorAll("iframe[name^='__privateStripe']")
+        .forEach((node) => {
+          try {
+            node.remove()
+          } catch {
+            // ignore
+          }
+        })
+    }
   }, [])
 
   const handlePay = async () => {
@@ -189,6 +220,7 @@ export default function Payment() {
 
       {clientSecret && stripePromise && (
         <Elements
+          key={clientSecret}
           stripe={stripePromise}
           options={{
             clientSecret,

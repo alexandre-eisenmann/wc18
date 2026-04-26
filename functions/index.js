@@ -51,17 +51,46 @@ exports.createPaymentIntent = functions.https.onCall(async (data, context) => {
   }
 
   const amount = gameIds.length * PRICE_PER_BID_CENTAVOS
-
-  const paymentIntent = await stripe.paymentIntents.create({
+  const baseIntentParams = {
     amount,
     currency: "brl",
-    payment_method_types: ["card", "pix"],
     metadata: {
       userId,
       gameIds: JSON.stringify(gameIds),
       dbNode: DATABASE_ROOT_NODE,
     },
-  })
+  }
+
+  // Card + PIX for Brazil. PIX must be enabled in Stripe Dashboard (Settings → Payment methods);
+  // if not, Stripe returns invalid_request for "pix" — fall back to card so checkout still works.
+  let paymentIntent
+  try {
+    paymentIntent = await stripe.paymentIntents.create({
+      ...baseIntentParams,
+      payment_method_types: ["card", "pix"],
+    })
+  } catch (err) {
+    const isPixNotEnabled =
+      err?.code === "payment_intent_invalid_parameter" &&
+      err?.param === "payment_method_types" &&
+      (String(err?.message).includes("pix") || String(err?.raw?.message).includes("pix"))
+    if (isPixNotEnabled) {
+      console.warn(
+        "PIX not available on this Stripe account — using card only. " +
+          "Enable PIX in Dashboard → Settings → Payment methods, then redeploy to offer PIX."
+      )
+      paymentIntent = await stripe.paymentIntents.create({
+        ...baseIntentParams,
+        payment_method_types: ["card"],
+      })
+    } else {
+      console.error("Stripe paymentIntents.create failed:", err)
+      throw new functions.https.HttpsError(
+        "internal",
+        "Could not start payment. Try again or contact support."
+      )
+    }
+  }
 
   return {
     clientSecret: paymentIntent.client_secret,
@@ -94,14 +123,27 @@ exports.stripeWebhook = functions.https.onRequest(async (req, res) => {
 
   if (event.type === "payment_intent.succeeded") {
     const intent = event.data.object
-    const { userId, gameIds, dbNode } = intent.metadata
+    const { userId, gameIds, dbNode } = intent.metadata || {}
+
+    // Real checkouts from this app set userId, gameIds (JSON array), dbNode in metadata.
+    // CLI triggers and other ad-hoc payments will not; acknowledge (200) so Stripe does not retry.
+    if (!userId || !dbNode || !gameIds) {
+      console.log(
+        `Payment ${intent.id} — no bolão metadata, skipping database update (test or out-of-app payment).`
+      )
+      return res.json({ received: true, skipped: true, reason: "no_app_metadata" })
+    }
 
     let parsedGameIds
     try {
       parsedGameIds = JSON.parse(gameIds)
     } catch {
-      console.error("Failed to parse gameIds from metadata")
-      return res.status(400).send("Bad metadata")
+      console.error("Failed to parse gameIds from metadata for payment", intent.id)
+      return res.json({ received: true, skipped: true, reason: "invalid_gameids_json" })
+    }
+
+    if (!Array.isArray(parsedGameIds) || parsedGameIds.length === 0) {
+      return res.json({ received: true, skipped: true, reason: "empty_gameids" })
     }
 
     const db = admin.database()

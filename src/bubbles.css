@@ -150,64 +150,64 @@ top: -10px;
 left: 185px;
 }
 
-
-
-
-.agdopagto-bubble 
-{
-position: absolute;
-pointer-events: none;
-width: 70px;
-height: 42px;
-padding: 15px;
-padding-top: 10px;
-background: rgba(0, 0, 0, 0.90);
--webkit-border-radius: 8px;
--moz-border-radius: 8px;
-border-radius: 8px;
-color: #ccc;
-font-family: Lato;
-font-size: 12px;
-right: 75px;
-top: -15px;
-z-index: 9000;
-opacity: 0;
-
--webkit-animation-name: fadeIn, fadeOut;
--webkit-animation-duration: 0.5s, 3s;
--webkit-animation-delay: 2s, 8s;
--webkit-animation-fill-mode: forwards, forwards;
-
-animation-name: fadeIn, fadeOut;
-animation-duration: 0.5s, 3s;
-animation-delay: 2s, 8s;
-animation-fill-mode: forwards, forwards;
-
+/* Hint next to the payment Fab (text only; must stay pointer-events: none) */
+.agdopagto-bubble {
+  position: absolute;
+  pointer-events: none;
+  max-width: 220px;
+  padding: 10px 12px;
+  background: rgba(0, 0, 0, 0.9);
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  color: #e0e0e0;
+  font-family: Lato, sans-serif;
+  font-size: 12px;
+  line-height: 1.35;
+  right: 2000px;
+  top: 2px;
+  z-index: 5;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  -webkit-animation: slideAgdopagto 0.55s ease-out 0.25s forwards;
+  animation: slideAgdopagto 0.55s ease-out 0.25s forwards;
 }
 
-
-
-.agdopagto-bubble:after 
-{
-content: '';
-position: absolute;
-border-style: solid;
-border-width: 10px 0px 10px 10px;
-margin-top: -10px;
-margin-right: -10px;
-border: 10px solid transparent;
-border-left-color: rgba(0, 0, 0, 0.90);
-display: block;
-width: 0;
-z-index: 1;
-top: 35px;
-left: 98px;
-
+/* Arrow pointing at the card button */
+.agdopagto-bubble:after {
+  content: "";
+  position: absolute;
+  border-style: solid;
+  border-width: 8px 0 8px 10px;
+  border-color: transparent transparent transparent rgba(0, 0, 0, 0.9);
+  right: -9px;
+  top: 50%;
+  margin-top: -8px;
+  z-index: 1;
 }
 
+@-webkit-keyframes slideAgdopagto {
+  100% {
+    right: 78px; /* left of the Fab (same row as the + in RASCUNHO) */
+    opacity: 1;
+  }
+}
 
+@keyframes slideAgdopagto {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    right: 78px;
+    opacity: 1;
+  }
+}
 
-
+@media only screen and (max-width: 420px) {
+  .agdopagto-bubble {
+    max-width: 150px;
+    font-size: 11px;
+  }
+}
 
 @-webkit-keyframes slide {
   100% { right: 5px; }

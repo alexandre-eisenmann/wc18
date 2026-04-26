@@ -250,11 +250,8 @@ export default class Bid extends Component {
               AGUARDANDO PAGAMENTO (waiting payment)
             </div>
             <div style={{ display: "flex", flexWrap: "wrap", minHeight: "40px", position: "relative", paddingLeft: "20px", paddingRight: "60px", paddingTop: "5px", paddingBottom: "13px", backgroundColor: cyan300 }}>
-              <div className="agdopagto-bubble" style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 12, width: '100%', paddingRight: 48, boxSizing: 'border-box' }}>
-                <span>Não esqueça de pagar seus jogos!</span>
-                <Button component={Link} to="/payment" variant="contained" size="small" color="primary">
-                  Pagar agora
-                </Button>
+              <div className="agdopagto-bubble">
+                Não esqueça de pagar! Toque no cartão à direita (mesma ideia do + na linha de cima).
               </div>
               {Object.keys(this.state.bids).map((bid) => {
                 if (this.state.bids[bid].status === "readytopay") {
@@ -272,7 +269,14 @@ export default class Bid extends Component {
                 }
                 return null
               })}
-              <Fab disabled size="small" color="secondary" style={{ position: "absolute", top: "0px", right: "25px" }}>
+              <Fab
+                component={Link}
+                to="/payment"
+                color="secondary"
+                size="small"
+                aria-label="Ir para pagamento"
+                style={{ position: "absolute", top: "0px", right: "25px", zIndex: 10 }}
+              >
                 <PaymentIcon />
               </Fab>
             </div>
