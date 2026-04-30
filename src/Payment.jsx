@@ -42,6 +42,12 @@ function CheckoutForm({ onSuccess }) {
     setStatus('processing')
     const { error } = await stripe.confirmPayment({
       elements,
+      // Most flows (card, Apple Pay, Google Pay) confirm inline without a redirect.
+      // We still need to pass a return_url for the cases that DO redirect — e.g. 3DS
+      // on some cards, or future redirect-based methods Stripe enables in the dashboard.
+      confirmParams: {
+        return_url: `${window.location.origin}/payment`,
+      },
       redirect: 'if_required',
     })
 
@@ -60,6 +66,7 @@ function CheckoutForm({ onSuccess }) {
         options={{
           layout: 'tabs',
           paymentMethodOrder: ['card', 'pix'],
+          wallets: { applePay: 'auto', googlePay: 'auto' },
         }}
       />
       <Button

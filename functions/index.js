@@ -51,45 +51,32 @@ exports.createPaymentIntent = functions.https.onCall(async (data, context) => {
   }
 
   const amount = gameIds.length * PRICE_PER_BID_CENTAVOS
-  const baseIntentParams = {
-    amount,
-    currency: "brl",
-    metadata: {
-      userId,
-      gameIds: JSON.stringify(gameIds),
-      dbNode: DATABASE_ROOT_NODE,
-    },
-  }
 
-  // Card + PIX for Brazil. PIX must be enabled in Stripe Dashboard (Settings → Payment methods);
-  // if not, Stripe returns invalid_request for "pix" — fall back to card so checkout still works.
+  // automatic_payment_methods lets Stripe surface every method enabled in the
+  // Dashboard (Settings → Payment methods) at confirmation time. That means:
+  //   - card works today
+  //   - Apple Pay / Google Pay ride on top of card and appear as wallet buttons
+  //     in the Payment Element on supported devices (Apple Pay also needs the
+  //     domain verified in the Dashboard — see public/.well-known/README.md)
+  //   - Pix lights up automatically once Stripe approves it; no code change needed
   let paymentIntent
   try {
     paymentIntent = await stripe.paymentIntents.create({
-      ...baseIntentParams,
-      payment_method_types: ["card", "pix"],
+      amount,
+      currency: "brl",
+      automatic_payment_methods: { enabled: true },
+      metadata: {
+        userId,
+        gameIds: JSON.stringify(gameIds),
+        dbNode: DATABASE_ROOT_NODE,
+      },
     })
   } catch (err) {
-    const isPixNotEnabled =
-      err?.code === "payment_intent_invalid_parameter" &&
-      err?.param === "payment_method_types" &&
-      (String(err?.message).includes("pix") || String(err?.raw?.message).includes("pix"))
-    if (isPixNotEnabled) {
-      console.warn(
-        "PIX not available on this Stripe account — using card only. " +
-          "Enable PIX in Dashboard → Settings → Payment methods, then redeploy to offer PIX."
-      )
-      paymentIntent = await stripe.paymentIntents.create({
-        ...baseIntentParams,
-        payment_method_types: ["card"],
-      })
-    } else {
-      console.error("Stripe paymentIntents.create failed:", err)
-      throw new functions.https.HttpsError(
-        "internal",
-        "Could not start payment. Try again or contact support."
-      )
-    }
+    console.error("Stripe paymentIntents.create failed:", err)
+    throw new functions.https.HttpsError(
+      "internal",
+      "Could not start payment. Try again or contact support."
+    )
   }
 
   return {

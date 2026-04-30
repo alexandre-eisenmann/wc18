@@ -9,7 +9,11 @@
     "public": "dist",
     "ignore": [
       "firebase.json",
-      "**/.*",
+      "**/.DS_Store",
+      "**/.git/**",
+      "**/.gitignore",
+      "**/.env",
+      "**/.env.*",
       "**/node_modules/**"
     ],
     "headers": [
