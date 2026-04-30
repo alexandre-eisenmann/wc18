@@ -27,6 +27,7 @@ export default class Rules extends Component {
               </ul>
               <p style={{ fontSize: "12px" }}>(*) Total amount collected minus transaction costs and web hosting.</p>
               <p><strong>Prize payout:</strong> credit card payments take around 30 days to clear through our payment processor, so prizes will only be paid out once those funds have settled.</p>
+              <p><strong>Team substitutions:</strong> if a country is replaced before or during the tournament, your bids for that team's fixtures will count toward the replacement team. If a country is removed and the match is not played, no points will be awarded for that fixture.</p>
 
               <h3 style={{ fontFamily: 'Roboto Condensed' }}>Regulamento</h3>
               <p>O valor total líquido (*) arrecadado será dividido da seguinte forma:</p>
@@ -45,6 +46,7 @@ export default class Rules extends Component {
               </ul>
               <p style={{ fontSize: "12px" }}>(*) Valor total arrecadado menos custos de transação e hosting.</p>
               <p><strong>Pagamento dos prêmios:</strong> os pagamentos via cartão de crédito levam cerca de 30 dias para serem compensados pelo nosso sistema de pagamentos, por isso os prêmios só serão pagos depois que esses valores forem liberados.</p>
+              <p><strong>Substituição de seleções:</strong> caso algum país seja substituído antes ou durante a Copa, os palpites feitos para os jogos daquela seleção serão considerados para o substituto. Caso algum país seja excluído e a partida não seja realizada, não haverá pontuação para esse jogo.</p>
             </div>
           </div>
         </div>
