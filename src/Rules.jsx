@@ -26,6 +26,7 @@ export default class Rules extends Component {
                 <li>Wrong result: <strong>0 points</strong></li>
               </ul>
               <p style={{ fontSize: "12px" }}>(*) Total amount collected minus transaction costs and web hosting.</p>
+              <p><strong>Prize payout:</strong> credit card payments take around 30 days to clear through our payment processor, so prizes will only be paid out once those funds have settled after the end of the World Cup.</p>
 
               <h3 style={{ fontFamily: 'Roboto Condensed' }}>Regulamento</h3>
               <p>O valor total líquido (*) arrecadado será dividido da seguinte forma:</p>
@@ -43,6 +44,7 @@ export default class Rules extends Component {
                 <li>Resultado errado: <strong>0 pontos</strong></li>
               </ul>
               <p style={{ fontSize: "12px" }}>(*) Valor total arrecadado menos custos de transação e hosting.</p>
+              <p><strong>Pagamento dos prêmios:</strong> os pagamentos via cartão de crédito levam cerca de 30 dias para serem compensados pelo nosso sistema de pagamentos, por isso os prêmios só serão pagos depois que esses valores forem liberados, após o término da Copa.</p>
             </div>
           </div>
         </div>
