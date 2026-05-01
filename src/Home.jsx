@@ -107,19 +107,19 @@ export default function Home() {
               <a style={{ color: "white", fontWeight: "bold" }} href="/rules">{t('home.heroRulesLink')}</a>{t('home.heroIntroEnd')}
             </div>
           </div>
-          <div style={{ width: "100%", height: "42px", position: "relative", overflow: "hidden" }}>
-            <div className="scroll-left" style={{ fontWeight: "bold", letterSpacing: "1px" }}>
-              {t('home.daysLeftPrefix')} <span style={{
-                paddingLeft: "8px",
-                paddingRight: "8px",
-                marginLeft: "4px",
-                marginRight: "6px",
-                backgroundColor: "rgba(255,255,255,0.92)",
-                fontSize: "34px",
-                fontWeight: "bold",
-                color: "#f44336",
-                fontFamily: "Lato"
-              }}>{startDate.diff(today, 'day')}</span> {t('home.daysLeftSuffix')}
+          <div style={{ width: "100%", textAlign: "center", paddingTop: "8px", paddingBottom: "4px" }}>
+            <NavLink to="/bids" className="play-button">
+              {t('home.playButton')}
+            </NavLink>
+            <div style={{
+              marginTop: "16px",
+              fontFamily: "Roboto Condensed",
+              fontSize: "12px",
+              letterSpacing: "2px",
+              color: "rgba(255,255,255,0.78)",
+              textTransform: "uppercase",
+            }}>
+              {t('home.daysUntilSimple', { count: startDate.diff(today, 'day') })}
             </div>
           </div>
         </div>
