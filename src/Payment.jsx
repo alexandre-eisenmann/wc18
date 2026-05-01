@@ -7,7 +7,7 @@ import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
 import 'firebase/compat/database'
 import 'firebase/compat/functions'
-import { DATABASE_ROOT_NODE } from './constants'
+import { DATABASE_ROOT_NODE, PRICE_PER_BID } from './constants'
 import { useT } from './i18n'
 
 // Set in .env: VITE_STRIPE_PUBLISHABLE_KEY=pk_test_... (use pk_live_... in production).
@@ -98,7 +98,6 @@ export default function Payment() {
   const [loading, setLoading] = useState(false)
   const [done, setDone] = useState(false)
 
-  const PRICE_PER_BID = 30.00
   const moneyLocale = language === 'en' ? 'en-US' : 'pt-BR'
   const stripeLocale = language === 'en' ? 'en' : 'pt-BR'
 
