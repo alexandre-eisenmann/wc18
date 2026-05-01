@@ -50,7 +50,7 @@ export default function Home() {
       </div>
 
       <section style={{
-        minHeight: "520px",
+        minHeight: "460px",
         color: "white",
         overflow: "hidden",
         position: "relative",
@@ -70,40 +70,42 @@ export default function Home() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          justifyContent: "center",
-          minHeight: "520px",
-          padding: "66px 24px 30px",
+          justifyContent: "flex-start",
+          minHeight: "460px",
+          padding: "46px 20px 12px",
           boxSizing: "border-box",
         }}>
-          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginBottom: "20px" }}>
-            {hostFlags.map((flag, i) => (
-              <div
-                key={flag}
-                className={flag}
-                style={{
-                  width: "82px",
-                  height: "62px",
-                  marginLeft: i === 0 ? 0 : "22px",
-                  border: "1px solid rgba(255,255,255,0.45)",
-                  boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                }}
-              />
-            ))}
+          <div style={{ marginTop: "auto", marginBottom: "auto" }}>
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginBottom: "18px" }}>
+              {hostFlags.map((flag, i) => (
+                <div
+                  key={flag}
+                  className={flag}
+                  style={{
+                    width: "clamp(58px, 13vw, 82px)",
+                    height: "clamp(44px, 10vw, 62px)",
+                    marginLeft: i === 0 ? 0 : "clamp(14px, 4vw, 22px)",
+                    border: "1px solid rgba(255,255,255,0.45)",
+                    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                  }}
+                />
+              ))}
+            </div>
+            <div style={{ fontFamily: "Roboto Condensed", fontSize: "clamp(13px, 3.6vw, 16px)", fontWeight: "bold", letterSpacing: "2px", textTransform: "uppercase", color: "rgba(255,255,255,0.82)", marginBottom: "7px" }}>
+              Copa USA/Canadá/México
+            </div>
+            <div style={{ fontFamily: "Roboto Condensed", fontSize: "clamp(22px, 6vw, 26px)", fontWeight: "bold", letterSpacing: "2px", color: "white", background: "rgba(255,255,255,0.14)", padding: "1px 12px", marginBottom: "10px", display: "inline-block" }}>
+              2026
+            </div>
+            <h1 style={{ margin: 0, fontFamily: "Roboto Condensed", fontSize: "clamp(38px, 11vw, 56px)", lineHeight: "1", fontWeight: "bold", whiteSpace: "nowrap", textShadow: "0 3px 18px rgba(0,0,0,0.16)" }}>
+              Bolão dos Bolões
+            </h1>
+            <div style={{ marginTop: "16px", maxWidth: "440px", fontFamily: "Open Sans", fontSize: "clamp(15px, 4.3vw, 18px)", lineHeight: "1.42", color: "rgba(255,255,255,0.92)" }}>
+              Faça seus palpites para a primeira fase da Copa do Mundo 2026. Aprenda como os pontos são calculados no nosso{" "}
+              <a style={{ color: "white", fontWeight: "bold" }} href="/rules">regulamento</a>.
+            </div>
           </div>
-          <div style={{ fontFamily: "Roboto Condensed", fontSize: "16px", fontWeight: "bold", letterSpacing: "2px", textTransform: "uppercase", color: "rgba(255,255,255,0.82)", marginBottom: "7px" }}>
-            Copa USA/Canadá/México
-          </div>
-          <div style={{ fontFamily: "Roboto Condensed", fontSize: "26px", fontWeight: "bold", letterSpacing: "2px", color: "white", background: "rgba(255,255,255,0.14)", padding: "1px 12px", marginBottom: "12px" }}>
-            2026
-          </div>
-          <h1 style={{ margin: 0, fontFamily: "Roboto Condensed", fontSize: "56px", lineHeight: "1", fontWeight: "bold", textShadow: "0 3px 18px rgba(0,0,0,0.16)" }}>
-            Bolão dos Bolões
-          </h1>
-          <div style={{ marginTop: "18px", maxWidth: "460px", fontFamily: "Open Sans", fontSize: "18px", lineHeight: "1.45", color: "rgba(255,255,255,0.92)" }}>
-            Faça seus palpites para a primeira fase da Copa do Mundo 2026. Aprenda como os pontos são calculados no nosso{" "}
-            <a style={{ color: "white", fontWeight: "bold" }} href="/rules">regulamento</a>.
-          </div>
-          <div style={{ marginTop: "24px", width: "100%", height: "50px", position: "relative", overflow: "hidden" }}>
+          <div style={{ width: "100%", height: "42px", position: "relative", overflow: "hidden" }}>
             <div className="scroll-left" style={{ fontWeight: "bold", letterSpacing: "1px" }}>
               FALTAM <span style={{
                 paddingLeft: "8px",
@@ -111,7 +113,7 @@ export default function Home() {
                 marginLeft: "4px",
                 marginRight: "6px",
                 backgroundColor: "rgba(255,255,255,0.92)",
-                fontSize: "40px",
+                fontSize: "34px",
                 fontWeight: "bold",
                 color: "#f44336",
                 fontFamily: "Lato"
@@ -121,14 +123,16 @@ export default function Home() {
         </div>
       </section>
 
-      <div style={{ width: "100%", marginTop: "32px" }}>
-        <div style={{ fontWeight: "bold", color: "#2196f3", fontFamily: "Roboto Condensed", margin: "auto" }}>SCROLL</div>
-        <a href="#viz">
-          <div className="arrow" style={{ margin: "auto", marginTop: "5px" }}></div>
-        </a>
+      <div style={{ width: "100%", height: "170px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div>
+          <div style={{ fontWeight: "bold", color: "#2196f3", fontFamily: "Roboto Condensed", margin: "auto" }}>SCROLL</div>
+          <a href="#viz">
+            <div className="arrow" style={{ margin: "auto", marginTop: "5px" }}></div>
+          </a>
+        </div>
       </div>
 
-      <div style={{ marginTop: "76px", width: "100%", overflow: "hidden" }}>
+      <div style={{ width: "100%", overflow: "hidden" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "16px", marginBottom: "28px" }}>
           {['2018', '2022', '2026'].map(year => {
             const isLocked = year === '2026' && isWc26VizLocked
