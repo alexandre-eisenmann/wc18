@@ -54,14 +54,14 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: clamp(96px, 22vw, 116px);
-  height: clamp(96px, 22vw, 116px);
+  width: clamp(72px, 16vw, 88px);
+  height: clamp(72px, 16vw, 88px);
   background: white;
   color: #d95b0b;
   font-family: "Roboto Condensed", sans-serif;
   font-weight: bold;
-  font-size: clamp(16px, 4vw, 20px);
-  letter-spacing: 3px;
+  font-size: clamp(13px, 3vw, 15px);
+  letter-spacing: 2px;
   text-decoration: none;
   text-transform: uppercase;
   border-radius: 50%;
