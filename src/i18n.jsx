@@ -34,7 +34,7 @@ const messages = {
     'home.yearLabel.2026': '2026 USA/Canadá/México',
     'home.comingSoon': '{year} em breve',
 
-    'viz.title': 'CHUVA DE PALPITES',
+    'viz.title': 'Mapa de Palpites',
     'viz.description': 'Cada gráfico mostra como os palpites se distribuíram em um jogo. A área de cada círculo é proporcional ao número de apostadores naquele placar. Os empates aparecem na linha vertical que passa pela origem (0 a 0) e vai até o resultado 5 a 5.',
     'viz.animate': 'Animate',
 
@@ -135,7 +135,7 @@ const messages = {
     'home.yearLabel.2026': '2026 USA/Canada/Mexico',
     'home.comingSoon': '{year} coming soon',
 
-    'viz.title': 'BID DISTRIBUTION',
+    'viz.title': 'Bid Map',
     'viz.description': 'Each chart shows how the bids spread for one match. The area of each circle is proportional to the number of bidders for that score. Draws appear along the vertical line through the origin (0–0 up to 5–5).',
     'viz.animate': 'Animate',
 

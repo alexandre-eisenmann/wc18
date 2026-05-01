@@ -71,10 +71,11 @@ export default class Viz extends Component {
     return (
       <div>
         <div id="viz" style={{ margin: "50px auto 0", width: "min(360px, calc(100% - 40px))", textAlign: "center" }}>
-          <div style={{ fontWeight: "bold", fontSize: "34px", fontFamily: "Roboto Condensed", lineHeight: "1.1" }}>{t('viz.title')}</div>
+          <div style={{ fontWeight: "bold", fontSize: "24px", fontFamily: "Roboto Condensed", lineHeight: "1.2" }}>{t('viz.title')}</div>
           <div style={{ fontFamily: "Open Sans", margin: "22px auto 0", textAlign: "center", width: "min(360px, 100%)" }}>
             {t('viz.description')}
           </div>
+          {this.props.children}
         </div>
         {this.state.upcomming.map((match, i) => {
           const r = this.state.resultsMap[match.name]
