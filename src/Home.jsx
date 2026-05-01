@@ -34,13 +34,14 @@ export default function Home() {
         position: "absolute",
         zIndex: "3",
         left: "30px",
-        right: "30px",
+        right: "14px",
         fontFamily: "Lato",
         fontWeight: "bold",
         top: "10px",
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
+        gap: "16px",
       }}>
         <span>
           <NavLink style={{ textDecoration: "none", color: "rgba(220,220,220,0.8)" }} to="/bids">{t('nav.bids')}</NavLink>
