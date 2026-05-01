@@ -66,11 +66,13 @@ export default class Viz extends Component {
   render() {
     return (
       <div>
-        <div id="viz" style={{ margin: "auto", textAlign: "left", fontWeight: "bold", marginTop: "50px", paddingLeft: "60px", width: "340px", fontSize: "30px", fontFamily: "Roboto Condensed" }}>CHUVA DE PALPIPES</div>
-        <div style={{ margin: "auto", fontFamily: "Open Sans", marginTop: "20px", paddingLeft: "20px", paddingRight: "20px", textAlign: "left", width: "340px" }}>
-          Os gráficos abaixam representam a distribuição de palpites para os próximos jogos. A área de cada círculo é proporcional
-          ao número de apostadores para o resultado. Observem que os empates situam-se bem na linha vertical que passa pela
-          origem (zero a zero) e o resultado 5 a 5.
+        <div id="viz" style={{ margin: "50px auto 0", width: "min(360px, calc(100% - 40px))", textAlign: "center" }}>
+          <div style={{ fontWeight: "bold", fontSize: "34px", fontFamily: "Roboto Condensed", lineHeight: "1.1" }}>CHUVA DE PALPITES</div>
+          <div style={{ fontFamily: "Open Sans", margin: "22px auto 0", textAlign: "left", width: "min(360px, 100%)" }}>
+            Cada gráfico mostra como os palpites se distribuíram em um jogo. A área de cada círculo é proporcional
+            ao número de apostadores naquele placar. Os empates aparecem na linha vertical que passa pela origem
+            (0 a 0) e vai até o resultado 5 a 5.
+          </div>
         </div>
         {this.state.upcomming.map((match, i) => {
           const r = this.state.resultsMap[match.name]

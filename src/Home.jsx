@@ -12,27 +12,32 @@ import { DATABASE_WC18, DATABASE_WC22, DATABASE_WC26 } from './constants'
 
 const today = dayjs()
 const startDate = dayjs('2026-06-11')
+const isWc26VizLocked = today.isBefore(startDate)
 
-const flags = ["f-mx","f-kr","f-za","f-ca","f-br","f-ma","f-us","f-de","f-nl","f-be","f-es","f-fr","f-ar","f-pt","f-gb-eng","f-hr","f-jp","f-sn","f-eg","f-au","f-ch","f-ec","f-co","f-uy","f-ir","f-ht","f-gb-sct","f-py","f-ci","f-se","f-tn","f-nz","f-cv","f-sa","f-iq","f-no","f-dz","f-at","f-cd","f-uz","f-gh","f-pa","f-tr","f-cw","f-ba","f-jo","f-qa"]
+const hostFlags = ['f-us', 'f-ca', 'f-mx']
 
 const YEARS = {
-  '2026': { data: data26, dbNode: DATABASE_WC26 },
-  '2022': { data: data22, dbNode: DATABASE_WC22 },
-  '2018': { data: data18, dbNode: DATABASE_WC18 },
+  '2026': { data: data26, dbNode: DATABASE_WC26, name: 'Copa USA/Canadá/México 2026', flags: ['f-us', 'f-ca', 'f-mx'], accent: '#2196f3' },
+  '2022': { data: data22, dbNode: DATABASE_WC22, name: 'Copa do Catar 2022', flags: ['f-qa'], accent: '#8a1538' },
+  '2018': { data: data18, dbNode: DATABASE_WC18, name: 'Copa da Rússia 2018', flags: ['f-ru'], accent: '#d52b1e' },
+}
+
+const YEAR_LABELS = {
+  '2018': '2018 Rússia',
+  '2022': '2022 Catar',
+  '2026': '2026 USA/Canadá/México',
 }
 
 
 export default function Home() {
-  const [selectedYear, setSelectedYear] = useState('2026')
+  const [selectedYear, setSelectedYear] = useState(isWc26VizLocked ? '2022' : '2026')
 
   return (
     <div className="homePage">
-      <div style={{ width: "100%", height: "200px", overflow: "hidden", backgroundPositionY: "-700px", backgroundImage: "url(background.svg)" }}>
-      </div>
       <div style={{
         position: "absolute",
         display: "inline-block",
-        zIndex: "1",
+        zIndex: "3",
         left: "30px",
         fontFamily: "Lato",
         fontWeight: "bold",
@@ -44,74 +49,124 @@ export default function Home() {
         <a style={{ textDecoration: "none", marginLeft: "20px", color: "rgba(220,220,220,0.8)" }} href="https://medium.com/bolão-dos-bolões-2018">BLOG</a>
       </div>
 
-      <div style={{ width: "100%", height: "260px" }}>
-        <div className="stripe">
-          <div style={{ paddingTop: "130px" }}>
-            <div className="scroll-left">
-              <div>FALTAM <span style={{
-                paddingLeft: "6px",
-                paddingRight: "6px",
-                marginLeft: "2px",
-                marginRight: "4px",
-                backgroundColor: "rgba(255,255,255,0.3)",
-                fontSize: "40px", fontWeight: "bold", color: "red", fontFamily: "Lato"
-              }}>{startDate.diff(today, 'day')}</span> DIAS PARA A COPA</div>
-            </div>
-          </div>
-
-          <div style={{
-            marginTop: "66px",
-            overflow: "hidden",
-            whiteSpace: "nowrap",
-            marginLeft: "calc(-80vw)",
-            display: "inline-block"
-          }}>
-            {flags.map((clazz, i) => (
-              <div key={i} className={` ${clazz} flags-strip`}></div>
+      <section style={{
+        minHeight: "520px",
+        color: "white",
+        overflow: "hidden",
+        position: "relative",
+        backgroundImage: "radial-gradient(circle at 85% 18%, rgba(255,255,255,0.28) 0, rgba(255,255,255,0) 28%), linear-gradient(135deg, #d95b0b 0%, #f57c00 45%, #ffb449 100%)",
+      }}>
+        <div style={{
+          position: "absolute",
+          inset: 0,
+          opacity: 0.18,
+          backgroundImage: "url(background.svg)",
+          backgroundSize: "cover",
+          backgroundPosition: "center top",
+        }} />
+        <div style={{
+          position: "relative",
+          zIndex: 1,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          minHeight: "520px",
+          padding: "66px 24px 30px",
+          boxSizing: "border-box",
+        }}>
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginBottom: "20px" }}>
+            {hostFlags.map((flag, i) => (
+              <div
+                key={flag}
+                className={flag}
+                style={{
+                  width: "82px",
+                  height: "62px",
+                  marginLeft: i === 0 ? 0 : "22px",
+                  border: "1px solid rgba(255,255,255,0.45)",
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                }}
+              />
             ))}
           </div>
-        </div>
-
-        <div style={{ position: "absolute", top: "30px", color: "white", textAlign: "left", marginLeft: "30px" }}>
-          <p style={{ fontSize: "40px", fontFamily: 'Roboto Condensed' }}>Bolão dos Bolões</p>
-          <div style={{ fontSize: "16px", marginTop: "-30px", width: "300px", fontFamily: 'Open Sans' }}>
-            Façam seus palpites para a primeria fase da copa USA/Canada/México 2026!
-            Aprenda como os pontos são calculados no nosso <a style={{ color: "white" }} href="/rules">regulamento</a>.
-            <br />
-            <div style={{ marginTop: "16px", fontSize: "9px", color: "rgba(255,255,255,0.35)", fontFamily: "Roboto Condensed", letterSpacing: "1px" }}>
-              previous cups leaderboards:{" "}
-              <a href="/barrace" style={{ color: "rgba(255,255,255,0.35)", textDecoration: "underline" }}>2018</a>
-              {" · "}
-              <a href="/barrace22" style={{ color: "rgba(255,255,255,0.35)", textDecoration: "underline" }}>2022</a>
+          <div style={{ fontFamily: "Roboto Condensed", fontSize: "16px", fontWeight: "bold", letterSpacing: "2px", textTransform: "uppercase", color: "rgba(255,255,255,0.82)", marginBottom: "7px" }}>
+            Copa USA/Canadá/México
+          </div>
+          <div style={{ fontFamily: "Roboto Condensed", fontSize: "26px", fontWeight: "bold", letterSpacing: "2px", color: "white", background: "rgba(255,255,255,0.14)", padding: "1px 12px", marginBottom: "12px" }}>
+            2026
+          </div>
+          <h1 style={{ margin: 0, fontFamily: "Roboto Condensed", fontSize: "56px", lineHeight: "1", fontWeight: "bold", textShadow: "0 3px 18px rgba(0,0,0,0.16)" }}>
+            Bolão dos Bolões
+          </h1>
+          <div style={{ marginTop: "18px", maxWidth: "460px", fontFamily: "Open Sans", fontSize: "18px", lineHeight: "1.45", color: "rgba(255,255,255,0.92)" }}>
+            Faça seus palpites para a primeira fase da Copa do Mundo 2026. Aprenda como os pontos são calculados no nosso{" "}
+            <a style={{ color: "white", fontWeight: "bold" }} href="/rules">regulamento</a>.
+          </div>
+          <div style={{ marginTop: "24px", width: "100%", height: "50px", position: "relative", overflow: "hidden" }}>
+            <div className="scroll-left" style={{ fontWeight: "bold", letterSpacing: "1px" }}>
+              FALTAM <span style={{
+                paddingLeft: "8px",
+                paddingRight: "8px",
+                marginLeft: "4px",
+                marginRight: "6px",
+                backgroundColor: "rgba(255,255,255,0.92)",
+                fontSize: "40px",
+                fontWeight: "bold",
+                color: "#f44336",
+                fontFamily: "Lato"
+              }}>{startDate.diff(today, 'day')}</span> DIAS PARA A COPA
             </div>
           </div>
         </div>
+      </section>
 
-        <div style={{ fontWeight: "bold", color: "#2196f3", fontFamily: "Roboto Condensed", margin: "auto", marginTop: "30px" }}>SCROLL</div>
+      <div style={{ width: "100%", marginTop: "32px" }}>
+        <div style={{ fontWeight: "bold", color: "#2196f3", fontFamily: "Roboto Condensed", margin: "auto" }}>SCROLL</div>
         <a href="#viz">
           <div className="arrow" style={{ margin: "auto", marginTop: "5px" }}></div>
         </a>
       </div>
 
-      <div style={{ marginTop: "100px", width: "100%", overflow: "hidden" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "16px", paddingLeft: "60px", marginBottom: "8px" }}>
-          {['2018', '2022', '2026'].map(year => (
-            <span
+      <div style={{ marginTop: "76px", width: "100%", overflow: "hidden" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "16px", marginBottom: "28px" }}>
+          {['2018', '2022', '2026'].map(year => {
+            const isLocked = year === '2026' && isWc26VizLocked
+            const isSelected = selectedYear === year
+
+            return (
+            <button
               key={year}
-              onClick={() => setSelectedYear(year)}
+              type="button"
+              onClick={() => {
+                if (!isLocked) setSelectedYear(year)
+              }}
+              disabled={isLocked}
               style={{
                 fontFamily: "Roboto Condensed",
                 fontSize: "14px",
                 fontWeight: "bold",
-                color: selectedYear === year ? "#2196f3" : "#bbb",
-                cursor: "pointer",
-                borderBottom: selectedYear === year ? "2px solid #2196f3" : "2px solid transparent",
-                paddingBottom: "2px",
+                color: isSelected ? "#2196f3" : isLocked ? "#d0d0d0" : "#bbb",
+                cursor: isLocked ? "default" : "pointer",
+                border: "0",
+                borderBottom: isSelected ? "2px solid #2196f3" : "2px solid transparent",
+                background: "transparent",
+                padding: "0 0 2px",
+                opacity: 1,
               }}
-            >{year}</span>
-          ))}
+            >
+              {isLocked ? `${year} em breve` : YEAR_LABELS[year]}
+            </button>
+          )})}
         </div>
-        <Viz key={selectedYear} tournamentData={YEARS[selectedYear].data} dbNode={YEARS[selectedYear].dbNode} />
+        <Viz
+          key={selectedYear}
+          tournamentData={YEARS[selectedYear].data}
+          dbNode={YEARS[selectedYear].dbNode}
+          tournamentName={YEARS[selectedYear].name}
+          tournamentFlags={YEARS[selectedYear].flags}
+          tournamentAccent={YEARS[selectedYear].accent}
+        />
       </div>
     </div>
   )
