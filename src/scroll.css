@@ -51,18 +51,21 @@
 
 .play-button {
   position: relative;
-  display: inline-block;
-  padding: 16px 56px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(96px, 22vw, 116px);
+  height: clamp(96px, 22vw, 116px);
   background: white;
   color: #d95b0b;
   font-family: "Roboto Condensed", sans-serif;
   font-weight: bold;
-  font-size: clamp(22px, 6vw, 28px);
-  letter-spacing: 6px;
+  font-size: clamp(16px, 4vw, 20px);
+  letter-spacing: 3px;
   text-decoration: none;
   text-transform: uppercase;
-  border-radius: 8px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
   transform: translateZ(0);
   transition: transform 0.18s ease-out, box-shadow 0.18s ease-out;
 }
@@ -71,7 +74,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 8px;
+  border-radius: 50%;
   box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.55);
   pointer-events: none;
   animation: play-pulse 2.2s ease-out infinite;
@@ -80,7 +83,7 @@
 .play-button:hover,
 .play-button:focus-visible {
   transform: translateY(-2px);
-  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.28);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.28);
   outline: none;
 }
 
