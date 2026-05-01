@@ -20,6 +20,7 @@ import { green, blue, cyan, pink, orange } from '@mui/material/colors'
 import data from './data26.json'
 import './bubbles.css'
 import { DATABASE_ROOT_NODE } from './constants'
+import { LanguageContext } from './i18n'
 
 const green700 = green[700]
 const blue600 = blue[600]
@@ -42,6 +43,8 @@ const style = {
 const provider = new firebase.auth.GoogleAuthProvider()
 
 export default class Bid extends Component {
+
+  static contextType = LanguageContext
 
   constructor(props) {
     super(props)
@@ -155,19 +158,20 @@ export default class Bid extends Component {
   }
 
   render() {
-    let status = "Incompleto"
+    const { t } = this.context
+    let status = t('bid.statusIncomplete')
     let complete = false
     let edit = true
 
     if (this.state.currentBid && this.state.bids[this.state.currentBid]) {
       if (this.state.bids[this.state.currentBid].status === "readytopay") {
-        status = "Aguardando Pagamento"
+        status = t('bid.statusWaiting')
         edit = false
       } else if (this.state.bids[this.state.currentBid].status === "payed") {
-        status = "Pago"
+        status = t('bid.statusPaid')
         edit = false
       } else if (this.isComplete(this.state.currentBid)) {
-        status = "Completo"
+        status = t('bid.statusComplete')
         complete = true
       }
     }
@@ -193,8 +197,8 @@ export default class Bid extends Component {
         {this.state.logged === false && <div style={{ background: orange200, textAlign: "center", fontSize: "14px", padding: "8px" }}>
           <div>
             <span style={{ textDecoration: "underline", cursor: "pointer" }} onClick={() => { firebase.auth().signInWithRedirect(provider) }}>
-              Login
-            </span><span> para ver seus jogos</span>
+              {t('auth.login')}
+            </span><span>{t('auth.loginToSeeYourBids')}</span>
           </div>
         </div>}
 
@@ -202,19 +206,19 @@ export default class Bid extends Component {
 
         {this.state.logged && this.state.user && <div>
           <Dialog open={this.state.deleteBid != null}>
-            <DialogTitle>{`Apagar ${this.state.bids[this.state.deleteBid] ? this.state.bids[this.state.deleteBid]["name"] : ""}?`}</DialogTitle>
+            <DialogTitle>{t('bid.deleteTitle', { name: this.state.bids[this.state.deleteBid] ? this.state.bids[this.state.deleteBid]["name"] : "" })}</DialogTitle>
             <DialogContent>
-              <DialogContentText>Confira se é este o jogo que você deseja apagar</DialogContentText>
+              <DialogContentText>{t('bid.deleteContent')}</DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button color="primary" onClick={this.handleClose.bind(this)}>Cancelar</Button>
-              <Button color="primary" onClick={this.handleDelete.bind(this)}>Apague</Button>
+              <Button color="primary" onClick={this.handleClose.bind(this)}>{t('auth.cancel')}</Button>
+              <Button color="primary" onClick={this.handleDelete.bind(this)}>{t('bid.deleteConfirm')}</Button>
             </DialogActions>
           </Dialog>
 
           <div>
             <div style={{ backgroundColor: cyan500, padding: "5px", fontSize: "10px", paddingTop: "10px", paddingLeft: "27px", paddingBottom: "0px", color: "rgba(255, 255, 255, 0.7)" }}>
-              RASCUNHO (draft)
+              {t('bid.draftHeader')}
             </div>
             <div style={{ display: "flex", flexWrap: "wrap", minHeight: "40px", position: "relative", paddingLeft: "20px", paddingRight: "60px", paddingTop: "5px", paddingBottom: "13px", backgroundColor: cyan500 }}>
               {this.state.bids.length === 0 && <div style={{ textAlign: "center", width: "100%" }}><CircularProgress sx={{ color: pink500 }} size={30} thickness={4} /></div>}
@@ -238,7 +242,7 @@ export default class Bid extends Component {
                 }
                 return null
               })}
-              {!anyReadyToPay && !this.state.currentBid && <div className="newgame-bubble">Clique aqui para criar o seu jogo. Ei, vc pode criar quantos jogos quiser! Lembre-se de mudar o nome para evitar duplicação</div>}
+              {!anyReadyToPay && !this.state.currentBid && <div className="newgame-bubble">{t('bid.newGameBubble')}</div>}
               <Fab color="secondary" size="small" style={{ position: "absolute", top: "0px", right: "25px" }} onClick={this.onNewGame.bind(this)}>
                 <AddIcon />
               </Fab>
@@ -247,11 +251,11 @@ export default class Bid extends Component {
 
           {anyReadyToPay && <div id="agdoPagto">
             <div style={{ backgroundColor: cyan300, padding: "5px", fontSize: "10px", paddingTop: "10px", paddingLeft: "27px", paddingBottom: "0px", color: "rgba(255, 255, 255, 0.7)" }}>
-              AGUARDANDO PAGAMENTO (waiting payment)
+              {t('bid.waitingPaymentHeader')}
             </div>
             <div style={{ display: "flex", flexWrap: "wrap", minHeight: "40px", position: "relative", paddingLeft: "20px", paddingRight: "60px", paddingTop: "5px", paddingBottom: "13px", backgroundColor: cyan300 }}>
               <div className="agdopagto-bubble">
-                Não esqueça de pagar! Toque no cartão à direita (mesma ideia do + na linha de cima).
+                {t('bid.payBubble')}
               </div>
               {Object.keys(this.state.bids).map((bid) => {
                 if (this.state.bids[bid].status === "readytopay") {
@@ -274,7 +278,7 @@ export default class Bid extends Component {
                 to="/payment"
                 color="secondary"
                 size="small"
-                aria-label="Ir para pagamento"
+                aria-label={t('bid.payAria')}
                 style={{ position: "absolute", top: "0px", right: "25px", zIndex: 10 }}
               >
                 <PaymentIcon />
@@ -284,7 +288,7 @@ export default class Bid extends Component {
 
           {anyPayed && <div>
             <div style={{ backgroundColor: cyan600, padding: "5px", fontSize: "10px", paddingTop: "10px", paddingLeft: "27px", paddingBottom: "0px", color: "rgba(255, 255, 255, 0.7)" }}>
-              PAGOS (payed)
+              {t('bid.paidHeader')}
             </div>
             <div style={{ display: "flex", flexWrap: "wrap", minHeight: "40px", position: "relative", paddingLeft: "20px", paddingRight: "60px", paddingTop: "5px", paddingBottom: "13px", backgroundColor: cyan600 }}>
               {Object.keys(this.state.bids).map((bid) => {
@@ -312,7 +316,7 @@ export default class Bid extends Component {
                 <div style={{ backgroundColor: "rgba(255,255,255,0.5)", display: "flex", alignItems: "center", padding: "8px 16px", justifyContent: "space-between" }}>
                   <span style={{ color: "#333", fontStyle: "italic", fontSize: "10px" }}>{status}</span>
                   <div>
-                    <Button variant="contained" disabled={!edit} size="small">Salvar</Button>
+                    <Button variant="contained" disabled={!edit} size="small">{t('bid.save')}</Button>
                     <IconButton disabled={!complete} onClick={this.handleAddToCard.bind(this)}>
                       <AddShoppingCartIcon />
                     </IconButton>
@@ -324,19 +328,19 @@ export default class Bid extends Component {
 
                 <div style={{ marginLeft: "2px", marginTop: "20px" }}>
                   {this.state.bids[this.state.currentBid].status === 'readytopay' && <div className="addtocard-bubble remove">
-                    Você pode voltar seu jogo ao estágio rascunho acionando este botão aqui
+                    {t('bid.removeBubble')}
                   </div>}
                   {!this.state.bids[this.state.currentBid].status && <div className="addtocard-bubble">
-                    Depois de completar todos os resultados não esqueça de acionar o botão carrinho de compras para selecionar o jogo para pagamento.
+                    {t('bid.addToCartBubble')}
                   </div>}
 
                   <div style={{ width: "256px", margin: "auto", marginBottom: "20px" }}>
                     <TextField
                       disabled={!edit}
                       error={!this.state.bids[this.state.currentBid]["name"]}
-                      helperText={this.state.bids[this.state.currentBid]["name"] ? "" : "Campo obrigatório"}
+                      helperText={this.state.bids[this.state.currentBid]["name"] ? "" : t('bid.fieldRequired')}
                       style={{ fontSize: "20px", display: "block", marginRight: "10px" }}
-                      placeholder="Name"
+                      placeholder={t('bid.namePlaceholder')}
                       value={this.state.bids[this.state.currentBid]["name"] || ''}
                       onChange={this.onNameChange.bind(this)}
                       variant="standard"
@@ -344,9 +348,9 @@ export default class Bid extends Component {
                     <TextField
                       disabled={!edit}
                       error={!this.state.bids[this.state.currentBid]["email"]}
-                      helperText={this.state.bids[this.state.currentBid]["email"] ? "" : "Campo obrigatório"}
+                      helperText={this.state.bids[this.state.currentBid]["email"] ? "" : t('bid.fieldRequired')}
                       style={{ fontSize: "12px", display: "block", marginRight: "10px" }}
-                      placeholder="Email"
+                      placeholder={t('bid.emailPlaceholder')}
                       value={this.state.bids[this.state.currentBid]["email"] || ''}
                       onChange={this.onEmailChange.bind(this)}
                       variant="standard"
@@ -354,7 +358,7 @@ export default class Bid extends Component {
                     <TextField
                       disabled={!edit}
                       style={{ fontSize: "12px", display: "block", marginRight: "10px" }}
-                      placeholder="Mobile Number"
+                      placeholder={t('bid.mobilePlaceholder')}
                       value={this.state.bids[this.state.currentBid]["mobile"] || ''}
                       onChange={this.onMobileChange.bind(this)}
                       variant="standard"

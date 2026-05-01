@@ -6,6 +6,7 @@ import 'firebase/compat/auth'
 import 'firebase/compat/database'
 import 'firebase/compat/functions'
 import App from './App'
+import { LanguageProvider } from './i18n'
 
 const config = {
   apiKey: "AIzaSyBdQGJm5ziMBTEUa588Z3B93OQxm3MELow",
@@ -43,6 +44,8 @@ class ErrorBoundary extends React.Component {
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <ErrorBoundary>
-    <App />
+    <LanguageProvider>
+      <App />
+    </LanguageProvider>
   </ErrorBoundary>
 )

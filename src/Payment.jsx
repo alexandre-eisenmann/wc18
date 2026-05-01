@@ -8,6 +8,7 @@ import 'firebase/compat/auth'
 import 'firebase/compat/database'
 import 'firebase/compat/functions'
 import { DATABASE_ROOT_NODE } from './constants'
+import { useT } from './i18n'
 
 // Set in .env: VITE_STRIPE_PUBLISHABLE_KEY=pk_test_... (use pk_live_... in production).
 const publishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
@@ -18,6 +19,7 @@ const stripePromise = publishableKey ? loadStripe(publishableKey) : null
 function CheckoutForm({ onSuccess }) {
   const stripe = useStripe()
   const elements = useElements()
+  const { t } = useT()
   const [status, setStatus] = useState('idle') // idle | processing | error | done
 
   // Tear down the Payment Element so Stripe does not leave iframes / the corner badge in the DOM
@@ -75,11 +77,11 @@ function CheckoutForm({ onSuccess }) {
         disabled={!stripe || status === 'processing'}
         style={{ marginTop: 24, width: '100%' }}
       >
-        {status === 'processing' ? 'Processando...' : 'Pagar'}
+        {status === 'processing' ? t('payment.processing') : t('payment.pay')}
       </Button>
       {status === 'error' && (
         <div style={{ color: 'red', marginTop: 12, fontSize: 14 }}>
-          Erro no pagamento. Tente novamente.
+          {t('payment.error')}
         </div>
       )}
     </form>
@@ -88,6 +90,7 @@ function CheckoutForm({ onSuccess }) {
 
 // ─── Payment ──────────────────────────────────────────────────────────────────
 export default function Payment() {
+  const { t, language } = useT()
   const [logged, setLogged] = useState(null)
   const [user, setUser] = useState(null)
   const [bids, setBids] = useState([])
@@ -96,6 +99,8 @@ export default function Payment() {
   const [done, setDone] = useState(false)
 
   const PRICE_PER_BID = 30.00
+  const moneyLocale = language === 'en' ? 'en-US' : 'pt-BR'
+  const stripeLocale = language === 'en' ? 'en' : 'pt-BR'
 
   useEffect(() => {
     const unsub = firebase.auth().onAuthStateChanged((u) => {
@@ -154,19 +159,14 @@ export default function Payment() {
   if (logged === false) return <Navigate to='/login?fw=payment' replace />
   if (!publishableKey) return (
     <div style={{ padding: 32, maxWidth: 480, margin: 'auto' }}>
-      <div style={{ fontSize: 18, marginBottom: 12 }}>Chave do Stripe ausente</div>
-      <div style={{ color: '#777', lineHeight: 1.5 }}>
-        Defina <code style={{ background: '#eee', padding: '2px 6px' }}>VITE_STRIPE_PUBLISHABLE_KEY</code> no arquivo{' '}
-        <code style={{ background: '#eee', padding: '2px 6px' }}>.env</code> na raiz do projeto (veja <code style={{ background: '#eee', padding: '2px 6px' }}>.env.example</code>).
-        Em produção, use a chave publicável <code>pk_live_</code> correspondente.
-      </div>
+      <div style={{ fontSize: 18, marginBottom: 12 }}>{t('payment.missingKey')}</div>
     </div>
   )
   if (done) return (
     <div style={{ padding: 40, textAlign: 'center' }}>
-      <div style={{ fontSize: 28, marginBottom: 16 }}>Pagamento confirmado!</div>
-      <div style={{ color: '#777', marginBottom: 24 }}>Seus palpites estão ativos. Boa sorte!</div>
-      <Button variant="outlined" href="/ranking">Ver Ranking</Button>
+      <div style={{ fontSize: 28, marginBottom: 16 }}>{t('payment.confirmed')}</div>
+      <div style={{ color: '#777', marginBottom: 24 }}>{t('payment.activated')}</div>
+      <Button variant="outlined" href="/ranking">{t('payment.viewRanking')}</Button>
     </div>
   )
 
@@ -174,14 +174,14 @@ export default function Payment() {
 
   return (
     <div style={{ padding: 32, maxWidth: 480, margin: 'auto' }}>
-      <div style={{ fontSize: 24, fontFamily: 'Roboto Condensed', marginBottom: 24 }}>Pagamento</div>
+      <div style={{ fontSize: 24, fontFamily: 'Roboto Condensed', marginBottom: 24 }}>{t('payment.title')}</div>
 
       {bids.length === 0 && (
         <div>
           <div style={{ color: '#777', marginBottom: 24 }}>
-            Nenhum palpite aguardando pagamento. Complete e adicione seu jogo ao carrinho primeiro.
+            {t('payment.noBids')}
           </div>
-          <Button variant="outlined" href="/bids">Voltar para Jogos</Button>
+          <Button variant="outlined" href="/bids">{t('payment.backToBids')}</Button>
         </div>
       )}
 
@@ -191,8 +191,8 @@ export default function Payment() {
             <Table size="small">
               <TableHead>
                 <TableRow>
-                  <TableCell>Nome</TableCell>
-                  <TableCell align="right">Valor</TableCell>
+                  <TableCell>{t('payment.tableName')}</TableCell>
+                  <TableCell align="right">{t('payment.tableValue')}</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -200,14 +200,14 @@ export default function Payment() {
                   <TableRow key={b.gameId}>
                     <TableCell>{b.name}</TableCell>
                     <TableCell align="right">
-                      {PRICE_PER_BID.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                      {PRICE_PER_BID.toLocaleString(moneyLocale, { style: 'currency', currency: 'BRL' })}
                     </TableCell>
                   </TableRow>
                 ))}
                 <TableRow>
-                  <TableCell style={{ fontWeight: 'bold' }}>Total</TableCell>
+                  <TableCell style={{ fontWeight: 'bold' }}>{t('payment.total')}</TableCell>
                   <TableCell align="right" style={{ fontWeight: 'bold' }}>
-                    {total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    {total.toLocaleString(moneyLocale, { style: 'currency', currency: 'BRL' })}
                   </TableCell>
                 </TableRow>
               </TableBody>
@@ -220,7 +220,7 @@ export default function Payment() {
             onClick={handlePay}
             disabled={loading}
           >
-            {loading ? <CircularProgress size={22} /> : 'Ir para pagamento'}
+            {loading ? <CircularProgress size={22} /> : t('payment.goToPayment')}
           </Button>
         </>
       )}
@@ -231,7 +231,7 @@ export default function Payment() {
           stripe={stripePromise}
           options={{
             clientSecret,
-            locale: 'pt-BR',
+            locale: stripeLocale,
           }}
         >
           <CheckoutForm onSuccess={() => setDone(true)} />

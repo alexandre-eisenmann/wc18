@@ -15,11 +15,13 @@ import Payment from './Payment'
 import firebase from 'firebase/compat/app'
 import { AppBar, Tabs, Tab, Avatar, Button } from '@mui/material'
 import { blue } from '@mui/material/colors'
+import { useT, LanguageSwitcher } from './i18n'
 
 const bgColor = blue[600]
 
 function NavBar({ logged, user, onLogin, onLogout }) {
   const location = useLocation()
+  const { t } = useT()
   const tabPaths = ['/', '/bids', '/leaderboard', '/ranking']
   const currentTab = tabPaths.indexOf(location.pathname)
 
@@ -30,15 +32,16 @@ function NavBar({ logged, user, onLogin, onLogout }) {
       <AppBar position="static" style={{ boxShadow: 'none', backgroundColor: bgColor }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingRight: 16 }}>
           <span style={{ color: 'white', fontWeight: 'bold', paddingLeft: 16, fontSize: 18 }}>
-            Bolão dos Bolões
+            {t('app.brand')}
           </span>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, paddingRight: 8 }}>
+            <LanguageSwitcher color="rgba(255,255,255,0.7)" separatorColor="rgba(255,255,255,0.4)" activeColor="white" />
             {logged && user && <>
-              <Button onClick={onLogout} sx={{ fontSize: '10px', color: '#ccc' }}>Logout</Button>
+              <Button onClick={onLogout} sx={{ fontSize: '10px', color: '#ccc' }}>{t('auth.logout')}</Button>
               <Avatar sx={{ width: 30, height: 30 }} src={user.photoURL} />
             </>}
             {logged === false &&
-              <Button onClick={onLogin} sx={{ fontSize: '10px', color: '#ccc' }}>Login</Button>
+              <Button onClick={onLogin} sx={{ fontSize: '10px', color: '#ccc' }}>{t('auth.login')}</Button>
             }
           </div>
         </div>
@@ -48,10 +51,10 @@ function NavBar({ logged, user, onLogin, onLogout }) {
         style={{ backgroundColor: bgColor }}
         TabIndicatorProps={{ style: { backgroundColor: 'white' } }}
       >
-        <Tab sx={{ color: 'white !important' }} label="HOME" component={Link} to="/" />
-        <Tab sx={{ color: 'white !important' }} label="JOGOS" component={Link} to="/bids" />
-        <Tab sx={{ color: 'white !important' }} label="TABELÃO" component={Link} to="/leaderboard" />
-        <Tab sx={{ color: 'white !important' }} label="RANKING" component={Link} to="/ranking" />
+        <Tab sx={{ color: 'white !important' }} label={t('nav.home')} component={Link} to="/" />
+        <Tab sx={{ color: 'white !important' }} label={t('nav.bids')} component={Link} to="/bids" />
+        <Tab sx={{ color: 'white !important' }} label={t('nav.leaderboard')} component={Link} to="/leaderboard" />
+        <Tab sx={{ color: 'white !important' }} label={t('nav.ranking')} component={Link} to="/ranking" />
       </Tabs>
     </div>
   )

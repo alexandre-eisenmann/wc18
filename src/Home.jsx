@@ -9,6 +9,7 @@ import data26 from './data26.json'
 import data22 from './data.json'
 import data18 from './data2018.json'
 import { DATABASE_WC18, DATABASE_WC22, DATABASE_WC26 } from './constants'
+import { useT, LanguageSwitcher } from './i18n'
 
 const today = dayjs()
 const startDate = dayjs('2026-06-11')
@@ -22,31 +23,32 @@ const YEARS = {
   '2018': { data: data18, dbNode: DATABASE_WC18, name: 'Copa da Rússia 2018', flags: ['f-ru'], accent: '#d52b1e' },
 }
 
-const YEAR_LABELS = {
-  '2018': '2018 Rússia',
-  '2022': '2022 Catar',
-  '2026': '2026 USA/Canadá/México',
-}
-
 
 export default function Home() {
   const [selectedYear, setSelectedYear] = useState(isWc26VizLocked ? '2022' : '2026')
+  const { t } = useT()
 
   return (
     <div className="homePage">
       <div style={{
         position: "absolute",
-        display: "inline-block",
         zIndex: "3",
         left: "30px",
+        right: "30px",
         fontFamily: "Lato",
         fontWeight: "bold",
-        top: "10px"
+        top: "10px",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
       }}>
-        <NavLink style={{ textDecoration: "none", color: "rgba(220,220,220,0.8)" }} to="/bids">JOGOS</NavLink>
-        <NavLink style={{ textDecoration: "none", marginLeft: "20px", color: "rgba(220,220,220,0.8)" }} to="/leaderboard">TABELÃO</NavLink>
-        <NavLink style={{ textDecoration: "none", marginLeft: "20px", color: "rgba(220,220,220,0.8)" }} to="/ranking">RANKING</NavLink>
-        <a style={{ textDecoration: "none", marginLeft: "20px", color: "rgba(220,220,220,0.8)" }} href="https://medium.com/bolão-dos-bolões-2018">BLOG</a>
+        <span>
+          <NavLink style={{ textDecoration: "none", color: "rgba(220,220,220,0.8)" }} to="/bids">{t('nav.bids')}</NavLink>
+          <NavLink style={{ textDecoration: "none", marginLeft: "20px", color: "rgba(220,220,220,0.8)" }} to="/leaderboard">{t('nav.leaderboard')}</NavLink>
+          <NavLink style={{ textDecoration: "none", marginLeft: "20px", color: "rgba(220,220,220,0.8)" }} to="/ranking">{t('nav.ranking')}</NavLink>
+          <a style={{ textDecoration: "none", marginLeft: "20px", color: "rgba(220,220,220,0.8)" }} href="https://medium.com/bolão-dos-bolões-2018">{t('nav.blog')}</a>
+        </span>
+        <LanguageSwitcher color="rgba(255,255,255,0.85)" separatorColor="rgba(255,255,255,0.45)" activeColor="white" />
       </div>
 
       <section style={{
@@ -92,22 +94,22 @@ export default function Home() {
               ))}
             </div>
             <div style={{ fontFamily: "Roboto Condensed", fontSize: "clamp(13px, 3.6vw, 16px)", fontWeight: "bold", letterSpacing: "2px", textTransform: "uppercase", color: "rgba(255,255,255,0.82)", marginBottom: "7px" }}>
-              Copa USA/Canadá/México
+              {t('home.hostingTitle')}
             </div>
             <div style={{ fontFamily: "Roboto Condensed", fontSize: "clamp(22px, 6vw, 26px)", fontWeight: "bold", letterSpacing: "2px", color: "white", background: "rgba(255,255,255,0.14)", padding: "1px 12px", marginBottom: "10px", display: "inline-block" }}>
               2026
             </div>
             <h1 style={{ margin: 0, fontFamily: "Roboto Condensed", fontSize: "clamp(38px, 11vw, 56px)", lineHeight: "1", fontWeight: "bold", whiteSpace: "nowrap", textShadow: "0 3px 18px rgba(0,0,0,0.16)" }}>
-              Bolão dos Bolões
+              {t('app.brand')}
             </h1>
             <div style={{ marginTop: "16px", maxWidth: "440px", fontFamily: "Open Sans", fontSize: "clamp(15px, 4.3vw, 18px)", lineHeight: "1.42", color: "rgba(255,255,255,0.92)" }}>
-              Faça seus palpites para a primeira fase da Copa do Mundo 2026. Aprenda como os pontos são calculados no nosso{" "}
-              <a style={{ color: "white", fontWeight: "bold" }} href="/rules">regulamento</a>.
+              {t('home.heroIntro')}
+              <a style={{ color: "white", fontWeight: "bold" }} href="/rules">{t('home.heroRulesLink')}</a>{t('home.heroIntroEnd')}
             </div>
           </div>
           <div style={{ width: "100%", height: "42px", position: "relative", overflow: "hidden" }}>
             <div className="scroll-left" style={{ fontWeight: "bold", letterSpacing: "1px" }}>
-              FALTAM <span style={{
+              {t('home.daysLeftPrefix')} <span style={{
                 paddingLeft: "8px",
                 paddingRight: "8px",
                 marginLeft: "4px",
@@ -117,7 +119,7 @@ export default function Home() {
                 fontWeight: "bold",
                 color: "#f44336",
                 fontFamily: "Lato"
-              }}>{startDate.diff(today, 'day')}</span> DIAS PARA A COPA
+              }}>{startDate.diff(today, 'day')}</span> {t('home.daysLeftSuffix')}
             </div>
           </div>
         </div>
@@ -125,7 +127,7 @@ export default function Home() {
 
       <div style={{ width: "100%", height: "170px", display: "flex", alignItems: "center", justifyContent: "center" }}>
         <div>
-          <div style={{ fontWeight: "bold", color: "#2196f3", fontFamily: "Roboto Condensed", margin: "auto" }}>SCROLL</div>
+          <div style={{ fontWeight: "bold", color: "#2196f3", fontFamily: "Roboto Condensed", margin: "auto" }}>{t('home.scroll')}</div>
           <a href="#viz">
             <div className="arrow" style={{ margin: "auto", marginTop: "5px" }}></div>
           </a>
@@ -159,7 +161,7 @@ export default function Home() {
                 opacity: 1,
               }}
             >
-              {isLocked ? `${year} em breve` : YEAR_LABELS[year]}
+              {isLocked ? t('home.comingSoon', { year }) : t(`home.yearLabel.${year}`)}
             </button>
           )})}
         </div>

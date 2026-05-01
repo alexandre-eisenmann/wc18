@@ -4,11 +4,14 @@ import { Animate } from "react-move"
 import data from './data.json'
 import { blue, pink } from '@mui/material/colors'
 import { easeExpInOut } from 'd3'
+import { LanguageContext } from './i18n'
 
 const blue500 = blue[500]
 const pink500 = pink[500]
 
 export default class MatchViz extends Component {
+
+  static contextType = LanguageContext
 
   constructor(props) {
     super(props)
@@ -275,7 +278,7 @@ export default class MatchViz extends Component {
           <button
             onClick={this.handleAnimate}
             style={{ fontSize: "12px", color: "#999", background: "transparent", border: "1px solid #ccc", borderRadius: "4px", padding: "4px 14px", cursor: "pointer", fontFamily: "Lato", letterSpacing: "1px", marginBottom: "8px" }}
-          >Animate</button>
+          >{this.context.t('viz.animate')}</button>
         )}
       </div>
     )

@@ -5,10 +5,13 @@ import data from './data26.json'
 import firebase from 'firebase/compat/app'
 import './flags.css'
 import { DATABASE_ROOT_NODE } from "./constants"
+import { LanguageContext } from './i18n'
 
 const pink500 = pink[500]
 
 export default class GroupView extends Component {
+
+  static contextType = LanguageContext
 
   constructor(props) {
     super(props)
@@ -60,7 +63,7 @@ export default class GroupView extends Component {
       <Paper elevation={1} style={{ marginLeft: "10px", marginRight: "10px", marginBottom: "20px", display: 'inline-block' }}>
         <div style={{ float: "left", paddingRight: "18px", border: this.props.complete ? "2px solid transparent" : `2px solid ${pink500}` }} className="groupbox">
           <div style={{ marginLeft: "20px", marginBottom: "30px", marginTop: "20px", textAlign: "left" }}>
-            Group {this.props.group.toUpperCase()}
+            {this.context.t('group.label')} {this.props.group.toUpperCase()}
           </div>
           <div>
             {this.matches.map((row, i) => {

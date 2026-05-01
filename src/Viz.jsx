@@ -9,8 +9,11 @@ import './flags.css'
 import { easeExpInOut } from 'd3'
 import MatchViz from './MatchViz'
 import { DATABASE_ROOT_NODE } from "./constants"
+import { LanguageContext } from './i18n'
 
 export default class Viz extends Component {
+
+  static contextType = LanguageContext
 
   constructor(props) {
     super(props)
@@ -64,14 +67,13 @@ export default class Viz extends Component {
   }
 
   render() {
+    const { t } = this.context
     return (
       <div>
         <div id="viz" style={{ margin: "50px auto 0", width: "min(360px, calc(100% - 40px))", textAlign: "center" }}>
-          <div style={{ fontWeight: "bold", fontSize: "34px", fontFamily: "Roboto Condensed", lineHeight: "1.1" }}>CHUVA DE PALPITES</div>
+          <div style={{ fontWeight: "bold", fontSize: "34px", fontFamily: "Roboto Condensed", lineHeight: "1.1" }}>{t('viz.title')}</div>
           <div style={{ fontFamily: "Open Sans", margin: "22px auto 0", textAlign: "left", width: "min(360px, 100%)" }}>
-            Cada gráfico mostra como os palpites se distribuíram em um jogo. A área de cada círculo é proporcional
-            ao número de apostadores naquele placar. Os empates aparecem na linha vertical que passa pela origem
-            (0 a 0) e vai até o resultado 5 a 5.
+            {t('viz.description')}
           </div>
         </div>
         {this.state.upcomming.map((match, i) => {

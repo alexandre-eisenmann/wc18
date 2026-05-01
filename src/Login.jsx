@@ -4,10 +4,12 @@ import queryString from 'query-string'
 import { CircularProgress, Button, Dialog, DialogContent } from '@mui/material'
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
+import { useT } from './i18n'
 
 const provider = new firebase.auth.GoogleAuthProvider()
 
 export default function Login() {
+  const { t } = useT()
   const [logged, setLogged] = useState(null)
   const [open, setOpen] = useState(true)
   const navigate = useNavigate()
@@ -50,7 +52,7 @@ export default function Login() {
                 style={{ cursor: "pointer", width: "190px", border: "none", height: "46px", background: "url(btn_google_signin_light_normal_web.png)" }}
                 onClick={login}
               />
-              <Button color="primary" onClick={() => setOpen(false)}>Cancel</Button>
+              <Button color="primary" onClick={() => setOpen(false)}>{t('auth.cancel')}</Button>
             </div>
           </DialogContent>
         </Dialog>

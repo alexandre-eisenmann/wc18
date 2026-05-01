@@ -7,12 +7,15 @@ import { blue, grey, pink } from '@mui/material/colors'
 import firebase from 'firebase/compat/app'
 import './flags.css'
 import { DATABASE_ROOT_NODE } from "./constants"
+import { LanguageContext } from './i18n'
 
 const blue500 = blue[500]
 const grey400 = grey[400]
 const pink500 = pink[500]
 
 export default class Leaderboard extends Component {
+
+  static contextType = LanguageContext
 
   constructor(props) {
     super(props)
@@ -232,7 +235,7 @@ export default class Leaderboard extends Component {
             color: "#ccc",
             width: "219px"
           }}>
-            {`${this.state.games.length} participantes`}
+            {this.context.t('leaderboard.participants', { count: this.state.games.length })}
           </div>
           <StickyTable>
             <Row>{header}</Row>

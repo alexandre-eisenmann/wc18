@@ -1,56 +1,37 @@
-import React, { Component } from "react"
-import { NavLink } from "react-router-dom"
+import React from "react"
 import './flags.css'
 import './scroll.css'
+import { useT } from './i18n'
 
-export default class Rules extends Component {
-  render() {
-    return (
-      <div className="homePage">
-        <div style={{ width: "100%", overflow: "hidden" }}>
-          <div id="regulamento" className="regulamento">
-            <div style={{ fontFamily: "Open Sans", fontSize: "20px", textAlign: "left", marginBottom: "100px" }}>
-              <h3 style={{ fontFamily: 'Roboto Condensed' }}>Rules</h3>
-              <p>The total net value (*) collected will be divided as follows:</p>
-              <ul>
-                <li><strong>1st place:</strong> 70%</li>
-                <li><strong>2nd place:</strong> 25%</li>
-                <li><strong>3rd place:</strong> 5%</li>
-              </ul>
-              <p>In case of a tie, the tied players share equally the combined value of all prizes they occupy — no prize passes to the next rank. For example: two players tied for 1st split the 1st + 2nd prizes together (70% + 25% = 95%, so 47.5% each), and the next player is 3rd.</p>
-              <p>Scoring:</p>
-              <ul>
-                <li>Exact score: <strong>8 points</strong></li>
-                <li>Correct goal difference (but wrong score): <strong>5 points</strong></li>
-                <li>Correct result (win/draw/loss) but wrong goal difference: <strong>3 points</strong></li>
-                <li>Wrong result: <strong>0 points</strong></li>
-              </ul>
-              <p style={{ fontSize: "12px" }}>(*) Total amount collected minus transaction costs and web hosting.</p>
-              <p><strong>Prize payout:</strong> credit card payments take around 30 days to clear through our payment processor, so prizes will only be paid out once those funds have settled.</p>
-              <p><strong>Team substitutions:</strong> if a country is replaced before or during the tournament, your bids for that team's fixtures will count toward the replacement team. If a country is removed and the match is not played, no points will be awarded for that fixture.</p>
+export default function Rules() {
+  const { t } = useT()
 
-              <h3 style={{ fontFamily: 'Roboto Condensed' }}>Regulamento</h3>
-              <p>O valor total líquido (*) arrecadado será dividido da seguinte forma:</p>
-              <ul>
-                <li><strong>1º lugar:</strong> 70%</li>
-                <li><strong>2º lugar:</strong> 25%</li>
-                <li><strong>3º lugar:</strong> 5%</li>
-              </ul>
-              <p>Em caso de empate, os jogadores empatados dividem igualmente o valor combinado de todos os prêmios que ocupam — nenhum prêmio passa para a próxima posição. Por exemplo: dois jogadores empatados em 1º dividem os prêmios de 1º + 2º juntos (70% + 25% = 95%, ou seja, 47,5% cada), e o próximo jogador é o 3º.</p>
-              <p>Pontuação:</p>
-              <ul>
-                <li>Placar exato: <strong>8 pontos</strong></li>
-                <li>Diferença de gols correta (mas placar errado): <strong>5 pontos</strong></li>
-                <li>Resultado correto (vitória/empate/derrota) mas diferença de gols errada: <strong>3 pontos</strong></li>
-                <li>Resultado errado: <strong>0 pontos</strong></li>
-              </ul>
-              <p style={{ fontSize: "12px" }}>(*) Valor total arrecadado menos custos de transação e hosting.</p>
-              <p><strong>Pagamento dos prêmios:</strong> os pagamentos via cartão de crédito levam cerca de 30 dias para serem compensados pelo nosso sistema de pagamentos, por isso os prêmios só serão pagos depois que esses valores forem liberados.</p>
-              <p><strong>Substituição de seleções:</strong> caso algum país seja substituído antes ou durante a Copa, os palpites feitos para os jogos daquela seleção serão considerados para o substituto. Caso algum país seja excluído e a partida não seja realizada, não haverá pontuação para esse jogo.</p>
-            </div>
+  return (
+    <div className="homePage">
+      <div style={{ width: "100%", overflow: "hidden" }}>
+        <div id="regulamento" className="regulamento">
+          <div style={{ fontFamily: "Open Sans", fontSize: "20px", textAlign: "left", marginBottom: "100px" }}>
+            <h3 style={{ fontFamily: 'Roboto Condensed' }}>{t('rules.title')}</h3>
+            <p>{t('rules.distributionIntro')}</p>
+            <ul>
+              <li><strong>{t('rules.first')}</strong> 70%</li>
+              <li><strong>{t('rules.second')}</strong> 25%</li>
+              <li><strong>{t('rules.third')}</strong> 5%</li>
+            </ul>
+            <p>{t('rules.tieIntro')}</p>
+            <p>{t('rules.scoringIntro')}</p>
+            <ul>
+              <li>{t('rules.score8')} <strong>{t('rules.score8Pts')}</strong></li>
+              <li>{t('rules.score5')} <strong>{t('rules.score5Pts')}</strong></li>
+              <li>{t('rules.score3')} <strong>{t('rules.score3Pts')}</strong></li>
+              <li>{t('rules.score0')} <strong>{t('rules.score0Pts')}</strong></li>
+            </ul>
+            <p style={{ fontSize: "12px" }}>{t('rules.disclaimer')}</p>
+            <p><strong>{t('rules.payoutLabel')}</strong>{t('rules.payoutBody')}</p>
+            <p><strong>{t('rules.subsLabel')}</strong>{t('rules.subsBody')}</p>
           </div>
         </div>
       </div>
-    )
-  }
+    </div>
+  )
 }

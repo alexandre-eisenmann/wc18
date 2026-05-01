@@ -10,6 +10,7 @@ import './index.css'
 import { easeExpInOut } from 'd3'
 import { Animate } from "react-move"
 import { DATABASE_ROOT_NODE } from "./constants"
+import { LanguageContext } from './i18n'
 
 const blue500 = blue[500]
 const grey400 = grey[400]
@@ -21,6 +22,8 @@ const pink500 = pink[500]
 const provider = new firebase.auth.GoogleAuthProvider()
 
 export default class Ranking extends Component {
+
+  static contextType = LanguageContext
 
   constructor(props) {
     super(props)
@@ -207,6 +210,7 @@ export default class Ranking extends Component {
       return <div style={{ backgroundColor: "white", textAlign: "center", marginTop: "10%", width: "100%" }}><CircularProgress size={60} thickness={7} /></div>
     }
 
+    const { t } = this.context
     const self = this
     const rows = []
     const myrows = []
@@ -309,18 +313,18 @@ export default class Ranking extends Component {
         {this.state.logged === false && <div style={{ background: orange200, textAlign: "center", fontSize: "14px", padding: "8px" }}>
           <div>
             <span style={{ textDecoration: "underline", cursor: "pointer" }} onClick={() => { firebase.auth().signInWithRedirect(provider) }}>
-              Login
-            </span><span> para <i>pinar</i> seus amigos</span>
+              {t('auth.login')}
+            </span><span>{t('auth.loginToPinFriendsPre')}<i>{t('auth.loginToPinFriendsAction')}</i>{t('auth.loginToPinFriendsPost')}</span>
           </div>
         </div>}
         <div className="whitebar" style={{ paddingLeft: "25px", paddingBottom: "20px" }}>
-          <div style={{ paddingLeft: "10px", paddingTop: "35px", fontFamily: "Roboto Condensed", fontSize: "30px", color: "#ddd" }}>Ranking</div>
+          <div style={{ paddingLeft: "10px", paddingTop: "35px", fontFamily: "Roboto Condensed", fontSize: "30px", color: "#ddd" }}>{t('ranking.title')}</div>
         </div>
 
         {this.state.logged && this.state.user && <div className="mygames" style={{ paddingLeft: "25px", backgroundColor: cyan500 }}>
           <div className="mygames-row" style={{ backgroundColor: cyan600 }}>
             <div style={{ backgroundColor: cyan600, padding: "5px", fontSize: "10px", paddingTop: "10px", paddingLeft: "10px", paddingBottom: "6px", color: "rgba(255, 255, 255, 0.7)" }}>
-              MEUS JOGOS (my bids)
+              {t('ranking.myBidsHeader')}
             </div>
             {myrows}
           </div>
@@ -328,7 +332,7 @@ export default class Ranking extends Component {
         <div className="degrade">
           <div className="checkers">
             <div style={{ padding: "5px", fontSize: "10px", paddingTop: "10px", paddingLeft: "10px", paddingBottom: "6px", color: "rgb(100,100,100)" }}>
-              CLASSIFICAÇÃO GERAL (leaderboard)
+              {t('ranking.leaderboardHeader')}
             </div>
             {rows}
           </div>
