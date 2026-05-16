@@ -34,6 +34,11 @@ const messages = {
     'home.yearLabel.2026': '2026 USA/Canadá/México',
     'home.comingSoon': '{year} em breve',
 
+    'classicYam.ariaLabel': 'Conheça Classic Yam, outro jogo do mesmo criador',
+    'classicYam.badge': 'Do mesmo criador',
+    'classicYam.taglineLine1': 'A bola ficou quadrada.',
+    'classicYam.taglineLine2': 'Mude de gramado.',
+
     'viz.title': 'Mapa de Palpites',
     'viz.description': 'Cada gráfico mostra como os palpites se distribuíram em um jogo. A área de cada círculo é proporcional ao número de apostadores naquele placar. Os empates aparecem na linha vertical que passa pela origem (0 a 0) e vai até o resultado 5 a 5.',
     'viz.animate': 'Animate',
@@ -135,6 +140,11 @@ const messages = {
     'home.yearLabel.2022': '2022 Qatar',
     'home.yearLabel.2026': '2026 USA/Canada/Mexico',
     'home.comingSoon': '{year} coming soon',
+
+    'classicYam.ariaLabel': 'Discover Classic Yam, another game from the same creator',
+    'classicYam.badge': 'From the same creator',
+    'classicYam.taglineLine1': 'Same game spirit.',
+    'classicYam.taglineLine2': 'New playing field.',
 
     'viz.title': 'Bid Map',
     'viz.description': 'Each chart shows how the bids spread for one match. The area of each circle is proportional to the number of bidders for that score. Draws appear along the vertical line through the origin (0–0 up to 5–5).',

@@ -5,6 +5,7 @@ import dayjs from 'dayjs'
 import './flags.css'
 import './scroll.css'
 import Viz from './Viz'
+import ClassicYamBanner from './ClassicYamBanner'
 import data26 from './data26.json'
 import data22 from './data.json'
 import data18 from './data2018.json'
@@ -124,6 +125,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <ClassicYamBanner />
 
       <div style={{ width: "100%", overflow: "hidden" }}>
         <Viz
