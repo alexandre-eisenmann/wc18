@@ -54,6 +54,12 @@ body {
   overflow: hidden;
 
 }
+
+.home-insights-section {
+  background: linear-gradient(180deg, #fff7e8 0, #ffffff 148px, #eef3f8 100%);
+  padding-bottom: 42px;
+}
+
 .hero {
   width: 80%;
   margin: auto ;

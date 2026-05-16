@@ -40,6 +40,7 @@ const messages = {
     'classicYam.taglineLine2': 'Mude de gramado.',
 
     'viz.title': 'Mapa de Palpites',
+    'viz.eyebrow': 'Veja os palpites',
     'viz.description': 'Cada gráfico mostra como os palpites se distribuíram em um jogo. A área de cada círculo é proporcional ao número de apostadores naquele placar. Os empates aparecem na linha vertical que passa pela origem (0 a 0) e vai até o resultado 5 a 5.',
     'viz.animate': 'Animate',
 
@@ -147,6 +148,7 @@ const messages = {
     'classicYam.taglineLine2': 'New playing field.',
 
     'viz.title': 'Bid Map',
+    'viz.eyebrow': 'See the predictions',
     'viz.description': 'Each chart shows how the bids spread for one match. The area of each circle is proportional to the number of bidders for that score. Draws appear along the vertical line through the origin (0–0 up to 5–5).',
     'viz.animate': 'Animate',
 

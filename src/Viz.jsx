@@ -68,19 +68,60 @@ export default class Viz extends Component {
 
   render() {
     const { t } = this.context
+    const compactHeader = this.props.compactHeader
+    const headerStyle = compactHeader
+      ? {
+        margin: "0",
+        width: "100%",
+        boxSizing: "border-box",
+        padding: "22px 24px 16px",
+        textAlign: "left",
+        background: "linear-gradient(180deg, #ffffff 0, rgba(255,255,255,0.94) 100%)",
+        borderBottom: "1px solid rgba(15, 23, 42, 0.07)",
+      }
+      : {
+        margin: "50px auto 0",
+        width: "min(360px, calc(100% - 40px))",
+        textAlign: "center",
+      }
     return (
-      <div>
-        <div id="viz" style={{ margin: "50px auto 0", width: "min(360px, calc(100% - 40px))", textAlign: "center" }}>
-          <div style={{ fontWeight: "bold", fontSize: "24px", fontFamily: "Roboto Condensed", lineHeight: "1.2" }}>{t('viz.title')}</div>
-          <div style={{ fontFamily: "Open Sans", margin: "22px auto 0", textAlign: "center", width: "min(360px, 100%)" }}>
+      <div style={compactHeader ? {
+        width: "min(458px, calc(100% - 36px))",
+        margin: "28px auto 0",
+        padding: "0 0 20px",
+        boxSizing: "border-box",
+        background: "rgba(255,255,255,0.96)",
+        border: "1px solid rgba(15, 23, 42, 0.12)",
+        borderRadius: "18px",
+        boxShadow: "0 26px 64px rgba(15, 23, 42, 0.17), 0 2px 6px rgba(15, 23, 42, 0.06)",
+        overflow: "hidden",
+      } : undefined}>
+        <div id="viz" style={headerStyle}>
+          {compactHeader && <div style={{
+            color: "#2196f3",
+            fontFamily: "Roboto Condensed",
+            fontSize: "11px",
+            fontWeight: "bold",
+            letterSpacing: "1.8px",
+            marginBottom: "5px",
+            textTransform: "uppercase",
+          }}>{t('viz.eyebrow')}</div>}
+          <div style={{ fontWeight: "bold", fontSize: compactHeader ? "21px" : "24px", fontFamily: "Roboto Condensed", lineHeight: "1.2", letterSpacing: compactHeader ? "-0.2px" : undefined, color: compactHeader ? "#111" : undefined }}>{t('viz.title')}</div>
+          <div style={{ fontFamily: "Open Sans", margin: compactHeader ? "9px 0 0" : "22px auto 0", textAlign: compactHeader ? "left" : "center", width: "min(360px, 100%)", color: compactHeader ? "#555" : undefined, fontSize: compactHeader ? "13px" : undefined, lineHeight: compactHeader ? "1.42" : undefined }}>
             {t('viz.description')}
           </div>
           {this.props.children}
         </div>
-        {this.state.upcomming.map((match, i) => {
-          const r = this.state.resultsMap[match.name]
-          return <MatchViz key={i} homeTeam={this.teams[match.home_team].name} awayTeam={this.teams[match.away_team].name} games={this.state.gamesMap[match.name]} result={r} />
-        })}
+        <div style={compactHeader ? {
+          marginTop: "6px",
+          paddingTop: "12px",
+          background: "linear-gradient(180deg, rgba(33,150,243,0.04) 0, rgba(255,255,255,0) 110px)",
+        } : undefined}>
+          {this.state.upcomming.map((match, i) => {
+            const r = this.state.resultsMap[match.name]
+            return <MatchViz key={i} homeTeam={this.teams[match.home_team].name} awayTeam={this.teams[match.away_team].name} games={this.state.gamesMap[match.name]} result={r} />
+          })}
+        </div>
       </div>
     )
   }

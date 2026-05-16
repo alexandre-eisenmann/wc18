@@ -126,50 +126,53 @@ export default function Home() {
         </div>
       </section>
 
-      <ClassicYamBanner />
+      <section className="home-insights-section">
+        <ClassicYamBanner />
 
-      <div style={{ width: "100%", overflow: "hidden" }}>
-        <Viz
-          key={selectedYear}
-          tournamentData={YEARS[selectedYear].data}
-          dbNode={YEARS[selectedYear].dbNode}
-          tournamentName={YEARS[selectedYear].name}
-          tournamentFlags={YEARS[selectedYear].flags}
-          tournamentAccent={YEARS[selectedYear].accent}
-        >
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "16px", margin: "26px 0 4px" }}>
-            {['2018', '2022', '2026'].map(year => {
-              const isLocked = year === '2026' && isWc26VizLocked
-              const isSelected = selectedYear === year
+        <div style={{ width: "100%", overflow: "hidden" }}>
+          <Viz
+            key={selectedYear}
+            compactHeader
+            tournamentData={YEARS[selectedYear].data}
+            dbNode={YEARS[selectedYear].dbNode}
+            tournamentName={YEARS[selectedYear].name}
+            tournamentFlags={YEARS[selectedYear].flags}
+            tournamentAccent={YEARS[selectedYear].accent}
+          >
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-start", flexWrap: "wrap", gap: "14px", margin: "16px 0 0" }}>
+              {['2018', '2022', '2026'].map(year => {
+                const isLocked = year === '2026' && isWc26VizLocked
+                const isSelected = selectedYear === year
 
-              return (
-                <button
-                  key={year}
-                  type="button"
-                  onClick={() => {
-                    if (!isLocked) setSelectedYear(year)
-                  }}
-                  disabled={isLocked}
-                  style={{
-                    fontFamily: "Roboto Condensed",
-                    fontSize: "14px",
-                    fontWeight: "bold",
-                    color: isSelected ? "#2196f3" : isLocked ? "#d0d0d0" : "#bbb",
-                    cursor: isLocked ? "default" : "pointer",
-                    border: "0",
-                    borderBottom: isSelected ? "2px solid #2196f3" : "2px solid transparent",
-                    background: "transparent",
-                    padding: "0 0 2px",
-                    opacity: 1,
-                  }}
-                >
-                  {isLocked ? t('home.comingSoon', { year }) : t(`home.yearLabel.${year}`)}
-                </button>
-              )
-            })}
-          </div>
-        </Viz>
-      </div>
+                return (
+                  <button
+                    key={year}
+                    type="button"
+                    onClick={() => {
+                      if (!isLocked) setSelectedYear(year)
+                    }}
+                    disabled={isLocked}
+                    style={{
+                      fontFamily: "Roboto Condensed",
+                      fontSize: "13px",
+                      fontWeight: "bold",
+                      color: isSelected ? "#2196f3" : isLocked ? "#d0d0d0" : "#aaa",
+                      cursor: isLocked ? "default" : "pointer",
+                      border: "0",
+                      borderBottom: isSelected ? "2px solid #2196f3" : "2px solid transparent",
+                      background: "transparent",
+                      padding: "0 0 2px",
+                      opacity: 1,
+                    }}
+                  >
+                    {isLocked ? t('home.comingSoon', { year }) : t(`home.yearLabel.${year}`)}
+                  </button>
+                )
+              })}
+            </div>
+          </Viz>
+        </div>
+      </section>
     </div>
   )
 }
