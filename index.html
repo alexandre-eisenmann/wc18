@@ -1,9 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt" translate="no">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#000000">
+    <!-- We ship our own PT/EN i18n. Browser auto-translation (e.g. Google Translate)
+         rewrites the DOM and crashes React with "NotFoundError: removeChild",
+         so opt the app out of it. Does not affect our in-app PT/EN switcher. -->
+    <meta name="google" content="notranslate">
     <link rel="manifest" href="/manifest.json">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
