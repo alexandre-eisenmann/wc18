@@ -21,6 +21,21 @@ function CheckoutForm({ onSuccess }) {
   const elements = useElements()
   const { t } = useT()
   const [status, setStatus] = useState('idle') // idle | processing | error | done
+  const [slowLoad, setSlowLoad] = useState(false)
+
+  // When Stripe.js never initialises, `stripe` stays null forever, the Payment Element
+  // renders nothing and the Pay button stays disabled — almost always because an
+  // ad/tracker blocker or a restrictive in-app browser blocked js.stripe.com.
+  // Show a hint instead of leaving the user staring at a dead button.
+  // Purely additive: when Stripe loads normally (the common case) this never fires.
+  useEffect(() => {
+    if (stripe) {
+      setSlowLoad(false)
+      return
+    }
+    const id = setTimeout(() => setSlowLoad(true), 12000)
+    return () => clearTimeout(id)
+  }, [stripe])
 
   // Tear down the Payment Element so Stripe does not leave iframes / the corner badge in the DOM
   // after navigating away (SPAs often hit this; see element.destroy in Stripe.js docs).
@@ -82,6 +97,11 @@ function CheckoutForm({ onSuccess }) {
       {status === 'error' && (
         <div style={{ color: 'red', marginTop: 12, fontSize: 14 }}>
           {t('payment.error')}
+        </div>
+      )}
+      {!stripe && slowLoad && (
+        <div style={{ color: '#a15c00', marginTop: 16, fontSize: 14, lineHeight: 1.45 }}>
+          {t('payment.loadHint')}
         </div>
       )}
     </form>
