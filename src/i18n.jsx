@@ -34,6 +34,11 @@ const messages = {
     'home.yearLabel.2026': '2026 USA/Canadá/México',
     'home.comingSoon': '{year} em breve',
     'home.yearBadge': 'AO VIVO',
+    'home.nextGameEyebrow': 'Próximos jogos',
+    'home.archiveEyebrow': 'Arquivo — edições anteriores',
+    'home.checkRules': 'Confira o regulamento',
+    'nextGame.prev': 'Jogo anterior',
+    'nextGame.next': 'Próximo jogo',
 
     'classicYam.ariaLabel': 'Conheça Classic Yam, outro jogo do mesmo criador',
     'classicYam.badge': 'Do mesmo criador',
@@ -146,6 +151,11 @@ const messages = {
     'home.yearLabel.2026': '2026 USA/Canada/Mexico',
     'home.comingSoon': '{year} coming soon',
     'home.yearBadge': 'LIVE',
+    'home.nextGameEyebrow': 'Upcoming games',
+    'home.archiveEyebrow': 'Archive — past editions',
+    'home.checkRules': 'Check the rules',
+    'nextGame.prev': 'Previous game',
+    'nextGame.next': 'Next game',
 
     'classicYam.ariaLabel': 'Discover Classic Yam, another game from the same creator',
     'classicYam.badge': 'From the same creator',

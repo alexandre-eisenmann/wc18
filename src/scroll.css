@@ -70,6 +70,12 @@
   transition: transform 0.18s ease-out, box-shadow 0.18s ease-out;
 }
 
+.play-button.compact {
+  width: clamp(60px, 14vw, 74px);
+  height: clamp(60px, 14vw, 74px);
+  font-size: clamp(12px, 2.8vw, 14px);
+}
+
 .play-button::after {
   content: "";
   position: absolute;
