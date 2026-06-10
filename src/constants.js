@@ -13,3 +13,8 @@ export const PRICE_PER_BID = 30.00
 // 2019, so this comparison is correct in every timezone with no DST math.
 export const BIDS_CLOSE_AT = Date.parse('2026-06-11T18:50:00Z')
 export const areBidsClosed = () => Date.now() >= BIDS_CLOSE_AT
+
+// Home hero mode. true  -> "upcoming games" coverflow carousel (tournament mode)
+//                  false -> classic hero with the intro paragraph (off-season)
+// Flip this single flag to revert the home page to the previous experience.
+export const HERO_NEXT_GAME_CAROUSEL = true

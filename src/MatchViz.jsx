@@ -274,12 +274,16 @@ export default class MatchViz extends Component {
             )}
           </g>
         </svg>
-        {this.state.games && this.state.games.length > 0 && (
-          <button
-            onClick={this.handleAnimate}
-            style={{ fontSize: "12px", color: "#999", background: "transparent", border: "1px solid #ccc", borderRadius: "4px", padding: "4px 14px", cursor: "pointer", fontFamily: "Lato", letterSpacing: "1px", marginBottom: "8px" }}
-          >{this.context.t('viz.animate')}</button>
-        )}
+        {/* Reserve the button's height even before games load / when hidden,
+            so the card doesn't resize when the Animate button appears. */}
+        <div style={{ height: "36px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          {!this.props.hideAnimate && this.state.games && this.state.games.length > 0 && (
+            <button
+              onClick={this.handleAnimate}
+              style={{ fontSize: "12px", color: "#999", background: "transparent", border: "1px solid #ccc", borderRadius: "4px", padding: "4px 14px", cursor: "pointer", fontFamily: "Lato", letterSpacing: "1px" }}
+            >{this.context.t('viz.animate')}</button>
+          )}
+        </div>
       </div>
     )
   }
