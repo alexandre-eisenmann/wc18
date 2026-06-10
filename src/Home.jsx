@@ -9,7 +9,7 @@ import ClassicYamBanner from './ClassicYamBanner'
 import data26 from './data26.json'
 import data22 from './data.json'
 import data18 from './data2018.json'
-import { DATABASE_WC18, DATABASE_WC22, DATABASE_WC26 } from './constants'
+import { DATABASE_WC18, DATABASE_WC22, DATABASE_WC26, areBidsClosed } from './constants'
 import { useT, LanguageSwitcher } from './i18n'
 
 const today = dayjs()
@@ -29,6 +29,7 @@ const YEARS = {
 export default function Home() {
   const [selectedYear, setSelectedYear] = useState(isWc26VizLocked ? '2022' : '2026')
   const { t } = useT()
+  const bidsClosed = areBidsClosed()
 
   return (
     <div className="homePage">
@@ -110,9 +111,11 @@ export default function Home() {
             </div>
           </div>
           <div style={{ width: "100%", textAlign: "center", paddingTop: "8px", paddingBottom: "4px" }}>
-            <NavLink to="/bids" className="play-button">
-              {t('home.playButton')}
-            </NavLink>
+            {!bidsClosed && (
+              <NavLink to="/bids" className="play-button">
+                {t('home.playButton')}
+              </NavLink>
+            )}
             <div style={{
               marginTop: "16px",
               fontFamily: "Roboto Condensed",
