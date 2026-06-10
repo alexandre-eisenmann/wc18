@@ -33,6 +33,7 @@ const messages = {
     'home.yearLabel.2022': '2022 Catar',
     'home.yearLabel.2026': '2026 USA/Canadá/México',
     'home.comingSoon': '{year} em breve',
+    'home.yearBadge': 'AO VIVO',
 
     'classicYam.ariaLabel': 'Conheça Classic Yam, outro jogo do mesmo criador',
     'classicYam.badge': 'Do mesmo criador',
@@ -142,6 +143,7 @@ const messages = {
     'home.yearLabel.2022': '2022 Qatar',
     'home.yearLabel.2026': '2026 USA/Canada/Mexico',
     'home.comingSoon': '{year} coming soon',
+    'home.yearBadge': 'LIVE',
 
     'classicYam.ariaLabel': 'Discover Classic Yam, another game from the same creator',
     'classicYam.badge': 'From the same creator',
