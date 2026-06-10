@@ -14,7 +14,8 @@ import { useT, LanguageSwitcher } from './i18n'
 
 const today = dayjs()
 const startDate = dayjs('2026-06-11')
-const isWc26VizLocked = today.isBefore(startDate)
+// 2026 bid map is now live — keep it unlocked and default even on the eve of kickoff.
+const isWc26VizLocked = false
 
 const hostFlags = ['f-us', 'f-ca', 'f-mx']
 
@@ -166,6 +167,22 @@ export default function Home() {
                     }}
                   >
                     {isLocked ? t('home.comingSoon', { year }) : t(`home.yearLabel.${year}`)}
+                    {year === '2026' && !isLocked && (
+                      <span style={{
+                        marginLeft: "6px",
+                        fontFamily: "Roboto Condensed",
+                        fontSize: "9px",
+                        fontWeight: "bold",
+                        letterSpacing: "1px",
+                        color: "white",
+                        background: "#2196f3",
+                        borderRadius: "3px",
+                        padding: "1px 4px",
+                        verticalAlign: "middle",
+                      }}>
+                        {t('home.yearBadge')}
+                      </span>
+                    )}
                   </button>
                 )
               })}
