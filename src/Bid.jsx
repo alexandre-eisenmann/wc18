@@ -19,7 +19,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import { green, blue, cyan, pink, orange } from '@mui/material/colors'
 import data from './data26.json'
 import './bubbles.css'
-import { DATABASE_ROOT_NODE } from './constants'
+import { DATABASE_ROOT_NODE, areBidsClosed } from './constants'
 import { LanguageContext } from './i18n'
 
 const green700 = green[700]
@@ -52,6 +52,7 @@ export default class Bid extends Component {
   }
 
   onNewGame() {
+    if (areBidsClosed()) return
     const newRef = firebase.database().ref(`${DATABASE_ROOT_NODE}/` + this.state.user.uid).push()
     newRef.set({ name: this.state.user.displayName, email: this.state.user.email, mobile: null })
     this.setState({ currentBid: newRef.key })
@@ -159,6 +160,7 @@ export default class Bid extends Component {
 
   render() {
     const { t } = this.context
+    const bidsClosed = areBidsClosed()
     let status = t('bid.statusIncomplete')
     let complete = false
     let edit = true
@@ -174,6 +176,14 @@ export default class Bid extends Component {
         status = t('bid.statusComplete')
         complete = true
       }
+    }
+
+    // Once the gate closes (10 min before kickoff) bids are locked: no editing,
+    // no adding to cart, no new games.
+    if (bidsClosed) {
+      status = t('bid.statusClosed')
+      edit = false
+      complete = false
     }
 
     const avatarIcon = (bid) => {
@@ -196,7 +206,7 @@ export default class Bid extends Component {
       <div id="flowSection" style={style}>
         {this.state.logged === false && <div style={{ background: orange200, textAlign: "center", fontSize: "14px", padding: "8px" }}>
           <div>
-            <span style={{ textDecoration: "underline", cursor: "pointer" }} onClick={() => { firebase.auth().signInWithRedirect(provider) }}>
+            <span style={{ textDecoration: "underline", cursor: "pointer" }} onClick={() => { firebase.auth().signInWithPopup(provider) }}>
               {t('auth.login')}
             </span><span>{t('auth.loginToSeeYourBids')}</span>
           </div>
@@ -205,6 +215,9 @@ export default class Bid extends Component {
         {this.state.logged === null && <div style={{ backgroundColor: "white", textAlign: "center", marginTop: "10%", width: "100%" }}><CircularProgress size={60} thickness={7} /></div>}
 
         {this.state.logged && this.state.user && <div>
+          {bidsClosed && <div style={{ background: pink500, color: "white", textAlign: "center", fontSize: "14px", fontWeight: "bold", padding: "10px" }}>
+            {t('bid.closedBanner')}
+          </div>}
           <Dialog open={this.state.deleteBid != null}>
             <DialogTitle>{t('bid.deleteTitle', { name: this.state.bids[this.state.deleteBid] ? this.state.bids[this.state.deleteBid]["name"] : "" })}</DialogTitle>
             <DialogContent>
@@ -242,10 +255,10 @@ export default class Bid extends Component {
                 }
                 return null
               })}
-              {!anyReadyToPay && !this.state.currentBid && <div className="newgame-bubble">{t('bid.newGameBubble')}</div>}
-              <Fab color="secondary" size="small" style={{ position: "absolute", top: "0px", right: "25px" }} onClick={this.onNewGame.bind(this)}>
+              {!anyReadyToPay && !this.state.currentBid && !bidsClosed && <div className="newgame-bubble">{t('bid.newGameBubble')}</div>}
+              {!bidsClosed && <Fab color="secondary" size="small" style={{ position: "absolute", top: "0px", right: "25px" }} onClick={this.onNewGame.bind(this)}>
                 <AddIcon />
-              </Fab>
+              </Fab>}
             </div>
           </div>
 
@@ -273,7 +286,7 @@ export default class Bid extends Component {
                 }
                 return null
               })}
-              <Fab
+              {!bidsClosed && <Fab
                 component={Link}
                 to="/payment"
                 color="secondary"
@@ -282,7 +295,7 @@ export default class Bid extends Component {
                 style={{ position: "absolute", top: "0px", right: "25px", zIndex: 10 }}
               >
                 <PaymentIcon />
-              </Fab>
+              </Fab>}
             </div>
           </div>}
 

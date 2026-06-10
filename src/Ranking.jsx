@@ -312,7 +312,7 @@ export default class Ranking extends Component {
       <div>
         {this.state.logged === false && <div style={{ background: orange200, textAlign: "center", fontSize: "14px", padding: "8px" }}>
           <div>
-            <span style={{ textDecoration: "underline", cursor: "pointer" }} onClick={() => { firebase.auth().signInWithRedirect(provider) }}>
+            <span style={{ textDecoration: "underline", cursor: "pointer" }} onClick={() => { firebase.auth().signInWithPopup(provider) }}>
               {t('auth.login')}
             </span><span>{t('auth.loginToPinFriendsPre')}<i>{t('auth.loginToPinFriendsAction')}</i>{t('auth.loginToPinFriendsPost')}</span>
           </div>

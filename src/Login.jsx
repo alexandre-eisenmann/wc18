@@ -30,7 +30,7 @@ export default function Login() {
     return unsubscribe
   }, [])
 
-  const login = () => firebase.auth().signInWithRedirect(provider)
+  const login = () => firebase.auth().signInWithPopup(provider)
 
   return (
     <div>
