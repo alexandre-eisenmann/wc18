@@ -71,7 +71,7 @@ export default function Home() {
 
         {HERO_NEXT_GAME_CAROUSEL ? (
           /* Tournament mode: compact header + upcoming-games carousel */
-          <div style={{ position: "relative", zIndex: 1, boxSizing: "border-box" }}>
+          <div style={{ position: "relative", zIndex: 1, boxSizing: "border-box", paddingBottom: "28px" }}>
             <div style={{ textAlign: "center", padding: "50px 20px 6px" }}>
               <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginBottom: "10px" }}>
                 {hostFlags.map((flag, i) => (
@@ -102,7 +102,7 @@ export default function Home() {
             <NextGameBidMap />
 
             {renderPlay(true) && (
-              <div style={{ textAlign: "center", padding: "8px 20px 18px" }}>
+              <div style={{ textAlign: "center", padding: "8px 20px 0" }}>
                 {renderPlay(true)}
               </div>
             )}

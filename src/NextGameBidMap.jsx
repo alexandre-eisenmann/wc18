@@ -39,10 +39,13 @@ export default class NextGameBidMap extends Component {
   }
 
   componentDidMount() {
+    // Keep every match in the strip — played games stay put (showing their
+    // result) and only the active position moves on to the next upcoming game.
     const now = dayjs()
-    let matches = this.allMatches.filter((m) => dayjs(m.date).isAfter(now))
-    if (matches.length === 0) matches = this.allMatches.slice(-1)
-    this.setState({ matches })
+    const matches = this.allMatches
+    let index = matches.findIndex((m) => dayjs(m.date).isAfter(now))
+    if (index === -1) index = matches.length - 1
+    this.setState({ matches, index })
     this.loadGames(matches)
     this.measure()
     window.addEventListener('resize', this.measure)
