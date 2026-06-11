@@ -7,6 +7,7 @@ import { blue, grey, pink } from '@mui/material/colors'
 import firebase from 'firebase/compat/app'
 import './flags.css'
 import { DATABASE_ROOT_NODE } from "./constants"
+import { getCachedBids, fetchBids } from './bidsCache'
 import { LanguageContext } from './i18n'
 
 const blue500 = blue[500]
@@ -80,11 +81,18 @@ export default class Leaderboard extends Component {
   componentDidMount() {
     const self = this
     const matches = [...this.matches]
+    this.workingMatches = matches
+
+    // Render instantly from the frozen-bids cache if we have it; the background
+    // fetch below will refresh it. Scores are always recomputed from the live
+    // results, so a slightly stale cache only affects who appears, not points.
+    this.bids = getCachedBids()
 
     self.ref1 = firebase.database().ref(`${DATABASE_ROOT_NODE}/master/gabarito`)
     self.ref1.on('child_removed', function (data) {
       matches[self.matchesRef[data.key]].away_result = null
       matches[self.matchesRef[data.key]].home_result = null
+      self.recompute()
     })
     self.ref2 = firebase.database().ref(`${DATABASE_ROOT_NODE}/master/gabarito`)
     self.ref2.on('value', snapshot => {
@@ -97,8 +105,36 @@ export default class Leaderboard extends Component {
         matches[self.matchesRef[key]].away_result = result.a == undefined ? null : result.a
         matches[self.matchesRef[key]].home_result = result.h == undefined ? null : result.h
       })
-      self.loadGames(matches)
+      self.resultsReady = true
+      self.recompute()
     })
+
+    // Heavy payload: fetch the bids exactly once, then recompute locally on every
+    // future result change instead of re-downloading the whole database.
+    fetchBids().then((games) => {
+      self.bids = games
+      self.recompute()
+    })
+  }
+
+  // Recompute scores from the in-memory bids + latest results and re-render.
+  // No network. Safe to call repeatedly; it no-ops until both inputs are ready.
+  recompute = () => {
+    if (!this.bids || !this.resultsReady) return
+    const matches = this.workingMatches
+    const games = this.bids
+    this.calculate(games, matches)
+    const sortedGames = games.slice().sort((a, b) => {
+      const diff = b.total - a.total
+      if (diff !== 0) return diff
+      const nameA = a.name.toUpperCase()
+      const nameB = b.name.toUpperCase()
+      if (nameA < nameB) return -1
+      if (nameA > nameB) return 1
+      return 0
+    })
+    this.calculatePosition(sortedGames)
+    this.setState({ games: sortedGames, matches: matches, render: true })
   }
 
   expandOrCollapse = () => {
@@ -107,34 +143,6 @@ export default class Leaderboard extends Component {
     else
       document.getElementsByClassName("header")[0].style.display = "block"
     this.setState({ expanded: !this.state.expanded })
-  }
-
-  loadGames = (matches) => {
-    const games = []
-    firebase.database().ref(`${DATABASE_ROOT_NODE}`).once('value', snapshot => {
-      snapshot.forEach(function (childSnapshot) {
-        const childData = childSnapshot.val()
-        Object.keys(childData).map((key) => {
-          const details = childData[key]
-          if (details.status === "payed") {
-            Object.assign(details, { gameId: key, userId: childSnapshot.key })
-            games.push(details)
-          }
-        })
-      })
-      this.calculate(games, matches)
-      const sortedGames = games.sort((a, b) => {
-        const diff = b.total - a.total
-        if (diff !== 0) return diff
-        const nameA = a.name.toUpperCase()
-        const nameB = b.name.toUpperCase()
-        if (nameA < nameB) return -1
-        if (nameA > nameB) return 1
-        return 0
-      })
-      this.calculatePosition(sortedGames)
-      this.setState({ games: sortedGames, matches: matches, render: true })
-    })
   }
 
   abbr = (name) => {
