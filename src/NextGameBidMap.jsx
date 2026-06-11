@@ -10,6 +10,11 @@ import { LanguageContext } from './i18n'
 
 const GAP = 16 // px between slides
 const RENDER_WINDOW = 3 // only mount the heavy MatchViz for slides this close to centre
+// A game's "temporal centre" is the midpoint of its duration. The carousel
+// centres on whichever game's midpoint is closest to now, so right after a game
+// ends it stays on that game (showing the result) until the next game's
+// midpoint becomes the nearer one.
+const MATCH_DURATION_MIN = 110
 
 // Full-width coverflow of the next upcoming matches. The whole strip lives on a
 // single sliding track that animates between games, so moving feels continuous
@@ -41,10 +46,15 @@ export default class NextGameBidMap extends Component {
   componentDidMount() {
     // Keep every match in the strip — played games stay put (showing their
     // result) and only the active position moves on to the next upcoming game.
-    const now = dayjs()
+    const now = dayjs().valueOf()
+    const halfMs = (MATCH_DURATION_MIN / 2) * 60000
     const matches = this.allMatches
-    let index = matches.findIndex((m) => dayjs(m.date).isAfter(now))
-    if (index === -1) index = matches.length - 1
+    let index = 0
+    let best = Infinity
+    matches.forEach((m, i) => {
+      const diff = Math.abs(now - (dayjs(m.date).valueOf() + halfMs))
+      if (diff < best) { best = diff; index = i }
+    })
     this.setState({ matches, index })
     this.loadGames(matches)
     this.measure()
@@ -115,6 +125,9 @@ export default class NextGameBidMap extends Component {
     const awayTeam = this.teams[match.away_team]
     const home = homeTeam.name
     const away = awayTeam.name
+    // resultsMap is oriented home->a, away->h (see loadGames).
+    const result = resultsMap[match.name]
+    const finished = result && result.a != null && result.h != null
     const isCenter = dist === 0
     const cardW = Math.min(300, Math.round(containerW * 0.8))
     const scale = isCenter ? 1 : dist === 1 ? 0.84 : 0.72
@@ -156,7 +169,7 @@ export default class NextGameBidMap extends Component {
             color: "#2196f3",
             marginBottom: "2px",
             minHeight: "14px",
-          }}>{isCenter ? t('home.nextGameEyebrow') : ' '}</div>
+          }}>{isCenter ? t(finished ? 'home.resultEyebrow' : 'home.nextGameEyebrow') :' '}</div>
           <div style={{
             display: "flex",
             alignItems: "center",
@@ -178,6 +191,11 @@ export default class NextGameBidMap extends Component {
           <div style={{ fontFamily: "Open Sans", fontSize: "11px", color: "#777", marginBottom: "2px" }}>
             {dayjs(match.date).format('DD MMM • HH:mm')}
           </div>
+          {finished && (
+            <div style={{ textAlign: "center", fontFamily: "Roboto Condensed", fontWeight: "bold", fontSize: "22px", color: "#111", lineHeight: "1.1", marginBottom: "2px" }}>
+              {result.a}<span style={{ color: "#c4c8cf", fontWeight: "normal", margin: "0 8px" }}>×</span>{result.h}
+            </div>
+          )}
           {heavy ? (
             <MatchViz
               key={match.name}
