@@ -549,6 +549,7 @@ ul {
   font-family: 'Roboto Condensed', sans-serif;
   font-size: 12px; color: #1c2127; line-height: 1.15; letter-spacing: .01em;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  cursor: pointer;
 }
 .r2-eyewrap {
   width: 22px; height: 17px; margin-top: 1px;
@@ -608,4 +609,119 @@ ul {
   padding-left: 10px;
   font-size: 10px; font-weight: 700; letter-spacing: .05em;
   text-transform: uppercase; color: #fff;
+}
+
+/* ============================================================
+   Player card — modal shown over the leaderboard on name tap.
+   ============================================================ */
+.pc-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(15, 23, 42, .55);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  animation: pc-fade .18s ease-out both;
+}
+@keyframes pc-fade { from { opacity: 0; } to { opacity: 1; } }
+
+.pc-card {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .35);
+  font-family: Lato, sans-serif;
+  animation: pc-rise .26s cubic-bezier(.2, .9, .3, 1.2) both;
+}
+@keyframes pc-rise {
+  from { opacity: 0; transform: translateY(24px) scale(.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.pc-close {
+  position: absolute;
+  top: 8px; right: 10px;
+  z-index: 2;
+  width: 30px; height: 30px;
+  border: none; background: rgba(255, 255, 255, .25);
+  border-radius: 50%;
+  color: #fff; font-size: 22px; line-height: 1;
+  cursor: pointer;
+}
+.pc-close:hover { background: rgba(255, 255, 255, .4); }
+
+.pc-head {
+  /* Extra right padding so the (full) name never slides under the × button. */
+  padding: 20px 48px 18px 20px;
+  border-radius: 20px 20px 0 0;
+  background: linear-gradient(120deg, #1e88e5 0%, #7c4dff 55%, #ff4081 100%);
+  color: #fff;
+}
+.pc-name {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 22px; font-weight: 700; line-height: 1.1;
+  /* Full name, never truncated. */
+  white-space: normal; word-break: break-word;
+}
+.pc-sub { display: flex; align-items: baseline; gap: 8px; margin-top: 8px; }
+.pc-rank { font-size: 16px; font-weight: 800; line-height: 1; }
+.pc-rank sup { font-size: 9px; font-weight: 600; margin-left: 1px; }
+.pc-sep {
+  width: 3px; height: 3px; border-radius: 50%;
+  background: rgba(255, 255, 255, .55);
+  align-self: center;
+}
+.pc-pts { font-size: 16px; font-weight: 800; line-height: 1; }
+.pc-pts-l { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; opacity: .8; }
+
+.pc-streakpill {
+  margin: 14px 18px -2px;
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #ffb300, #ff7043);
+  color: #fff;
+  font-size: 12px; font-weight: 700; letter-spacing: .02em;
+  box-shadow: 0 3px 10px rgba(255, 112, 67, .35);
+}
+
+.pc-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 8px;
+  padding: 18px;
+}
+.pc-dot {
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px; font-weight: 700;
+  background: #e9edf2; color: #5a626e;
+}
+/* Only real results animate in — a gentle, subtle pop. Placeholders are static. */
+.pc-dot--anim { animation: pc-pop .34s cubic-bezier(.2, .7, .3, 1) both; }
+@keyframes pc-pop {
+  from { opacity: 0; transform: scale(.6); }
+  to   { opacity: 1; transform: scale(1); }
+}
+/* Future / unplayed games: faint dashed ring, no number. */
+.pc-dot--empty {
+  background: transparent !important;
+  border: 1px dashed rgba(0, 0, 0, .14) !important;
+}
+/* Part of a qualifying scoring streak: golden ring + soft glow. */
+.pc-dot--streak {
+  box-shadow: 0 0 0 2px #ffb300, 0 0 10px rgba(255, 179, 0, .55);
 }
