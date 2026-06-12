@@ -23,17 +23,24 @@ const provider = new firebase.auth.GoogleAuthProvider()
 const COLW = 34            // width of one match column (px)
 const LEFT_W = 150         // width of the sticky player column (px)
 
-// Points chip palette, keyed by points earned. Pink 8 -> purple 5 -> blue 3,
-// matching the player card; 0 stays a faint hollow chip.
-const PTS_BG = { 8: "#ff4081", 5: "#7c4dff", 3: "#1e88e5", 0: "transparent" }
+// Points chip palette, keyed by points earned. Emerald 8 -> purple 5 -> blue 3,
+// matching the player card; 0 stays a faint hollow chip. The deep emerald sits
+// in the same jewel-tone family as the purple/blue and stays distinct from the
+// pink brand accent (boundary line + totals).
+const PTS_BG = { 8: "#0aa85e", 5: "#7c4dff", 3: "#1e88e5", 0: "transparent" }
 const PTS_FG = { 8: "#ffffff", 5: "#ffffff", 3: "#ffffff", 0: "rgba(0,0,0,.32)" }
 
 // Pre-built style objects so cells don't allocate a new object on every render
 // (the grid is hundreds of players x 72 columns).
+// Tiered saliency: value maps to visual weight, not just hue, in three steps.
+// 8 (most valuable) is loudest — the most vibrant, saturated solid (emerald).
+// 5 and 3 are flat solids that step down (blue, then a fader purple), all
+// with white numbers, so each rung reads quieter than the one above while
+// staying legible.
 const CHIP_STYLE = {
   8: { background: PTS_BG[8], color: PTS_FG[8] },
-  5: { background: PTS_BG[5], color: PTS_FG[5] },
-  3: { background: PTS_BG[3], color: PTS_FG[3] },
+  5: { background: '#5891d6', color: '#ffffff' },
+  3: { background: '#a78fd4', color: '#ffffff' },
   0: { background: PTS_BG[0], color: PTS_FG[0], boxShadow: 'inset 0 0 0 1px rgba(0,0,0,.16)' },
 }
 const PRED_LIVE = { opacity: 1 }

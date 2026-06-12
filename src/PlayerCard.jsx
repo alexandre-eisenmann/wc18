@@ -6,12 +6,14 @@ import React, { useEffect, useMemo } from "react"
 // math — is paid for while the leaderboard itself is loading. It only ever
 // renders for the single player that was tapped, so the work is trivial.
 
-// Circle palette: pink (8, loudest) -> purple (5) -> blue (3), all with white
-// numbers. 0 is a hollow ring; unplayed games render empty.
+// Tiered saliency: value maps to visual weight, not just hue, in three steps.
+// 8 (loudest) is the most vibrant solid emerald "prize"; 5 and 3 are flat
+// solids that step down (blue, then a fader purple), all with white
+// numbers, so each rung reads quieter while staying legible. 0 is a hollow ring.
 const DOT = {
-  8: { background: '#ff4081', color: '#ffffff', border: '1px solid rgba(0,0,0,.12)' },
-  5: { background: '#7c4dff', color: '#ffffff', border: '1px solid rgba(0,0,0,.12)' },
-  3: { background: '#1e88e5', color: '#ffffff', border: '1px solid rgba(0,0,0,.12)' },
+  8: { background: '#0aa85e', color: '#ffffff', border: '1px solid rgba(0,0,0,.12)' },
+  5: { background: '#5891d6', color: '#ffffff', border: '1px solid rgba(0,0,0,.12)' },
+  3: { background: '#a78fd4', color: '#ffffff', border: '1px solid rgba(0,0,0,.12)' },
   0: { background: 'transparent', color: 'rgba(0,0,0,.30)', border: '1px solid rgba(0,0,0,.16)' },
 }
 
