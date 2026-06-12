@@ -429,7 +429,11 @@ ul {
 .r2-search-x { font-size: 20px !important; color: #aeb4bd; cursor: pointer; }
 
 .r2-scroll {
+  /* vh first as a fallback; dvh tracks the *visible* mobile viewport so the
+     scroll area doesn't run under the browser's toolbar and leak the last rows
+     past the fold (the body would otherwise become scrollable on mobile). */
   height: calc(100vh - 140px);
+  height: calc(100dvh - 140px);
   overflow: auto;
   -webkit-overflow-scrolling: touch;
   /* No edge bounce / scroll chaining when dragging the match grid sideways. */
