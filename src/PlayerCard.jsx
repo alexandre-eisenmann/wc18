@@ -112,7 +112,7 @@ export default function PlayerCard({ game, matches, teams, t, onClose }) {
                       {Array.from({ length: c.streakNo }).map((_, k) => {
                         // Fan the flames symmetrically across the top; each rides
                         // the dot's rim, so longer runs sweep around the contour.
-                        const a = (k - (c.streakNo - 1) / 2) * 26
+                        const a = (k - (c.streakNo - 1) / 2) * 32
                         return (
                           <span key={k} className="pc-streakno-fire" style={{ transform: `rotate(${a}deg)` }}>
                             <span className="pc-streakno-fire-i" style={{ transform: `translate(-50%, -50%) rotate(${-a}deg)` }}>🔥</span>
