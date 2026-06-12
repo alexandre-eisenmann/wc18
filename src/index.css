@@ -460,27 +460,12 @@ ul {
   content-visibility: auto;
   contain-intrinsic-size: auto 46px;
 }
-/* Separator between tied-position blocks (replaces row striping). A single
-   crisp line laid over the seam, drawn above the sticky name column (z-index)
-   so it reads as one continuous rule across identity + match grid. It's
-   anchored at full strength under the name/rank, then eases toward the right
-   so it feels designed rather than ruled. */
-.r2-row--div { position: relative; }
-.r2-row--div::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  z-index: 20;
-  pointer-events: none;
-  background: linear-gradient(to right,
-    rgba(15,23,42,.26) 0,
-    rgba(15,23,42,.24) 150px,
-    rgba(15,23,42,.14) 50%,
-    rgba(15,23,42,.06) 100%);
-}
+/* Separator between tied-position blocks (replaces row striping). A solid
+   hairline on the seam: painted on the row itself, it spans the full width —
+   including under the sticky name column — and is immune to horizontal scroll
+   (a grid-anchored gradient drifted out from under the sticky column on
+   mobile). Crisp slate so it stays discernible without reading as heavy. */
+.r2-row--div { border-top: 1px solid rgba(15,23,42,.18); }
 
 /* ---- Flags header (sticky top) ---- */
 .r2-head {
@@ -489,7 +474,6 @@ ul {
   z-index: 30;
   height: 70px;
   background: #fff;
-  box-shadow: 0 2px 6px rgba(0,0,0,.12);
 }
 .r2-hcol {
   box-sizing: border-box;
