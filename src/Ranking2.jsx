@@ -52,13 +52,24 @@ export default class Ranking2 extends Component {
     this.matches = sortedMatches
     this.teams = data.teams.reduce((acc, ele) => { acc[ele.id] = ele; return acc }, {})
     this.scrollRef = React.createRef()
+    this.searchRef = React.createRef()
     this.state = {
       mygames: [], pins: [], logged: null, user: null,
       games: gamesFromFile, matches: this.matches,
       query: '',
+      searchActive: false,
       myBidsReady: false,
       render: false,
     }
+  }
+
+  // Mount the real text input only while searching; the rest of the time a
+  // non-editable placeholder stands in. This stops iOS "Shake to Undo" from
+  // popping up while scrolling (it targets any live editable text field).
+  activateSearch = () => {
+    this.setState({ searchActive: true }, () => {
+      if (this.searchRef.current) this.searchRef.current.focus()
+    })
   }
 
   calculatePosition(sortedGames) {
@@ -378,16 +389,22 @@ export default class Ranking2 extends Component {
           </div>
         </div>}
 
-        <div className="r2-search">
+        <div className="r2-search" onClick={() => { if (!this.state.searchActive) this.activateSearch() }}>
           <Icon className="r2-search-ic">search</Icon>
-          <input
-            className="r2-search-in"
-            type="text"
-            value={this.state.query}
-            onChange={(e) => this.setState({ query: e.target.value })}
-            placeholder={t('ranking.search')}
-          />
-          {filtering && <Icon className="r2-search-x" onClick={() => this.setState({ query: '' })}>close</Icon>}
+          {this.state.searchActive
+            ? <input
+                ref={this.searchRef}
+                className="r2-search-in"
+                type="text"
+                value={this.state.query}
+                onChange={(e) => this.setState({ query: e.target.value })}
+                onBlur={() => this.setState({ searchActive: false })}
+                placeholder={t('ranking.search')}
+              />
+            : <span className="r2-search-ph" style={{ color: this.state.query ? '#1c2127' : '#aeb4bd' }}>
+                {this.state.query || t('ranking.search')}
+              </span>}
+          {filtering && <Icon className="r2-search-x" onClick={(e) => { e.stopPropagation(); this.setState({ query: '', searchActive: false }) }}>close</Icon>}
         </div>
 
         <div className="r2-scroll" ref={this.scrollRef}>
