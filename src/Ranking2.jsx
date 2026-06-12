@@ -3,7 +3,7 @@ import data from './data26.json'
 import gamesFromFile from './games26.json'
 import dayjs from 'dayjs'
 import { CircularProgress, Icon } from '@mui/material'
-import { blue, orange } from '@mui/material/colors'
+import { orange } from '@mui/material/colors'
 import firebase from 'firebase/compat/app'
 import './flags.css'
 import './index.css'
@@ -15,7 +15,6 @@ import { LanguageContext } from './i18n'
 // initial render — it's only fetched the first time a player name is tapped.
 const PlayerCard = React.lazy(() => import('./PlayerCard'))
 
-const blue500 = blue[500]
 const orange200 = orange[200]
 
 const provider = new firebase.auth.GoogleAuthProvider()
@@ -24,9 +23,11 @@ const provider = new firebase.auth.GoogleAuthProvider()
 const COLW = 34            // width of one match column (px)
 const LEFT_W = 150         // width of the sticky player column (px)
 
-// Points chip palette, keyed by points earned. Mirrors the classic dot colors.
-const PTS_BG = { 8: blue500, 5: "#c7ccd4", 3: "#e9edf2", 0: "transparent" }
-const PTS_FG = { 8: "#ffffff", 5: "#333a42", 3: "#5a626e", 0: "rgba(0,0,0,.32)" }
+// Points chip palette, keyed by points earned. Saliency descends with the
+// score (pink 8 -> blue 5 -> purple 3), matching the player card; 0 stays a
+// faint hollow chip.
+const PTS_BG = { 8: "#ff4081", 5: "#1e88e5", 3: "#7c4dff", 0: "transparent" }
+const PTS_FG = { 8: "#ffffff", 5: "#ffffff", 3: "#ffffff", 0: "rgba(0,0,0,.32)" }
 
 // Pre-built style objects so cells don't allocate a new object on every render
 // (the grid is hundreds of players x 72 columns).
