@@ -23,10 +23,9 @@ const provider = new firebase.auth.GoogleAuthProvider()
 const COLW = 34            // width of one match column (px)
 const LEFT_W = 150         // width of the sticky player column (px)
 
-// Points chip palette, keyed by points earned. Saliency descends with the
-// score (pink 8 -> blue 5 -> purple 3), matching the player card; 0 stays a
-// faint hollow chip.
-const PTS_BG = { 8: "#ff4081", 5: "#1e88e5", 3: "#7c4dff", 0: "transparent" }
+// Points chip palette, keyed by points earned. Pink 8 -> purple 5 -> blue 3,
+// matching the player card; 0 stays a faint hollow chip.
+const PTS_BG = { 8: "#ff4081", 5: "#7c4dff", 3: "#1e88e5", 0: "transparent" }
 const PTS_FG = { 8: "#ffffff", 5: "#ffffff", 3: "#ffffff", 0: "rgba(0,0,0,.32)" }
 
 // Pre-built style objects so cells don't allocate a new object on every render
