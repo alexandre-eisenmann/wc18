@@ -2,6 +2,8 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  /* Block horizontal rubber-band of the whole page (white gap on swipe). */
+  overscroll-behavior-x: none;
 }
 
 .stripe {
@@ -424,6 +426,8 @@ ul {
   height: calc(100vh - 140px);
   overflow: auto;
   -webkit-overflow-scrolling: touch;
+  /* No edge bounce / scroll chaining when dragging the match grid sideways. */
+  overscroll-behavior: none;
   background: #fff;
   font-family: Lato, sans-serif;
 }
@@ -574,6 +578,20 @@ ul {
 /* ---- Section bands (full-width strip, label pinned left) ---- */
 .r2-band { height: 24px; line-height: 24px; }
 .r2-band--mine { background: #15c2e0; }
+
+/* "Meus Jogos" loading placeholder: spinner pinned left so it stays in view. */
+.r2-myloading {
+  height: 54px;
+  background: #e9fbff;
+  display: flex;
+  align-items: center;
+}
+.r2-myloading-in {
+  position: sticky; left: 0;
+  display: flex; align-items: center;
+  padding-left: 18px;
+  color: #15c2e0;
+}
 .r2-band--all { background: linear-gradient(90deg, #1e88e5, #ff4081); }
 .r2-band-l {
   position: sticky;

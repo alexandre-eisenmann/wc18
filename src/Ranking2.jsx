@@ -56,6 +56,7 @@ export default class Ranking2 extends Component {
       mygames: [], pins: [], logged: null, user: null,
       games: gamesFromFile, matches: this.matches,
       query: '',
+      myBidsReady: false,
       render: false,
     }
   }
@@ -106,6 +107,7 @@ export default class Ranking2 extends Component {
     if (this.ref2) this.ref2.off('value')
     if (this.ref3) this.ref3.off('value')
     if (this.unsubscribe) this.unsubscribe()
+    if (this._myBidsTimer) clearTimeout(this._myBidsTimer)
   }
 
   componentDidMount() {
@@ -118,6 +120,14 @@ export default class Ranking2 extends Component {
     // scores locally on every result change (no re-downloading the database).
     this.bids = getCachedBids()
 
+    // Safety net so the "Meus Jogos" spinner never spins forever if a listener
+    // is slow; flips the band to its (possibly empty) ready state.
+    this._myBidsTimer = setTimeout(() => {
+      self._myGamesFired = true
+      self._pinsFired = true
+      self.markMyBidsReady()
+    }, 4000)
+
     this.unsubscribe = firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
         self.setState({ logged: true, user: user })
@@ -127,7 +137,9 @@ export default class Ranking2 extends Component {
           snapshot.forEach(function (childSnapshot) {
             bids[childSnapshot.key] = childSnapshot.val()
           })
+          self._myGamesFired = true
           self.setState({ mygames: bids })
+          self.markMyBidsReady()
         })
         self.ref3 = firebase.database().ref(`${DATABASE_ROOT_NODE}/pins/${user.uid}`)
         self.ref3.on('value', snapshot => {
@@ -135,7 +147,9 @@ export default class Ranking2 extends Component {
           snapshot.forEach(function (childSnapshot) {
             pins.push(childSnapshot.key)
           })
+          self._pinsFired = true
           self.setState({ pins: pins })
+          self.markMyBidsReady()
         })
       } else {
         self.setState({ logged: false, user: null })
@@ -170,7 +184,9 @@ export default class Ranking2 extends Component {
   }
 
   // Recompute scores from the in-memory bids + latest results, then re-render.
-  // No network. No-ops until both bids and results are available.
+  // No network. No-ops until both bids and results are available. Paints the
+  // leaderboard as soon as scores exist — the "Meus Jogos" band loads its own
+  // data behind a spinner, so nothing blocks the first frame.
   recompute = () => {
     if (!this.bids || !this.resultsReady) return
     const matches = this.workingMatches
@@ -192,6 +208,14 @@ export default class Ranking2 extends Component {
         requestAnimationFrame(this.scrollToCurrent)
       }
     })
+  }
+
+  // The "Meus Jogos" band is ready once both the user's bids and pins have
+  // arrived (each Firebase listener fires once, even when empty).
+  markMyBidsReady = () => {
+    if (this._myGamesFired && this._pinsFired && !this.state.myBidsReady) {
+      this.setState({ myBidsReady: true })
+    }
   }
 
   // Index of the first not-yet-played match, or matches.length if all played.
@@ -376,10 +400,17 @@ export default class Ranking2 extends Component {
               {matches.map((m, i) => this.renderHeaderCell(m, i, boundary))}
             </div>
 
-            {myrows.length > 0 && (
-              <div className="r2-band r2-band--mine"><span className="r2-band-l">{t('ranking.myBidsHeader')}</span></div>
+            {!filtering && this.state.logged && (
+              this.state.myBidsReady
+                ? (myrows.length > 0 && <>
+                    <div className="r2-band r2-band--mine"><span className="r2-band-l">{t('ranking.myBidsHeader')}</span></div>
+                    {myrows}
+                  </>)
+                : <>
+                    <div className="r2-band r2-band--mine"><span className="r2-band-l">{t('ranking.myBidsHeader')}</span></div>
+                    <div className="r2-myloading"><span className="r2-myloading-in"><CircularProgress size={18} thickness={5} sx={{ color: '#0f9fba' }} /></span></div>
+                  </>
             )}
-            {myrows}
 
             <div className="r2-band r2-band--all"><span className="r2-band-l">{t('ranking.leaderboardHeader')}</span></div>
             {rows}
