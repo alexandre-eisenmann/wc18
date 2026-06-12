@@ -509,8 +509,8 @@ ul {
   flex: 0 0 150px;
   display: flex;
   align-items: center;
-  gap: 2px;
-  padding: 0 4px 0 6px;
+  gap: 0;
+  padding: 0 2px 0 4px;
   border-right: 1px solid rgba(0,0,0,.08);
 }
 .r2-corner {
@@ -518,18 +518,18 @@ ul {
   background: #fff !important;
 }
 .r2-corner-pts {
-  flex: 0 0 30px; width: 30px; text-align: center;
+  flex: 0 0 28px; width: 28px; text-align: center;
   font-size: 10px; font-weight: 700; color: #9097a1;
 }
 .r2-corner-name {
-  flex: 1 1 auto; padding-left: 4px;
+  flex: 1 1 auto; padding-left: 3px;
   font-size: 11px; font-weight: 700; letter-spacing: .04em;
   text-transform: uppercase; color: #6b727c;
 }
 
 /* Stacked rank-over-points: rank small on top, score bold below. */
 .r2-meta {
-  flex: 0 0 30px; width: 30px;
+  flex: 0 0 28px; width: 28px;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   line-height: 1;
 }
@@ -542,10 +542,12 @@ ul {
 .r2-idmain {
   flex: 1 1 auto; min-width: 0;
   display: flex; flex-direction: column; justify-content: center;
-  padding-left: 6px;
+  padding-left: 3px;
 }
 .r2-nm {
-  font-size: 13px; color: #1c2127; line-height: 1.15;
+  /* Condensed face fits noticeably more of the name in the fixed column. */
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 12px; color: #1c2127; line-height: 1.15; letter-spacing: .01em;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .r2-eyewrap {
