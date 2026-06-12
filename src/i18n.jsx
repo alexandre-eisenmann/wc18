@@ -79,6 +79,12 @@ const messages = {
     'ranking.title': 'Ranking',
     'ranking.myBidsHeader': 'MEUS JOGOS (my bids)',
     'ranking.leaderboardHeader': 'CLASSIFICAÇÃO GERAL (leaderboard)',
+    'ranking.upcoming': 'Próximos jogos',
+    'ranking.noUpcoming': 'Todos os jogos já foram disputados',
+    'ranking.ptsShort': 'Pts',
+    'ranking.search': 'Buscar participante…',
+    'ranking.noResults': 'Nenhum participante encontrado',
+    'ranking.participant': 'Participante',
 
     'leaderboard.participants': '{count} participantes',
 
@@ -197,6 +203,12 @@ const messages = {
     'ranking.title': 'Ranking',
     'ranking.myBidsHeader': 'MY BIDS',
     'ranking.leaderboardHeader': 'OVERALL LEADERBOARD',
+    'ranking.upcoming': 'Upcoming games',
+    'ranking.noUpcoming': 'All games have been played',
+    'ranking.ptsShort': 'Pts',
+    'ranking.search': 'Find a participant…',
+    'ranking.noResults': 'No participant found',
+    'ranking.participant': 'Participant',
 
     'leaderboard.participants': '{count} participants',
 

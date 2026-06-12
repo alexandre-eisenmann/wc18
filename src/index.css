@@ -383,5 +383,203 @@ ul {
   color: white !important;
   cursor: pointer;
   margin-top: -12px;
-  
+
+}
+
+/* ===================== Ranking2 (modern) =====================
+   A single scroll area (vertical for players, horizontal for matches).
+   The player column is pinned left; the flags header is pinned top, so the
+   identity + total stay readable while every group-stage game is one tap away. */
+
+.r2-root {
+  background: #fff;
+  /* Read-only screen: no text selection or tap highlight (the search input
+     re-enables selection below). */
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Search / filter bar above the table. */
+.r2-search {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 44px;
+  padding: 0 12px;
+  background: #fff;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+}
+.r2-search-ic { font-size: 20px !important; color: #9097a1; }
+.r2-search-in {
+  flex: 1 1 auto; min-width: 0;
+  border: none; outline: none; background: transparent;
+  font-family: Lato, sans-serif; font-size: 15px; color: #1c2127;
+  -webkit-user-select: text; user-select: text;
+}
+.r2-search-in::placeholder { color: #aeb4bd; }
+.r2-search-x { font-size: 20px !important; color: #aeb4bd; cursor: pointer; }
+
+.r2-scroll {
+  height: calc(100vh - 140px);
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  background: #fff;
+  font-family: Lato, sans-serif;
+}
+
+.r2-empty { padding: 16px 12px; }
+.r2-empty-l {
+  position: sticky; left: 0;
+  font-family: Lato, sans-serif; font-size: 13px; color: #9097a1;
+}
+.r2-grid { position: relative; }
+
+.r2-row {
+  display: flex;
+  align-items: stretch;
+  height: 46px;
+}
+/* Skip layout/paint for rows scrolled out of view (long leaderboards). The
+   header row is excluded so the sticky flags always render. */
+.r2-row:not(.r2-head) {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 46px;
+}
+/* Hairline between tied-position blocks (replaces row striping). */
+.r2-row--div { border-top: 1px solid rgba(0,0,0,.10); }
+
+/* ---- Flags header (sticky top) ---- */
+.r2-head {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  height: 70px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,.12);
+}
+.r2-hcol {
+  box-sizing: border-box;
+  width: 34px;
+  flex: 0 0 34px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-left: 1px solid rgba(0,0,0,.05);
+}
+.r2-habbr {
+  font-size: 9px; font-weight: 700; letter-spacing: .02em;
+  line-height: 1; color: #5a626e;
+}
+.r2-hflag {
+  width: 20px;
+  height: 14px;
+  border-radius: 2px;
+  background-size: cover !important;
+  background-position: center !important;
+  box-shadow: 0 0 1px rgba(0,0,0,.4);
+}
+/* Tiny gap between the stacked home/away flags so they don't read as one block. */
+.r2-hflag + .r2-hflag { margin-top: 2px; }
+.r2-hres { font-size: 10px; font-weight: 700; color: #1c2127; line-height: 1; margin-top: 1px; }
+.r2-hdate { font-size: 9px; color: #98a0ab; line-height: 1; margin-top: 1px; }
+.r2-hcol--next { background: rgba(255,64,129,.06); }
+
+/* ---- Sticky player column ---- */
+.r2-idcol {
+  position: sticky;
+  left: 0;
+  z-index: 10;
+  box-sizing: border-box;
+  width: 150px;
+  flex: 0 0 150px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0 4px 0 6px;
+  border-right: 1px solid rgba(0,0,0,.08);
+}
+.r2-corner {
+  z-index: 40;
+  background: #fff !important;
+}
+.r2-corner-pts {
+  flex: 0 0 30px; width: 30px; text-align: center;
+  font-size: 10px; font-weight: 700; color: #9097a1;
+}
+.r2-corner-name {
+  flex: 1 1 auto; padding-left: 4px;
+  font-size: 11px; font-weight: 700; letter-spacing: .04em;
+  text-transform: uppercase; color: #6b727c;
+}
+
+/* Stacked rank-over-points: rank small on top, score bold below. */
+.r2-meta {
+  flex: 0 0 30px; width: 30px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  line-height: 1;
+}
+.r2-pos { font-size: 10px; font-weight: 700; color: #aeb4bd; }
+.r2-pos sup { font-size: 7px; font-weight: 400; }
+.r2-tot { font-size: 15px; font-weight: 700; color: #ff4081; margin-top: 1px; }
+
+/* Name (line 1) over a small follow toggle (line 2), reusing the row's height
+   instead of a dedicated column. */
+.r2-idmain {
+  flex: 1 1 auto; min-width: 0;
+  display: flex; flex-direction: column; justify-content: center;
+  padding-left: 6px;
+}
+.r2-nm {
+  font-size: 13px; color: #1c2127; line-height: 1.15;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.r2-eyewrap {
+  width: 22px; height: 17px; margin-top: 1px;
+  display: flex; align-items: center;
+  cursor: pointer;
+}
+.r2-eye { font-size: 16px !important; color: #cbd0d8; }
+.r2-eye--on { color: #1e88e5 !important; }
+
+/* ---- One match cell: prediction + points chip ---- */
+.r2-col {
+  box-sizing: border-box;
+  width: 34px;
+  flex: 0 0 34px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  border-left: 1px solid rgba(0,0,0,.05);
+}
+.r2-col--played { background: rgba(15,23,42,.018); }
+.r2-col--boundary { border-left: 2px solid #ff4081; }
+.r2-pred {
+  font-size: 11px; line-height: 1; color: #222; letter-spacing: .02em;
+}
+.r2-chip {
+  min-width: 15px; height: 15px;
+  padding: 0 2px; box-sizing: border-box;
+  border-radius: 8px;
+  font-size: 10px; font-weight: 700; line-height: 15px;
+  text-align: center;
+}
+
+/* ---- Section bands (full-width strip, label pinned left) ---- */
+.r2-band { height: 24px; line-height: 24px; }
+.r2-band--mine { background: #15c2e0; }
+.r2-band--all { background: linear-gradient(90deg, #1e88e5, #ff4081); }
+.r2-band-l {
+  position: sticky;
+  left: 0;
+  display: inline-block;
+  padding-left: 10px;
+  font-size: 10px; font-weight: 700; letter-spacing: .05em;
+  text-transform: uppercase; color: #fff;
 }
