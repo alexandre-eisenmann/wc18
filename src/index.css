@@ -416,10 +416,16 @@ ul {
 .r2-search-in {
   flex: 1 1 auto; min-width: 0;
   border: none; outline: none; background: transparent;
-  font-family: Lato, sans-serif; font-size: 15px; color: #1c2127;
+  /* 16px keeps iOS from auto-zooming (and cropping the sides) on focus. */
+  font-family: Lato, sans-serif; font-size: 16px; color: #1c2127;
   -webkit-user-select: text; user-select: text;
 }
 .r2-search-in::placeholder { color: #aeb4bd; }
+.r2-search-ph {
+  flex: 1 1 auto; min-width: 0;
+  font-family: Lato, sans-serif; font-size: 16px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
 .r2-search-x { font-size: 20px !important; color: #aeb4bd; cursor: pointer; }
 
 .r2-scroll {
