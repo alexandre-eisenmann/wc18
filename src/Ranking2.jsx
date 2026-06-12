@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { Component, Suspense } from "react"
 import data from './data26.json'
 import gamesFromFile from './games26.json'
 import dayjs from 'dayjs'
@@ -10,6 +10,10 @@ import './index.css'
 import { DATABASE_ROOT_NODE } from "./constants"
 import { getCachedBids, fetchBids } from './bidsCache'
 import { LanguageContext } from './i18n'
+
+// Lazily loaded so the card's code/styles never weigh on the leaderboard's
+// initial render — it's only fetched the first time a player name is tapped.
+const PlayerCard = React.lazy(() => import('./PlayerCard'))
 
 const blue500 = blue[500]
 const orange200 = orange[200]
@@ -60,6 +64,7 @@ export default class Ranking2 extends Component {
       searchActive: false,
       myBidsReady: false,
       render: false,
+      cardGame: null,
     }
   }
 
@@ -305,7 +310,7 @@ export default class Ranking2 extends Component {
             </>}
           </span>
           <span className="r2-idmain">
-            <span className="r2-nm" title={game.name}>{game.name}</span>
+            <span className="r2-nm" title={game.name} onClick={() => this.setState({ cardGame: game })}>{game.name}</span>
             {this.state.logged && this.renderFollow(game, pinned)}
           </span>
         </div>
@@ -436,6 +441,18 @@ export default class Ranking2 extends Component {
             )}
           </div>
         </div>
+
+        {this.state.cardGame && (
+          <Suspense fallback={null}>
+            <PlayerCard
+              game={this.state.cardGame}
+              matches={this.state.matches}
+              teams={this.teams}
+              t={t}
+              onClose={() => this.setState({ cardGame: null })}
+            />
+          </Suspense>
+        )}
       </div>
     )
   }
