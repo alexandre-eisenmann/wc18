@@ -86,7 +86,6 @@ const messages = {
     'ranking.noResults': 'Nenhum participante encontrado',
     'ranking.participant': 'Participante',
     'card.points': 'pontos',
-    'card.streak': '{n} jogos seguidos pontuando',
 
     'leaderboard.participants': '{count} participantes',
 
@@ -212,7 +211,6 @@ const messages = {
     'ranking.noResults': 'No participant found',
     'ranking.participant': 'Participant',
     'card.points': 'points',
-    'card.streak': '{n} games scoring in a row',
 
     'leaderboard.participants': '{count} participants',
 

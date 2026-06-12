@@ -50,8 +50,10 @@ export default function PlayerCard({ game, matches, teams, t, onClose }) {
       }
     })
 
-    // Walk the played games marking maximal runs of pts > 0; flag every cell in
-    // a run that reaches STREAK_MIN, and remember the longest run's length.
+    // Walk the played games finding maximal runs of pts > 0. A run that reaches
+    // STREAK_MIN stamps its length on its *last* cell only (that many flames) —
+    // so the count sits at the end of the streak and rides forward as the run
+    // extends, leaving earlier cells clean. Each run is independent.
     let bestStreak = 0
     let i = 0
     while (i < cells.length) {
@@ -60,7 +62,7 @@ export default function PlayerCard({ game, matches, teams, t, onClose }) {
         while (j < cells.length && cells[j].played && cells[j].pts > 0) j++
         const len = j - i
         if (len > bestStreak) bestStreak = len
-        if (len >= STREAK_MIN) for (let k = i; k < j; k++) cells[k].streak = true
+        if (len >= STREAK_MIN) cells[j - 1].streakNo = len
         i = j
       } else {
         i++
@@ -87,17 +89,13 @@ export default function PlayerCard({ game, matches, teams, t, onClose }) {
           </div>
         </div>
 
-        {bestStreak >= STREAK_MIN && (
-          <div className="pc-streakpill">🔥 {t('card.streak').replace('{n}', bestStreak)}</div>
-        )}
-
         <div className="pc-grid">
           {(() => {
             let playedSeen = 0
             return cells.map((c, i) => {
               const sty = c.played ? DOT[c.pts] : null
               // Only the real results animate; placeholders render statically.
-              const cls = `pc-dot${c.played ? ' pc-dot--anim' : ' pc-dot--empty'}${c.streak ? ' pc-dot--streak' : ''}`
+              const cls = `pc-dot${c.played ? ' pc-dot--anim' : ' pc-dot--empty'}`
               const delay = c.played ? playedSeen++ * 45 : 0
               return (
                 <div
@@ -109,6 +107,20 @@ export default function PlayerCard({ game, matches, teams, t, onClose }) {
                   }}
                   title={`${c.label} · ${c.pred}`}
                 >
+                  {c.streakNo && (
+                    <span className="pc-streakno">
+                      {Array.from({ length: c.streakNo }).map((_, k) => {
+                        // Fan the flames symmetrically across the top; each rides
+                        // the dot's rim, so longer runs sweep around the contour.
+                        const a = (k - (c.streakNo - 1) / 2) * 26
+                        return (
+                          <span key={k} className="pc-streakno-fire" style={{ transform: `rotate(${a}deg)` }}>
+                            <span className="pc-streakno-fire-i" style={{ transform: `translate(-50%, -50%) rotate(${-a}deg)` }}>🔥</span>
+                          </span>
+                        )
+                      })}
+                    </span>
+                  )}
                   {c.played ? c.pts : ''}
                 </div>
               )

@@ -70,6 +70,7 @@ export default class Ranking2 extends Component {
       query: '',
       searchActive: false,
       myBidsReady: false,
+      myBidsCollapsed: false,
       render: false,
       cardGame: null,
     }
@@ -233,6 +234,22 @@ export default class Ranking2 extends Component {
     })
   }
 
+  toggleMyBids = () => this.setState((s) => ({ myBidsCollapsed: !s.myBidsCollapsed }))
+
+  // The "Meus Jogos" section band, clickable to collapse/expand its rows. The
+  // label + caret stay pinned left so the control is reachable at any scroll.
+  renderMyBidsBand() {
+    const { t } = this.context
+    return (
+      <div className="r2-band r2-band--mine r2-band--toggle" onClick={this.toggleMyBids}>
+        <span className="r2-band-l">
+          <Icon className="r2-band-caret">{this.state.myBidsCollapsed ? 'chevron_right' : 'expand_more'}</Icon>
+          {t('ranking.myBidsHeader')}
+        </span>
+      </div>
+    )
+  }
+
   // The "Meus Jogos" band is ready once both the user's bids and pins have
   // arrived (each Firebase listener fires once, even when empty).
   markMyBidsReady = () => {
@@ -247,8 +264,11 @@ export default class Ranking2 extends Component {
     return i < 0 ? matches.length : i
   }
 
-  // Park the horizontal scroll so the most recent match-day's results lead into
-  // the upcoming games. Older history stays off-screen to the left (still
+  // Park the horizontal scroll so recent results lead into the upcoming games,
+  // with the pink boundary line roughly centered. How many past columns we
+  // reveal scales with the viewport: ~half the visible match columns, so a
+  // phone opens on ~3 past games (line centered) while a wide desktop shows
+  // far more history. Older matches stay off-screen to the left (still
   // scrollable), so weeks into the tournament the view still opens on "now".
   scrollToCurrent = () => {
     const el = this.scrollRef.current
@@ -256,10 +276,20 @@ export default class Ranking2 extends Component {
     const matches = this.state.matches
     const boundary = this.boundaryIndex(matches)
     if (boundary <= 0) { el.scrollLeft = 0; return }
-    // Walk back over the matches sharing the last played day; start there.
+    // Width of the scrollable match area (viewport minus the sticky player
+    // column) and how many whole columns fit in it.
+    const matchAreaW = el.clientWidth - LEFT_W
+    const visibleCols = Math.max(1, Math.floor(matchAreaW / COLW))
+    // Past columns to show left of the line: half the visible width centers it.
+    let pastVisible = Math.floor(visibleCols / 2)
+    // But never cut the last played match-day in half — reveal it whole even if
+    // that nudges the line a column or two right of center (days can hold 4
+    // games, so on a phone this is the "show the full last day" case).
     const lastDay = dayjs(matches[boundary - 1].date)
-    let start = boundary - 1
-    while (start > 0 && dayjs(matches[start - 1].date).isSame(lastDay, 'day')) start--
+    let dayStart = boundary - 1
+    while (dayStart > 0 && dayjs(matches[dayStart - 1].date).isSame(lastDay, 'day')) dayStart--
+    pastVisible = Math.max(pastVisible, boundary - dayStart)
+    const start = Math.max(0, boundary - pastVisible)
     el.scrollLeft = start * COLW
   }
 
@@ -432,12 +462,12 @@ export default class Ranking2 extends Component {
             {!filtering && this.state.logged && (
               this.state.myBidsReady
                 ? (myrows.length > 0 && <>
-                    <div className="r2-band r2-band--mine"><span className="r2-band-l">{t('ranking.myBidsHeader')}</span></div>
-                    {myrows}
+                    {this.renderMyBidsBand()}
+                    {!this.state.myBidsCollapsed && myrows}
                   </>)
                 : <>
-                    <div className="r2-band r2-band--mine"><span className="r2-band-l">{t('ranking.myBidsHeader')}</span></div>
-                    <div className="r2-myloading"><span className="r2-myloading-in"><CircularProgress size={18} thickness={5} sx={{ color: '#0f9fba' }} /></span></div>
+                    {this.renderMyBidsBand()}
+                    {!this.state.myBidsCollapsed && <div className="r2-myloading"><span className="r2-myloading-in"><CircularProgress size={18} thickness={5} sx={{ color: '#0f9fba' }} /></span></div>}
                   </>
             )}
 

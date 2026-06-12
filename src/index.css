@@ -460,8 +460,27 @@ ul {
   content-visibility: auto;
   contain-intrinsic-size: auto 46px;
 }
-/* Hairline between tied-position blocks (replaces row striping). */
-.r2-row--div { border-top: 1px solid rgba(0,0,0,.10); }
+/* Separator between tied-position blocks (replaces row striping). A single
+   crisp line laid over the seam, drawn above the sticky name column (z-index)
+   so it reads as one continuous rule across identity + match grid. It's
+   anchored at full strength under the name/rank, then eases toward the right
+   so it feels designed rather than ruled. */
+.r2-row--div { position: relative; }
+.r2-row--div::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  z-index: 20;
+  pointer-events: none;
+  background: linear-gradient(to right,
+    rgba(15,23,42,.26) 0,
+    rgba(15,23,42,.24) 150px,
+    rgba(15,23,42,.14) 50%,
+    rgba(15,23,42,.06) 100%);
+}
 
 /* ---- Flags header (sticky top) ---- */
 .r2-head {
@@ -606,14 +625,19 @@ ul {
   color: #15c2e0;
 }
 .r2-band--all { background: linear-gradient(90deg, #1e88e5, #ff4081); }
+/* Collapsible "Meus Jogos" band: whole strip is the toggle target. */
+.r2-band--toggle { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .r2-band-l {
   position: sticky;
   left: 0;
-  display: inline-block;
-  padding-left: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding-left: 8px;
   font-size: 10px; font-weight: 700; letter-spacing: .05em;
   text-transform: uppercase; color: #fff;
 }
+.r2-band-caret { font-size: 16px !important; margin-left: -2px; }
 
 /* ============================================================
    Player card — modal shown over the leaderboard on name tap.
@@ -688,17 +712,6 @@ ul {
 .pc-pts { font-size: 16px; font-weight: 800; line-height: 1; }
 .pc-pts-l { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; opacity: .8; }
 
-.pc-streakpill {
-  margin: 14px 18px -2px;
-  display: inline-block;
-  padding: 5px 12px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, #ffb300, #ff7043);
-  color: #fff;
-  font-size: 12px; font-weight: 700; letter-spacing: .02em;
-  box-shadow: 0 3px 10px rgba(255, 112, 67, .35);
-}
-
 .pc-grid {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
@@ -706,6 +719,7 @@ ul {
   padding: 18px;
 }
 .pc-dot {
+  position: relative;
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   display: flex;
@@ -713,6 +727,33 @@ ul {
   justify-content: center;
   font-size: 13px; font-weight: 700;
   background: #e9edf2; color: #5a626e;
+}
+/* Streak marker: one flame per game in the run (the count of flames *is* the
+   streak length — rarely past ~5 — so no number, no "+" to misread as points).
+   The flames ride the dot's rim and fan around its contour as the run grows. */
+.pc-streakno {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+/* Each flame is a zero-width spoke pinned at the dot's centre and rotated, so
+   its tip traces the rim. */
+.pc-streakno-fire {
+  position: absolute;
+  left: 50%;
+  bottom: 50%;
+  width: 0;
+  height: 50%;
+  transform-origin: bottom center;
+}
+/* The glyph sits centred on the spoke's tip and is counter-rotated to stay
+   upright wherever it lands on the arc. */
+.pc-streakno-fire-i {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  font-size: 11px;
+  line-height: 1;
 }
 /* Only real results animate in — a gentle, subtle pop. Placeholders are static. */
 .pc-dot--anim { animation: pc-pop .34s cubic-bezier(.2, .7, .3, 1) both; }
@@ -724,8 +765,4 @@ ul {
 .pc-dot--empty {
   background: transparent !important;
   border: 1px dashed rgba(0, 0, 0, .14) !important;
-}
-/* Part of a qualifying scoring streak: golden ring + soft glow. */
-.pc-dot--streak {
-  box-shadow: 0 0 0 2px #ffb300, 0 0 10px rgba(255, 179, 0, .55);
 }
