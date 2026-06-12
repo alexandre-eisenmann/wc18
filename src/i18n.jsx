@@ -77,8 +77,8 @@ const messages = {
     'group.label': 'Grupo',
 
     'ranking.title': 'Ranking',
-    'ranking.myBidsHeader': 'MEUS JOGOS (my bids)',
-    'ranking.leaderboardHeader': 'CLASSIFICAÇÃO GERAL (leaderboard)',
+    'ranking.myBidsHeader': 'MEUS JOGOS',
+    'ranking.leaderboardHeader': 'CLASSIFICAÇÃO GERAL',
     'ranking.upcoming': 'Próximos jogos',
     'ranking.noUpcoming': 'Todos os jogos já foram disputados',
     'ranking.ptsShort': 'Pts',
