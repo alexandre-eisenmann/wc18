@@ -6,12 +6,13 @@ import React, { useEffect, useMemo } from "react"
 // math — is paid for while the leaderboard itself is loading. It only ever
 // renders for the single player that was tapped, so the work is trivial.
 
-// Circle palette, faithful to the leaderboard's points colors. 8 = the brand
-// blue, 5/3 = the two grays, 0 = a hollow ring. Unplayed games render empty.
+// Circle palette: saliency descends with the score — pink (loudest) marks the
+// best result, then blue, then purple, all with white numbers. 0 is a hollow
+// ring; unplayed games render empty.
 const DOT = {
-  8: { background: '#2196f3', color: '#ffffff', border: 'none' },
-  5: { background: '#c7ccd4', color: '#333a42', border: 'none' },
-  3: { background: '#e9edf2', color: '#5a626e', border: 'none' },
+  8: { background: '#ff4081', color: '#ffffff', border: '1px solid rgba(0,0,0,.12)' },
+  5: { background: '#1e88e5', color: '#ffffff', border: '1px solid rgba(0,0,0,.12)' },
+  3: { background: '#7c4dff', color: '#ffffff', border: '1px solid rgba(0,0,0,.12)' },
   0: { background: 'transparent', color: 'rgba(0,0,0,.30)', border: '1px solid rgba(0,0,0,.16)' },
 }
 
