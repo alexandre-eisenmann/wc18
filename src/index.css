@@ -504,6 +504,9 @@ ul {
 .r2-hflag + .r2-hflag { margin-top: 2px; }
 .r2-hres { font-size: 10px; font-weight: 700; color: #1c2127; line-height: 1; margin-top: 1px; }
 .r2-hdate { font-size: 9px; color: #98a0ab; line-height: 1; margin-top: 1px; }
+/* The header column is tappable: it opens the match's bid-distribution card. */
+.r2-hcol--tap { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.r2-hcol--tap:hover { background: rgba(15,159,186,.08); }
 
 /* A match in progress (kicked off, result not in yet): the column header gently
    breathes a faint pink so the eye is drawn to it, and the LIVE label softly
@@ -809,3 +812,38 @@ ul {
   background: transparent !important;
   border: 1px dashed rgba(0, 0, 0, .14) !important;
 }
+
+/* ============================================================
+   Match card — bid-distribution map shown over the leaderboard
+   when a match header column is tapped. Reuses .pc-backdrop /
+   .pc-card / .pc-close / .pc-head; only the head content + viz
+   wrapper are bespoke.
+   ============================================================ */
+.mc-eyebrow {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  opacity: .85; margin-bottom: 6px;
+}
+.mc-teams {
+  display: flex; align-items: center; justify-content: center;
+  flex-wrap: wrap; gap: 8px;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 20px; font-weight: 700; line-height: 1.1;
+}
+.mc-flag {
+  width: 26px; height: 18px; border-radius: 3px;
+  flex: 0 0 auto;
+  background-size: cover !important;
+  background-position: center !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,.35);
+}
+.mc-x { font-weight: 400; opacity: .65; }
+.mc-sub {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  margin-top: 8px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px; opacity: .9;
+}
+.mc-score { font-weight: 800; font-size: 14px; letter-spacing: .02em; }
+.mc-viz { padding: 12px 12px 16px; }

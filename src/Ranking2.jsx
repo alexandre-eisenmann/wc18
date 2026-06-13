@@ -15,6 +15,10 @@ import { LanguageContext } from './i18n'
 // initial render — it's only fetched the first time a player name is tapped.
 const PlayerCard = React.lazy(() => import('./PlayerCard'))
 
+// Same deal for the match bid-distribution card (plus its MatchViz / react-move
+// payload) — only fetched the first time a match header column is tapped.
+const MatchCard = React.lazy(() => import('./MatchCard'))
+
 const orange200 = orange[200]
 
 const provider = new firebase.auth.GoogleAuthProvider()
@@ -78,6 +82,7 @@ export default class Ranking2 extends Component {
       myBidsCollapsed: false,
       render: false,
       cardGame: null,
+      cardMatch: null,
     }
   }
 
@@ -399,9 +404,9 @@ export default class Ranking2 extends Component {
     const played = m.home_result != null && m.away_result != null
     const home = this.teams[m.home_team]
     const away = this.teams[m.away_team]
-    const cls = `r2-hcol${i === boundary ? ' r2-col--boundary' : ''}${live ? ' r2-hcol--live' : ''}`
+    const cls = `r2-hcol r2-hcol--tap${i === boundary ? ' r2-col--boundary' : ''}${live ? ' r2-hcol--live' : ''}`
     return (
-      <div className={cls} key={`h${i}`}>
+      <div className={cls} key={`h${i}`} onClick={() => this.setState({ cardMatch: m })}>
         <span className="r2-habbr">{this.abbr(home.name)}</span>
         <span className={`r2-hflag f-${home.iso2}`} title={home.name} />
         <span className={`r2-hflag f-${away.iso2}`} title={away.name} />
@@ -525,6 +530,18 @@ export default class Ranking2 extends Component {
               teams={this.teams}
               t={t}
               onClose={() => this.setState({ cardGame: null })}
+            />
+          </Suspense>
+        )}
+
+        {this.state.cardMatch && (
+          <Suspense fallback={null}>
+            <MatchCard
+              match={this.state.cardMatch}
+              teams={this.teams}
+              bids={this.bids}
+              t={t}
+              onClose={() => this.setState({ cardMatch: null })}
             />
           </Suspense>
         )}
