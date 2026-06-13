@@ -77,8 +77,9 @@ const messages = {
     'group.label': 'Grupo',
 
     'ranking.title': 'Ranking',
-    'ranking.myBidsHeader': 'MEUS JOGOS',
+    'ranking.myBidsHeader': 'ACOMPANHANDO',
     'ranking.leaderboardHeader': 'CLASSIFICAÇÃO GERAL',
+    'ranking.bidsCount': '{count} jogos',
     'ranking.upcoming': 'Próximos jogos',
     'ranking.noUpcoming': 'Todos os jogos já foram disputados',
     'ranking.ptsShort': 'Pts',
@@ -202,8 +203,9 @@ const messages = {
     'group.label': 'Group',
 
     'ranking.title': 'Ranking',
-    'ranking.myBidsHeader': 'MY BIDS',
+    'ranking.myBidsHeader': 'WATCHING',
     'ranking.leaderboardHeader': 'OVERALL LEADERBOARD',
+    'ranking.bidsCount': '{count} bids',
     'ranking.upcoming': 'Upcoming games',
     'ranking.noUpcoming': 'All games have been played',
     'ranking.ptsShort': 'Pts',

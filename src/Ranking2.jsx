@@ -471,7 +471,7 @@ export default class Ranking2 extends Component {
                   </>
             )}
 
-            <div className="r2-band r2-band--all"><span className="r2-band-l">{t('ranking.leaderboardHeader')}</span></div>
+            <div className="r2-band r2-band--all"><span className="r2-band-l">{t('ranking.leaderboardHeader')}<span className="r2-band-count">{t('ranking.bidsCount', { count: this.state.games.length })}</span></span></div>
             {rows}
             {filtering && rows.length === 0 && (
               <div className="r2-empty"><span className="r2-empty-l">{t('ranking.noResults')}</span></div>

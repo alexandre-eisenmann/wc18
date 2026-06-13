@@ -592,7 +592,7 @@ ul {
 }
 
 /* ---- Section bands (full-width strip, label pinned left) ---- */
-.r2-band { height: 24px; line-height: 24px; }
+.r2-band { height: 24px; line-height: 24px; display: flex; align-items: center; }
 .r2-band--mine { background: #15c2e0; }
 
 /* "Meus Jogos" loading placeholder: spinner pinned left so it stays in view. */
@@ -622,6 +622,14 @@ ul {
   text-transform: uppercase; color: #fff;
 }
 .r2-band-caret { font-size: 16px !important; margin-left: -2px; }
+.r2-band-count {
+  margin-left: 6px;
+  padding: 0 6px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, .25);
+  font-size: 8.5px; font-weight: 700; line-height: 15px;
+  color: #fff;
+}
 
 /* ============================================================
    Player card — modal shown over the leaderboard on name tap.
