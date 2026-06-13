@@ -86,6 +86,7 @@ const messages = {
     'ranking.search': 'Buscar participante…',
     'ranking.noResults': 'Nenhum participante encontrado',
     'ranking.participant': 'Participante',
+    'ranking.live': 'AO VIVO',
     'card.points': 'pontos',
 
     'leaderboard.participants': '{count} participantes',
@@ -212,6 +213,7 @@ const messages = {
     'ranking.search': 'Find a participant…',
     'ranking.noResults': 'No participant found',
     'ranking.participant': 'Participant',
+    'ranking.live': 'LIVE',
     'card.points': 'points',
 
     'leaderboard.participants': '{count} participants',

@@ -504,7 +504,47 @@ ul {
 .r2-hflag + .r2-hflag { margin-top: 2px; }
 .r2-hres { font-size: 10px; font-weight: 700; color: #1c2127; line-height: 1; margin-top: 1px; }
 .r2-hdate { font-size: 9px; color: #98a0ab; line-height: 1; margin-top: 1px; }
-.r2-hcol--next { background: rgba(255,64,129,.06); }
+
+/* A match in progress (kicked off, result not in yet): the column header gently
+   breathes a faint pink so the eye is drawn to it, and the LIVE label softly
+   pulses — signalling the score isn't final. Kept subtle so it reads as a hint,
+   not an alarm. The pink matches the brand accent (boundary line + totals). */
+.r2-hcol--live { animation: r2-livecol 2.4s ease-in-out infinite; }
+@keyframes r2-livecol {
+  0%, 100% { background: rgba(255,64,129,.05); }
+  50%      { background: rgba(255,64,129,.16); }
+}
+/* No-score LIVE badge: pink label that softly pulses. */
+.r2-hlive {
+  font-size: 8px; font-weight: 800; letter-spacing: .02em;
+  color: #ff4081; line-height: 1; margin-top: 1px; white-space: nowrap;
+  animation: r2-livepulse 1.3s ease-in-out infinite;
+}
+@keyframes r2-livepulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: .45; }
+}
+/* Running score: dark, readable score (same weight as a settled one) preceded
+   by a pulsing pink dot, so the number stays legible while the dot + breathing
+   column convey that it's still live. */
+.r2-hlive--score {
+  display: inline-flex; align-items: center; gap: 2px;
+  font-size: 10px; font-weight: 700; letter-spacing: 0;
+  color: #1c2127; animation: none;
+}
+.r2-hlive-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: #ff4081; flex: 0 0 5px;
+  animation: r2-livedot 1.3s ease-in-out infinite;
+}
+@keyframes r2-livedot {
+  0%, 100% { opacity: 1;  transform: scale(1); }
+  50%      { opacity: .4; transform: scale(.7); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .r2-hcol--live { animation: none; background: rgba(255,64,129,.12); }
+  .r2-hlive, .r2-hlive-dot { animation: none; }
+}
 
 /* ---- Sticky player column ---- */
 .r2-idcol {
@@ -580,6 +620,17 @@ ul {
 }
 .r2-col--played { background: rgba(15,23,42,.018); }
 .r2-col--boundary { border-left: 2px solid #ff4081; }
+/* Live match: the whole column breathes a faint pink in phase with its header,
+   so the in-progress game reads as one continuous live strip. Kept lighter than
+   the header tint so the predictions stay legible. */
+.r2-col--live { animation: r2-livecell 2.4s ease-in-out infinite; }
+@keyframes r2-livecell {
+  0%, 100% { background: rgba(255,64,129,.04); }
+  50%      { background: rgba(255,64,129,.11); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .r2-col--live { animation: none; background: rgba(255,64,129,.08); }
+}
 .r2-pred {
   font-size: 11px; line-height: 1; color: #222; letter-spacing: .02em;
 }

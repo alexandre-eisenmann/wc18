@@ -23,6 +23,12 @@ const provider = new firebase.auth.GoogleAuthProvider()
 const COLW = 34            // width of one match column (px)
 const LEFT_W = 150         // width of the sticky player column (px)
 
+// How long after kickoff a result-less match is treated as "live" (in
+// progress). Covers 90' + halftime + stoppage, plus slack for the admin to
+// enter the final score. After this window a still-result-less game falls back
+// to showing its kickoff date.
+const LIVE_WINDOW_MIN = 150
+
 // Points chip palette, keyed by points earned. Emerald 8 -> purple 5 -> blue 3,
 // matching the player card; 0 stays a faint hollow chip. The deep emerald sits
 // in the same jewel-tone family as the purple/blue and stays distinct from the
@@ -132,6 +138,7 @@ export default class Ranking2 extends Component {
     if (this.ref3) this.ref3.off('value')
     if (this.unsubscribe) this.unsubscribe()
     if (this._myBidsTimer) clearTimeout(this._myBidsTimer)
+    if (this._liveTimer) clearInterval(this._liveTimer)
   }
 
   componentDidMount() {
@@ -205,6 +212,14 @@ export default class Ranking2 extends Component {
       self.bids = games
       self.recompute()
     })
+
+    // Re-evaluate which games are "live" as the clock moves. The pulse itself is
+    // pure CSS; this only flips columns into/out of the live state at kickoff and
+    // when the live window closes. A minute's granularity is plenty and keeps the
+    // big grid from re-reconciling more often than needed.
+    this._liveTimer = setInterval(() => {
+      if (this.state.render) this.forceUpdate()
+    }, 60000)
   }
 
   // Recompute scores from the in-memory bids + latest results, then re-render.
@@ -264,6 +279,18 @@ export default class Ranking2 extends Component {
     return i < 0 ? matches.length : i
   }
 
+  // A match is "live" while now sits inside the window that opens at kickoff —
+  // purely time-based. We can't key off the result, because the admin enters the
+  // running score during play (e.g. a live 1-0), so a present score is not proof
+  // the match is over. Kickoff (`m.date`) carries an explicit UTC offset and
+  // dayjs comparisons run on the absolute epoch instant, so this is
+  // timezone-safe regardless of the viewer's local clock.
+  isLive(m) {
+    const kickoff = dayjs(m.date)
+    const now = dayjs()
+    return !now.isBefore(kickoff) && now.isBefore(kickoff.add(LIVE_WINDOW_MIN, 'minute'))
+  }
+
   // Park the horizontal scroll so recent results lead into the upcoming games,
   // with the pink boundary line roughly centered. How many past columns we
   // reveal scales with the viewport: ~half the visible match columns, so a
@@ -317,11 +344,13 @@ export default class Ranking2 extends Component {
     )
   }
 
-  // One match column for a player: the prediction, plus a points chip once played.
-  renderCell(game, m, i, boundary, rowKey) {
+  // One match column for a player: the prediction, plus a points chip once
+  // played. `live` is precomputed once per column by render() (not per cell —
+  // the grid is hundreds of rows wide) and breathes the whole column pink.
+  renderCell(game, m, i, boundary, rowKey, live) {
     const bid = game[m.name]
     const played = m.home_result != null && m.away_result != null
-    const cls = `r2-col${i === boundary ? ' r2-col--boundary' : ''}${i < boundary ? ' r2-col--played' : ''}`
+    const cls = `r2-col${i === boundary ? ' r2-col--boundary' : ''}${i < boundary ? ' r2-col--played' : ''}${live ? ' r2-col--live' : ''}`
     return (
       <div className={cls} key={`${rowKey}-c${i}`}>
         <span className="r2-pred" style={played ? PRED_PLAYED : PRED_LIVE}>{bid ? `${bid.h}-${bid.a}` : '·'}</span>
@@ -334,7 +363,7 @@ export default class Ranking2 extends Component {
 
   // A full player line: sticky identity column + every match column.
   // showMeta hides the rank/points on tied rows so a block of ties reads once.
-  renderRow(game, key, boundary, opts) {
+  renderRow(game, key, boundary, opts, liveFlags) {
     const { pinned, showMeta, divider } = opts
     const rowBg = pinned ? '#e9fbff' : '#ffffff'
     return (
@@ -351,7 +380,7 @@ export default class Ranking2 extends Component {
             {this.state.logged && this.renderFollow(game, pinned)}
           </span>
         </div>
-        {this.state.matches.map((m, i) => this.renderCell(game, m, i, boundary, key))}
+        {this.state.matches.map((m, i) => this.renderCell(game, m, i, boundary, key, liveFlags[i]))}
       </div>
     )
   }
@@ -363,21 +392,28 @@ export default class Ranking2 extends Component {
   }
 
   // Header column: home code / home flag / away flag / away code, then the
-  // official score (played) or the kickoff date.
-  renderHeaderCell(m, i, boundary) {
+  // bottom line. While live (kickoff window open) the column breathes pink and
+  // shows either the running score with a pulsing dot, or a LIVE badge if no
+  // score is in yet — making clear the figure isn't final. Otherwise it's the
+  // settled score (played) or the kickoff date (upcoming).
+  renderHeaderCell(m, i, boundary, live) {
     const played = m.home_result != null && m.away_result != null
     const home = this.teams[m.home_team]
     const away = this.teams[m.away_team]
-    const cls = `r2-hcol${i === boundary ? ' r2-col--boundary r2-hcol--next' : ''}`
+    const cls = `r2-hcol${i === boundary ? ' r2-col--boundary' : ''}${live ? ' r2-hcol--live' : ''}`
     return (
       <div className={cls} key={`h${i}`}>
         <span className="r2-habbr">{this.abbr(home.name)}</span>
         <span className={`r2-hflag f-${home.iso2}`} title={home.name} />
         <span className={`r2-hflag f-${away.iso2}`} title={away.name} />
         <span className="r2-habbr">{this.abbr(away.name)}</span>
-        {played
-          ? <span className="r2-hres">{m.home_result}-{m.away_result}</span>
-          : <span className="r2-hdate">{dayjs(m.date).format('D/M')}</span>}
+        {live
+          ? (played
+              ? <span className="r2-hlive r2-hlive--score" title={this.context.t('ranking.live')}><span className="r2-hlive-dot" />{m.home_result}-{m.away_result}</span>
+              : <span className="r2-hlive" title={this.context.t('ranking.live')}>{this.context.t('ranking.live')}</span>)
+          : played
+            ? <span className="r2-hres">{m.home_result}-{m.away_result}</span>
+            : <span className="r2-hdate">{dayjs(m.date).format('D/M')}</span>}
       </div>
     )
   }
@@ -391,6 +427,9 @@ export default class Ranking2 extends Component {
     const self = this
     const matches = this.state.matches
     const boundary = this.boundaryIndex(matches)
+    // Which columns are live right now — evaluated once here and reused by the
+    // header and every player row, so isLive isn't called per cell.
+    const liveFlags = matches.map((m) => this.isLive(m))
     const gridW = LEFT_W + matches.length * COLW
     const q = this.state.query.trim().toLowerCase()
     const filtering = q.length > 0
@@ -401,7 +440,7 @@ export default class Ranking2 extends Component {
     if (!filtering) {
       this.state.games.forEach((game, i) => {
         if (pinnedKeys.includes(game.gameId)) {
-          myrows.push(this.renderRow(game, `my${i}`, boundary, { pinned: true, showMeta: true }))
+          myrows.push(this.renderRow(game, `my${i}`, boundary, { pinned: true, showMeta: true }, liveFlags))
         }
       })
     }
@@ -418,7 +457,7 @@ export default class Ranking2 extends Component {
       const showMeta = filtering ? true : blockStart
       const divider = filtering ? !firstShown : (blockStart && i > 0)
       firstShown = false
-      rows.push(this.renderRow(game, `lb${i}`, boundary, { showMeta, divider }))
+      rows.push(this.renderRow(game, `lb${i}`, boundary, { showMeta, divider }, liveFlags))
     })
 
     return (
@@ -456,7 +495,7 @@ export default class Ranking2 extends Component {
                 <span className="r2-corner-pts">{t('ranking.ptsShort')}</span>
                 <span className="r2-corner-name">{t('ranking.participant')}</span>
               </div>
-              {matches.map((m, i) => this.renderHeaderCell(m, i, boundary))}
+              {matches.map((m, i) => this.renderHeaderCell(m, i, boundary, liveFlags[i]))}
             </div>
 
             {!filtering && this.state.logged && (
