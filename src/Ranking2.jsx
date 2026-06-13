@@ -26,7 +26,7 @@ const LEFT_W = 150         // width of the sticky player column (px)
 // How long after kickoff a match is treated as "live" (in progress). Group
 // stage has no extra time / penalties, so 90' + halftime + stoppage lands
 // comfortably under this, with a little slack for the final score to be fed.
-const LIVE_WINDOW_MIN = 115
+const LIVE_WINDOW_MIN = 120
 
 // Points chip palette, keyed by points earned. Emerald 8 -> purple 5 -> blue 3,
 // matching the player card; 0 stays a faint hollow chip. The deep emerald sits
