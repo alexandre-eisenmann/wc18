@@ -23,11 +23,10 @@ const provider = new firebase.auth.GoogleAuthProvider()
 const COLW = 34            // width of one match column (px)
 const LEFT_W = 150         // width of the sticky player column (px)
 
-// How long after kickoff a result-less match is treated as "live" (in
-// progress). Covers 90' + halftime + stoppage, plus slack for the admin to
-// enter the final score. After this window a still-result-less game falls back
-// to showing its kickoff date.
-const LIVE_WINDOW_MIN = 150
+// How long after kickoff a match is treated as "live" (in progress). Group
+// stage has no extra time / penalties, so 90' + halftime + stoppage lands
+// comfortably under this, with a little slack for the final score to be fed.
+const LIVE_WINDOW_MIN = 115
 
 // Points chip palette, keyed by points earned. Emerald 8 -> purple 5 -> blue 3,
 // matching the player card; 0 stays a faint hollow chip. The deep emerald sits
