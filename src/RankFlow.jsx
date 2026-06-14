@@ -238,6 +238,7 @@ export default function RankFlow({ data = data_file, dbNode = DATABASE_WC26, emb
       bands.push({ start: i, end: j, position: i + 1, points: finalOrdered[i].p })
       i = j + 1
     }
+    const focusMinPoints = finalOrdered[Math.min(9, finalOrdered.length - 1)].p
 
     const rowGap = Math.max(MIN_ROW, (size.h - BAND_H - PAD_T - PAD_B) / (N - 1 || 1))
     const plotH = rowGap * (N - 1)
@@ -262,7 +263,7 @@ export default function RankFlow({ data = data_file, dbNode = DATABASE_WC26, emb
     // draw worst → best so higher-ranked players' lines sit on top (z-order = paint order)
     players.sort((a, b) => b.rankF - a.rankF)
 
-    return { players, names, rankAt, sepRows, bands, N, cx, y, rowGap, plotH, contentW, height: PAD_T + plotH + PAD_B }
+    return { players, names, rankAt, sepRows, bands, focusMinPoints, N, cx, y, rowGap, plotH, contentW, height: PAD_T + plotH + PAD_B }
   }, [tracks, size, len])
 
   // ── static chart layer: stable element reference so React skips it every
@@ -283,7 +284,7 @@ export default function RankFlow({ data = data_file, dbNode = DATABASE_WC26, emb
           {model.players.map(p => (
             <path
               key={p.n}
-              className={`rf-line${p.rankF >= 10 ? ' tail' : ''}${activeName ? (activeName === p.n ? ' hot' : ' dim') : ''}`}
+              className={`rf-line${p.total < model.focusMinPoints ? ' tail' : ''}${activeName ? (activeName === p.n ? ' hot' : ' dim') : ''}`}
               d={p.d} stroke={p.color}
             />
           ))}
@@ -528,7 +529,7 @@ export default function RankFlow({ data = data_file, dbNode = DATABASE_WC26, emb
                     return (
                       <g
                         key={p.n}
-                        className={`rf-label-row${p.rankF >= 10 ? ' tail' : ''}${activeName ? (activeName === p.n ? ' hot' : ' dim') : ''}`}
+                        className={`rf-label-row${p.total < model.focusMinPoints ? ' tail' : ''}${activeName ? (activeName === p.n ? ' hot' : ' dim') : ''}`}
                         onMouseEnter={() => { if (!playingRef.current) setHover(p.n) }} onMouseLeave={() => setHover(null)}
                         onClick={() => { if (!playingRef.current) setSelected(s => (s === p.n ? null : p.n)) }}
                       >
