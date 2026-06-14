@@ -44,7 +44,7 @@ const points = (rh, ra, h, a) => {
 // ── fixed geometry ──
 const COL_W = 42               // fixed horizontal pitch between games (px)
 const LEFT_PAD = 22            // gap before the first game
-const MIN_ROW = 20             // min vertical pitch between players (then it scrolls)
+const MIN_ROW = 22             // min vertical pitch between players (then it scrolls)
 const BAND_H = 74              // sticky header band: leaderboard-style game columns + slider
 const LABEL_GAP = 12           // gap from the present line to the live labels
 const PAD_T = 8, PAD_B = 8
@@ -62,7 +62,7 @@ const rightPadFor = w => Math.round(clamp(w * 0.42, 150, 300))
 const NUM_COL = 24            // points column — just enough for a 3-digit number
 const COL_PAD = 12            // gap from the right edge
 const COL_GAP = 6             // gap between the points column and the name
-const CHAR_W = 6.2            // ~px per char at the label size (for truncation)
+const CHAR_W = 5.8            // ~px per char at the label size (for truncation)
 
 const TOP_COLORS = [
   '#2563eb', '#dc2626', '#16a34a', '#9333ea', '#ea580c',
@@ -381,6 +381,11 @@ export default function RankFlow({ data = data_file, dbNode = DATABASE_WC26, emb
           window.addEventListener('pointermove', move)
           window.addEventListener('pointerup', up)
         }}
+        onClick={e => {
+          if (playing) return
+          if (e.target.closest && e.target.closest('.rf-label-row, button, a')) return
+          setSelected(null)
+        }}
       >
         {/* per-game flags — also the scrub/pan handle (drag or swipe left/right) */}
         {model && (
@@ -531,7 +536,7 @@ export default function RankFlow({ data = data_file, dbNode = DATABASE_WC26, emb
                         key={p.n}
                         className={`rf-label-row${p.total < model.focusMinPoints ? ' tail' : ''}${activeName ? (activeName === p.n ? ' hot' : ' dim') : ''}`}
                         onMouseEnter={() => { if (!playingRef.current) setHover(p.n) }} onMouseLeave={() => setHover(null)}
-                        onClick={() => { if (!playingRef.current) setSelected(s => (s === p.n ? null : p.n)) }}
+                        onClick={e => { e.stopPropagation(); if (!playingRef.current) setSelected(s => (s === p.n ? null : p.n)) }}
                       >
                         <rect className="rf-label-hit" x={nameX - 20} y={yy - 13} width={Math.max(24, nameRight - nameX + 20)} height="20" />
                         <circle className="rf-label-dot" cx={nameX - 12} cy={yy - 3} r="4.5" fill={p.color} />
