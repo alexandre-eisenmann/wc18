@@ -533,6 +533,7 @@ export default function RankFlow({ data = data_file, dbNode = DATABASE_WC26, emb
                         onMouseEnter={() => { if (!playingRef.current) setHover(p.n) }} onMouseLeave={() => setHover(null)}
                         onClick={() => { if (!playingRef.current) setSelected(s => (s === p.n ? null : p.n)) }}
                       >
+                        <rect className="rf-label-hit" x={nameX - 20} y={yy - 13} width={Math.max(24, nameRight - nameX + 20)} height="20" />
                         <circle className="rf-label-dot" cx={nameX - 12} cy={yy - 3} r="4.5" fill={p.color} />
                         <text className="rf-label" x={nameX} y={yy} textAnchor="start">
                           {trunc(p.n, nameMax)}

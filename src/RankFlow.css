@@ -121,10 +121,20 @@
 }
 .rf-label-row.tail { opacity: .22; }
 .rf-label-row.dim { opacity: .15; }
-.rf-label-row.hot .rf-label { font-weight: 700; }
+.rf-label-row.hot {
+  opacity: 1;
+}
+.rf-label-row.hot .rf-label {
+  font-weight: 700;
+  fill: var(--ink);
+}
 .rf-label-dot {
   stroke: #fff;
   stroke-width: 1.5px;
+}
+.rf-label-hit {
+  fill: transparent;
+  pointer-events: all;
 }
 .rf-label {
   font-family: 'Roboto Condensed', sans-serif;
