@@ -58,6 +58,7 @@ export default function Home() {
         <span>
           <NavLink style={{ textDecoration: "none", color: "rgba(220,220,220,0.8)" }} to="/bids">{t('nav.bids')}</NavLink>
           <NavLink style={{ textDecoration: "none", marginLeft: "20px", color: "rgba(220,220,220,0.8)" }} to="/leaderboard">{t('nav.leaderboard')}</NavLink>
+          <NavLink style={{ textDecoration: "none", marginLeft: "20px", color: "rgba(220,220,220,0.8)" }} to="/rankflow">{t('nav.evolution')}</NavLink>
         </span>
         <LanguageSwitcher color="rgba(255,255,255,0.85)" separatorColor="rgba(255,255,255,0.45)" activeColor="white" />
       </div>

@@ -19,7 +19,7 @@ const Rules = lazy(() => import('./Rules'))
 const Payment = lazy(() => import('./Payment'))
 
 function RouteLoading() {
-  return <div style={{ padding: 24, fontFamily: 'Lato', color: '#9097a1' }}>Carregando...</div>
+  return <div style={{ padding: 24, fontFamily: 'Lato', color: '#9097a1' }}>Loading...</div>
 }
 
 function AppShell({ logged, user, onLogin, onLogout }) {

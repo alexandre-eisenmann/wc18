@@ -64,6 +64,17 @@ const COL_PAD = 12            // gap from the right edge
 const COL_GAP = 6             // gap between the points column and the name
 const CHAR_W = 6.2            // ~px per char at the label size (for truncation)
 
+const TOP_COLORS = [
+  '#2563eb', '#dc2626', '#16a34a', '#9333ea', '#ea580c',
+  '#0891b2', '#db2777', '#65a30d', '#7c3aed', '#ca8a04',
+  '#0f766e', '#e11d48', '#4f46e5', '#059669', '#d97706',
+  '#7e22ce', '#0284c7', '#be123c', '#3f6212', '#933f0d',
+]
+const rankColor = (rank, total) => {
+  if (rank < TOP_COLORS.length) return TOP_COLORS[rank]
+  return d3.interpolateTurbo(0.04 + 0.9 * (rank / (total - 1 || 1)))
+}
+
 /* ───────────────────────────── component ───────────────────────────── */
 
 export default function RankFlow({ data = data_file, dbNode = DATABASE_WC26, embedHeight, topBarContent }) {
@@ -78,6 +89,7 @@ export default function RankFlow({ data = data_file, dbNode = DATABASE_WC26, emb
   const [playing, setPlaying] = useState(false)
   const [speed, setSpeed] = useState(1)
   const [hover, setHover] = useState(null)
+  const [selected, setSelected] = useState(null)
   const [manualScroll, setManualScroll] = useState(null)   // user pan offset when paused (null = follow present)
 
   const posRef = useRef(0)
@@ -89,7 +101,7 @@ export default function RankFlow({ data = data_file, dbNode = DATABASE_WC26, emb
   // While playing, the viewport follows the present and hovering is disabled.
   // Pausing hands control back to the user (pan + hover).
   useEffect(() => {
-    if (playing) { setHover(null); setManualScroll(null) }
+    if (playing) { setHover(null); setSelected(null); setManualScroll(null) }
   }, [playing])
   const lenRef = useRef(0)
   lenRef.current = len
@@ -244,7 +256,7 @@ export default function RankFlow({ data = data_file, dbNode = DATABASE_WC26, emb
         n,
         rankF: rankF[n],
         total: tracks[n][len - 1],
-        color: d3.interpolateTurbo(0.04 + 0.9 * (rankF[n] / (N - 1 || 1))),
+        color: rankColor(rankF[n], N),
         nodes,
         d: line(nodes),
       }
@@ -257,6 +269,7 @@ export default function RankFlow({ data = data_file, dbNode = DATABASE_WC26, emb
 
   // ── static chart layer: stable element reference so React skips it every
   //    frame (only the scroll transform / clip / playhead / labels move). ──
+  const activeName = !playing ? (hover || selected) : null
   const staticLayer = useMemo(() => {
     if (!model) return null
     const top = PAD_T - 4, bot = PAD_T + model.plotH + 4
@@ -272,16 +285,16 @@ export default function RankFlow({ data = data_file, dbNode = DATABASE_WC26, emb
           {model.players.map(p => (
             <path
               key={p.n}
-              className={`rf-line${hover ? (hover === p.n ? ' hot' : ' dim') : ''}`}
+              className={`rf-line${p.rankF >= 20 ? ' tail' : ''}${activeName ? (activeName === p.n ? ' hot' : ' dim') : ''}`}
               d={p.d} stroke={p.color}
             />
           ))}
         </g>
       </>
     )
-  }, [model, hover, len])
+  }, [model, activeName, len])
 
-  if (!tracks) return <div className="rf-root rf-center" ref={rootRef} style={{ height: embedHeight || rootH || '70vh' }}><div className="rf-loading">Carregando…</div></div>
+  if (!tracks) return <div className="rf-root rf-center" ref={rootRef} style={{ height: embedHeight || rootH || '70vh' }}><div className="rf-loading">Loading...</div></div>
   if (len === 0) return <div className="rf-root rf-center" ref={rootRef} style={{ height: embedHeight || rootH || '70vh' }}><div className="rf-loading">Sem resultados ainda</div></div>
 
   const PM = MATCHES.slice(0, len)            // only games played so far
@@ -295,6 +308,11 @@ export default function RankFlow({ data = data_file, dbNode = DATABASE_WC26, emb
   const maxScroll = model ? Math.max(0, model.contentW - anchorX) : 0
   const scroll = (!playing && manualScroll != null) ? clamp(manualScroll, 0, maxScroll) : autoScroll
   const presentX = model ? LEFT_PAD + pos * COL_W - scroll : 0
+  const activePlayer = model && activeName ? model.players.find(p => p.n === activeName) : null
+  const panBy = dx => {
+    if (playing || maxScroll <= 0 || !dx) return
+    setManualScroll(s => clamp((s != null ? s : autoScroll) + dx, 0, maxScroll))
+  }
 
   // live standings: smooth y, snapped rank number
   const g0 = Math.floor(pos), g1 = Math.min(g0 + 1, len - 1), frac = pos - g0
@@ -331,16 +349,38 @@ export default function RankFlow({ data = data_file, dbNode = DATABASE_WC26, emb
 
       {/* chart */}
       <div
-        className="rf-stage"
+        className={`rf-stage${!playing ? ' pannable' : ''}`}
         ref={stageRef}
         onWheel={e => {
-          if (e.target.closest && e.target.closest('.rf-flags')) return
           // when paused, scroll the whole journey horizontally: trackpad swipe
           // (deltaX) or shift+wheel. Plain vertical wheel stays native.
           if (playing || maxScroll <= 0) return
           const dx = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : (e.shiftKey ? e.deltaY : 0)
           if (!dx) return
-          setManualScroll(s => clamp((s != null ? s : autoScroll) + dx, 0, maxScroll))
+          e.preventDefault()
+          panBy(dx)
+        }}
+        onPointerDown={e => {
+          if (playing || maxScroll <= 0 || e.button !== 0) return
+          if (e.target.closest && e.target.closest('.rf-flags, .rf-slider, button, a')) return
+          const startX = e.clientX
+          const startY = e.clientY
+          const start = scroll
+          let panning = false
+          const move = ev => {
+            const dx = ev.clientX - startX
+            const dy = ev.clientY - startY
+            if (!panning && Math.abs(dx) <= 4 && Math.abs(dy) <= 4) return
+            if (!panning && Math.abs(dy) > Math.abs(dx)) return
+            panning = true
+            setManualScroll(clamp(start - dx, 0, maxScroll))
+          }
+          const up = () => {
+            window.removeEventListener('pointermove', move)
+            window.removeEventListener('pointerup', up)
+          }
+          window.addEventListener('pointermove', move)
+          window.addEventListener('pointerup', up)
         }}
       >
         {/* per-game flags — also the scrub/pan handle (drag or swipe left/right) */}
@@ -350,6 +390,13 @@ export default function RankFlow({ data = data_file, dbNode = DATABASE_WC26, emb
             className={`rf-flags${!playing ? ' pannable' : ''}`}
             style={{ height: BAND_H }}
             onWheel={e => {
+              const dx = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : (e.shiftKey ? e.deltaY : 0)
+              if (dx && !playing && maxScroll > 0) {
+                e.preventDefault()
+                e.stopPropagation()
+                panBy(dx)
+                return
+              }
               e.preventDefault()
               e.stopPropagation()
               window.scrollBy({ top: e.deltaY, left: 0 })
@@ -454,6 +501,9 @@ export default function RankFlow({ data = data_file, dbNode = DATABASE_WC26, emb
             <g clipPath="url(#rf-reveal)">
               <g transform={`translate(${-scroll},0)`}>
                 {staticLayer}
+                {activePlayer && (
+                  <path className="rf-line hot active" d={activePlayer.d} stroke={activePlayer.color} />
+                )}
               </g>
             </g>
 
@@ -469,22 +519,26 @@ export default function RankFlow({ data = data_file, dbNode = DATABASE_WC26, emb
               const i0 = clamp(g0, 0, last), i1 = clamp(g1, 0, last)
               // name fills from the present line; when finished it leaves room on
               // the right for the points column.
-              const nameX = presentX + LABEL_GAP
+              const nameX = presentX + LABEL_GAP + 14
               const nameRight = finished ? size.w - COL_PAD - NUM_COL - COL_GAP : size.w - COL_PAD
               const nameMax = Math.max(4, Math.floor((nameRight - nameX) / CHAR_W))
               return (
                 <g>
                   {model.players.map(p => {
                     const rNow = lerp(RA[i0][p.n], RA[i1][p.n], frac)
+                    const yy = model.y(rNow) + 3
                     return (
-                      <text
+                      <g
                         key={p.n}
-                        className={`rf-label${hover ? (hover === p.n ? ' hot' : ' dim') : ''}`}
-                        x={nameX} y={model.y(rNow) + 3} textAnchor="start" fill={p.color}
+                        className={`rf-label-row${p.rankF >= 20 ? ' tail' : ''}${activeName ? (activeName === p.n ? ' hot' : ' dim') : ''}`}
                         onMouseEnter={() => { if (!playingRef.current) setHover(p.n) }} onMouseLeave={() => setHover(null)}
+                        onClick={() => { if (!playingRef.current) setSelected(s => (s === p.n ? null : p.n)) }}
                       >
-                        {trunc(p.n, nameMax)}
-                      </text>
+                        <circle className="rf-label-dot" cx={nameX - 12} cy={yy - 3} r="4.5" fill={p.color} />
+                        <text className="rf-label" x={nameX} y={yy} textAnchor="start">
+                          {trunc(p.n, nameMax)}
+                        </text>
+                      </g>
                     )
                   })}
                 </g>

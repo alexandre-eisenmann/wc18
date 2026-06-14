@@ -35,7 +35,14 @@
 /* ── chart stage ── */
 /* horizontal panning is handled internally (fixed pitch, follows the present),
    so the browser only ever scrolls vertically. */
-.rf-stage { position: relative; flex: 1; min-height: 0; overflow-x: hidden; overflow-y: auto; overscroll-behavior-x: contain; }
+.rf-stage {
+  position: relative; flex: 1; min-height: 0;
+  overflow-x: hidden; overflow-y: auto;
+  overscroll-behavior-x: contain;
+  touch-action: pan-y;
+}
+.rf-stage.pannable { cursor: grab; }
+.rf-stage.pannable:active { cursor: grabbing; }
 /* condensed face, same as the leaderboard (.r2-nm); all chart text inherits it */
 .rf-svg { display: block; font-family: 'Roboto Condensed', sans-serif; }
 
@@ -96,20 +103,36 @@
   opacity: .72;
   transition: opacity .15s ease, stroke-width .15s ease;
 }
+.rf-line.tail { opacity: .12; }
 .rf-line.hot { opacity: 1; stroke-width: 6.5; }
+.rf-line.active {
+  stroke-width: 7.5;
+  paint-order: stroke;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 1px rgba(255, 255, 255, .9));
+}
 .rf-line.dim { opacity: .08; }
 
 /* ── labels ── */
+.rf-label-row {
+  cursor: pointer;
+  transition: opacity .15s ease;
+}
+.rf-label-row.tail { opacity: .22; }
+.rf-label-row.dim { opacity: .15; }
+.rf-label-row.hot .rf-label { font-weight: 700; }
+.rf-label-dot {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
 .rf-label {
   font-family: 'Roboto Condensed', sans-serif;
   font-weight: 400;
   font-size: 13px;
   letter-spacing: .01em;
-  cursor: pointer;
-  transition: opacity .15s ease;
+  fill: var(--ink);
 }
-.rf-label.dim { opacity: .15; }
-.rf-label.hot { font-weight: 700; }
 .rf-rk { font-weight: 700; font-variant-numeric: tabular-nums; }
 
 /* ── floating control dock (bottom-centre) ── */

@@ -187,7 +187,7 @@ export default function BarRaceX() {
   const match = MATCHES[matchIdx]
   const result = gabarito ? gabarito[match.id] : null
 
-  if (!gabarito) return <div className="brx-root"><div className="brx-loading">Carregando…</div></div>
+  if (!gabarito) return <div className="brx-root"><div className="brx-loading">Loading...</div></div>
 
   const rowH = stageH > 0 ? stageH / VISIBLE : 46
   const barH = Math.max(16, Math.round(rowH * 0.5))
