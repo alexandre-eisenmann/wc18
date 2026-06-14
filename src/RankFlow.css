@@ -52,30 +52,31 @@
 .rf-flags { position: sticky; top: 0; z-index: 4; background: #fff; touch-action: pan-y; border-bottom: 1px solid var(--hair); }
 .rf-flags.pannable { cursor: grab; }
 .rf-flags.pannable:active { cursor: grabbing; }
-.rf-flags-clip { position: relative; height: 100%; overflow: hidden; }
+.rf-flags-clip { position: relative; height: calc(100% - 7px); overflow: hidden; }
 .rf-flags-inner { position: relative; height: 100%; will-change: transform; }
 .rf-gamecol {
-  position: absolute; top: 7px; transform: translateX(-50%);
-  display: flex; flex-direction: column; align-items: center; gap: 1.5px;
+  position: absolute; top: 50%; transform: translate(-50%, -50%);
+  display: flex; flex-direction: column; align-items: center; gap: 1px;
   transition: opacity .2s ease;
 }
 .rf-gamecol.future { opacity: .28; }
 .rf-gamecol.on .rf-gscore { color: var(--accent); }
 .rf-gabbr {
-  font-size: 8px; font-weight: 800; letter-spacing: .02em; color: #5a626e;
+  font-size: 9px; font-weight: 700; letter-spacing: .02em; color: #5a626e;
   line-height: 1; font-family: Lato, sans-serif;
 }
 .rf-gameflag {
-  width: 16px; height: 11px; border-radius: 1.5px; display: block;
+  width: 20px; height: 14px; border-radius: 2px; display: block;
   background-size: cover !important; background-position: center !important;
-  box-shadow: 0 0 1px rgba(0, 0, 0, .4), 0 1px 1.5px rgba(0, 0, 0, .15);
+  box-shadow: 0 0 1px rgba(0,0,0,.4);
 }
+.rf-gameflag + .rf-gameflag { margin-top: 2px; }
 .rf-gscore {
-  font-size: 9px; font-weight: 700; color: var(--ink); margin-top: 1px;
+  font-size: 10px; font-weight: 700; color: var(--ink); margin-top: 1px;
   font-variant-numeric: tabular-nums; line-height: 1;
 }
 .rf-gdate {
-  font-size: 8px;
+  font-size: 9px;
   color: #98a0ab;
   line-height: 1;
   margin-top: 1px;

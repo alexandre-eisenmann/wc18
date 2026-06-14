@@ -42,10 +42,10 @@ const points = (rh, ra, h, a) => {
 }
 
 // ── fixed geometry ──
-const COL_W = 42               // fixed horizontal pitch between games (px)
+const COL_W = 34               // fixed horizontal pitch between games (px), matching Ranking2
 const LEFT_PAD = 22            // gap before the first game
 const MIN_ROW = 22             // min vertical pitch between players (then it scrolls)
-const BAND_H = 74              // sticky header band: leaderboard-style game columns + slider
+const BAND_H = 86              // sticky header band: leaderboard-style game columns + slider
 const LABEL_GAP = 12           // gap from the present line to the live labels
 const PAD_T = 8, PAD_B = 8
 
