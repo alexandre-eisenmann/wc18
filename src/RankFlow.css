@@ -1,0 +1,182 @@
+/* ───────────────────────────────────────────────────────────
+   RankFlow — "rank over time" bump chart (one line per player)
+   Light, typographic; visual language of the tabelão (Ranking2).
+   ─────────────────────────────────────────────────────────── */
+
+.rf-root {
+  --ink: #1c2127;
+  --muted: #9097a1;
+  --faint: #aeb4bd;
+  --hair: rgba(15, 23, 42, .08);
+  --hair-strong: rgba(15, 23, 42, .16);
+  --accent: #ff4081;
+
+  position: relative;
+  width: 100%;
+  background: #ffffff;
+  color: var(--ink);
+  font-family: Lato, system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.rf-center { align-items: center; justify-content: center; }
+
+.rf-loading {
+  margin: auto;
+  font-size: 12px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+/* ── chart stage ── */
+/* horizontal panning is handled internally (fixed pitch, follows the present),
+   so the browser only ever scrolls vertically. */
+.rf-stage { position: relative; flex: 1; min-height: 0; overflow-x: hidden; overflow-y: auto; overscroll-behavior-x: contain; }
+/* condensed face, same as the leaderboard (.r2-nm); all chart text inherits it */
+.rf-svg { display: block; font-family: 'Roboto Condensed', sans-serif; }
+
+/* per-game flag band — glued under the app header; also the scrub/pan handle.
+   overflow is visible so the slider thumb isn't clipped; the panned flags are
+   clipped by the inner .rf-flags-clip instead. */
+.rf-flags { position: sticky; top: 0; z-index: 4; background: #fff; touch-action: pan-y; border-bottom: 1px solid var(--hair); }
+.rf-flags.pannable { cursor: grab; }
+.rf-flags.pannable:active { cursor: grabbing; }
+.rf-flags-clip { position: relative; height: 100%; overflow: hidden; }
+.rf-flags-inner { position: relative; height: 100%; will-change: transform; }
+.rf-gamecol {
+  position: absolute; top: 4px; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 1.5px;
+  transition: opacity .2s ease;
+}
+.rf-gamecol.future { opacity: .28; }
+.rf-gamecol.on .rf-gscore { color: var(--accent); }
+.rf-gabbr {
+  font-size: 8px; font-weight: 800; letter-spacing: .02em; color: #5a626e;
+  line-height: 1; font-family: Lato, sans-serif;
+}
+.rf-gameflag {
+  width: 16px; height: 11px; border-radius: 1.5px; display: block;
+  background-size: cover !important; background-position: center !important;
+  box-shadow: 0 0 1px rgba(0, 0, 0, .4), 0 1px 1.5px rgba(0, 0, 0, .15);
+}
+.rf-gscore {
+  font-size: 9px; font-weight: 700; color: var(--ink); margin-top: 1px;
+  font-variant-numeric: tabular-nums; line-height: 1;
+}
+
+/* position bands in the name area — shown only when the animation has finished */
+.rf-bands { animation: rf-fade .4s ease; }
+.rf-band { fill: rgba(15, 23, 42, .035); }
+.rf-bands line { stroke: var(--hair-strong); stroke-width: 1; }
+@keyframes rf-fade { from { opacity: 0; } to { opacity: 1; } }
+
+/* points number per band, floated to the band's top; white halo for legibility */
+.rf-badges { animation: rf-fade .4s ease; }
+.rf-badge { paint-order: stroke; stroke: #fff; stroke-width: 3.5px; font-family: 'Roboto Condensed', sans-serif; }
+.rf-bnum { font-weight: 700; font-size: 12px; fill: var(--ink); }
+
+/* playhead sweeping across as the ranking builds up */
+.rf-playglow { stroke: var(--accent); stroke-width: 7; opacity: .08; }
+.rf-playhead { stroke: var(--accent); stroke-width: 1.5; opacity: .5; }
+
+.rf-guide { stroke: rgba(15, 23, 42, .18); stroke-width: 1; }
+.rf-guide.on { stroke: rgba(15, 23, 42, .3); }
+
+/* translucent strokes — overlaps blend softly, like the reference */
+.rf-line {
+  fill: none;
+  pointer-events: none;
+  stroke-width: 4.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: .72;
+  transition: opacity .15s ease, stroke-width .15s ease;
+}
+.rf-line.hot { opacity: 1; stroke-width: 6.5; }
+.rf-line.dim { opacity: .08; }
+
+/* ── labels ── */
+.rf-label {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  letter-spacing: .01em;
+  cursor: pointer;
+  transition: opacity .15s ease;
+}
+.rf-label.dim { opacity: .15; }
+.rf-label.hot { font-weight: 700; }
+.rf-rk { font-weight: 700; font-variant-numeric: tabular-nums; }
+
+/* ── floating control dock (bottom-centre) ── */
+.rf-dock {
+  position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 14px;
+  background: #fff; border: 1px solid var(--hair-strong); border-radius: 999px;
+  padding: 7px 18px; box-shadow: 0 8px 24px rgba(15, 23, 42, .14);
+  z-index: 6;
+}
+.rf-dock-sep { width: 1px; height: 18px; background: var(--hair-strong); }
+
+.rf-playback {
+  display: inline-flex; align-items: center; gap: 10px;
+  flex: 0 0 auto;
+}
+
+/* embedded: a slim, always-visible control bar at the top of the chart */
+.rf-topctrl {
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+  flex-wrap: nowrap;
+  padding: 8px 16px; border-bottom: 1px solid var(--hair); background: #fff;
+}
+.rf-topctrl-content {
+  display: flex; align-items: center; gap: 14px;
+  flex: 1 1 auto; min-width: 0;
+}
+
+/* play/pause/replay — a single subtle, borderless icon toggle */
+.rf-play {
+  appearance: none; border: none; background: none; cursor: pointer; padding: 0;
+  color: var(--muted); display: flex; align-items: center; justify-content: center; gap: 4px;
+  height: 26px; transition: color .12s ease;
+  font-family: Lato, sans-serif; font-size: 12px; font-weight: 700;
+}
+.rf-play:hover { color: var(--ink); }
+.rf-play .material-icons { font-size: 20px; }
+.rf-play span { min-width: 36px; text-align: left; }
+
+/* speed — a single button that cycles 1× → 2× → 4× */
+.rf-speed-btn {
+  appearance: none; border: none; background: none; cursor: pointer; padding: 0;
+  display: flex; align-items: center; gap: 1px;
+  color: var(--muted); font-size: 12px; font-weight: 700;
+  font-variant-numeric: tabular-nums; transition: color .12s ease;
+}
+.rf-speed-btn:hover { color: var(--ink); }
+.rf-speed-btn .material-icons { font-size: 18px; }
+.rf-speed-text { min-width: 52px; text-align: left; }
+
+/* slider glued to the bottom of the flag band, aligned to the columns */
+.rf-slider { position: absolute; left: 0; right: 0; bottom: 0; height: 12px; cursor: pointer; }
+.rf-slider::before {
+  content: ''; position: absolute; left: 0; right: 0; top: 5px; height: 2px; background: var(--hair-strong);
+}
+.rf-slider-fill { position: absolute; left: 0; top: 5px; height: 2px; background: var(--accent); }
+.rf-slider-thumb {
+  position: absolute; top: 6px; width: 11px; height: 11px; border-radius: 50%;
+  background: #fff; border: 2px solid var(--accent); transform: translate(-50%, -50%);
+}
+
+@media (max-width: 680px) {
+  .rf-dock { bottom: 12px; padding: 6px 14px; gap: 12px; }
+  .rf-topctrl { gap: 10px; padding-inline: 12px; }
+  .rf-topctrl-content { gap: 10px; }
+  .rf-playback { gap: 8px; }
+  .rf-play span { min-width: 0; }
+  .rf-speed-text { min-width: 18px; }
+  .rf-speed-word { display: none; }
+}

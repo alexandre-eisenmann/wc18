@@ -1,88 +1,41 @@
-import React, { useState, useEffect } from 'react'
-import { Route, Link, BrowserRouter, Routes, Navigate, useLocation } from 'react-router-dom'
-import Bid from './Bid'
-import Master from './Master'
+import React, { useState, useEffect, Suspense, lazy } from 'react'
+import { Route, BrowserRouter, Routes, Navigate, useLocation } from 'react-router-dom'
 import Home from './Home'
-import Login from './Login'
-import Ranking from './Ranking'
-import Ranking2 from './Ranking2'
-import BarRace from './BarRace'
-import BarRace22 from './BarRace22'
-import Viz from './Viz'
-import VizHist from './VizHist'
-import Rules from './Rules'
-import Payment from './Payment'
 import firebase from 'firebase/compat/app'
-import { AppBar, Tabs, Tab, Avatar, Button, Icon } from '@mui/material'
-import { blue } from '@mui/material/colors'
-import { useT, LanguageSwitcher } from './i18n'
 
-const bgColor = blue[600]
+const NavBar = lazy(() => import('./NavBar'))
+const Bid = lazy(() => import('./Bid'))
+const Master = lazy(() => import('./Master'))
+const Login = lazy(() => import('./Login'))
+const Ranking = lazy(() => import('./Ranking'))
+const Ranking2 = lazy(() => import('./Ranking2'))
+const BarRace = lazy(() => import('./BarRace'))
+const BarRace22 = lazy(() => import('./BarRace22'))
+const BarRaceX = lazy(() => import('./BarRaceX'))
+const RankFlow = lazy(() => import('./RankFlow'))
+const Viz = lazy(() => import('./Viz'))
+const VizHist = lazy(() => import('./VizHist'))
+const Rules = lazy(() => import('./Rules'))
+const Payment = lazy(() => import('./Payment'))
 
-function NavBar({ logged, user, onLogin, onLogout }) {
+function RouteLoading() {
+  return <div style={{ padding: 24, fontFamily: 'Lato', color: '#9097a1' }}>Carregando...</div>
+}
+
+function AppShell({ logged, user, onLogin, onLogout }) {
   const location = useLocation()
-  const { t } = useT()
-  const tabPaths = ['/bids', '/leaderboard']
-  const currentTab = tabPaths.indexOf(location.pathname)
-
-  if (location.pathname === '/') return null
 
   return (
     <div>
-      <AppBar position="static" style={{ boxShadow: 'none', backgroundColor: bgColor }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingRight: 16, paddingTop: 4, paddingBottom: 2 }}>
-          <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', paddingLeft: 16 }}>
-            <Icon style={{ color: 'white', fontSize: 22 }}>home</Icon>
-            <span style={{ color: 'white', fontWeight: 'bold', fontSize: 18 }}>
-              {t('app.brand')}
-            </span>
-          </Link>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, paddingRight: 8 }}>
-            <LanguageSwitcher color="rgba(255,255,255,0.7)" separatorColor="rgba(255,255,255,0.4)" activeColor="white" />
-            {logged && user && <>
-              <Button onClick={onLogout} sx={{ fontSize: '10px', color: '#ccc' }}>{t('auth.logout')}</Button>
-              <Avatar sx={{ width: 30, height: 30 }} src={user.photoURL} />
-            </>}
-            {logged === false &&
-              <Button onClick={onLogin} sx={{ fontSize: '10px', color: '#ccc' }}>{t('auth.login')}</Button>
-            }
-          </div>
-        </div>
-      </AppBar>
-      <Tabs
-        value={currentTab === -1 ? false : currentTab}
-        style={{ backgroundColor: bgColor }}
-        TabIndicatorProps={{ style: { backgroundColor: '#ff4081', height: 3 } }}
-      >
-        <Tab sx={{ color: 'white !important' }} label={t('nav.bids')} component={Link} to="/bids" />
-        <Tab sx={{ color: 'white !important' }} label={t('nav.leaderboard')} component={Link} to="/leaderboard" />
-      </Tabs>
-    </div>
-  )
-}
-
-export default function App() {
-  const [logged, setLogged] = useState(null)
-  const [user, setUser] = useState(null)
-
-  useEffect(() => {
-    const unsubscribe = firebase.auth().onAuthStateChanged((u) => {
-      if (u) { setLogged(true); setUser(u) }
-      else { setLogged(false); setUser(null) }
-    })
-    return unsubscribe
-  }, [])
-
-  const login = () => firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())
-  const logout = () => firebase.auth().signOut()
-
-  return (
-    <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-      <div>
-        <div className="header">
-          <NavBar logged={logged} user={user} onLogin={login} onLogout={logout} />
-        </div>
-        <div className="content">
+      <div className="header">
+        {location.pathname !== '/' && (
+          <Suspense fallback={null}>
+            <NavBar logged={logged} user={user} onLogin={onLogin} onLogout={onLogout} />
+          </Suspense>
+        )}
+      </div>
+      <div className="content">
+        <Suspense fallback={<RouteLoading />}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
@@ -94,14 +47,49 @@ export default function App() {
             <Route path="/ranking" element={<Navigate to="/leaderboard" replace />} />
             <Route path="/viz" element={<Viz />} />
             <Route path="/rules" element={<Rules />} />
-        <Route path="/payment" element={<Payment />} />
+            <Route path="/payment" element={<Payment />} />
             <Route path="/vizhist" element={<VizHist />} />
             <Route path="/ranking-classic" element={<Ranking />} />
             <Route path="/barrace" element={<BarRace />} />
             <Route path="/barrace22" element={<BarRace22 />} />
+            <Route path="/race" element={<BarRaceX />} />
+            <Route path="/rankflow" element={<RankFlow />} />
           </Routes>
-        </div>
+        </Suspense>
       </div>
+    </div>
+  )
+}
+
+export default function App() {
+  const [logged, setLogged] = useState(null)
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    let unsubscribe = () => {}
+    let cancelled = false
+    import('firebase/compat/auth').then(() => {
+      if (cancelled) return
+      unsubscribe = firebase.auth().onAuthStateChanged((u) => {
+        if (u) { setLogged(true); setUser(u) }
+        else { setLogged(false); setUser(null) }
+      })
+    })
+    return () => { cancelled = true; unsubscribe() }
+  }, [])
+
+  const login = async () => {
+    await import('firebase/compat/auth')
+    return firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())
+  }
+  const logout = async () => {
+    await import('firebase/compat/auth')
+    return firebase.auth().signOut()
+  }
+
+  return (
+    <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+      <AppShell logged={logged} user={user} onLogin={login} onLogout={logout} />
     </BrowserRouter>
   )
 }

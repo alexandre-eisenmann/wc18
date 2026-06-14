@@ -1,12 +1,13 @@
-import React, { Component } from "react"
+import React, { Component, Suspense, lazy } from "react"
 import dayjs from 'dayjs'
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/database'
-import MatchViz from './MatchViz'
 import './flags.css'
 import defaultData from './data26.json'
 import { DATABASE_ROOT_NODE } from './constants'
 import { LanguageContext } from './i18n'
+
+const MatchViz = lazy(() => import('./MatchViz'))
 
 const GAP = 16 // px between slides
 const RENDER_WINDOW = 3 // only mount the heavy MatchViz for slides this close to centre
@@ -197,14 +198,16 @@ export default class NextGameBidMap extends Component {
             </div>
           )}
           {heavy ? (
-            <MatchViz
-              key={match.name}
-              hideAnimate={!isCenter}
-              homeTeam={away}
-              awayTeam={home}
-              games={gamesMap[match.name]}
-              result={resultsMap[match.name]}
-            />
+            <Suspense fallback={<div style={{ width: "100%", paddingBottom: "100%" }} />}>
+              <MatchViz
+                key={match.name}
+                hideAnimate={!isCenter}
+                homeTeam={away}
+                awayTeam={home}
+                games={gamesMap[match.name]}
+                result={resultsMap[match.name]}
+              />
+            </Suspense>
           ) : (
             <div style={{ width: "100%", paddingBottom: "100%" }} />
           )}

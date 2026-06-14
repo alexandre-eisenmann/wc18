@@ -3,6 +3,7 @@ import { Paper } from '@mui/material'
 import { pink } from '@mui/material/colors'
 import data from './data26.json'
 import firebase from 'firebase/compat/app'
+import 'firebase/compat/database'
 import './flags.css'
 import { DATABASE_ROOT_NODE } from "./constants"
 import { LanguageContext } from './i18n'

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import BarChart from './BarChart'
 import dayjs from 'dayjs'
 import firebase from 'firebase/compat/app'
+import 'firebase/compat/database'
 import { DATABASE_WC22 } from "./constants"
 import data_file from './data.json'
 

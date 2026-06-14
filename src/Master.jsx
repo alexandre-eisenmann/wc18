@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import './App.css'
 import GroupView from './GroupView'
 import firebase from 'firebase/compat/app'
+import 'firebase/compat/auth'
+import 'firebase/compat/database'
 import { Navigate } from "react-router-dom"
 import { CircularProgress } from '@mui/material'
 import data from './data26.json'

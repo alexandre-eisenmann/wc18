@@ -5,6 +5,8 @@ import dayjs from 'dayjs'
 import { CircularProgress, Icon } from '@mui/material'
 import { orange } from '@mui/material/colors'
 import firebase from 'firebase/compat/app'
+import 'firebase/compat/auth'
+import 'firebase/compat/database'
 import './flags.css'
 import './index.css'
 import { DATABASE_ROOT_NODE } from "./constants"

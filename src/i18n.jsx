@@ -11,6 +11,7 @@ const messages = {
     'nav.home': 'HOME',
     'nav.bids': 'JOGOS',
     'nav.leaderboard': 'TABELÃO',
+    'nav.evolution': 'EVOLUÇÃO',
     'nav.ranking': 'RANKING',
     'nav.blog': 'BLOG',
 
@@ -37,6 +38,7 @@ const messages = {
     'home.nextGameEyebrow': 'Próximos jogos',
     'home.resultEyebrow': 'Resultado',
     'home.archiveEyebrow': 'Arquivo — edições anteriores',
+    'home.rankEyebrow': 'Evolução do ranking',
     'home.checkRules': 'Confira o regulamento',
     'nextGame.prev': 'Jogo anterior',
     'nextGame.next': 'Próximo jogo',
@@ -138,6 +140,7 @@ const messages = {
     'nav.home': 'HOME',
     'nav.bids': 'BIDS',
     'nav.leaderboard': 'LEADERBOARD',
+    'nav.evolution': 'EVOLUTION',
     'nav.ranking': 'RANKING',
     'nav.blog': 'BLOG',
 
@@ -164,6 +167,7 @@ const messages = {
     'home.nextGameEyebrow': 'Upcoming games',
     'home.resultEyebrow': 'Result',
     'home.archiveEyebrow': 'Archive — past editions',
+    'home.rankEyebrow': 'Ranking evolution',
     'home.checkRules': 'Check the rules',
     'nextGame.prev': 'Previous game',
     'nextGame.next': 'Next game',

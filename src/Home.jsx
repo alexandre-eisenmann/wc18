@@ -1,27 +1,36 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect, Suspense, lazy } from 'react'
 import { NavLink } from "react-router-dom"
 
 import './flags.css'
 import './scroll.css'
-import Viz from './Viz'
-import NextGameBidMap from './NextGameBidMap'
-import ClassicYamBanner from './ClassicYamBanner'
-import data22 from './data.json'
-import data18 from './data2018.json'
-import { DATABASE_WC18, DATABASE_WC22, areBidsClosed, HERO_NEXT_GAME_CAROUSEL } from './constants'
+import data26 from './data26.json'
+import { DATABASE_WC26, areBidsClosed, HERO_NEXT_GAME_CAROUSEL } from './constants'
 import { useT, LanguageSwitcher } from './i18n'
+
+const RankFlow = lazy(() => import('./RankFlow'))
+const NextGameBidMap = lazy(() => import('./NextGameBidMap'))
 
 const hostFlags = ['f-us', 'f-ca', 'f-mx']
 
-// Archive of past tournaments shown at the bottom of the page. The live 2026
-// tournament lives in the hero carousel, so the archive only carries history.
-const ARCHIVE_YEARS = {
-  '2022': { data: data22, dbNode: DATABASE_WC22, name: 'Copa do Catar 2022', flags: ['f-qa'], accent: '#8a1538' },
-  '2018': { data: data18, dbNode: DATABASE_WC18, name: 'Copa da Rússia 2018', flags: ['f-ru'], accent: '#d52b1e' },
+// Mount heavy children only when scrolled near the viewport, so the chart's
+// large bids fetch never blocks the initial home-page load.
+function LazyMount({ minHeight, children }) {
+  const ref = useRef(null)
+  const [show, setShow] = useState(false)
+  useEffect(() => {
+    if (show) return
+    const el = ref.current
+    if (!el) return
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { setShow(true); io.disconnect() }
+    }, { rootMargin: '300px' })
+    io.observe(el)
+    return () => io.disconnect()
+  }, [show])
+  return <div ref={ref} style={{ minHeight }}>{show ? children : null}</div>
 }
 
 export default function Home() {
-  const [selectedYear, setSelectedYear] = useState('2022')
   const { t } = useT()
   const bidsClosed = areBidsClosed()
 
@@ -98,7 +107,9 @@ export default function Home() {
               </NavLink>
             </div>
 
-            <NextGameBidMap />
+            <Suspense fallback={<div style={{ minHeight: "340px" }} />}>
+              <NextGameBidMap />
+            </Suspense>
 
             {renderPlay(true) && (
               <div style={{ textAlign: "center", padding: "8px 20px 0" }}>
@@ -152,50 +163,17 @@ export default function Home() {
         )}
       </section>
 
-      <section className="home-insights-section">
-        <ClassicYamBanner />
-
+      <section className="home-insights-section" style={{ background: "#fff" }}>
         <div style={{ width: "100%", overflow: "hidden" }}>
-          <Viz
-            key={selectedYear}
-            compactHeader
-            tournamentData={ARCHIVE_YEARS[selectedYear].data}
-            dbNode={ARCHIVE_YEARS[selectedYear].dbNode}
-            tournamentName={ARCHIVE_YEARS[selectedYear].name}
-            tournamentFlags={ARCHIVE_YEARS[selectedYear].flags}
-            tournamentAccent={ARCHIVE_YEARS[selectedYear].accent}
-          >
-            <div style={{ margin: "16px 0 0" }}>
-              <div style={{ fontFamily: "Roboto Condensed", fontSize: "11px", fontWeight: "bold", letterSpacing: "1.6px", textTransform: "uppercase", color: "#9aa0a6", marginBottom: "6px" }}>
-                {t('home.archiveEyebrow')}
-              </div>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-start", flexWrap: "wrap", gap: "14px" }}>
-                {Object.keys(ARCHIVE_YEARS).map(year => {
-                  const isSelected = selectedYear === year
-                  return (
-                    <button
-                      key={year}
-                      type="button"
-                      onClick={() => setSelectedYear(year)}
-                      style={{
-                        fontFamily: "Roboto Condensed",
-                        fontSize: "13px",
-                        fontWeight: "bold",
-                        color: isSelected ? "#2196f3" : "#aaa",
-                        cursor: "pointer",
-                        border: "0",
-                        borderBottom: isSelected ? "2px solid #2196f3" : "2px solid transparent",
-                        background: "transparent",
-                        padding: "0 0 2px",
-                      }}
-                    >
-                      {t(`home.yearLabel.${year}`)}
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
-          </Viz>
+          <LazyMount minHeight={560}>
+            <Suspense fallback={<div style={{ height: 560, background: "#fff" }} />}>
+              <RankFlow
+                embedHeight={560}
+                data={data26}
+                dbNode={DATABASE_WC26}
+              />
+            </Suspense>
+          </LazyMount>
         </div>
       </section>
     </div>
