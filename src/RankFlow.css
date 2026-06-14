@@ -77,8 +77,8 @@
 
 /* position bands in the name area — shown only when the animation has finished */
 .rf-bands { animation: rf-fade .4s ease; }
-.rf-band { fill: rgba(15, 23, 42, .035); }
-.rf-bands line { stroke: var(--hair-strong); stroke-width: 1; }
+.rf-band { fill: #e9fbff; }
+.rf-bands line { display: none; }
 @keyframes rf-fade { from { opacity: 0; } to { opacity: 1; } }
 
 /* points number per band, floated to the band's top; white halo for legibility */
