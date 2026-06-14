@@ -6,9 +6,10 @@ import './scroll.css'
 import data26 from './data26.json'
 import { DATABASE_WC26, areBidsClosed, HERO_NEXT_GAME_CAROUSEL } from './constants'
 import { useT, LanguageSwitcher } from './i18n'
+import ClassicYamBanner from './ClassicYamBanner'
 
-const RankFlow = lazy(() => import('./RankFlow'))
 const NextGameBidMap = lazy(() => import('./NextGameBidMap'))
+const Viz = lazy(() => import('./Viz'))
 
 const hostFlags = ['f-us', 'f-ca', 'f-mx']
 
@@ -165,12 +166,14 @@ export default function Home() {
       </section>
 
       <section className="home-insights-section" style={{ background: "#fff" }}>
+        <ClassicYamBanner />
+
         <div style={{ width: "100%", overflow: "hidden" }}>
-          <LazyMount minHeight={560}>
-            <Suspense fallback={<div style={{ height: 560, background: "#fff" }} />}>
-              <RankFlow
-                embedHeight={560}
-                data={data26}
+          <LazyMount minHeight={520}>
+            <Suspense fallback={<div style={{ height: 520, background: "#fff" }} />}>
+              <Viz
+                compactHeader
+                tournamentData={data26}
                 dbNode={DATABASE_WC26}
               />
             </Suspense>

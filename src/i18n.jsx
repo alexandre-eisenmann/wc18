@@ -11,7 +11,7 @@ const messages = {
     'nav.home': 'HOME',
     'nav.bids': 'JOGOS',
     'nav.leaderboard': 'TABELÃO',
-    'nav.evolution': 'EVOLUÇÃO',
+    'nav.evolution': 'TIMELINE',
     'nav.ranking': 'RANKING',
     'nav.blog': 'BLOG',
 
@@ -140,7 +140,7 @@ const messages = {
     'nav.home': 'HOME',
     'nav.bids': 'BIDS',
     'nav.leaderboard': 'LEADERBOARD',
-    'nav.evolution': 'EVOLUTION',
+    'nav.evolution': 'TIMELINE',
     'nav.ranking': 'RANKING',
     'nav.blog': 'BLOG',
 
