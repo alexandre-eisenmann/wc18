@@ -296,7 +296,7 @@ export default function RankFlow({ data = data_file, dbNode = DATABASE_WC26, emb
   if (!tracks) return <div className="rf-root rf-center" ref={rootRef} style={{ height: embedHeight || rootH || '70vh' }}><div className="rf-loading">Loading...</div></div>
   if (len === 0) return <div className="rf-root rf-center" ref={rootRef} style={{ height: embedHeight || rootH || '70vh' }}><div className="rf-loading">Sem resultados ainda</div></div>
 
-  const PM = MATCHES.slice(0, len)            // only games played so far
+  const PM = MATCHES                         // show the full schedule in the header
   const matchIdx = clamp(Math.round(pos), 0, len - 1)
   const finished = pos >= len - 1.001
 
@@ -431,18 +431,23 @@ export default function RankFlow({ data = data_file, dbNode = DATABASE_WC26, emb
               <div className="rf-flags-inner" style={{ transform: `translateX(${-scroll}px)` }}>
                 {PM.map((m, c) => {
                   const g = gabarito[m.id]
+                  const played = c < len
                   return (
                     <div
                       key={m.id}
-                      className={`rf-gamecol${c === matchIdx ? ' on' : ''}${c <= matchIdx ? '' : ' future'}`}
-                      style={{ left: model.cx(c) }}
+                      className={`rf-gamecol${c === matchIdx ? ' on' : ''}${played ? '' : ' future'}`}
+                      style={{ left: LEFT_PAD + c * COL_W }}
                       title={`${abbr(m.home.name)} × ${abbr(m.away.name)} · jogo ${c + 1}`}
                     >
                       <span className="rf-gabbr">{abbr(m.home.name)}</span>
                       <span className={`rf-gameflag f-${m.home.iso2}`} />
                       <span className={`rf-gameflag f-${m.away.iso2}`} />
                       <span className="rf-gabbr">{abbr(m.away.name)}</span>
-                      <span className="rf-gscore">{g ? `${g.h}-${g.a}` : ''}</span>
+                      {played && g ? (
+                        <span className="rf-gscore">{`${g.h}-${g.a}`}</span>
+                      ) : (
+                        <span className="rf-gdate">{dayjs(m.date).format('DD/MM')}</span>
+                      )}
                     </div>
                   )
                 })}
