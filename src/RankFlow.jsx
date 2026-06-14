@@ -67,8 +67,6 @@ const CHAR_W = 6.2            // ~px per char at the label size (for truncation)
 const TOP_COLORS = [
   '#2563eb', '#dc2626', '#16a34a', '#9333ea', '#ea580c',
   '#0891b2', '#db2777', '#65a30d', '#7c3aed', '#ca8a04',
-  '#0f766e', '#e11d48', '#4f46e5', '#059669', '#d97706',
-  '#7e22ce', '#0284c7', '#be123c', '#3f6212', '#933f0d',
 ]
 const rankColor = (rank, total) => {
   if (rank < TOP_COLORS.length) return TOP_COLORS[rank]
@@ -285,7 +283,7 @@ export default function RankFlow({ data = data_file, dbNode = DATABASE_WC26, emb
           {model.players.map(p => (
             <path
               key={p.n}
-              className={`rf-line${p.rankF >= 20 ? ' tail' : ''}${activeName ? (activeName === p.n ? ' hot' : ' dim') : ''}`}
+              className={`rf-line${p.rankF >= 10 ? ' tail' : ''}${activeName ? (activeName === p.n ? ' hot' : ' dim') : ''}`}
               d={p.d} stroke={p.color}
             />
           ))}
@@ -530,7 +528,7 @@ export default function RankFlow({ data = data_file, dbNode = DATABASE_WC26, emb
                     return (
                       <g
                         key={p.n}
-                        className={`rf-label-row${p.rankF >= 20 ? ' tail' : ''}${activeName ? (activeName === p.n ? ' hot' : ' dim') : ''}`}
+                        className={`rf-label-row${p.rankF >= 10 ? ' tail' : ''}${activeName ? (activeName === p.n ? ' hot' : ' dim') : ''}`}
                         onMouseEnter={() => { if (!playingRef.current) setHover(p.n) }} onMouseLeave={() => setHover(null)}
                         onClick={() => { if (!playingRef.current) setSelected(s => (s === p.n ? null : p.n)) }}
                       >
