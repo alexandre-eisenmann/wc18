@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react"
+import React, { useEffect, useMemo, useRef, useState } from "react"
 
 // Player detail card shown over the leaderboard when a name is tapped.
 //
@@ -16,6 +16,13 @@ const DOT = {
   3: { background: '#a78fd4', color: '#ffffff', border: '1px solid rgba(0,0,0,.12)' },
   0: { background: 'transparent', color: 'rgba(0,0,0,.30)', border: '1px solid rgba(0,0,0,.16)' },
 }
+
+const GRID_COLS = 8
+const GRID_GAP = 8
+const GRID_PAD = 18
+const STREAK_STROKE = 5
+const DOT_STAGGER_MS = 45
+const DOT_POP_MS = 340
 
 // A run of consecutive *played* games worth points (pts > 0) counts as a
 // streak. Runs this long or longer get the golden highlight + the header pill.
@@ -50,10 +57,9 @@ export default function PlayerCard({ game, matches, teams, t, onClose }) {
       }
     })
 
-    // Walk the played games finding maximal runs of pts > 0. A run that reaches
-    // STREAK_MIN stamps its length on its *last* cell only (that many flames) —
-    // so the count sits at the end of the streak and rides forward as the run
-    // extends, leaving earlier cells clean. Each run is independent.
+    // Walk the played games finding maximal runs of pts > 0. Every multi-game
+    // run marks its dots so CSS can draw the continuous rail between them. A
+    // run that reaches STREAK_MIN still stamps its length on the last cell only.
     let bestStreak = 0
     let i = 0
     while (i < cells.length) {
@@ -62,6 +68,17 @@ export default function PlayerCard({ game, matches, teams, t, onClose }) {
         while (j < cells.length && cells[j].played && cells[j].pts > 0) j++
         const len = j - i
         if (len > bestStreak) bestStreak = len
+        if (len >= STREAK_MIN) {
+          for (let k = i; k < j; k++) {
+            cells[k].streak = {
+              len,
+              index: k - i,
+              continuesRight: k < j - 1,
+              wrapsRight: k < j - 1 && k % GRID_COLS === GRID_COLS - 1,
+              wrapsLeft: k > i && k % GRID_COLS === 0,
+            }
+          }
+        }
         if (len >= STREAK_MIN) cells[j - 1].streakNo = len
         i = j
       } else {
@@ -70,6 +87,51 @@ export default function PlayerCard({ game, matches, teams, t, onClose }) {
     }
     return { cells, bestStreak }
   }, [game, matches, teams])
+
+  const gridRef = useRef(null)
+  const [gridW, setGridW] = useState(0)
+  useEffect(() => {
+    const el = gridRef.current
+    if (!el) return
+    const measure = () => setGridW(el.clientWidth)
+    measure()
+    const ro = new ResizeObserver(measure)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
+
+  const streakLinks = useMemo(() => {
+    if (!gridW) return []
+    const dot = (gridW - (GRID_PAD * 2) - (GRID_GAP * (GRID_COLS - 1))) / GRID_COLS
+    const pitch = dot + GRID_GAP
+    const radius = dot / 2
+    const cx = i => GRID_PAD + (i % GRID_COLS) * pitch + radius
+    const cy = i => GRID_PAD + Math.floor(i / GRID_COLS) * pitch + radius
+    const links = []
+    const playedOrder = []
+    let playedSeen = 0
+    cells.forEach((c, i) => {
+      if (c.played) playedOrder[i] = playedSeen++
+    })
+    const linkDelay = i => `${((playedOrder[i + 1] ?? playedOrder[i] ?? 0) * DOT_STAGGER_MS) + DOT_POP_MS}ms`
+
+    cells.forEach((c, i) => {
+      const streak = c.streak
+      if (!streak || !streak.continuesRight) return
+      const tier = Math.min(streak.len, 6)
+      const delay = linkDelay(i)
+      const y = cy(i)
+
+      if (streak.wrapsRight) {
+        links.push({ key: `${i}-edge-r`, x1: cx(i), y1: y, x2: gridW, y2: y, tier, delay })
+        links.push({ key: `${i}-edge-l`, x1: 0, y1: cy(i + 1), x2: cx(i + 1), y2: cy(i + 1), tier, delay })
+      } else {
+        links.push({ key: `${i}-r`, x1: cx(i), y1: y, x2: cx(i + 1), y2: y, tier, delay })
+      }
+    })
+
+    return links
+  }, [cells, gridW])
 
   const position = game.position
   const total = game.total || 0
@@ -89,39 +151,54 @@ export default function PlayerCard({ game, matches, teams, t, onClose }) {
           </div>
         </div>
 
-        <div className="pc-grid">
+        <div className="pc-grid" ref={gridRef}>
+          {streakLinks.length > 0 && (
+            <svg className="pc-streak-links" aria-hidden="true">
+              {streakLinks.map(link => (
+                <line
+                  key={link.key}
+                  x1={link.x1}
+                  y1={link.y1}
+                  x2={link.x2}
+                  y2={link.y2}
+                  stroke="#111827"
+                  strokeWidth={STREAK_STROKE}
+                  className={`pc-streak-link pc-streak-link-${link.tier}`}
+                  style={{ '--pc-link-delay': link.delay }}
+                  vectorEffect="non-scaling-stroke"
+                />
+              ))}
+            </svg>
+          )}
           {(() => {
             let playedSeen = 0
             return cells.map((c, i) => {
               const sty = c.played ? DOT[c.pts] : null
+              const streak = c.streak
               // Only the real results animate; placeholders render statically.
-              const cls = `pc-dot${c.played ? ' pc-dot--anim' : ' pc-dot--empty'}`
-              const delay = c.played ? playedSeen++ * 45 : 0
+              const streakTier = streak ? Math.min(streak.len, 6) : 0
+              const cls = [
+                'pc-dot',
+                c.played ? 'pc-dot--anim' : 'pc-dot--empty',
+                streak ? 'pc-dot--streak' : '',
+                streak ? `pc-dot--streak-${streakTier}` : '',
+              ].filter(Boolean).join(' ')
+              const delay = c.played ? playedSeen++ * DOT_STAGGER_MS : 0
               return (
                 <div
                   key={i}
                   className={cls}
                   style={{
-                    ...(sty ? { background: sty.background, color: sty.color, border: sty.border } : null),
+                    ...(sty && streak ? { '--pc-dot-bg': sty.background, color: sty.color } : null),
+                    ...(sty && !streak ? { background: sty.background, color: sty.color } : null),
+                    ...(sty && !streak ? { border: sty.border } : null),
                     ...(c.played ? { animationDelay: `${delay}ms` } : null),
                   }}
                   title={`${c.label} · ${c.pred}`}
                 >
-                  {c.streakNo && (
-                    <span className="pc-streakno">
-                      {Array.from({ length: c.streakNo }).map((_, k) => {
-                        // Fan the flames symmetrically across the top; each rides
-                        // the dot's rim, so longer runs sweep around the contour.
-                        const a = (k - (c.streakNo - 1) / 2) * 32
-                        return (
-                          <span key={k} className="pc-streakno-fire" style={{ transform: `rotate(${a}deg)` }}>
-                            <span className="pc-streakno-fire-i" style={{ transform: `translate(-50%, -50%) rotate(${-a}deg)` }}>🔥</span>
-                          </span>
-                        )
-                      })}
-                    </span>
-                  )}
-                  {c.played ? c.pts : ''}
+                  {streak && <span className="pc-dot-face">{c.played ? c.pts : ''}</span>}
+                  {c.streakNo && <span className="pc-streak-badge">{c.streakNo}×</span>}
+                  {!streak && (c.played ? c.pts : '')}
                 </div>
               )
             })

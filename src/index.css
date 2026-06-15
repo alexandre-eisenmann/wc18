@@ -759,14 +759,36 @@ ul {
 .pc-pts-l { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; opacity: .8; }
 
 .pc-grid {
+  --pc-grid-gap: 8px;
+  --pc-grid-pad: 18px;
+  --pc-streak-stroke: 5px;
+  position: relative;
   display: grid;
   grid-template-columns: repeat(8, 1fr);
-  gap: 8px;
-  padding: 18px;
+  gap: var(--pc-grid-gap);
+  padding: var(--pc-grid-pad);
+  isolation: isolate;
+  overflow: visible;
+}
+.pc-streak-links {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 0;
+}
+.pc-streak-link {
+  opacity: 0;
+  stroke-linecap: butt;
+  animation: pc-link-appear .18s ease-out var(--pc-link-delay, 0ms) both;
 }
 .pc-dot {
   position: relative;
+  z-index: 1;
   aspect-ratio: 1 / 1;
+  box-sizing: border-box;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -774,38 +796,52 @@ ul {
   font-size: 13px; font-weight: 700;
   background: #e9edf2; color: #5a626e;
 }
-/* Streak marker: one flame per game in the run (the count of flames *is* the
-   streak length — rarely past ~5 — so no number, no "+" to misread as points).
-   The flames ride the dot's rim and fan around its contour as the run grows. */
-.pc-streakno {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
+.pc-dot--streak {
+  --pc-streak-line: #111827;
+  --pc-dot-bg: #0aa85e;
+  z-index: 1;
+  background: var(--pc-streak-line);
+  border: none;
 }
-/* Each flame is a zero-width spoke pinned at the dot's centre and rotated, so
-   its tip traces the rim. */
-.pc-streakno-fire {
+.pc-dot-face {
   position: absolute;
-  left: 50%;
-  bottom: 50%;
-  width: 0;
-  height: 50%;
-  transform-origin: bottom center;
+  inset: var(--pc-streak-stroke);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--pc-dot-bg);
 }
-/* The glyph sits centred on the spoke's tip and is counter-rotated to stay
-   upright wherever it lands on the arc. */
-.pc-streakno-fire-i {
+.pc-streak-badge {
   position: absolute;
-  top: 0;
-  left: 50%;
-  font-size: 11px;
-  line-height: 1;
+  top: -7px;
+  right: -5px;
+  z-index: 2;
+  min-width: 17px;
+  height: 14px;
+  padding: 0 4px;
+  box-sizing: border-box;
+  border-radius: 999px;
+  background: rgba(17, 24, 39, .9);
+  color: #fff;
+  font-size: 8px;
+  font-weight: 800;
+  line-height: 14px;
+  letter-spacing: -.02em;
 }
 /* Only real results animate in — a gentle, subtle pop. Placeholders are static. */
 .pc-dot--anim { animation: pc-pop .34s cubic-bezier(.2, .7, .3, 1) both; }
 @keyframes pc-pop {
   from { opacity: 0; transform: scale(.6); }
   to   { opacity: 1; transform: scale(1); }
+}
+.pc-dot--anim.pc-dot--streak {
+  animation: pc-pop .34s cubic-bezier(.2, .7, .3, 1) both;
+}
+@keyframes pc-link-appear {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 /* Future / unplayed games: faint dashed ring, no number. */
 .pc-dot--empty {
