@@ -563,6 +563,7 @@ ul {
   padding: 0 2px 0 4px;
   border-right: 1px solid rgba(0,0,0,.08);
 }
+.r2-idcol--click { cursor: pointer; }
 .r2-corner {
   z-index: 40;
   background: #fff !important;
@@ -599,7 +600,6 @@ ul {
   font-family: 'Roboto Condensed', sans-serif;
   font-size: 12px; color: #1c2127; line-height: 1.15; letter-spacing: .01em;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  cursor: pointer;
 }
 .r2-eyewrap {
   width: 22px; height: 17px; margin-top: 1px;

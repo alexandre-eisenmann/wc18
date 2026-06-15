@@ -340,7 +340,11 @@ export default class Ranking2 extends Component {
     const following = this.state.pins.includes(game.gameId)
     // In the "My bids" band, own (un-followed) bids show no toggle.
     if (bandPinned && !following) return null
-    const onClick = following ? this.unpin.bind(this, game.gameId) : this.pin.bind(this, game.gameId)
+    const onClick = e => {
+      e.stopPropagation()
+      if (following) this.unpin(game.gameId)
+      else this.pin(game.gameId)
+    }
     return (
       <span className="r2-eyewrap" onClick={onClick}>
         {following
@@ -374,7 +378,7 @@ export default class Ranking2 extends Component {
     const rowBg = pinned ? '#e9fbff' : '#ffffff'
     return (
       <div className={`r2-row${divider ? ' r2-row--div' : ''}`} key={key} style={{ background: rowBg }}>
-        <div className="r2-idcol" style={{ background: rowBg }}>
+        <div className="r2-idcol r2-idcol--click" style={{ background: rowBg }} onClick={() => this.setState({ cardGame: game })}>
           <span className="r2-meta">
             {showMeta && <>
               <span className="r2-pos">{game.position}<sup>o</sup></span>
@@ -382,7 +386,7 @@ export default class Ranking2 extends Component {
             </>}
           </span>
           <span className="r2-idmain">
-            <span className="r2-nm" title={game.name} onClick={() => this.setState({ cardGame: game })}>{game.name}</span>
+            <span className="r2-nm" title={game.name}>{game.name}</span>
             {this.state.logged && this.renderFollow(game, pinned)}
           </span>
         </div>
