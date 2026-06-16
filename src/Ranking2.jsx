@@ -2,7 +2,7 @@ import React, { Component, Suspense } from "react"
 import data from './data26.json'
 import gamesFromFile from './games26.json'
 import dayjs from 'dayjs'
-import { CircularProgress, Icon } from '@mui/material'
+import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Icon } from '@mui/material'
 import { orange } from '@mui/material/colors'
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
@@ -85,6 +85,7 @@ export default class Ranking2 extends Component {
       render: false,
       cardGame: null,
       cardMatch: null,
+      pendingUnpinGame: null,
     }
   }
 
@@ -334,6 +335,19 @@ export default class Ranking2 extends Component {
     firebase.database().ref(`${DATABASE_ROOT_NODE}/pins/${this.state.user.uid}/${gameId}`).remove()
   }
 
+  requestUnpin(game) {
+    this.setState({ pendingUnpinGame: game })
+  }
+
+  cancelUnpin = () => {
+    this.setState({ pendingUnpinGame: null })
+  }
+
+  confirmUnpin = () => {
+    if (this.state.pendingUnpinGame) this.unpin(this.state.pendingUnpinGame.gameId)
+    this.setState({ pendingUnpinGame: null })
+  }
+
   // Follow / unfollow (eye) control for the player column. "Following" a player
   // keeps them in the "My bids" band up top. Pin storage is reused unchanged.
   renderFollow(game, bandPinned) {
@@ -342,7 +356,7 @@ export default class Ranking2 extends Component {
     if (bandPinned && !following) return null
     const onClick = e => {
       e.stopPropagation()
-      if (following) this.unpin(game.gameId)
+      if (following) this.requestUnpin(game)
       else this.pin(game.gameId)
     }
     return (
@@ -551,6 +565,19 @@ export default class Ranking2 extends Component {
             />
           </Suspense>
         )}
+
+        <Dialog open={Boolean(this.state.pendingUnpinGame)} onClose={this.cancelUnpin}>
+          <DialogTitle>{t('ranking.unwatchTitle', { name: this.state.pendingUnpinGame ? this.state.pendingUnpinGame.name : '' })}</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              {t('ranking.unwatchContent')}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.cancelUnpin}>{t('auth.cancel')}</Button>
+            <Button color="secondary" onClick={this.confirmUnpin}>{t('ranking.unwatchConfirm')}</Button>
+          </DialogActions>
+        </Dialog>
       </div>
     )
   }

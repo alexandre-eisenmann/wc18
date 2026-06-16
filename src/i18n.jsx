@@ -89,6 +89,9 @@ const messages = {
     'ranking.noResults': 'Nenhum participante encontrado',
     'ranking.participant': 'Participante',
     'ranking.live': 'AO VIVO',
+    'ranking.unwatchTitle': 'Remover {name}?',
+    'ranking.unwatchContent': 'Esse jogo vai sair da sua lista Acompanhando.',
+    'ranking.unwatchConfirm': 'Remover',
     'card.points': 'pontos',
 
     'leaderboard.participants': '{count} participantes',
@@ -218,6 +221,9 @@ const messages = {
     'ranking.noResults': 'No participant found',
     'ranking.participant': 'Participant',
     'ranking.live': 'LIVE',
+    'ranking.unwatchTitle': 'Remove {name}?',
+    'ranking.unwatchContent': 'This bid will be removed from your Watching list.',
+    'ranking.unwatchConfirm': 'Remove',
     'card.points': 'points',
 
     'leaderboard.participants': '{count} participants',
