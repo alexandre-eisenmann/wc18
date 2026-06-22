@@ -53,6 +53,8 @@ const PAD_T = 8, PAD_B = 8
 const GAME_MS = 520            // base ms to advance one game-column
 const lerp = (a, b, t) => a + (b - a) * t
 const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v))
+const INERTIA_DECAY = 360      // ms; higher means a longer, softer glide
+const MIN_SWIPE_V = 0.035      // px/ms before a released pan keeps coasting
 
 // width reserved on the right for the standings (name + pts + position columns).
 const rightPadFor = w => Math.round(clamp(w * 0.42, 150, 300))
@@ -86,21 +88,34 @@ export default function RankFlow({ data = data_file, dbNode = DATABASE_WC26, emb
   const [pos, setPos] = useState(0)              // continuous column position [0, len-1]
   const [playing, setPlaying] = useState(false)
   const [speed, setSpeed] = useState(1)
-  const [hover, setHover] = useState(null)
   const [selected, setSelected] = useState(null)
   const [manualScroll, setManualScroll] = useState(null)   // user pan offset when paused (null = follow present)
+  const [browsing, setBrowsing] = useState(false)
 
   const posRef = useRef(0)
   const speedRef = useRef(1)
   speedRef.current = speed
   const playingRef = useRef(false)
   playingRef.current = playing
+  const inertiaRef = useRef(null)
+  const browseTimerRef = useRef(null)
+  const suppressClickRef = useRef(false)
+  const selectedRef = useRef(null)
+  const browsingRef = useRef(false)
+  const scrollFrameRef = useRef(null)
+  const pendingScrollRef = useRef(null)
+  selectedRef.current = selected
 
   // While playing, the viewport follows the present and hovering is disabled.
   // Pausing hands control back to the user (pan + hover).
   useEffect(() => {
-    if (playing) { setHover(null); setSelected(null); setManualScroll(null) }
+    if (playing) { setSelected(null); setManualScroll(null) }
   }, [playing])
+  useEffect(() => () => {
+    if (inertiaRef.current) cancelAnimationFrame(inertiaRef.current)
+    if (browseTimerRef.current) clearTimeout(browseTimerRef.current)
+    if (scrollFrameRef.current) cancelAnimationFrame(scrollFrameRef.current)
+  }, [])
   const lenRef = useRef(0)
   lenRef.current = len
 
@@ -268,7 +283,7 @@ export default function RankFlow({ data = data_file, dbNode = DATABASE_WC26, emb
 
   // ── static chart layer: stable element reference so React skips it every
   //    frame (only the scroll transform / clip / playhead / labels move). ──
-  const activeName = !playing ? (hover || selected) : null
+  const activeName = !playing ? selected : null
   const staticLayer = useMemo(() => {
     if (!model) return null
     const top = PAD_T - 4, bot = PAD_T + model.plotH + 4
@@ -307,10 +322,71 @@ export default function RankFlow({ data = data_file, dbNode = DATABASE_WC26, emb
   const maxScroll = model ? Math.max(0, model.contentW - anchorX) : 0
   const scroll = (!playing && manualScroll != null) ? clamp(manualScroll, 0, maxScroll) : autoScroll
   const presentX = model ? LEFT_PAD + pos * COL_W - scroll : 0
-  const activePlayer = model && activeName ? model.players.find(p => p.n === activeName) : null
+  const visiblePresentX = clamp(presentX, 0, size.w)
+  const browsingAwayFromPresent = !playing && Math.abs(scroll - autoScroll) > 1
+  const markBrowsing = () => {
+    if (browseTimerRef.current) clearTimeout(browseTimerRef.current)
+    if (!browsingRef.current) {
+      browsingRef.current = true
+      setBrowsing(true)
+    }
+  }
+  const settleBrowsing = (delay = 420) => {
+    if (browseTimerRef.current) clearTimeout(browseTimerRef.current)
+    browseTimerRef.current = setTimeout(() => {
+      browsingRef.current = false
+      setBrowsing(false)
+    }, delay)
+  }
+  const applyManualScroll = value => {
+    if (scrollFrameRef.current) cancelAnimationFrame(scrollFrameRef.current)
+    scrollFrameRef.current = null
+    pendingScrollRef.current = null
+    setManualScroll(value)
+  }
+  const scheduleManualScroll = value => {
+    pendingScrollRef.current = value
+    if (scrollFrameRef.current) return
+    scrollFrameRef.current = requestAnimationFrame(() => {
+      scrollFrameRef.current = null
+      setManualScroll(pendingScrollRef.current)
+      pendingScrollRef.current = null
+    })
+  }
+  const stopInertia = () => {
+    if (!inertiaRef.current) return
+    cancelAnimationFrame(inertiaRef.current)
+    inertiaRef.current = null
+  }
+  const coast = (start, velocity) => {
+    stopInertia()
+    if (Math.abs(velocity) < MIN_SWIPE_V) { settleBrowsing(); return }
+    markBrowsing()
+    let current = start
+    let v = velocity
+    let last = performance.now()
+    const step = now => {
+      const dt = now - last
+      last = now
+      current = clamp(current + v * dt, 0, maxScroll)
+      applyManualScroll(current)
+      if ((current <= 0 && v < 0) || (current >= maxScroll && v > 0)) v = 0
+      else v *= Math.exp(-dt / INERTIA_DECAY)
+      if (Math.abs(v) > 0.012) inertiaRef.current = requestAnimationFrame(step)
+      else {
+        inertiaRef.current = null
+        settleBrowsing()
+      }
+    }
+    inertiaRef.current = requestAnimationFrame(step)
+  }
   const panBy = dx => {
     if (playing || maxScroll <= 0 || !dx) return
-    setManualScroll(s => clamp((s != null ? s : autoScroll) + dx, 0, maxScroll))
+    stopInertia()
+    markBrowsing()
+    const base = pendingScrollRef.current != null ? pendingScrollRef.current : scroll
+    scheduleManualScroll(clamp(base + dx, 0, maxScroll))
+    settleBrowsing()
   }
 
   // live standings: smooth y, snapped rank number
@@ -337,7 +413,7 @@ export default function RankFlow({ data = data_file, dbNode = DATABASE_WC26, emb
   )
 
   return (
-    <div className="rf-root" ref={rootRef} style={{ height: embedHeight || rootH || '70vh' }}>
+    <div className={`rf-root${browsing || browsingAwayFromPresent ? ' is-browsing' : ''}`} ref={rootRef} style={{ height: embedHeight || rootH || '70vh' }}>
       {/* embedded: controls as a top bar (always visible); full-page: floating dock */}
       {embedHeight && (
         <div className="rf-topctrl">
@@ -356,34 +432,51 @@ export default function RankFlow({ data = data_file, dbNode = DATABASE_WC26, emb
           if (playing || maxScroll <= 0) return
           const dx = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : (e.shiftKey ? e.deltaY : 0)
           if (!dx) return
-          e.preventDefault()
           panBy(dx)
         }}
         onPointerDown={e => {
           if (playing || maxScroll <= 0 || e.button !== 0) return
-          if (e.target.closest && e.target.closest('.rf-flags, .rf-slider, button, a')) return
+          if (e.target.closest && e.target.closest('.rf-flags, .rf-slider, .rf-label-row, button, a')) return
+          stopInertia()
           const startX = e.clientX
           const startY = e.clientY
           const start = scroll
+          const panTarget = e.currentTarget
+          let lastT = performance.now()
+          let lastScroll = start
+          let velocity = 0
           let panning = false
           const move = ev => {
             const dx = ev.clientX - startX
             const dy = ev.clientY - startY
             if (!panning && Math.abs(dx) <= 4 && Math.abs(dy) <= 4) return
             if (!panning && Math.abs(dy) > Math.abs(dx)) return
+            if (!panning && panTarget.setPointerCapture) panTarget.setPointerCapture(e.pointerId)
             panning = true
-            setManualScroll(clamp(start - dx, 0, maxScroll))
+            suppressClickRef.current = true
+            markBrowsing()
+            const now = performance.now()
+            const next = clamp(start - dx, 0, maxScroll)
+            const dt = Math.max(1, now - lastT)
+            velocity = (next - lastScroll) / dt
+            lastT = now
+            lastScroll = next
+            scheduleManualScroll(next)
           }
           const up = () => {
             window.removeEventListener('pointermove', move)
             window.removeEventListener('pointerup', up)
+            if (panning) coast(lastScroll, velocity)
+            else settleBrowsing(0)
           }
           window.addEventListener('pointermove', move)
           window.addEventListener('pointerup', up)
         }}
         onClick={e => {
           if (playing) return
+          if (suppressClickRef.current) { suppressClickRef.current = false; return }
           if (e.target.closest && e.target.closest('.rf-label-row, button, a')) return
+          selectedRef.current = null
           setSelected(null)
         }}
       >
@@ -396,31 +489,45 @@ export default function RankFlow({ data = data_file, dbNode = DATABASE_WC26, emb
             onWheel={e => {
               const dx = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : (e.shiftKey ? e.deltaY : 0)
               if (dx && !playing && maxScroll > 0) {
-                e.preventDefault()
                 e.stopPropagation()
                 panBy(dx)
-                return
               }
-              e.preventDefault()
-              e.stopPropagation()
-              window.scrollBy({ top: e.deltaY, left: 0 })
             }}
             onPointerDown={e => {
               // drag (with movement) pans; a click jumps the present to that game
               if (playing || e.button !== 0) return
+              stopInertia()
               const startX = e.clientX
               const start = scroll
+              const panTarget = e.currentTarget
+              let lastT = performance.now()
+              let lastScroll = start
+              let velocity = 0
               let moved = false
               const move = ev => {
                 if (Math.abs(ev.clientX - startX) > 4) moved = true
-                if (moved && maxScroll > 0) setManualScroll(clamp(start - (ev.clientX - startX), 0, maxScroll))
+                if (moved && maxScroll > 0) {
+                  if (panTarget.setPointerCapture) panTarget.setPointerCapture(e.pointerId)
+                  suppressClickRef.current = true
+                  markBrowsing()
+                  const now = performance.now()
+                  const next = clamp(start - (ev.clientX - startX), 0, maxScroll)
+                  const dt = Math.max(1, now - lastT)
+                  velocity = (next - lastScroll) / dt
+                  lastT = now
+                  lastScroll = next
+                  scheduleManualScroll(next)
+                }
               }
               const up = ev => {
                 window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up)
                 if (!moved && bandRef.current) {
                   const contentX = (ev.clientX - bandRef.current.getBoundingClientRect().left) + start
                   const c = clamp(Math.round((contentX - LEFT_PAD) / COL_W), 0, len - 1)
-                  setPlaying(false); setManualScroll(start); setPosition(c)
+                  setPlaying(false); applyManualScroll(start); setPosition(c)
+                  settleBrowsing(0)
+                } else {
+                  coast(lastScroll, velocity)
                 }
               }
               window.addEventListener('pointermove', move)
@@ -483,20 +590,20 @@ export default function RankFlow({ data = data_file, dbNode = DATABASE_WC26, emb
           <svg className="rf-svg" width={size.w} height={model.height}>
             <defs>
               <clipPath id="rf-reveal">
-                <rect x="0" y="0" width={presentX} height={model.height} />
+                <rect x="0" y="0" width={visiblePresentX} height={model.height} />
               </clipPath>
             </defs>
 
             {/* once finished, band the positions in the NAME area only — tied
                 players (same points) share a band, with zebra striping. */}
             {finished && (() => {
-              const x0 = presentX, top = model.y(0) - model.rowGap / 2
+              const x0 = visiblePresentX, top = model.y(0) - model.rowGap / 2
               const bottom = model.y(model.N - 1) + model.rowGap / 2
               const bounds = [top, ...model.sepRows.map(r => model.y(r) + model.rowGap / 2), bottom]
               return (
                 <g className="rf-bands">
                   {bounds.slice(0, -1).map((yA, i) => (i % 2 === 1 ? (
-                    <rect key={`b${i}`} className="rf-band" x={x0} y={yA} width={size.w - x0} height={bounds[i + 1] - yA} />
+                    <rect key={`b${i}`} className="rf-band" x={x0} y={yA} width={Math.max(0, size.w - x0)} height={bounds[i + 1] - yA} />
                   ) : null))}
                   {model.sepRows.map(r => {
                     const yy = model.y(r) + model.rowGap / 2
@@ -510,9 +617,6 @@ export default function RankFlow({ data = data_file, dbNode = DATABASE_WC26, emb
             <g clipPath="url(#rf-reveal)">
               <g transform={`translate(${-scroll},0)`}>
                 {staticLayer}
-                {activePlayer && (
-                  <path className="rf-line hot active" d={activePlayer.d} stroke={activePlayer.color} />
-                )}
               </g>
             </g>
 
@@ -540,8 +644,15 @@ export default function RankFlow({ data = data_file, dbNode = DATABASE_WC26, emb
                       <g
                         key={p.n}
                         className={`rf-label-row${p.total < model.focusMinPoints ? ' tail' : ''}${activeName ? (activeName === p.n ? ' hot' : ' dim') : ''}`}
-                        onMouseEnter={() => { if (!playingRef.current) setHover(p.n) }} onMouseLeave={() => setHover(null)}
-                        onClick={e => { e.stopPropagation(); if (!playingRef.current) setSelected(s => (s === p.n ? null : p.n)) }}
+                        onClick={e => {
+                          e.stopPropagation()
+                          if (suppressClickRef.current) { suppressClickRef.current = false; return }
+                          if (!playingRef.current) {
+                            const next = selectedRef.current === p.n ? null : p.n
+                            selectedRef.current = next
+                            setSelected(next)
+                          }
+                        }}
                       >
                         <rect className="rf-label-hit" x={nameX - 20} y={yy - 13} width={Math.max(24, nameRight - nameX + 20)} height="20" />
                         <circle className="rf-label-dot" cx={nameX - 12} cy={yy - 3} r="4.5" fill={p.color} />

@@ -40,9 +40,15 @@
   overflow-x: hidden; overflow-y: auto;
   overscroll-behavior-x: contain;
   touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
 }
 .rf-stage.pannable { cursor: grab; }
 .rf-stage.pannable:active { cursor: grabbing; }
+.rf-stage.pannable,
+.rf-flags.pannable {
+  user-select: none;
+  -webkit-user-select: none;
+}
 /* condensed face, same as the leaderboard (.r2-nm); all chart text inherits it */
 .rf-svg { display: block; font-family: 'Roboto Condensed', sans-serif; }
 
@@ -90,6 +96,10 @@
 
 /* points number per band, floated to the band's top; white halo for legibility */
 .rf-badges { animation: rf-fade .4s ease; }
+.rf-root.is-browsing .rf-badges {
+  opacity: 0;
+  transition: opacity .16s ease;
+}
 .rf-badge { paint-order: stroke; stroke: #fff; stroke-width: 3.5px; font-family: 'Roboto Condensed', sans-serif; }
 .rf-bnum { font-weight: 700; font-size: 12px; fill: var(--ink); }
 
@@ -108,23 +118,14 @@
   stroke-linecap: round;
   stroke-linejoin: round;
   opacity: .72;
-  transition: opacity .15s ease, stroke-width .15s ease;
 }
 .rf-line.tail { opacity: .12; }
 .rf-line.hot { opacity: 1; stroke-width: 6.5; }
-.rf-line.active {
-  stroke-width: 7.5;
-  paint-order: stroke;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  filter: drop-shadow(0 0 1px rgba(255, 255, 255, .9));
-}
 .rf-line.dim { opacity: .08; }
 
 /* ── labels ── */
 .rf-label-row {
   cursor: pointer;
-  transition: opacity .15s ease;
 }
 .rf-label-row.tail { opacity: .22; }
 .rf-label-row.dim { opacity: .15; }
