@@ -9,7 +9,7 @@ const bgColor = blue[600]
 export default function NavBar({ logged, user, onLogin, onLogout }) {
   const location = useLocation()
   const { t } = useT()
-  const tabPaths = ['/bids', '/leaderboard', '/rankflow']
+  const tabPaths = ['/bids', '/leaderboard', '/rankflow', '/badges']
   const currentTab = tabPaths.indexOf(location.pathname)
 
   return (
@@ -38,10 +38,13 @@ export default function NavBar({ logged, user, onLogin, onLogout }) {
         value={currentTab === -1 ? false : currentTab}
         style={{ backgroundColor: bgColor }}
         TabIndicatorProps={{ style: { backgroundColor: '#ff4081', height: 3 } }}
+        variant="scrollable"
+        scrollButtons="auto"
       >
         <Tab sx={{ color: 'white !important' }} label={t('nav.bids')} component={Link} to="/bids" />
         <Tab sx={{ color: 'white !important' }} label={t('nav.leaderboard')} component={Link} to="/leaderboard" />
         <Tab sx={{ color: 'white !important' }} label={t('nav.evolution')} component={Link} to="/rankflow" />
+        <Tab sx={{ color: 'white !important' }} label={t('nav.badges')} component={Link} to="/badges" />
       </Tabs>
     </div>
   )

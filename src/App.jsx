@@ -13,6 +13,7 @@ const BarRace = lazy(() => import('./BarRace'))
 const BarRace22 = lazy(() => import('./BarRace22'))
 const BarRaceX = lazy(() => import('./BarRaceX'))
 const RankFlow = lazy(() => import('./RankFlow'))
+const PointsBadges = lazy(() => import('./PointsBadges'))
 const Viz = lazy(() => import('./Viz'))
 const VizHist = lazy(() => import('./VizHist'))
 const Rules = lazy(() => import('./Rules'))
@@ -54,6 +55,7 @@ function AppShell({ logged, user, onLogin, onLogout }) {
             <Route path="/barrace22" element={<BarRace22 />} />
             <Route path="/race" element={<BarRaceX />} />
             <Route path="/rankflow" element={<RankFlow />} />
+            <Route path="/badges" element={<PointsBadges />} />
           </Routes>
         </Suspense>
       </div>

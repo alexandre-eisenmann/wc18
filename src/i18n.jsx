@@ -12,6 +12,7 @@ const messages = {
     'nav.bids': 'JOGOS',
     'nav.leaderboard': 'TABELÃO',
     'nav.evolution': 'TIMELINE',
+    'nav.badges': 'PONTOS',
     'nav.ranking': 'RANKING',
     'nav.blog': 'BLOG',
 
@@ -96,6 +97,11 @@ const messages = {
 
     'leaderboard.participants': '{count} participantes',
 
+    'badges.eyebrow': 'Distribuição dos pontos',
+    'badges.title': 'Badges',
+    'badges.description': 'Cada círculo é um acerto pontuado. Os acertos de 8 pontos ficam na base, os de 5 no meio e os de 3 no topo. Toque em uma torre para ver o jogador.',
+    'badges.yAxis': 'badges',
+
     'payment.title': 'Pagamento',
     'payment.noBids': 'Nenhum palpite aguardando pagamento. Complete e adicione seu jogo ao carrinho primeiro.',
     'payment.backToBids': 'Voltar para Jogos',
@@ -144,6 +150,7 @@ const messages = {
     'nav.bids': 'BIDS',
     'nav.leaderboard': 'LEADERBOARD',
     'nav.evolution': 'TIMELINE',
+    'nav.badges': 'POINTS',
     'nav.ranking': 'RANKING',
     'nav.blog': 'BLOG',
 
@@ -227,6 +234,11 @@ const messages = {
     'card.points': 'points',
 
     'leaderboard.participants': '{count} participants',
+
+    'badges.eyebrow': 'Points distribution',
+    'badges.title': 'Badges',
+    'badges.description': 'Each circle is one scoring hit. 8-point hits sit at the bottom, 5-point hits in the middle, and 3-point hits on top. Tap a tower to see the player.',
+    'badges.yAxis': 'badges',
 
     'payment.title': 'Payment',
     'payment.noBids': 'No bids waiting for payment. Complete a bid and add it to the cart first.',
