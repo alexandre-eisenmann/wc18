@@ -172,17 +172,8 @@ left: 185px;
   animation: slideAgdopagto 0.55s ease-out 0.25s forwards;
 }
 
-/* Arrow pointing at the card button */
 .agdopagto-bubble:after {
-  content: "";
-  position: absolute;
-  border-style: solid;
-  border-width: 8px 0 8px 10px;
-  border-color: transparent transparent transparent rgba(0, 0, 0, 0.9);
-  right: -9px;
-  top: 50%;
-  margin-top: -8px;
-  z-index: 1;
+  display: none;
 }
 
 @-webkit-keyframes slideAgdopagto {
