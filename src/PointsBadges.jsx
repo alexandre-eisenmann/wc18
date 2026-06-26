@@ -281,6 +281,31 @@ export default class PointsBadges extends Component {
               </button>
             )}
           </div>
+          {matchedGame ? (
+            <button className="pb-selected" type="button" onClick={() => this.scrollToGame(matchedGame)}>
+              <span className="pb-selected-main">
+                <span className="pb-selected-name">{matchedGame.name}</span>
+                <span className="pb-selected-badges">
+                  {BADGES.map(badge => (
+                    <span className="pb-selected-badge" key={badge.pts}>
+                      <span className="pb-selected-count">{matchedGame.counts[badge.pts]}</span>
+                      <span className="pb-selected-times">×</span>
+                      <span className={`pb-selected-chip pb-selected-chip--${badge.pts}`}>{badge.pts}</span>
+                    </span>
+                  ))}
+                </span>
+              </span>
+              <span className="pb-selected-score">
+                <span className="pb-selected-rank">{matchedGame.position}o</span>
+                <span>
+                  <span className="pb-selected-points">{matchedGame.total}</span>
+                  <span className="pb-selected-label">{t('card.points')}</span>
+                </span>
+              </span>
+            </button>
+          ) : (
+            <div className="pb-selected pb-selected--placeholder" aria-hidden="true" />
+          )}
         </div>
         <div className={`pb-scroll${matchedGame ? ' pb-scroll--searching' : ''}`} ref={this.scrollRef}>
           <svg className="pb-svg" width={chartW} height={chartH} viewBox={`0 0 ${chartW} ${chartH}`} role="img" aria-label={t('badges.title')}>
@@ -317,29 +342,6 @@ export default class PointsBadges extends Component {
             })}
           </svg>
         </div>
-        {matchedGame && (
-          <button className="pb-selected" type="button" onClick={() => this.scrollToGame(matchedGame)}>
-            <span className="pb-selected-main">
-              <span className="pb-selected-name">{matchedGame.name}</span>
-              <span className="pb-selected-badges">
-                {BADGES.map(badge => (
-                  <span className="pb-selected-badge" key={badge.pts}>
-                    <span className="pb-selected-count">{matchedGame.counts[badge.pts]}</span>
-                    <span className="pb-selected-times">×</span>
-                    <span className={`pb-selected-chip pb-selected-chip--${badge.pts}`}>{badge.pts}</span>
-                  </span>
-                ))}
-              </span>
-            </span>
-            <span className="pb-selected-score">
-              <span className="pb-selected-rank">{matchedGame.position}o</span>
-              <span>
-                <span className="pb-selected-points">{matchedGame.total}</span>
-                <span className="pb-selected-label">{t('card.points')}</span>
-              </span>
-            </span>
-          </button>
-        )}
 
       </div>
     )
