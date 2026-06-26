@@ -6,6 +6,7 @@
     "source": "functions"
   },
   "hosting": {
+    "site": "worldcup-27dc4",
     "public": "dist",
     "ignore": [
       "firebase.json",
